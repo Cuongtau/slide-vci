@@ -356,6 +356,32 @@
       margin: 0 0 8px 0;
     }
 
+    .pa-list {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .pa-list li {
+      font-size: .58em;
+      color: var(--text-soft);
+      line-height: 1.5;
+      padding: 4px 0 4px 20px;
+      position: relative;
+    }
+
+    .pa-list li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 12px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(15, 180, 240, .15);
+    }
+
     .pa-meta {
       display: flex;
       gap: 14px;
@@ -486,8 +512,7 @@
           <li class="anim-fade-up d-2"><span>Kết quả đã đạt được</span></li>
           <li class="anim-fade-up d-3"><span>Tồn tại &amp; hạn chế</span></li>
           <li class="anim-fade-up d-4"><span>Đề xuất phương án cải tiến</span></li>
-          <li class="anim-fade-up d-5"><span>Lộ trình triển khai</span></li>
-          <li class="anim-fade-up d-6"><span>Tổng kết &amp; cam kết</span></li>
+          <li class="anim-fade-up d-5"><span>Tổng kết &amp; cam kết</span></li>
         </ol>
       </section>
 
@@ -507,7 +532,8 @@
         <div class="kpi-strip">
           <div class="kpi-card ok anim-fade-up d-1">
             <div class="kpi-label">Hệ thống phát triển</div>
-            <div class="kpi-sub">TC.CMS — Quản lý thi công<br />TC.IMS — Quản lý kho<br />TC.EMS — Quản lý máy thiết bị<br />PM nội bộ — Quản trị công việc<br />ERP · HRM · RM — đang phát triển cho VCI</div>
+            <div class="kpi-sub">TC.CMS — Quản lý thi công<br />TC.IMS — Quản lý kho<br />TC.EMS — Quản lý máy thiết
+              bị<br />PM nội bộ — Quản trị công việc<br />ERP · HRM · RM — đang phát triển cho VCI</div>
           </div>
           <div class="kpi-card anim-fade-up d-2">
             <div class="kpi-label">Ứng dụng AI</div>
@@ -743,154 +769,79 @@
         <div class="pa-grid">
           <div class="pa-card short anim-fade-up d-1">
             <div class="pa-num">01</div>
-            <div class="pa-pill">NGẮN HẠN · &lt; 1 THÁNG</div>
-            <h4>Chia sẻ kinh nghiệm &amp; công nghệ nội bộ</h4>
-            <p>Tổ chức tech-share định kỳ hàng tuần / 2 tuần — mỗi thành viên luân phiên chia sẻ về sản phẩm, công nghệ, bài học dự án. Lan tỏa kiến thức &amp; nâng cao năng lực toàn team.</p>
-            <div class="pa-meta">
-              <span><b>PIC:</b> Cương PM &amp; Lead nhóm</span>
-              <span><b>Deadline:</b> 06/2026</span>
-            </div>
+            <div class="pa-pill">VĂN HÓA HỌC TẬP</div>
+            <h4>Tech-share &amp; Code review chéo</h4>
+            <ul class="pa-list">
+              <li>Tech-talk nội bộ định kỳ 2 tuần/lần (45 phút) — luân phiên giữa các thành viên</li>
+              <li>Code review chéo bắt buộc trước khi merge — học từ pattern thực tế</li>
+              <li>Demo sản phẩm cuối mỗi sprint, mọi vai trò cùng tham gia</li>
+              <li>Retrospective sau mỗi dự án — chia sẻ bài học cho toàn team</li>
+            </ul>
           </div>
 
           <div class="pa-card short anim-fade-up d-2">
             <div class="pa-num">02</div>
-            <div class="pa-pill">NGẮN HẠN · &lt; 1 THÁNG</div>
-            <h4>Onboarding &amp; Mentor 1-1 cho nhân sự mới</h4>
-            <p>Gán mentor cho từng nhân sự mới, lộ trình 30-60-90 ngày rõ ràng. Rút ngắn thời gian hòa nhập, tăng gắn kết &amp; chủ động đặt câu hỏi.</p>
-            <div class="pa-meta">
-              <span><b>PIC:</b> PM &amp; Lead nhóm</span>
-              <span><b>Deadline:</b> 06/2026</span>
-            </div>
+            <div class="pa-pill">HÒA NHẬP NHÂN SỰ</div>
+            <h4>Onboarding chuẩn hóa &amp; Mentor 1-1</h4>
+            <ul class="pa-list">
+              <li>Mỗi nhân sự mới có 1 buddy đi kèm trong 90 ngày đầu</li>
+              <li>Checklist onboarding 30–60–90 ngày: sản phẩm · quy trình · công cụ</li>
+              <li>1-on-1 hàng tuần giữa mentor &amp; nhân sự mới — gỡ vướng sớm</li>
+              <li>Đánh giá 2 chiều cuối mỗi mốc — điều chỉnh lộ trình kịp thời</li>
+            </ul>
           </div>
 
           <div class="pa-card mid anim-fade-up d-3">
             <div class="pa-num">03</div>
-            <div class="pa-pill">TRUNG HẠN · 1–3 THÁNG</div>
-            <h4>Khóa đào tạo ngắn hạn — thuê chuyên gia</h4>
-            <p>Mời chuyên gia bên ngoài đào tạo theo nhu cầu: AI ứng dụng, BA nâng cao, kiểm thử tự động, kiến trúc hệ thống. Lấp khoảng trống kinh nghiệm nhanh nhất.</p>
-            <div class="pa-meta">
-              <span><b>PIC:</b> Cương PM &amp; HCNS</span>
-              <span><b>Deadline:</b> Q3/2026</span>
-            </div>
+            <div class="pa-pill">NÂNG CAO CHUYÊN MÔN</div>
+            <h4>Khóa đào tạo — thuê chuyên gia</h4>
+            <ul class="pa-list">
+              <li>AI ứng dụng: LLM, RAG, AI agent cho phát triển sản phẩm</li>
+              <li>BA nâng cao: phân tích nghiệp vụ đặc thù ngành xây dựng</li>
+              <li>Kiểm thử tự động: Playwright / Selenium cho team QA</li>
+              <li>Kiến trúc hệ thống: thiết kế module hóa, scalable</li>
+            </ul>
           </div>
 
           <div class="pa-card mid anim-fade-up d-4">
             <div class="pa-num">04</div>
-            <div class="pa-pill">TRUNG HẠN · 1–3 THÁNG</div>
-            <h4>Team building &amp; gắn kết đội nhóm</h4>
-            <p>Tổ chức team building định kỳ, sự kiện nội bộ &amp; hoạt động phối hợp chéo nhóm. Nâng cao quan hệ đồng đội, tăng độ ăn ý trong công việc.</p>
-            <div class="pa-meta">
-              <span><b>PIC:</b> Cương PM &amp; HCNS</span>
-              <span><b>Deadline:</b> Q3/2026</span>
-            </div>
+            <div class="pa-pill">VĂN HÓA ĐỘI NHÓM</div>
+            <h4>Team building &amp; gắn kết đồng đội</h4>
+            <ul class="pa-list">
+              <li>Hoạt động chung hàng tháng: ăn tối · thể thao · board game</li>
+              <li>Off-site team building 6 tháng/lần — tăng kết nối sâu</li>
+              <li>Hoạt động chéo dự án — phá rào cản giữa các nhóm nhỏ</li>
+              <li>Ghi nhận &amp; tôn vinh đóng góp định kỳ — kênh nội bộ</li>
+            </ul>
           </div>
 
           <div class="pa-card long anim-fade-up d-5">
             <div class="pa-num">05</div>
-            <div class="pa-pill">DÀI HẠN · &gt; 3 THÁNG</div>
-            <h4>Skill matrix &amp; lộ trình phát triển cá nhân</h4>
-            <p>Xây dựng khung năng lực, OKR &amp; lộ trình thăng tiến minh bạch cho từng vai trò. Thúc đẩy tâm thái chủ động, tự đặt mục tiêu &amp; tìm giải pháp.</p>
-            <div class="pa-meta">
-              <span><b>PIC:</b> Cương PM &amp; HCNS</span>
-              <span><b>Deadline:</b> H2/2026</span>
-            </div>
+            <div class="pa-pill">PHÁT TRIỂN CÁ NHÂN</div>
+            <h4>Skill matrix &amp; OKR cá nhân</h4>
+            <ul class="pa-list">
+              <li>Ma trận năng lực rõ cho từng vai trò: PM · BA · Dev · Tester</li>
+              <li>OKR cá nhân theo quý — gắn với mục tiêu bộ phận</li>
+              <li>1-on-1 hàng tháng giữa Lead &amp; thành viên — review &amp; coaching</li>
+              <li>Lộ trình thăng tiến minh bạch — kích hoạt tâm thái chủ động</li>
+            </ul>
           </div>
 
           <div class="pa-card long anim-fade-up d-6">
             <div class="pa-num">06</div>
-            <div class="pa-pill">DÀI HẠN · &gt; 3 THÁNG</div>
-            <h4>Chuẩn hóa playbook &amp; wiki nội bộ</h4>
-            <p>Tài liệu hóa quy trình, kinh nghiệm dự án, mẫu artifact (SRS, test case, code review). Giảm phụ thuộc cá nhân, giúp nhân sự mới tự học &amp; tăng tốc.</p>
-            <div class="pa-meta">
-              <span><b>PIC:</b> Toàn team CĐS</span>
-              <span><b>Deadline:</b> H2/2026</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========== 7. LỘ TRÌNH TRIỂN KHAI ========== -->
-      <section class="slide-bg-light">
-        <div class="brand-bar">
-          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
-          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
-        </div>
-        <div class="slide-header">
-          <div>
-            <div class="step-pill anim-fade-up">05 — Lộ trình</div>
-            <h2 class="anim-fade-up d-1">Lộ trình triển khai phương án</h2>
-          </div>
-        </div>
-
-        <div class="timeline timeline-compact anim-fade d-1">
-          <div class="track">
-            <div class="progress-fill" data-progress="100%"></div>
-          </div>
-          <div class="pins">
-            <div class="pin">
-              <div class="dot anim-pulse"></div>
-              <div class="date">T06/2026</div>
-              <div class="label">Khởi động — Tech share &amp; Mentor 1-1</div>
-            </div>
-            <div class="pin">
-              <div class="dot"></div>
-              <div class="date">T07/2026</div>
-              <div class="label">Sơ kết — đo lường hiệu quả PA ngắn hạn</div>
-            </div>
-            <div class="pin">
-              <div class="dot"></div>
-              <div class="date">T08–T09/2026</div>
-              <div class="label">Đào tạo chuyên gia &amp; team building</div>
-            </div>
-            <div class="pin">
-              <div class="dot"></div>
-              <div class="date">T11–T12/2026</div>
-              <div class="label">Skill matrix &amp; chuẩn hóa playbook</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="two-col two-col-compact">
-          <div class="resp-col vci anim-slide-l d-2">
-            <h4>Bộ phận thực hiện</h4>
-            <h3 class="accent">Cam kết &amp; phụ trách</h3>
-            <ul>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="5 12 10 17 19 7" />
-                  </svg></span>Phân công PIC từng phương án — theo bảng đề xuất</li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="5 12 10 17 19 7" />
-                  </svg></span>Báo cáo tiến độ hàng tuần — kênh nội bộ</li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="5 12 10 17 19 7" />
-                  </svg></span>Đo lường KPI sau mỗi mốc lộ trình</li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="5 12 10 17 19 7" />
-                  </svg></span>Điều chỉnh kế hoạch khi phát sinh rủi ro</li>
-            </ul>
-          </div>
-          <div class="resp-col tc anim-slide-r d-3">
-            <h4>Kiến nghị / Phê duyệt</h4>
-            <h3>Cần sự hỗ trợ</h3>
-            <ul>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="5 12 10 17 19 7" />
-                  </svg></span>Phê duyệt ngân sách / nguồn lực bổ sung</li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="5 12 10 17 19 7" />
-                  </svg></span>Phối hợp với HCNS &amp; các phòng ban nghiệp vụ</li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="5 12 10 17 19 7" />
-                  </svg></span>Cơ chế / chính sách / quy trình cần điều chỉnh</li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="5 12 10 17 19 7" />
-                  </svg></span>Hỗ trợ truyền thông nội bộ về thay đổi</li>
+            <div class="pa-pill">CHUẨN HÓA TRI THỨC</div>
+            <h4>Playbook &amp; Wiki nội bộ</h4>
+            <ul class="pa-list">
+              <li>Wiki tập trung: quy trình · lessons learned · FAQ kỹ thuật</li>
+              <li>Bộ template: SRS · test case · code review checklist</li>
+              <li>Bắt buộc tài liệu hóa sau mỗi dự án — giảm phụ thuộc cá nhân</li>
+              <li>Thư viện prompt &amp; công cụ AI nội bộ — dùng chung toàn team</li>
             </ul>
           </div>
         </div>
       </section>
 
-      <!-- ========== 8. TỔNG KẾT — CLOSING ========== -->
+      <!-- ========== 7. TỔNG KẾT — CLOSING ========== -->
       <section data-background-color="#0A2540" class="slide-bg-mesh" data-transition="convex">
         <div class="closing closing-v2 thanks-slide">
           <div class="deco"></div>
@@ -904,21 +855,6 @@
           <h1 class="anim-fade-up d-1 closing-h1">Cảm ơn!</h1>
           <p class="closing-sub anim-fade-up d-2">Rất mong nhận được góp ý từ Ban lãnh đạo &amp; các bộ phận phối hợp.
           </p>
-
-          <div class="closing-stats">
-            <div class="closing-stat anim-fade-up d-3">
-              <div class="cs-num">7</div>
-              <div class="cs-label">Kết quả đạt được</div>
-            </div>
-            <div class="closing-stat anim-fade-up d-4">
-              <div class="cs-num">4</div>
-              <div class="cs-label">Tồn tại cần xử lý</div>
-            </div>
-            <div class="closing-stat anim-fade-up d-5">
-              <div class="cs-num">6</div>
-              <div class="cs-label">Phương án cải tiến</div>
-            </div>
-          </div>
         </div>
       </section>
 
