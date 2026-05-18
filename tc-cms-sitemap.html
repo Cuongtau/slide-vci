@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>TC.CMS — Sơ đồ hệ thống · Phase 1 &amp; Phase 2</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+  <style>
+    /* ========== TC.CMS sitemap — phase banners + module cards ========== */
+    .cms-wrap { display: flex; flex-direction: column; gap: 14px; margin-top: 6px; }
+
+    /* Root TC.CMS pill — slightly larger, with phase chips */
+    .cms-root-row {
+      display: flex; justify-content: center; align-items: center;
+      gap: 18px; position: relative; margin-bottom: 4px;
+    }
+    .cms-root {
+      background: linear-gradient(135deg, #0FB4F0, #0E6FA8);
+      color: #fff; padding: 16px 48px; border-radius: 12px;
+      font-family: var(--font-heading); font-weight: 800;
+      font-size: 1.35em; letter-spacing: 2px;
+      box-shadow: 0 10px 28px rgba(15,180,240,.32);
+      position: relative; z-index: 2;
+      animation: imsRootPulse 3s ease-in-out infinite;
+    }
+    .cms-root::before, .cms-root::after {
+      content: ''; position: absolute; inset: 0;
+      border-radius: 12px; pointer-events: none;
+      border: 2px solid var(--brand-accent);
+      animation: imsRootRing 3s ease-out infinite;
+    }
+    .cms-root::after { animation-delay: 1.5s; }
+
+    /* Phase section */
+    .phase-section { position: relative; }
+    .phase-banner {
+      display: flex; align-items: center; gap: 14px;
+      padding: 10px 18px; border-radius: 8px;
+      font-family: var(--font-heading); font-weight: 800;
+      font-size: .85em; letter-spacing: 1.2px; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .phase-banner.p1 {
+      background: linear-gradient(90deg, rgba(15,180,240,.16), rgba(15,180,240,.02));
+      color: var(--brand-primary);
+      border-left: 5px solid var(--brand-accent);
+    }
+    .phase-banner.p2 {
+      background: linear-gradient(90deg, rgba(244,117,60,.18), rgba(244,117,60,.02));
+      color: #B5430F;
+      border-left: 5px solid #F4753C;
+    }
+    .phase-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 999px;
+      font-size: .8em; font-weight: 700; letter-spacing: 1px;
+    }
+    .phase-banner.p1 .phase-badge { background: var(--brand-accent); color: #fff; }
+    .phase-banner.p2 .phase-badge { background: #F4753C; color: #fff; }
+    .phase-banner .phase-sub { margin-left: auto; font-size: .72em; opacity: .75; letter-spacing: 1px; font-weight: 600; text-transform: none; }
+
+    /* Phase 1 — Tiến độ thi công sub-module tree (compact) */
+    .p1-tree { display: grid; grid-template-columns: 220px 1fr; gap: 16px; align-items: stretch; }
+    .p1-mod {
+      background: linear-gradient(135deg, var(--brand-accent), var(--brand-primary));
+      color: #fff; border-radius: 10px; padding: 16px 14px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; box-shadow: 0 6px 18px rgba(15,180,240,.28);
+      position: relative; overflow: hidden;
+    }
+    .p1-mod-icon { width: 36px; height: 36px; opacity: .95; margin-bottom: 6px; }
+    .p1-mod-title { font-family: var(--font-heading); font-weight: 800; font-size: .95em; line-height: 1.15; }
+    .p1-mod-meta { margin-top: 6px; font-size: .55em; opacity: .85; letter-spacing: .5px; }
+
+    .p1-cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .p1-col { display: flex; flex-direction: column; gap: 5px; }
+    .p1-head {
+      background: linear-gradient(135deg, #E8F4FB, #B0DEF5);
+      color: var(--brand-primary);
+      font-family: var(--font-heading); font-weight: 800;
+      font-size: .58em; text-align: center;
+      padding: 8px 6px; border-radius: 6px;
+      border: 1px solid var(--brand-accent-3);
+      letter-spacing: .3px;
+    }
+    .p1-leaf {
+      background: #fff; color: var(--brand-primary);
+      border: 1px solid var(--brand-accent-3);
+      border-radius: 5px; padding: 6px 8px;
+      font-size: .5em; font-weight: 600; text-align: center; line-height: 1.25;
+      position: relative; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .p1-leaf:hover { transform: translateX(2px); box-shadow: var(--shadow-sm); }
+    .p1-leaf::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(110deg, transparent 30%, rgba(15,180,240,.18) 50%, transparent 70%);
+      transform: translateX(-100%);
+      animation: imsShimmer 6s ease-in-out infinite;
+    }
+    .p1-col:nth-child(1) .p1-leaf::before { animation-delay: 0s; }
+    .p1-col:nth-child(2) .p1-leaf::before { animation-delay: .4s; }
+    .p1-col:nth-child(3) .p1-leaf::before { animation-delay: .8s; }
+    .p1-col:nth-child(4) .p1-leaf::before { animation-delay: 1.2s; }
+    .p1-col:nth-child(5) .p1-leaf::before { animation-delay: 1.6s; }
+
+    /* Phase 2 — 6 big module cards */
+    .p2-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+    .p2-card {
+      background: #fff;
+      border: 1.5px solid #FFB85C;
+      border-radius: 10px; padding: 14px 12px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 4px 14px rgba(244,117,60,.10);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .p2-card::before {
+      content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px;
+      background: linear-gradient(90deg, #FF9D54, #F4753C);
+    }
+    .p2-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(244,117,60,.22);
+    }
+    .p2-icon {
+      width: 52px; height: 52px; border-radius: 10px;
+      background: linear-gradient(135deg, #FFE6CC, #FFB85C);
+      display: flex; align-items: center; justify-content: center;
+      color: #B5430F;
+      box-shadow: inset 0 -2px 0 rgba(244,117,60,.18);
+    }
+    .p2-icon svg { width: 28px; height: 28px; }
+    .p2-title {
+      font-family: var(--font-heading);
+      font-weight: 800; color: var(--text);
+      font-size: .68em; text-align: center; line-height: 1.2;
+      text-transform: uppercase; letter-spacing: .4px;
+    }
+    .p2-chip {
+      font-size: .42em; font-weight: 700; letter-spacing: 1.2px;
+      color: #B5430F; background: #FFE6CC;
+      padding: 2px 10px; border-radius: 999px;
+    }
+    .p2-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(110deg, transparent 35%, rgba(244,117,60,.10) 50%, transparent 65%);
+      transform: translateX(-100%);
+      animation: imsShimmer 7s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .p2-card:nth-child(1)::after { animation-delay: 0s; }
+    .p2-card:nth-child(2)::after { animation-delay: .5s; }
+    .p2-card:nth-child(3)::after { animation-delay: 1.0s; }
+    .p2-card:nth-child(4)::after { animation-delay: 1.5s; }
+    .p2-card:nth-child(5)::after { animation-delay: 2.0s; }
+    .p2-card:nth-child(6)::after { animation-delay: 2.5s; }
+
+    /* Animated connector SVG between root → 2 phase zones */
+    .cms-svg { width: 100%; height: 60px; display: block; margin: -4px 0 -4px; pointer-events: none; }
+
+    /* Legend chips */
+    .cms-legend { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .cms-legend .legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: .65em; color: var(--text-soft); font-weight: 600; }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ========== TC.CMS — SƠ ĐỒ HỆ THỐNG ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">TC.CMS · Sơ đồ hệ thống</div>
+            <h3 class="anim-fade-up d-1">Bản đồ chức năng — Phase 1 &amp; Phase 2</h3>
+          </div>
+          <div class="cms-legend anim-fade d-1">
+            <span class="legend-item"><span class="legend-dot d1"></span>Phase 1 — Đã triển khai</span>
+            <span class="legend-item"><span class="legend-dot d2"></span>Phase 2 — Bổ sung mới</span>
+          </div>
+        </div>
+
+        <div class="cms-wrap">
+
+          <!-- Root TC.CMS -->
+          <div class="cms-root-row anim-zoom d-1">
+            <div class="cms-root">TC.CMS</div>
+          </div>
+
+          <!-- SVG connector: root → phase 1 + phase 2 -->
+          <svg class="cms-svg" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <path id="cmsL" d="M 600 0 V 24 H 200 V 60" />
+              <path id="cmsR" d="M 600 0 V 24 H 1000 V 60" />
+            </defs>
+            <g fill="none" stroke-width="2" opacity=".35">
+              <use href="#cmsL" stroke="#0FB4F0" />
+              <use href="#cmsR" stroke="#F4753C" />
+            </g>
+            <g fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="18 14">
+              <use href="#cmsL" stroke="#0FB4F0">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" repeatCount="indefinite" />
+              </use>
+              <use href="#cmsR" stroke="#F4753C">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.3s" repeatCount="indefinite" />
+              </use>
+            </g>
+            <g fill="none" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 26" opacity=".9">
+              <use href="#cmsL" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" repeatCount="indefinite" />
+              </use>
+              <use href="#cmsR" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.3s" repeatCount="indefinite" />
+              </use>
+            </g>
+          </svg>
+
+          <!-- ===== PHASE 1 — Tiến độ thi công ===== -->
+          <div class="phase-section anim-fade-up d-2">
+            <div class="phase-banner p1">
+              <span class="phase-badge">PHASE 1</span>
+              <span>Tiến độ thi công</span>
+              <span class="phase-sub">16 chức năng · đã triển khai</span>
+            </div>
+
+            <div class="p1-tree">
+              <div class="p1-mod">
+                <svg class="p1-mod-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 3v18h18" />
+                  <path d="M7 14l4-4 3 3 5-6" />
+                  <circle cx="7" cy="14" r="1.5" fill="currentColor" />
+                  <circle cx="19" cy="7" r="1.5" fill="currentColor" />
+                </svg>
+                <div class="p1-mod-title">Tiến độ thi công</div>
+                <div class="p1-mod-meta">5 nhóm · 16 chức năng</div>
+              </div>
+
+              <div class="p1-cols">
+                <div class="p1-col">
+                  <div class="p1-head">Chuẩn bị &amp; Khởi tạo</div>
+                  <div class="p1-leaf">Phân tích và khảo sát</div>
+                  <div class="p1-leaf">Xây dựng prototype</div>
+                  <div class="p1-leaf">Chuẩn hóa source code FE</div>
+                </div>
+                <div class="p1-col">
+                  <div class="p1-head">Thiết lập tiến độ V0</div>
+                  <div class="p1-leaf">Thiết lập tiến độ tổng thể V0</div>
+                  <div class="p1-leaf">Thiết lập tiến độ chi tiết V0</div>
+                  <div class="p1-leaf">Phê duyệt tiến độ V0</div>
+                </div>
+                <div class="p1-col">
+                  <div class="p1-head">Cập nhật &amp; Phiên bản</div>
+                  <div class="p1-leaf">Cập nhật thực tế tiến độ thực hiện</div>
+                  <div class="p1-leaf">Quản lý version tiến độ chi tiết</div>
+                </div>
+                <div class="p1-col">
+                  <div class="p1-head">Vận hành hiện trường</div>
+                  <div class="p1-leaf">Quản lý ảnh hiện trường</div>
+                  <div class="p1-leaf">Quản lý điều kiện biên</div>
+                  <div class="p1-leaf">Bảng tải việc</div>
+                  <div class="p1-leaf">Báo cáo tiến độ hàng ngày</div>
+                  <div class="p1-leaf">Quản lý lịch làm việc</div>
+                </div>
+                <div class="p1-col">
+                  <div class="p1-head">Theo dõi &amp; Tích hợp</div>
+                  <div class="p1-leaf">Dashboard</div>
+                  <div class="p1-leaf">Tích hợp BIM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PHASE 2 — 6 module lớn bổ sung ===== -->
+          <div class="phase-section anim-fade-up d-3">
+            <div class="phase-banner p2">
+              <span class="phase-badge">PHASE 2</span>
+              <span>Bổ sung 6 phân hệ lớn</span>
+              <span class="phase-sub">mở rộng phạm vi quản trị thi công</span>
+            </div>
+
+            <div class="p2-grid">
+              <div class="p2-card">
+                <div class="p2-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                  </svg>
+                </div>
+                <div class="p2-title">Quản lý<br/>vật tư thi công</div>
+                <div class="p2-chip">PHASE 2</div>
+              </div>
+
+              <div class="p2-card">
+                <div class="p2-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                  </svg>
+                </div>
+                <div class="p2-title">Quản lý<br/>máy thiết bị</div>
+                <div class="p2-chip">PHASE 2</div>
+              </div>
+
+              <div class="p2-card">
+                <div class="p2-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                  </svg>
+                </div>
+                <div class="p2-title">Quản lý<br/>vật tư chính</div>
+                <div class="p2-chip">PHASE 2</div>
+              </div>
+
+              <div class="p2-card">
+                <div class="p2-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="20" x2="12" y2="10" />
+                    <line x1="18" y1="20" x2="18" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="16" />
+                    <line x1="3" y1="20" x2="21" y2="20" />
+                  </svg>
+                </div>
+                <div class="p2-title">Quản lý<br/>sản lượng</div>
+                <div class="p2-chip">PHASE 2</div>
+              </div>
+
+              <div class="p2-card">
+                <div class="p2-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </div>
+                <div class="p2-title">Quản lý<br/>nhân sự</div>
+                <div class="p2-chip">PHASE 2</div>
+              </div>
+
+              <div class="p2-card">
+                <div class="p2-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 3v18h18" />
+                    <rect x="7" y="12" width="3" height="6" />
+                    <rect x="12" y="8" width="3" height="10" />
+                    <rect x="17" y="5" width="3" height="13" />
+                  </svg>
+                </div>
+                <div class="p2-title">Dashboard<br/>tổng quan</div>
+                <div class="p2-chip">PHASE 2</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    new Reveal({
+      hash: true,
+      controls: true,
+      progress: true,
+      slideNumber: false,
+      center: false,
+      transition: 'slide',
+      width: 1920,
+      height: 1080,
+      margin: 0.02,
+      minScale: 0.2,
+      maxScale: 2.0,
+    }).initialize();
+  </script>
+
+</body>
+
+</html>

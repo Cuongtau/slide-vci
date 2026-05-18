@@ -1,0 +1,90 @@
+/* ===== Keyframes ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(15,180,240,.5); }
+  50%      { box-shadow: 0 0 0 14px rgba(15,180,240,0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(-50%) translateX(0) scale(1); }
+  50%      { transform: translateY(-52%) translateX(-12px) scale(1.05); }
+}
+@keyframes drawLine {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ===== Auto-play when slide is current ===== */
+.reveal .slides section.present .anim-fade-up    { animation: fadeUp .8s cubic-bezier(.4,0,.2,1) both; }
+.reveal .slides section.present .anim-fade       { animation: fadeIn 1s ease both; }
+.reveal .slides section.present .anim-slide-l    { animation: slideInLeft .8s cubic-bezier(.4,0,.2,1) both; }
+.reveal .slides section.present .anim-slide-r    { animation: slideInRight .8s cubic-bezier(.4,0,.2,1) both; }
+.reveal .slides section.present .anim-zoom       { animation: zoomIn .8s cubic-bezier(.4,0,.2,1) both; }
+.reveal .slides section.present .anim-pulse      { animation: pulseDot 2s infinite; }
+
+/* Stagger delays */
+.reveal .slides section.present .d-1 { animation-delay: .12s; }
+.reveal .slides section.present .d-2 { animation-delay: .24s; }
+.reveal .slides section.present .d-3 { animation-delay: .36s; }
+.reveal .slides section.present .d-4 { animation-delay: .48s; }
+.reveal .slides section.present .d-5 { animation-delay: .60s; }
+.reveal .slides section.present .d-6 { animation-delay: .72s; }
+.reveal .slides section.present .d-7 { animation-delay: .84s; }
+.reveal .slides section.present .d-8 { animation-delay: .96s; }
+
+/* Reset animation when slide leaves
+   (chỉ áp dụng cho slide thực sự đã đi qua hoặc ở tương lai — slide hiện tại không bị ảnh hưởng) */
+.reveal .slides section.past .anim-fade-up,
+.reveal .slides section.past .anim-fade,
+.reveal .slides section.past .anim-slide-l,
+.reveal .slides section.past .anim-slide-r,
+.reveal .slides section.past .anim-zoom,
+.reveal .slides section.future .anim-fade-up,
+.reveal .slides section.future .anim-fade,
+.reveal .slides section.future .anim-slide-l,
+.reveal .slides section.future .anim-slide-r,
+.reveal .slides section.future .anim-zoom {
+  animation: none; opacity: 0;
+}
+
+/* Timeline progress fills when present */
+.reveal .slides section.present .timeline .progress-fill { width: var(--progress, 75%); }
+
+/* SVG line draw */
+.draw-line {
+  stroke-dasharray: 1000; stroke-dashoffset: 1000;
+}
+.reveal .slides section.present .draw-line {
+  animation: drawLine 1.6s ease-out .3s forwards;
+}
+
+/* Hover lift (small interactive flourish) */
+.lift { transition: transform .3s ease, box-shadow .3s ease; }
+.lift:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+/* Custom slide transition feel */
+.reveal .slides section.future,
+.reveal .slides section.past {
+  filter: blur(0);
+}

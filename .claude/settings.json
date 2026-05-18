@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sL -A \"Mozilla/5.0\" \"https://vcijsc.com/\" -o /tmp/vci.html)",
+      "Read(//tmp/**)",
+      "Bash(curl -sL -A \"Mozilla/5.0\" -o /tmp/vci.html \"https://vcijsc.com/\" -w \"HTTP %{http_code}, size %{size_download}\\\\n\")",
+      "Bash(curl -sL -A \"Mozilla/5.0\" -o assets/logo-vci.png \"https://vcijsc.com/img/logo-rgb-text.png\" -w \"rgb-text: HTTP %{http_code}, %{size_download}b\\\\n\")",
+      "Bash(curl -sL -A \"Mozilla/5.0\" -o assets/logo-vci-white.png \"https://vcijsc.com/img/logo-white.png\" -w \"white: HTTP %{http_code}, %{size_download}b\\\\n\")",
+      "Bash(curl -sL -A \"Mozilla/5.0\" -o /tmp/logo-rgb.png \"https://vcijsc.com/img/logo-rgb.png\" -w \"rgb: HTTP %{http_code}, %{size_download}b\\\\n\")",
+      "Bash(curl -sLI -A \"Mozilla/5.0\" \"https://theme.hstatic.net/1000293971/1000540630/14/logo.png\")",
+      "Bash(curl -sL -A \"Mozilla/5.0\" -o /tmp/tc-search.html \"https://trungchinh.com.vn/\")",
+      "Bash(rm -f assets/logo-trungchinh.png)",
+      "Bash(curl -sL -A \"Mozilla/5.0\" -o assets/logo-trungchinh.png \"https://theme.hstatic.net/1000293971/1000540630/14/logo.png?v=3\")",
+      "Bash(cp /tmp/logo-rgb.png assets/logo-vci-rgb.png)",
+      "Bash(cp _pdf_images/p01_i03_431x170.png assets/logo-vci-large.png)",
+      "Bash(curl -s -o /dev/null -w '%{http_code} __TRACKED_VAR__ \\(%{size_download}b\\)\\\\n' http://127.0.0.1:8765/__TRACKED_VAR__)",
+      "Bash(python -m http.server 8765 --directory \"d:/SourceCode/Slide VCI\")",
+      "Bash(PYTHONIOENCODING=utf-8 python)",
+      "Bash(find . -iname \"logotc*\")",
+      "Bash(ls -la *.png)",
+      "Bash(ls -la assets/)",
+      "Bash(curl -s -o /dev/null -w \"logo HTTP %{http_code} \\(%{size_download} bytes\\)\\\\n\" \"http://127.0.0.1:8765/assets/logo-trungchinh.png\")",
+      "Bash(python -c ' *)",
+      "Bash(curl -sL -A \"Mozilla/5.0\" \"https://trungchinh.com.vn/gioi-thieu\" -o /tmp/about.html -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(curl -sL -A \"Mozilla/5.0\" \"https://trungchinh.com.vn/\" -o /tmp/tc2.html)",
+      "Bash(curl -sL -A \"Mozilla/5.0\" -o /tmp/share_fb.png \"https://theme.hstatic.net/1000293971/1000540630/14/share_fb_home.png?v=3\")",
+      "Bash(file assets/logo-trungchinh*.png)",
+      "Bash(curl -s -o /dev/null -w \"index %{http_code}\\\\ntheme %{http_code}\\\\n\" \"http://127.0.0.1:8765/index.html\" \"http://127.0.0.1:8765/css/theme.css\")",
+      "Bash(curl -s -o /dev/null -w \"theme.css %{http_code}\\\\n\" \"http://127.0.0.1:8765/css/theme.css\")",
+      "Bash(curl -s -o /dev/null -w \"css %{http_code} \\(%{size_download}b\\)\\\\n\" \"http://127.0.0.1:8765/css/theme.css\")",
+      "Bash(curl -s -o /dev/null -w \"html %{http_code}\\\\n\" \"http://127.0.0.1:8765/index.html\")",
+      "Bash(curl -s -o /dev/null -w \"kichban %{http_code}\\\\n\" \"http://127.0.0.1:8765/KICH-BAN-UAT.md\")",
+      "Bash(curl -s -o /dev/null -w \"css %{http_code}\\\\n\" \"http://127.0.0.1:8765/css/theme.css\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} html, %{size_download}b\\\\n\" \"http://127.0.0.1:8765/index.html\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} css\\\\n\" \"http://127.0.0.1:8765/css/theme.css\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} html\\\\n\" \"http://127.0.0.1:8765/index.html\")",
+      "Bash(curl -s -o /dev/null -w 'html %{http_code}, css %{http_code}\\\\n' http://127.0.0.1:8765/index.html http://127.0.0.1:8765/css/theme.css)"
+    ]
+  }
+}

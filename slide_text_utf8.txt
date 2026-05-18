@@ -1,0 +1,85 @@
+    KẾ HOẠCH UAT (Đợt 1)
+
+HỆ THỐNG QUẢN TRỊ KHO TC.IMS
+
+                                    11/05/2026 - 25/05/2026
+
+                                                                                                                                         Tháng 05 - 2026
+Nội dung  01 GIỚI THIỆU
+          02 KẾ HOẠCH TỔ CHỨC
+          03 THÀNH PHẦN THAM GIA
+          04 CÁCH THỨC TỔ CHỨC
+          05 PHẠM VI UAT
+          06 KÊNH TIẾP NHẬN/ PHỐI HỢP
+                                    1. GIỚI THIỆU
+
+Mục tiêu:
+
+     Bảm bảo Hệ thống đáp ứng đúng yêu cầu nghiệp vụ đã thống nhất.
+     Nâng cao chất lượng trước khi Go-live
+     Ghi nhận và xử lý toàn bộ lỗi sai lệch nghiệp vụ
+                                      2. KẾ HOẠCH TỔ CHỨC
+
+                                                Kế hoạch thực hiện UAT lần 1
+Quy trình tiếp nhận:
+
+   → → Người dùng thực hiện test theo checklist/ free test Mark (Testing/Pass/Fail) Ghi vấn đề +
+
+       hình ảnh vấn đề
+
+      → → → BA/QA kiểm tra & phân loại Giao Dev fix báo người dùng thực hiện Re-Test.
+
+       PM theo dõi mức độ ưu tiên, cập nhật tiến độ.
+           3. THÀNH PHẦN THAM GIA
+
+ Mr. Mậu    Mr. Cường          Quản lý, điều phối    Mr. Cương
+Mr. Chiến  P. Chi nhánh                   Khối HTKT    (QLDA)
+PP.KSNB
+
+                               Mrs. Vân Anh                     Ms. Trang,
+                                 TL.Hỗ trợ                           BA
+
+               Nhân viên                             Hỗ trợ kiểm thử, vá lỗi
+           Phòng Chi Nhánh
+
+                               Khối kỹ thuật            Khối BA
+                               (Dev + Test)          (BA + Design)
+
+           Kiểm thử, xác nhận
+
+           MÔ HÌNH TRAO ĐỔI LIÊN LẠC
+                    CHI NHÁNH - VCI
+          4. CÁCH THỨC TỔ CHỨC
+
+UAT       THỰC HIỆN UAT, KIỂM THỬ                     VÁ LỖI, HOÀN THIỆN
+
+11/05/26  25/05/26                                    10/06/26
+
+VCI:                                                  TC:
+     Trình bày kết quả thực hiện, demo tính năng           Chuẩn bị nguồn lực thực hiện UAT
+     Cung cấp file checklist kịch bản UAT                  Kiểm thử theo checklist kịch bản UAT
+     Hướng dẫn khách hàng cách test, log bug, prioty       Free test + log issues
+     Xây dựng kênh trao đổi, liên lạc                      Log issues, evidence (nếu có)
+     Xác định PIC của các bên tham gia                     Re-test (kiểm tra lại) những bug đã được fix
+     Tổng kết, đánh giá
+ 5. PHẠM VI UAT Lần 1
+
+Sơ đồ phân rã chức năng
+                           6. ĐẦU MỐI VÀ KÊNH TIẾP NHẬN YÊU CẦU
+
+ Đầu mối liên hệ và xử lý yêu cầu:
+
+Kênh tiếp nhận:
+     Trong quá trình sử dụng hệ thống nếu phát sinh vấn đề, khách hàng có thể truy cập đường dẫn:
+     https://support.vcijsc.com để thực hiện ghi nhận vấn đề.
+     Đầu mối Ban CĐS TC: Sẽ truy cập đường dẫn: https://support.vcijsc.com để thực hiện phân loại, tiếp nhận và xử lý sơ
+     bộ vấn đề của End users, trong trường hợp không xử lý được thì chuyển trạng thái “Chờ VCI Xử lý”.
+     Phía VCI sẽ truy cập vào đường dẫn: https://support.vcijsc.com để tiến hành xử lý issues: (VCI Đang xử lý, VCI đã xử lý
+     xong) (VCI sẽ chỉ tiếp nhận các issue mà đã được Ban CĐS review và chuyển sang).
+     Phía VCI sẽ có report tình hình/tiến độ xử lý issue định kỳ.
+
+  Đầu mối liên hệ VCI:
+  1.Khúc Vân Anh – Vận hành hỗ trợ – SĐT: 0376.513.402
+  2.Bùi Xuân Cương – Quản lý dự án – SĐT: 033.5055.068
+QUY TRÌNH BÁO LỖI
+

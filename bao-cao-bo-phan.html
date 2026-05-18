@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Báo cáo bộ phận — Mẫu trình bày</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+  <style>
+    /* ===== Report-specific layout ===== */
+
+    /* KPI strip */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .kpi-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: linear-gradient(180deg, var(--brand-accent), var(--brand-primary));
+      border-radius: 12px 0 0 12px;
+    }
+
+    .kpi-card.warn::before {
+      background: linear-gradient(180deg, #FF9D54, #F4753C);
+    }
+
+    .kpi-card.ok::before {
+      background: linear-gradient(180deg, #34D399, #059669);
+    }
+
+    .kpi-card.danger::before {
+      background: linear-gradient(180deg, #F87171, #CB2330);
+    }
+
+    .kpi-label {
+      font-size: .55em;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 2em;
+      color: var(--brand-primary);
+      line-height: 1.05;
+      margin-top: 4px;
+    }
+
+    .kpi-card.warn .kpi-value {
+      color: #B5430F;
+    }
+
+    .kpi-card.ok .kpi-value {
+      color: #047857;
+    }
+
+    .kpi-card.danger .kpi-value {
+      color: var(--brand-red);
+    }
+
+    .kpi-sub {
+      font-size: .62em;
+      color: var(--text-soft);
+      margin-top: 12px;
+      line-height: 1.75;
+    }
+
+    .kpi-card .kpi-label {
+      font-size: .62em;
+      color: var(--brand-primary);
+      margin-bottom: 4px;
+    }
+
+    .kpi-card.warn .kpi-label {
+      color: #B5430F;
+    }
+
+    .kpi-card.ok .kpi-label {
+      color: #047857;
+    }
+
+    /* Result grid (3-up cards) */
+    .res-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .res-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .res-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .res-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--brand-accent), var(--brand-primary));
+    }
+
+    .res-card .res-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #E8F4FB, #B0DEF5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-primary);
+      margin-bottom: 10px;
+    }
+
+    .res-card .res-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .res-card h4 {
+      color: var(--text);
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: .82em;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      margin-bottom: 8px;
+    }
+
+    .res-card ul {
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .res-card li {
+      font-size: .62em;
+      color: var(--text-soft);
+      line-height: 1.45;
+      padding: 4px 0 4px 22px;
+      position: relative;
+    }
+
+    .res-card li::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 11px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(15, 180, 240, .18);
+    }
+
+    /* Issues — limitation list (orange theme) */
+    .issue-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .issue-row {
+      background: #fff;
+      border: 1px solid #FFD7B0;
+      border-left: 5px solid #F4753C;
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      box-shadow: 0 4px 12px rgba(244, 117, 60, .08);
+    }
+
+    .issue-num {
+      flex: 0 0 38px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #FFE6CC, #FFB85C);
+      color: #B5430F;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9em;
+    }
+
+    .issue-body {
+      flex: 1;
+    }
+
+    .issue-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      color: var(--text);
+      font-size: .72em;
+      margin-bottom: 4px;
+    }
+
+    .issue-desc {
+      font-size: .58em;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+
+    .issue-tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: .48em;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: #FFE6CC;
+      color: #B5430F;
+    }
+
+    .issue-tag.sev-high {
+      background: #FEE2E2;
+      color: var(--brand-red);
+    }
+
+    .issue-tag.sev-med {
+      background: #FEF3C7;
+      color: #B45309;
+    }
+
+    .issue-tag.sev-low {
+      background: #DBEAFE;
+      color: #1D4ED8;
+    }
+
+    /* Improvement proposals — roadmap cards */
+    .pa-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .pa-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .pa-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .pa-card .pa-num {
+      position: absolute;
+      right: 18px;
+      top: 12px;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 2.2em;
+      color: rgba(15, 180, 240, .15);
+      line-height: 1;
+    }
+
+    .pa-card .pa-pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--brand-accent), var(--brand-primary));
+      color: #fff;
+      font-size: .5em;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      margin-bottom: 10px;
+    }
+
+    .pa-card.short .pa-pill {
+      background: linear-gradient(135deg, #34D399, #059669);
+    }
+
+    .pa-card.mid .pa-pill {
+      background: linear-gradient(135deg, #60A5FA, #2563EB);
+    }
+
+    .pa-card.long .pa-pill {
+      background: linear-gradient(135deg, #F472B6, #BE185D);
+    }
+
+    .pa-card h4 {
+      color: var(--text);
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: .82em;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      margin-bottom: 8px;
+    }
+
+    .pa-card p {
+      font-size: .6em;
+      color: var(--text-soft);
+      line-height: 1.45;
+      margin: 0 0 8px 0;
+    }
+
+    .pa-meta {
+      display: flex;
+      gap: 14px;
+      margin-top: 10px;
+      font-size: .52em;
+      color: var(--text-soft);
+    }
+
+    .pa-meta b {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* Summary closing slide */
+    .closing-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .closing-stat {
+      background: rgba(255, 255, 255, .05);
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 14px;
+      padding: 18px 20px;
+      backdrop-filter: blur(6px);
+    }
+
+    .closing-stat .cs-num {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 2.4em;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .closing-stat .cs-label {
+      color: rgba(255, 255, 255, .75);
+      font-size: .55em;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* small section header helper */
+    .section-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .section-eyebrow .se-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--brand-accent), var(--brand-primary));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-eyebrow .se-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ========== 1. COVER ========== -->
+      <section data-background-color="#0E6FA8" class="slide-bg-mesh slide-cover" data-transition="convex">
+        <div class="cover-v3">
+          <div class="cv3-top">
+            <img src="assets/logo-trungchinh.png" alt="Trung Chính" class="cv3-tc" />
+            <img src="assets/logo-vci.png" alt="VCI" class="cv3-vci" />
+          </div>
+
+          <div class="cv3-divider"><span></span></div>
+
+          <div class="cv3-tag">BÁO CÁO BỘ PHẬN CHUYỂN ĐỔI SỐ</div>
+
+          <h1 class="cv3-title">
+            Báo cáo công tác<br />
+            <span class="cv3-sub">Bộ phận Chuyển đổi số</span>
+          </h1>
+
+          <div class="cv3-hero" aria-label="DX VCI">
+            <span class="cv3-hero-bracket cv3-hero-bracket-l">[</span>
+            <span class="cv3-hero-text">
+              <span class="cv3-hero-letter">D</span><span class="cv3-hero-letter">X</span><span
+                class="cv3-hero-dot">.</span><span class="cv3-hero-letter">V</span><span
+                class="cv3-hero-letter">C</span><span class="cv3-hero-letter">I</span>
+            </span>
+            <span class="cv3-hero-bracket cv3-hero-bracket-r">]</span>
+            <span class="cv3-hero-glow"></span>
+          </div>
+
+          <div class="cv3-bot">
+            <span>Cương PM</span>
+            <span class="cv3-bot-sep"></span>
+            <span>Bộ phận Chuyển đổi số</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 2. NỘI DUNG ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">Mục lục</div>
+            <h3 class="anim-fade-up d-1">Nội dung báo cáo</h3>
+          </div>
+        </div>
+        <ol class="toc" style="display: grid; grid-template-columns: 1fr 1fr;">
+          <li class="anim-fade-up d-1"><span>Tổng quan kỳ báo cáo</span></li>
+          <li class="anim-fade-up d-2"><span>Kết quả đã đạt được</span></li>
+          <li class="anim-fade-up d-3"><span>Tồn tại &amp; hạn chế</span></li>
+          <li class="anim-fade-up d-4"><span>Đề xuất phương án cải tiến</span></li>
+          <li class="anim-fade-up d-5"><span>Lộ trình triển khai</span></li>
+          <li class="anim-fade-up d-6"><span>Tổng kết &amp; cam kết</span></li>
+        </ol>
+      </section>
+
+      <!-- ========== 3. TỔNG QUAN — KPI STRIP ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">01 — Tổng quan</div>
+            <h2 class="anim-fade-up d-1">Tổng quan kỳ báo cáo</h2>
+          </div>
+        </div>
+
+        <div class="kpi-strip">
+          <div class="kpi-card ok anim-fade-up d-1">
+            <div class="kpi-label">Hệ thống phát triển</div>
+            <div class="kpi-sub">TC.CMS — Quản lý thi công<br />TC.IMS — Quản lý kho<br />TC.EMS — Quản lý máy thiết bị<br />PM nội bộ — Quản trị công việc<br />ERP · HRM · RM — đang phát triển cho VCI</div>
+          </div>
+          <div class="kpi-card anim-fade-up d-2">
+            <div class="kpi-label">Ứng dụng AI</div>
+            <div class="kpi-sub">Phát triển sản phẩm<br />Tự động hóa kiểm thử<br />Hỗ trợ phòng ban (HCNS,
+              BIM)<br />Công cụ cá nhân nâng cao năng suất</div>
+          </div>
+          <div class="kpi-card ok anim-fade-up d-3">
+            <div class="kpi-label">Đào tạo nội bộ</div>
+            <div class="kpi-sub">PM — quản trị dự án<br />BA — phân tích nghiệp vụ<br />Tester — kiểm thử &amp; tự động
+              hóa<br />Dev — lập trình &amp; AI assistants</div>
+          </div>
+          <div class="kpi-card warn anim-fade-up d-4">
+            <div class="kpi-label">Tồn tại cần xử lý</div>
+            <div class="kpi-sub">Nhân sự mới chiếm phần lớn<br />Gắn kết &amp; phối hợp chưa cao<br />Hạn chế chuyên môn
+              &amp; kinh nghiệm<br />Tâm thái còn thụ động</div>
+          </div>
+        </div>
+
+        <div class="two-col two-col-compact" style="margin-top: 26px;">
+          <div class="resp-col vci anim-slide-l d-2">
+            <h4>Phạm vi công việc</h4>
+            <h3 class="accent">Chuyển đổi số &amp; phát triển sản phẩm</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Phát triển các hệ thống đặc thù ngành xây dựng: TC.CMS, TC.IMS, TC.EMS</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Xây dựng hệ thống quản trị công việc &amp; vận hành nội bộ (PM)</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Nghiên cứu &amp; ứng dụng AI cho toàn quy trình phát triển sản phẩm</li>
+            </ul>
+          </div>
+          <div class="resp-col tc anim-slide-r d-3">
+            <h4>Nguồn lực &amp; phối hợp</h4>
+            <h3>Đội ngũ Chuyển đổi số</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Đội ngũ trực tiếp: PM · BA · Tester · Dev (hơn 50% là nhân sự mới)</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Phối hợp nội bộ: HCNS, BIM &amp; các phòng ban nghiệp vụ</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Công cụ &amp; nền tảng: AI assistants, hệ thống PM, công cụ tự động hóa test</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 4. KẾT QUẢ ĐÃ ĐẠT ĐƯỢC ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">02 — Kết quả</div>
+            <h2 class="anim-fade-up d-1">Kết quả đã đạt được</h2>
+          </div>
+        </div>
+
+        <div class="res-grid">
+          <div class="res-card anim-fade-up d-1">
+            <div class="res-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <h4>Hệ thống phát triển cho VCI</h4>
+            <ul>
+              <li>TC.CMS — quản lý thi công</li>
+              <li>TC.IMS — quản lý kho mảng xây dựng</li>
+              <li>TC.EMS — quản lý máy thiết bị</li>
+              <li>ERP · HRM · RM — đang phát triển</li>
+            </ul>
+          </div>
+
+          <div class="res-card anim-fade-up d-2">
+            <div class="res-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M3 3v18h18" />
+                <path d="M7 14l4-4 3 3 5-6" />
+              </svg>
+            </div>
+            <h4>Ứng dụng AI vào phát triển sản phẩm</h4>
+            <ul>
+              <li>AI hỗ trợ thiết kế, phân tích &amp; lập trình</li>
+              <li>Tự động hóa kiểm thử — tăng tốc QA</li>
+              <li>Rút ngắn vòng đời phát triển tính năng</li>
+            </ul>
+          </div>
+
+          <div class="res-card anim-fade-up d-3">
+            <div class="res-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="8" r="6" />
+                <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+              </svg>
+            </div>
+            <h4>Quy trình phát triển sản phẩm</h4>
+            <ul>
+              <li>Chuẩn hóa quy trình từ ý tưởng → bàn giao</li>
+              <li>Định hình vai trò PM · BA · Dev · Tester</li>
+              <li>Áp dụng xuyên suốt cho các dự án nội bộ</li>
+            </ul>
+          </div>
+
+          <div class="res-card anim-fade-up d-4">
+            <div class="res-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M9 9h6v6H9z" />
+              </svg>
+            </div>
+            <h4>Hệ thống PM nội bộ</h4>
+            <ul>
+              <li>Quản trị công việc toàn bộ phận</li>
+              <li>Tối ưu chi phí vận hành &amp; phát triển</li>
+              <li>Tăng tính minh bạch &amp; đo lường được</li>
+            </ul>
+          </div>
+
+          <div class="res-card anim-fade-up d-5">
+            <div class="res-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h4>Đào tạo &amp; nâng cao năng lực</h4>
+            <ul>
+              <li>Đào tạo ứng dụng AI cho toàn team</li>
+              <li>Phủ rộng các vai trò: PM, BA, Tester, Dev</li>
+              <li>Nâng cao chuyên môn &amp; tư duy số hóa</li>
+            </ul>
+          </div>
+
+          <div class="res-card anim-fade-up d-6">
+            <div class="res-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <h4>Hỗ trợ phòng ban khác bằng AI</h4>
+            <ul>
+              <li>Phát triển ứng dụng đặc thù cho HCNS</li>
+              <li>Phát triển ứng dụng hỗ trợ team BIM</li>
+              <li>Mở rộng tác động AI ra toàn công ty</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 5. TỒN TẠI, HẠN CHẾ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">03 — Tồn tại</div>
+            <h2 class="anim-fade-up d-1">Tồn tại &amp; hạn chế</h2>
+          </div>
+        </div>
+
+        <div class="issue-list">
+          <div class="issue-row anim-fade-up d-1">
+            <div class="issue-num">01</div>
+            <div class="issue-body">
+              <div class="issue-title">Tỷ lệ nhân sự mới cao — hơn 50% team</div>
+              <div class="issue-desc">Phần lớn thành viên gia nhập trong thời gian ngắn, chưa đủ thời gian để hiểu sâu
+                về sản phẩm, quy trình &amp; văn hóa nội bộ.</div>
+              <span class="issue-tag sev-high">Ưu tiên cao</span>
+            </div>
+          </div>
+          <div class="issue-row anim-fade-up d-2">
+            <div class="issue-num">02</div>
+            <div class="issue-body">
+              <div class="issue-title">Mức độ gắn kết &amp; phối hợp chưa cao</div>
+              <div class="issue-desc">Thành viên chưa làm việc cùng nhau lâu — ăn ý trong giao tiếp, bàn giao công việc,
+                review chéo còn hạn chế, ảnh hưởng tốc độ &amp; chất lượng output.</div>
+              <span class="issue-tag sev-high">Ưu tiên cao</span>
+            </div>
+          </div>
+          <div class="issue-row anim-fade-up d-3">
+            <div class="issue-num">03</div>
+            <div class="issue-body">
+              <div class="issue-title">Hạn chế về chuyên môn &amp; kinh nghiệm</div>
+              <div class="issue-desc">Một bộ phận nhân sự thiếu kinh nghiệm với các nghiệp vụ đặc thù ngành xây dựng
+                &amp; công nghệ mới (AI, tự động hóa) — cần thời gian &amp; lộ trình đào tạo bài bản.</div>
+              <span class="issue-tag sev-med">Ưu tiên trung bình</span>
+            </div>
+          </div>
+          <div class="issue-row anim-fade-up d-4">
+            <div class="issue-num">04</div>
+            <div class="issue-body">
+              <div class="issue-title">Tâm thái làm việc còn thụ động</div>
+              <div class="issue-desc">Một số thành viên chưa chủ động đề xuất, chưa tự đặt vấn đề &amp; tìm giải pháp —
+                phụ thuộc nhiều vào điều phối &amp; giao việc, làm chậm năng lực tự vận hành của team.</div>
+              <span class="issue-tag sev-med">Ưu tiên trung bình</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 6. ĐỀ XUẤT PHƯƠNG ÁN CẢI TIẾN ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">04 — Đề xuất</div>
+            <h2 class="anim-fade-up d-1">Đề xuất phương án cải tiến</h2>
+          </div>
+        </div>
+
+        <div class="pa-grid">
+          <div class="pa-card short anim-fade-up d-1">
+            <div class="pa-num">01</div>
+            <div class="pa-pill">NGẮN HẠN · &lt; 1 THÁNG</div>
+            <h4>{{PA 1 — Hành động xử lý ngay}}</h4>
+            <p>{{Mục tiêu cụ thể, cách thức triển khai, kết quả kỳ vọng}}</p>
+            <div class="pa-meta">
+              <span><b>PIC:</b> {{...}}</span>
+              <span><b>Deadline:</b> {{dd/mm}}</span>
+            </div>
+          </div>
+
+          <div class="pa-card short anim-fade-up d-2">
+            <div class="pa-num">02</div>
+            <div class="pa-pill">NGẮN HẠN · &lt; 1 THÁNG</div>
+            <h4>{{PA 2 — Cải thiện quy trình / công cụ}}</h4>
+            <p>{{Quy trình / công cụ cần điều chỉnh, đầu ra mong đợi}}</p>
+            <div class="pa-meta">
+              <span><b>PIC:</b> {{...}}</span>
+              <span><b>Deadline:</b> {{dd/mm}}</span>
+            </div>
+          </div>
+
+          <div class="pa-card mid anim-fade-up d-3">
+            <div class="pa-num">03</div>
+            <div class="pa-pill">TRUNG HẠN · 1–3 THÁNG</div>
+            <h4>{{PA 3 — Nâng cao năng lực đội ngũ}}</h4>
+            <p>{{Đào tạo / tuyển dụng / chuẩn hóa kỹ năng — đo lường KPI cụ thể}}</p>
+            <div class="pa-meta">
+              <span><b>PIC:</b> {{...}}</span>
+              <span><b>Deadline:</b> {{Q?/2026}}</span>
+            </div>
+          </div>
+
+          <div class="pa-card mid anim-fade-up d-4">
+            <div class="pa-num">04</div>
+            <div class="pa-pill">TRUNG HẠN · 1–3 THÁNG</div>
+            <h4>{{PA 4 — Tự động hóa / công cụ hỗ trợ}}</h4>
+            <p>{{Triển khai công cụ / dashboard / tự động hóa giảm tải thủ công}}</p>
+            <div class="pa-meta">
+              <span><b>PIC:</b> {{...}}</span>
+              <span><b>Deadline:</b> {{Q?/2026}}</span>
+            </div>
+          </div>
+
+          <div class="pa-card long anim-fade-up d-5">
+            <div class="pa-num">05</div>
+            <div class="pa-pill">DÀI HẠN · &gt; 3 THÁNG</div>
+            <h4>{{PA 5 — Tái cấu trúc / mở rộng phạm vi}}</h4>
+            <p>{{Định hướng chiến lược, mở rộng dịch vụ / sản phẩm — tác động dài hạn}}</p>
+            <div class="pa-meta">
+              <span><b>PIC:</b> {{...}}</span>
+              <span><b>Deadline:</b> {{H?/2026}}</span>
+            </div>
+          </div>
+
+          <div class="pa-card long anim-fade-up d-6">
+            <div class="pa-num">06</div>
+            <div class="pa-pill">DÀI HẠN · &gt; 3 THÁNG</div>
+            <h4>{{PA 6 — Kiến nghị đầu tư / chính sách}}</h4>
+            <p>{{Đề xuất nguồn lực / đầu tư / cơ chế — cần phê duyệt cấp trên}}</p>
+            <div class="pa-meta">
+              <span><b>PIC:</b> {{...}}</span>
+              <span><b>Deadline:</b> {{...}}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 7. LỘ TRÌNH TRIỂN KHAI ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">05 — Lộ trình</div>
+            <h2 class="anim-fade-up d-1">Lộ trình triển khai phương án</h2>
+          </div>
+        </div>
+
+        <div class="timeline timeline-compact anim-fade d-1">
+          <div class="track">
+            <div class="progress-fill" data-progress="100%"></div>
+          </div>
+          <div class="pins">
+            <div class="pin">
+              <div class="dot anim-pulse"></div>
+              <div class="date">{{dd/mm}}</div>
+              <div class="label">Khởi động — PA ngắn hạn</div>
+            </div>
+            <div class="pin">
+              <div class="dot"></div>
+              <div class="date">{{dd/mm}}</div>
+              <div class="label">Sơ kết — đo lường tác động</div>
+            </div>
+            <div class="pin">
+              <div class="dot"></div>
+              <div class="date">{{dd/mm}}</div>
+              <div class="label">Triển khai PA trung hạn</div>
+            </div>
+            <div class="pin">
+              <div class="dot"></div>
+              <div class="date">{{dd/mm}}</div>
+              <div class="label">Tổng kết kỳ — kế hoạch dài hạn</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col two-col-compact">
+          <div class="resp-col vci anim-slide-l d-2">
+            <h4>Bộ phận thực hiện</h4>
+            <h3 class="accent">Cam kết &amp; phụ trách</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Phân công PIC từng phương án — theo bảng đề xuất</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Báo cáo tiến độ hàng tuần — kênh nội bộ</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Đo lường KPI sau mỗi mốc lộ trình</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Điều chỉnh kế hoạch khi phát sinh rủi ro</li>
+            </ul>
+          </div>
+          <div class="resp-col tc anim-slide-r d-3">
+            <h4>Kiến nghị / Phê duyệt</h4>
+            <h3>Cần sự hỗ trợ</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Phê duyệt ngân sách / nguồn lực bổ sung</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Phối hợp liên phòng ban {{...}}</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Cơ chế / chính sách / quy trình cần điều chỉnh</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Hỗ trợ truyền thông nội bộ về thay đổi</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 8. TỔNG KẾT — CLOSING ========== -->
+      <section data-background-color="#0A2540" class="slide-bg-mesh" data-transition="convex">
+        <div class="closing closing-v2 thanks-slide">
+          <div class="deco"></div>
+          <div class="deco-2"></div>
+
+          <div class="closing-vci-logo anim-fade">
+            <img src="assets/logo-vci.png" alt="VCI" />
+          </div>
+
+          <div class="closing-tag anim-fade-up">BÁO CÁO BỘ PHẬN · KỲ {{KỲ_BÁO_CÁO}}</div>
+          <h1 class="anim-fade-up d-1 closing-h1">Cảm ơn!</h1>
+          <p class="closing-sub anim-fade-up d-2">Rất mong nhận được góp ý từ Ban lãnh đạo &amp; các bộ phận phối hợp.
+          </p>
+
+          <div class="closing-stats">
+            <div class="closing-stat anim-fade-up d-3">
+              <div class="cs-num">{{X}}</div>
+              <div class="cs-label">Kết quả đạt được</div>
+            </div>
+            <div class="closing-stat anim-fade-up d-4">
+              <div class="cs-num">{{Y}}</div>
+              <div class="cs-label">Tồn tại cần xử lý</div>
+            </div>
+            <div class="closing-stat anim-fade-up d-5">
+              <div class="cs-num">{{Z}}</div>
+              <div class="cs-label">Phương án cải tiến</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 9. Q&A ========== -->
+      <section data-background-color="#0A2540" class="slide-bg-mesh slide-qa" data-transition="convex">
+        <div class="qa-wrap">
+          <div class="qa-bubbles" aria-hidden="true">
+            <span class="qa-bubble qb1">?</span>
+            <span class="qa-bubble qb2">?</span>
+            <span class="qa-bubble qb3">?</span>
+            <span class="qa-bubble qb4">?</span>
+            <span class="qa-bubble qb5">?</span>
+            <span class="qa-bubble qb6">?</span>
+          </div>
+
+          <div class="qa-tag">THẢO LUẬN · GÓP Ý</div>
+
+          <h1 class="qa-title">
+            <span class="qa-q">Q</span><span class="qa-amp">&amp;</span><span class="qa-a">A</span>
+          </h1>
+
+          <p class="qa-sub">Xin mời ý kiến đóng góp &amp; chỉ đạo từ Ban lãnh đạo.</p>
+
+          <div class="qa-foot">
+            <span>{{TÊN_BỘ_PHẬN}}</span>
+            <span class="qa-foot-sep"></span>
+            <span>{{NGÀY_TRÌNH_BÀY}}</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    const deck = new Reveal({
+      hash: true,
+      history: true,
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      showSlideNumber: 'all',
+      center: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      width: 1920,
+      height: 1080,
+      margin: 0.02,
+      minScale: 0.2,
+      maxScale: 2.0,
+    });
+    deck.initialize().then(() => {
+      deck.on('slidechanged', (e) => activateSlide(e.currentSlide));
+      activateSlide(deck.getCurrentSlide());
+    });
+
+    function activateSlide(slide) {
+      if (!slide) return;
+      const timeline = slide.querySelector('.timeline');
+      if (timeline) {
+        const pins = timeline.querySelectorAll('.pin');
+        pins.forEach((p, i) => {
+          p.classList.remove('active');
+          setTimeout(() => p.classList.add('active'), 600 + i * 350);
+        });
+        const fill = timeline.querySelector('.progress-fill');
+        if (fill) {
+          fill.style.width = '0%';
+          void fill.offsetWidth;
+          fill.style.width = fill.dataset.progress || '100%';
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>

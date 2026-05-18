@@ -1,0 +1,85 @@
+    K HOCH UAT (t 1)
+
+H THNG QUN TR KHO TC.IMS
+
+                                    11/05/2026 - 25/05/2026
+
+                                                                                                                                         Tháng 05 - 2026
+Ni dung  01 GII THIU
+         02 K HOCH T CHC
+         03 THÀNH PHN THAM GIA
+         04 CÁCH THC T CHC
+         05 PHM VI UAT
+         06 KÊNH TIP NHN/ PHI HP
+                                    1. GII THIU
+
+Mc tiêu:
+
+     Bm bo H thng áp ng úng yêu cu nghip v ã thng nht.
+     Nâng cao cht lng trc khi Go-live
+     Ghi nhn và x lý toàn b li sai lch nghip v
+                                      2. K HOCH T CHC
+
+                                                K hoch thc hin UAT ln 1
+Quy trình tip nhn:
+
+     Ngi dùng thc hin test theo checklist/ free test Mark (Testing/Pass/Fail) Ghi vn  +
+
+       hình nh vn 
+
+         BA/QA kim tra & phân loi Giao Dev fix báo ngi dùng thc hin Re-Test.
+
+       PM theo dõi mc  u tiên, cp nht tin .
+          3. THÀNH PHN THAM GIA
+
+ Mr. Mu    Mr. Cng         Qun lý, iu phi       Mr. Cng
+Mr. Chin  P. Chi nhánh                Khi HTKT    (QLDA)
+PP.KSNB
+
+                           Mrs. Vân Anh                   Ms. Trang,
+                             TL.H tr                           BA
+
+              Nhân viên                         H tr kim th, vá li
+          Phòng Chi Nhánh
+
+                           Khi k thut              Khi BA
+                           (Dev + Test)         (BA + Design)
+
+          Kim th, xác nhn
+
+          MÔ HÌNH TRAO I LIÊN LC
+                   CHI NHÁNH - VCI
+          4. CÁCH THC T CHC
+
+UAT       THC HIN UAT, KIM TH                      VÁ LI, HOÀN THIN
+
+11/05/26  25/05/26                                 10/06/26
+
+VCI:                                               TC:
+     Trình bày kt qu thc hin, demo tính nng             Chun b ngun lc thc hin UAT
+     Cung cp file checklist kch bn UAT                  Kim th theo checklist kch bn UAT
+     Hng dn khách hàng cách test, log bug, prioty       Free test + log issues
+     Xây dng kênh trao i, liên lc                       Log issues, evidence (nu có)
+     Xác nh PIC ca các bên tham gia                     Re-test (kim tra li) nhng bug ã c fix
+     Tng kt, ánh giá
+ 5. PHM VI UAT Ln 1
+
+S  phân rã chc nng
+                           6. U MI VÀ KÊNH TIP NHN YÊU CU
+
+ u mi liên h và x lý yêu cu:
+
+Kênh tip nhn:
+     Trong quá trình s dng h thng nu phát sinh vn , khách hàng có th truy cp ng dn:
+     https://support.vcijsc.com  thc hin ghi nhn vn .
+     u mi Ban CS TC: S truy cp ng dn: https://support.vcijsc.com  thc hin phân loi, tip nhn và x lý s
+     b vn  ca End users, trong trng hp không x lý c thì chuyn trng thái "Ch VCI X lý".
+     Phía VCI s truy cp vào ng dn: https://support.vcijsc.com  tin hành x lý issues: (VCI ang x lý, VCI ã x lý
+     xong) (VCI s ch tip nhn các issue mà ã c Ban CS review và chuyn sang).
+     Phía VCI s có report tình hình/tin  x lý issue nh k.
+
+  u mi liên h VCI:
+  1.Khúc Vân Anh ­ Vn hành h tr ­ ST: 0376.513.402
+  2.Bùi Xuân Cng ­ Qun lý d án ­ ST: 033.5055.068
+QUY TRÌNH BÁO LI
+
