@@ -8,33 +8,29 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Cormorant+Garamond:wght@500;600;700&display=swap"
     rel="stylesheet" />
 
   <style>
-    /* ===== VCI brand palette (lấy từ vcijsc.com) =====
-       Signature gradient:
-       linear-gradient(270deg,#33b351 0%,#31b051 38%,#2ea955 56%,
-                       #289c5b 70%,#1f8a63 81%,#14726e 91%,#08587b 100%)
-    */
     :root {
       --c-green: #33b351;
-      --c-green-2: #31b051;
       --c-green-3: #2ea955;
-      --c-green-4: #289c5b;
       --c-green-5: #1f8a63;
       --c-teal: #14726e;
       --c-navy: #08587b;
       --c-navy-deep: #0b2f57;
-      --c-blue-deep: #1e4487;
       --c-red: #fd4747;
-      --c-red-2: #eb2f2f;
-      --c-red-soft: #ff6269;
-      --c-gold: #F4C75A;
-      --c-gold-2: #FFE9A8;
+      --c-red-2: #c81e1e;
+      --c-red-3: #8b1a1a;
+      --c-gold: #E9B949;
+      --c-gold-2: #F4D27A;
+      --c-gold-3: #FFE9A8;
+      --c-gold-dark: #8C6A1A;
+      --c-cream: #FFF6DF;
       --c-white: #FFFFFF;
       --font-display: 'Plus Jakarta Sans', sans-serif;
       --font-body: 'Be Vietnam Pro', sans-serif;
+      --font-serif: 'Cormorant Garamond', serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -63,24 +59,41 @@
       height: min(100vh, calc(100vw * 9 / 16));
       aspect-ratio: 16 / 9;
       overflow: hidden;
-      /* Tông màu chính VCI — gradient signature ngả chéo */
       background:
-        radial-gradient(ellipse 60% 70% at 82% 35%, rgba(51, 179, 81, .45) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 70% at 50% 50%, rgba(233, 185, 73, .12) 0%, transparent 60%),
         radial-gradient(ellipse 70% 80% at 18% 90%, rgba(20, 114, 110, .55) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 70% at 82% 35%, rgba(51, 179, 81, .35) 0%, transparent 60%),
         linear-gradient(118deg,
           var(--c-navy-deep) 0%,
-          var(--c-navy) 28%,
-          var(--c-teal) 50%,
-          var(--c-green-5) 72%,
+          var(--c-navy) 30%,
+          var(--c-teal) 55%,
+          var(--c-green-5) 80%,
           var(--c-green-3) 100%);
       box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
     }
 
-    /* Blueprint pattern overlay (gợi ngành xây dựng) */
+    /* ===== Khung viền vàng kép (sắc phong) ===== */
+    .frame-outer,
+    .frame-inner {
+      position: absolute;
+      pointer-events: none;
+      border: 1.5px solid var(--c-gold);
+      opacity: .85;
+    }
+    .frame-outer {
+      top: 28px; left: 28px; right: 28px; bottom: 28px;
+      border-width: 2px;
+    }
+    .frame-inner {
+      top: 38px; left: 38px; right: 38px; bottom: 38px;
+      opacity: .55;
+    }
+
+    /* Pattern lưới nhẹ */
     .blueprint {
       position: absolute;
       inset: 0;
-      opacity: .08;
+      opacity: .05;
       background-image:
         linear-gradient(rgba(255, 255, 255, .9) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, .9) 1px, transparent 1px);
@@ -89,116 +102,167 @@
       pointer-events: none;
     }
 
-    .blueprint::after {
-      content: '';
+    /* Hoa văn vảy/sóng nước cổ truyền — full background mờ */
+    .scale-pattern {
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, .6) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, .6) 1px, transparent 1px);
-      background-size: 12px 12px;
-      opacity: .35;
+      opacity: .08;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'><path d='M0 30 A 15 15 0 0 1 30 30 A 15 15 0 0 1 60 30' fill='none' stroke='%23E9B949' stroke-width='1.2'/></svg>");
+      background-size: 60px 30px;
     }
 
     /* Vignette */
     .vignette {
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, .55) 100%);
+      background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, .55) 100%);
       pointer-events: none;
     }
 
-    /* Brand color band — thanh gradient signature ở mép dưới */
+    /* Brand color band — gradient signature ở mép dưới (chữ ký VCI) */
     .band {
       position: absolute;
       left: 0;
       right: 0;
       bottom: 0;
-      height: 8px;
+      height: 6px;
       background: linear-gradient(270deg,
         #33b351 0%, #31b051 38%, #2ea955 56%,
         #289c5b 70%, #1f8a63 81%, #14726e 91%, #08587b 100%);
       box-shadow: 0 -6px 24px rgba(51, 179, 81, .5);
     }
 
-    /* Sparkles */
-    .sparkle {
+    /* ===== Mây cung đình ở 4 góc ===== */
+    .cloud {
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background: var(--c-gold-2);
-      border-radius: 50%;
-      filter: drop-shadow(0 0 8px var(--c-gold));
-      opacity: .85;
+      width: 150px;
+      height: 90px;
+      opacity: .55;
+      pointer-events: none;
     }
-    .sparkle.s1 { top: 12%; left: 8%; width: 6px; height: 6px; }
-    .sparkle.s2 { top: 22%; left: 18%; width: 10px; height: 10px; }
-    .sparkle.s3 { top: 78%; left: 6%; }
-    .sparkle.s4 { top: 86%; left: 22%; width: 5px; height: 5px; }
-    .sparkle.s5 { top: 16%; right: 8%; width: 7px; height: 7px; }
-    .sparkle.s6 { top: 74%; right: 12%; width: 9px; height: 9px; }
-    .sparkle.s7 { top: 30%; right: 4%; width: 5px; height: 5px; }
-    .sparkle.s8 { top: 60%; left: 50%; width: 6px; height: 6px; opacity: .55; }
+    .cloud svg { width: 100%; height: 100%; display: block; }
+    .cloud.tl { top: 56px; left: 56px; }
+    .cloud.tr { top: 56px; right: 56px; transform: scaleX(-1); }
+    .cloud.bl { bottom: 76px; left: 56px; transform: scaleY(-1); }
+    .cloud.br { bottom: 76px; right: 56px; transform: scale(-1, -1); }
 
-    /* Confetti */
-    .confetti {
+    /* ===== Tua/dải lụa đỏ ===== */
+    .silk {
       position: absolute;
-      width: 18px;
-      height: 3px;
-      border-radius: 2px;
+      width: 80px;
+      height: 200px;
+      top: 24px;
       opacity: .85;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 16px rgba(139, 26, 26, .55));
     }
-    .confetti.c1 { top: 18%; left: 4%; transform: rotate(35deg); background: var(--c-green); }
-    .confetti.c2 { top: 8%; left: 28%; transform: rotate(-20deg); background: var(--c-gold); }
-    .confetti.c3 { top: 86%; left: 14%; transform: rotate(60deg); background: var(--c-red); width: 14px; }
-    .confetti.c4 { top: 12%; right: 24%; transform: rotate(-45deg); background: var(--c-gold-2); }
-    .confetti.c5 { bottom: 18%; right: 6%; transform: rotate(20deg); background: var(--c-green-3); width: 22px; }
-    .confetti.c6 { bottom: 26%; right: 28%; transform: rotate(-30deg); background: var(--c-gold); }
+    .silk svg { width: 100%; height: 100%; display: block; }
+    .silk.left { left: 8%; }
+    .silk.right { right: 8%; transform: scaleX(-1); }
 
-    /* === Layout === */
+    /* ===== Layout chính ===== */
     .banner-grid {
       position: absolute;
       inset: 0;
       display: grid;
       grid-template-columns: 1fr 1.15fr;
       align-items: center;
-      padding: 0 7.5%;
+      padding: 0 10%;
       gap: 4%;
+      z-index: 3;
     }
 
-    /* LEFT — Logo & brand */
+    /* ===== LEFT — Huy chương logo ===== */
     .brand-col {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
       gap: 22px;
-      z-index: 3;
     }
 
-    .brand-col .logo {
-      width: 100%;
-      max-width: 460px;
-      filter: drop-shadow(0 8px 30px rgba(51, 179, 81, .45));
+    .medallion {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 10px 24px rgba(0, 0, 0, .35));
     }
 
-    .brand-col .logo img {
+    .medallion .ring-outer,
+    .medallion .ring-inner,
+    .medallion .ring-mid {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+    }
+    .medallion .ring-outer {
+      background: conic-gradient(from 0deg, var(--c-gold) 0deg, var(--c-gold-3) 90deg,
+                                 var(--c-gold) 180deg, var(--c-gold-dark) 270deg, var(--c-gold) 360deg);
+      padding: 3px;
+      mask: radial-gradient(circle, transparent 0%, transparent 70%, #000 70%);
+      -webkit-mask: radial-gradient(circle, transparent 0%, transparent 70%, #000 70%);
+    }
+    .medallion .ring-mid {
+      inset: 12px;
+      border: 1.5px solid var(--c-gold);
+      opacity: .6;
+    }
+    .medallion .ring-inner {
+      inset: 22px;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 246, 223, .12), rgba(8, 88, 123, .35));
+      border: 2px solid var(--c-gold);
+      box-shadow: inset 0 0 30px rgba(233, 185, 73, .25);
+    }
+
+    .medallion .logo {
+      position: relative;
+      width: 60%;
+      z-index: 2;
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, .45));
+    }
+    .medallion .logo img {
       width: 100%;
       height: auto;
       display: block;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+
+    /* Diềm hoa văn quanh medallion */
+    .medallion .ornament {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      pointer-events: none;
     }
 
     .brand-divider {
       width: 90px;
-      height: 4px;
-      background: linear-gradient(90deg, var(--c-gold), var(--c-red));
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--c-gold), transparent);
       border-radius: 4px;
+      position: relative;
     }
+    .brand-divider::before,
+    .brand-divider::after {
+      content: '◆';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--c-gold);
+      font-size: 10px;
+    }
+    .brand-divider::before { left: -16px; }
+    .brand-divider::after { right: -16px; }
 
     .brand-name {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 2.2vw;
+      font-size: 2vw;
       line-height: 1.15;
       color: #fff;
       letter-spacing: -.3px;
@@ -206,145 +270,157 @@
 
     .brand-sub {
       font-family: var(--font-body);
-      font-size: 1vw;
+      font-size: .95vw;
       font-weight: 500;
-      color: #d6f5e2;
-      letter-spacing: 1.5px;
+      color: var(--c-gold-2);
+      letter-spacing: 1.8px;
       text-transform: uppercase;
     }
 
     .slogan {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 1.3vw;
+      font-size: 1.25vw;
       line-height: 1.4;
       color: #fff;
-      margin-top: 10px;
+      margin-top: 8px;
       max-width: 92%;
     }
-
     .slogan .accent { color: var(--c-gold); }
 
-    /* RIGHT — Hero number */
+    /* ===== RIGHT — Hero number trong medallion lục giác ===== */
     .hero-col {
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 3;
     }
+
+    .hex-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .hex-frame {
+      position: absolute;
+      width: 64%;
+      aspect-ratio: 1 / 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hex-frame svg { width: 100%; height: 100%; display: block; overflow: visible; }
 
     .tag-top {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 1vw;
-      letter-spacing: 6px;
+      font-size: .95vw;
+      letter-spacing: 8px;
       color: var(--c-gold);
       text-transform: uppercase;
-      padding: 8px 22px;
+      padding: 6px 22px;
       border: 1.5px solid var(--c-gold);
       border-radius: 999px;
-      background: rgba(244, 199, 90, .08);
-      margin-bottom: 18px;
+      background: rgba(233, 185, 73, .1);
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
+    }
+    .tag-top::before,
+    .tag-top::after {
+      content: '✦';
+      color: var(--c-gold);
+      margin: 0 8px;
+      font-size: .85em;
     }
 
     .hero-num {
       position: relative;
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 36vw;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 30vw;
       line-height: .85;
-      /* Gradient gold → red — sang trọng & nổi bật */
-      background: linear-gradient(180deg, #FFE9A8 0%, var(--c-gold) 28%, #E89B2A 55%, var(--c-red) 100%);
+      background: linear-gradient(180deg, var(--c-gold-3) 0%, var(--c-gold-2) 25%, var(--c-gold) 50%, #C68F1F 80%, var(--c-red-2) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -10px;
-      text-shadow: 0 0 60px rgba(244, 199, 90, .35);
-      filter: drop-shadow(0 12px 24px rgba(253, 71, 71, .35));
+      letter-spacing: -8px;
+      text-shadow: 0 0 60px rgba(233, 185, 73, .35);
+      filter: drop-shadow(0 8px 18px rgba(200, 30, 30, .45));
+      z-index: 1;
     }
-
     .hero-num::after {
       content: '1';
       position: absolute;
       inset: 0;
       color: transparent;
-      -webkit-text-stroke: 2px rgba(244, 199, 90, .25);
+      -webkit-text-stroke: 1.5px rgba(233, 185, 73, .35);
       z-index: -1;
-      transform: translate(6px, 6px);
+      transform: translate(5px, 5px);
     }
 
     .hero-title {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 2.5vw;
-      letter-spacing: 4px;
+      font-size: 2.3vw;
+      letter-spacing: 6px;
       color: #fff;
       text-transform: uppercase;
-      margin-top: 8px;
+      margin-top: 6px;
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
-
     .hero-title .accent { color: var(--c-gold); }
 
     .hero-sub {
       font-family: var(--font-body);
       font-weight: 500;
-      font-size: 1vw;
-      color: #d6f5e2;
-      letter-spacing: 4px;
+      font-size: .95vw;
+      color: var(--c-gold-2);
+      letter-spacing: 5px;
       text-transform: uppercase;
-      margin-top: 6px;
+      margin-top: 4px;
       text-align: center;
+      position: relative;
+      z-index: 2;
     }
 
-    /* Ribbon — đỏ accent VCI */
+    /* ===== Ribbon đỏ kiểu phương Đông ===== */
     .ribbon {
       position: absolute;
       left: 50%;
-      bottom: 6%;
+      bottom: 7%;
       transform: translateX(-50%);
       display: flex;
       align-items: center;
-      gap: 18px;
-      padding: 12px 36px;
-      background: linear-gradient(90deg, var(--c-red), var(--c-red-soft));
-      border-radius: 999px;
-      box-shadow: 0 12px 32px rgba(253, 71, 71, .5),
-                  inset 0 1px 0 rgba(255, 255, 255, .25);
-      z-index: 4;
+      gap: 20px;
+      padding: 12px 42px;
+      background: linear-gradient(90deg, var(--c-red-3), var(--c-red-2), var(--c-red-3));
+      border: 1.5px solid var(--c-gold);
+      border-radius: 0;
+      clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%);
+      box-shadow: 0 12px 28px rgba(139, 26, 26, .55),
+                  inset 0 1px 0 rgba(255, 233, 168, .35);
+      z-index: 5;
     }
-
     .ribbon-year {
       font-family: var(--font-display);
       font-weight: 800;
-      font-size: 1.4vw;
-      color: #fff;
-      letter-spacing: 3px;
+      font-size: 1.3vw;
+      color: var(--c-gold-3);
+      letter-spacing: 4px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, .35);
     }
-
-    .ribbon-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--c-gold);
-      box-shadow: 0 0 12px var(--c-gold);
+    .ribbon-sep {
+      font-size: 1.3vw;
+      color: var(--c-gold);
     }
-
-    /* Decorative corner brackets — vàng cho cảm giác sang trọng */
-    .corner {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      border: 2px solid var(--c-gold);
-      opacity: .65;
-    }
-
-    .corner.tl { top: 36px; left: 36px; border-right: none; border-bottom: none; }
-    .corner.tr { top: 36px; right: 36px; border-left: none; border-bottom: none; }
-    .corner.bl { bottom: 56px; left: 36px; border-right: none; border-top: none; }
-    .corner.br { bottom: 56px; right: 36px; border-left: none; border-top: none; }
   </style>
 </head>
 
@@ -352,35 +428,114 @@
   <div class="stage">
     <div class="banner">
 
+      <div class="scale-pattern"></div>
       <div class="blueprint"></div>
       <div class="vignette"></div>
 
-      <span class="corner tl"></span>
-      <span class="corner tr"></span>
-      <span class="corner bl"></span>
-      <span class="corner br"></span>
+      <div class="frame-outer"></div>
+      <div class="frame-inner"></div>
 
-      <span class="sparkle s1"></span>
-      <span class="sparkle s2"></span>
-      <span class="sparkle s3"></span>
-      <span class="sparkle s4"></span>
-      <span class="sparkle s5"></span>
-      <span class="sparkle s6"></span>
-      <span class="sparkle s7"></span>
-      <span class="sparkle s8"></span>
+      <!-- Mây cung đình 4 góc -->
+      <div class="cloud tl">
+        <svg viewBox="0 0 150 90" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="#E9B949" stroke-width="1.5" stroke-linecap="round">
+            <path d="M5 60 Q 5 38 25 38 Q 25 18 50 18 Q 70 18 70 38 Q 95 38 95 58 Q 95 78 70 78 L 25 78 Q 5 78 5 60 Z" fill="rgba(233,185,73,.06)" />
+            <path d="M18 58 Q 22 50 30 50 Q 32 42 42 42 Q 50 42 52 50 Q 60 50 62 58" />
+            <path d="M70 58 Q 75 48 85 48 Q 92 48 94 56" />
+            <circle cx="35" cy="38" r="2" fill="#E9B949" />
+            <circle cx="68" cy="42" r="1.5" fill="#E9B949" />
+          </g>
+        </svg>
+      </div>
+      <div class="cloud tr">
+        <svg viewBox="0 0 150 90" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="#E9B949" stroke-width="1.5" stroke-linecap="round">
+            <path d="M5 60 Q 5 38 25 38 Q 25 18 50 18 Q 70 18 70 38 Q 95 38 95 58 Q 95 78 70 78 L 25 78 Q 5 78 5 60 Z" fill="rgba(233,185,73,.06)" />
+            <path d="M18 58 Q 22 50 30 50 Q 32 42 42 42 Q 50 42 52 50 Q 60 50 62 58" />
+            <path d="M70 58 Q 75 48 85 48 Q 92 48 94 56" />
+            <circle cx="35" cy="38" r="2" fill="#E9B949" />
+          </g>
+        </svg>
+      </div>
+      <div class="cloud bl">
+        <svg viewBox="0 0 150 90" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="#E9B949" stroke-width="1.5" stroke-linecap="round" opacity=".8">
+            <path d="M5 60 Q 5 38 25 38 Q 25 18 50 18 Q 70 18 70 38 Q 95 38 95 58 Q 95 78 70 78 L 25 78 Q 5 78 5 60 Z" fill="rgba(233,185,73,.05)" />
+            <path d="M18 58 Q 22 50 30 50 Q 32 42 42 42 Q 50 42 52 50 Q 60 50 62 58" />
+          </g>
+        </svg>
+      </div>
+      <div class="cloud br">
+        <svg viewBox="0 0 150 90" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="#E9B949" stroke-width="1.5" stroke-linecap="round" opacity=".8">
+            <path d="M5 60 Q 5 38 25 38 Q 25 18 50 18 Q 70 18 70 38 Q 95 38 95 58 Q 95 78 70 78 L 25 78 Q 5 78 5 60 Z" fill="rgba(233,185,73,.05)" />
+            <path d="M18 58 Q 22 50 30 50 Q 32 42 42 42 Q 50 42 52 50 Q 60 50 62 58" />
+          </g>
+        </svg>
+      </div>
 
-      <span class="confetti c1"></span>
-      <span class="confetti c2"></span>
-      <span class="confetti c3"></span>
-      <span class="confetti c4"></span>
-      <span class="confetti c5"></span>
-      <span class="confetti c6"></span>
+      <!-- Dải lụa đỏ -->
+      <div class="silk left">
+        <svg viewBox="0 0 80 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="silkL" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fd4747" />
+              <stop offset="60%" stop-color="#c81e1e" />
+              <stop offset="100%" stop-color="#8b1a1a" />
+            </linearGradient>
+          </defs>
+          <path d="M20 0 L 60 0 L 56 160 Q 56 180 40 180 Q 24 180 24 160 Z" fill="url(%23silkL)" stroke="#E9B949" stroke-width="1" />
+          <path d="M20 0 L 60 0" stroke="#E9B949" stroke-width="2" />
+          <circle cx="40" cy="170" r="6" fill="#E9B949" />
+          <path d="M40 176 L 40 195" stroke="#E9B949" stroke-width="1.5" />
+        </svg>
+      </div>
+      <div class="silk right">
+        <svg viewBox="0 0 80 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="silkR" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fd4747" />
+              <stop offset="60%" stop-color="#c81e1e" />
+              <stop offset="100%" stop-color="#8b1a1a" />
+            </linearGradient>
+          </defs>
+          <path d="M20 0 L 60 0 L 56 160 Q 56 180 40 180 Q 24 180 24 160 Z" fill="url(%23silkR)" stroke="#E9B949" stroke-width="1" />
+          <path d="M20 0 L 60 0" stroke="#E9B949" stroke-width="2" />
+          <circle cx="40" cy="170" r="6" fill="#E9B949" />
+          <path d="M40 176 L 40 195" stroke="#E9B949" stroke-width="1.5" />
+        </svg>
+      </div>
 
       <div class="banner-grid">
+        <!-- LEFT -->
         <div class="brand-col">
-          <div class="logo">
-            <img src="assets/vci-web/logo-white.png" alt="VCI" />
+          <div class="medallion">
+            <div class="ring-outer"></div>
+            <div class="ring-mid"></div>
+            <div class="ring-inner"></div>
+            <div class="logo">
+              <img src="assets/vci-web/logo-white.png" alt="VCI" />
+            </div>
+            <!-- Diềm hoa văn xung quanh -->
+            <svg class="ornament" viewBox="-10 -10 260 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g fill="none" stroke="#E9B949" stroke-width="1" opacity=".75">
+                <!-- 8 hoa thị xếp tròn -->
+                <g transform="translate(120 120)">
+                  <g id="petal">
+                    <path d="M0 -118 Q -6 -110 0 -102 Q 6 -110 0 -118 Z" fill="#E9B949" opacity=".9" />
+                  </g>
+                  <use href="#petal" transform="rotate(45)" />
+                  <use href="#petal" transform="rotate(90)" />
+                  <use href="#petal" transform="rotate(135)" />
+                  <use href="#petal" transform="rotate(180)" />
+                  <use href="#petal" transform="rotate(225)" />
+                  <use href="#petal" transform="rotate(270)" />
+                  <use href="#petal" transform="rotate(315)" />
+                </g>
+              </g>
+            </svg>
           </div>
+
           <div class="brand-divider"></div>
           <div class="brand-name">Công ty Cổ phần VCI</div>
           <div class="brand-sub">Vững vàng nền móng · Vươn tầm cao</div>
@@ -390,17 +545,58 @@
           </div>
         </div>
 
+        <!-- RIGHT -->
         <div class="hero-col">
-          <div class="tag-top">Anniversary · Celebration</div>
-          <div class="hero-num">1</div>
+          <div class="tag-top">Anniversary</div>
+
+          <div class="hex-wrap">
+            <!-- Khung lục giác + diềm hoa văn quanh số 1 -->
+            <div class="hex-frame">
+              <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="hexBg" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="rgba(233,185,73,.12)" />
+                    <stop offset="100%" stop-color="rgba(8,88,123,.05)" />
+                  </linearGradient>
+                </defs>
+                <!-- Lục giác đôi -->
+                <polygon points="250,30 430,140 430,360 250,470 70,360 70,140"
+                  fill="url(%23hexBg)" stroke="#E9B949" stroke-width="2" opacity=".9" />
+                <polygon points="250,52 410,150 410,350 250,448 90,350 90,150"
+                  fill="none" stroke="#E9B949" stroke-width="1" opacity=".55" />
+                <!-- Diềm sao 6 cánh -->
+                <g fill="#E9B949" opacity=".85">
+                  <circle cx="250" cy="30" r="4" />
+                  <circle cx="430" cy="140" r="4" />
+                  <circle cx="430" cy="360" r="4" />
+                  <circle cx="250" cy="470" r="4" />
+                  <circle cx="70" cy="360" r="4" />
+                  <circle cx="70" cy="140" r="4" />
+                </g>
+                <!-- Hoa văn diềm góc -->
+                <g fill="none" stroke="#E9B949" stroke-width="1.2" opacity=".7" stroke-linecap="round">
+                  <path d="M250 30 Q 240 50 250 70 Q 260 50 250 30" />
+                  <path d="M430 140 Q 410 150 410 170 Q 400 160 410 145" />
+                  <path d="M70 140 Q 90 150 90 170 Q 100 160 90 145" />
+                  <path d="M430 360 Q 410 350 410 330 Q 400 340 410 355" />
+                  <path d="M70 360 Q 90 350 90 330 Q 100 340 90 355" />
+                  <path d="M250 470 Q 240 450 250 430 Q 260 450 250 470" />
+                </g>
+              </svg>
+            </div>
+
+            <div class="hero-num">1</div>
+          </div>
+
           <div class="hero-title"><span class="accent">Năm</span> thành lập</div>
           <div class="hero-sub">Kỷ niệm hành trình đầu tiên</div>
         </div>
       </div>
 
+      <!-- Ribbon đỏ kiểu phương Đông -->
       <div class="ribbon">
         <span class="ribbon-year">2025</span>
-        <span class="ribbon-dot"></span>
+        <span class="ribbon-sep">✦</span>
         <span class="ribbon-year">2026</span>
       </div>
 
