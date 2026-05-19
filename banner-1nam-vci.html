@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <title>VCI · Kỷ niệm 1 năm thành lập</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --c-navy: #0A2540;
+      --c-primary: #0E6FA8;
+      --c-primary-2: #1284C2;
+      --c-accent: #0FB4F0;
+      --c-accent-soft: #84D2F4;
+      --c-red: #CB2330;
+      --c-gold: #F4C75A;
+      --c-gold-2: #F9E29C;
+      --c-white: #FFFFFF;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Be Vietnam Pro', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: var(--font-body);
+      color: var(--c-white);
+    }
+
+    .stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 78% 50%, rgba(15, 180, 240, .35) 0%, transparent 55%),
+        radial-gradient(ellipse at 18% 90%, rgba(203, 35, 48, .22) 0%, transparent 50%),
+        linear-gradient(135deg, #061a30 0%, #0A2540 35%, #0E6FA8 100%);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
+    }
+
+    /* Blueprint pattern overlay */
+    .blueprint {
+      position: absolute;
+      inset: 0;
+      opacity: .07;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .9) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .9) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .blueprint::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .6) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .6) 1px, transparent 1px);
+      background-size: 12px 12px;
+      opacity: .35;
+    }
+
+    /* Vignette */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, .55) 100%);
+      pointer-events: none;
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--c-gold-2);
+      border-radius: 50%;
+      filter: drop-shadow(0 0 8px var(--c-gold));
+      opacity: .85;
+    }
+
+    .sparkle.s1 { top: 12%; left: 8%; width: 6px; height: 6px; }
+    .sparkle.s2 { top: 22%; left: 18%; width: 10px; height: 10px; }
+    .sparkle.s3 { top: 78%; left: 6%; }
+    .sparkle.s4 { top: 88%; left: 22%; width: 5px; height: 5px; }
+    .sparkle.s5 { top: 16%; right: 8%; width: 7px; height: 7px; }
+    .sparkle.s6 { top: 76%; right: 12%; width: 9px; height: 9px; }
+    .sparkle.s7 { top: 30%; right: 4%; width: 5px; height: 5px; }
+    .sparkle.s8 { top: 60%; left: 50%; width: 6px; height: 6px; opacity: .55; }
+
+    /* Confetti lines */
+    .confetti {
+      position: absolute;
+      width: 18px;
+      height: 3px;
+      background: var(--c-gold);
+      border-radius: 2px;
+      opacity: .8;
+    }
+    .confetti.c1 { top: 18%; left: 4%; transform: rotate(35deg); background: var(--c-accent); }
+    .confetti.c2 { top: 8%; left: 28%; transform: rotate(-20deg); background: var(--c-gold); }
+    .confetti.c3 { top: 86%; left: 14%; transform: rotate(60deg); background: var(--c-red); width: 14px; }
+    .confetti.c4 { top: 12%; right: 24%; transform: rotate(-45deg); background: var(--c-gold-2); }
+    .confetti.c5 { bottom: 14%; right: 6%; transform: rotate(20deg); background: var(--c-accent); width: 22px; }
+    .confetti.c6 { bottom: 22%; right: 28%; transform: rotate(-30deg); background: var(--c-gold); }
+
+    /* === Layout === */
+    .banner-grid {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      align-items: center;
+      padding: 0 7.5%;
+      gap: 4%;
+    }
+
+    /* LEFT — Logo & brand */
+    .brand-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 28px;
+      z-index: 3;
+    }
+
+    .brand-col .logo {
+      width: 100%;
+      max-width: 480px;
+      filter: drop-shadow(0 8px 30px rgba(15, 180, 240, .35));
+    }
+
+    .brand-col .logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .brand-divider {
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--c-gold), var(--c-red));
+      border-radius: 4px;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 2.4vw;
+      line-height: 1.15;
+      color: #fff;
+      letter-spacing: -.5px;
+    }
+
+    .brand-sub {
+      font-family: var(--font-body);
+      font-size: 1.05vw;
+      font-weight: 500;
+      color: var(--c-accent-soft);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .slogan {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.35vw;
+      line-height: 1.4;
+      color: #fff;
+      margin-top: 14px;
+      max-width: 90%;
+    }
+
+    .slogan .accent { color: var(--c-gold); }
+
+    /* RIGHT — Hero number */
+    .hero-col {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .tag-top {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1vw;
+      letter-spacing: 6px;
+      color: var(--c-gold);
+      text-transform: uppercase;
+      padding: 8px 22px;
+      border: 1.5px solid var(--c-gold);
+      border-radius: 999px;
+      background: rgba(244, 199, 90, .08);
+      margin-bottom: 18px;
+    }
+
+    .hero-num {
+      position: relative;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 36vw;
+      line-height: .85;
+      background: linear-gradient(180deg, #FFE9A8 0%, var(--c-gold) 28%, #E89B2A 55%, var(--c-red) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -10px;
+      text-shadow: 0 0 60px rgba(244, 199, 90, .35);
+      filter: drop-shadow(0 12px 24px rgba(203, 35, 48, .35));
+    }
+
+    .hero-num::after {
+      content: '1';
+      position: absolute;
+      inset: 0;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(244, 199, 90, .25);
+      z-index: -1;
+      transform: translate(6px, 6px);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 2.6vw;
+      letter-spacing: 4px;
+      color: #fff;
+      text-transform: uppercase;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .hero-title .accent { color: var(--c-gold); }
+
+    .hero-sub {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 1vw;
+      color: var(--c-accent-soft);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      text-align: center;
+    }
+
+    /* Ribbon at bottom — date range */
+    .ribbon {
+      position: absolute;
+      left: 50%;
+      bottom: 5%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 12px 36px;
+      background: linear-gradient(90deg, rgba(203, 35, 48, .92), rgba(232, 70, 90, .92));
+      border-radius: 999px;
+      box-shadow: 0 12px 32px rgba(203, 35, 48, .45), inset 0 1px 0 rgba(255, 255, 255, .25);
+      z-index: 4;
+    }
+
+    .ribbon-year {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.4vw;
+      color: #fff;
+      letter-spacing: 3px;
+    }
+
+    .ribbon-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--c-gold);
+      box-shadow: 0 0 12px var(--c-gold);
+    }
+
+    /* Decorative corner brackets */
+    .corner {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border: 2px solid var(--c-gold);
+      opacity: .7;
+    }
+
+    .corner.tl { top: 36px; left: 36px; border-right: none; border-bottom: none; }
+    .corner.tr { top: 36px; right: 36px; border-left: none; border-bottom: none; }
+    .corner.bl { bottom: 36px; left: 36px; border-right: none; border-top: none; }
+    .corner.br { bottom: 36px; right: 36px; border-left: none; border-top: none; }
+  </style>
+</head>
+
+<body>
+  <div class="stage">
+    <div class="banner">
+
+      <div class="blueprint"></div>
+      <div class="vignette"></div>
+
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+
+      <span class="sparkle s1"></span>
+      <span class="sparkle s2"></span>
+      <span class="sparkle s3"></span>
+      <span class="sparkle s4"></span>
+      <span class="sparkle s5"></span>
+      <span class="sparkle s6"></span>
+      <span class="sparkle s7"></span>
+      <span class="sparkle s8"></span>
+
+      <span class="confetti c1"></span>
+      <span class="confetti c2"></span>
+      <span class="confetti c3"></span>
+      <span class="confetti c4"></span>
+      <span class="confetti c5"></span>
+      <span class="confetti c6"></span>
+
+      <div class="banner-grid">
+        <div class="brand-col">
+          <div class="logo">
+            <img src="assets/logo-vci-white.png" alt="VCI" />
+          </div>
+          <div class="brand-divider"></div>
+          <div class="brand-name">Công ty Cổ phần VCI</div>
+          <div class="brand-sub">Vũng vàng nền móng · Vươn tầm cao</div>
+          <div class="slogan">
+            <span class="accent">Một năm</span> đặt nền —<br />
+            <span class="accent">Vạn dặm</span> vươn xa.
+          </div>
+        </div>
+
+        <div class="hero-col">
+          <div class="tag-top">Anniversary · Celebration</div>
+          <div class="hero-num">1</div>
+          <div class="hero-title"><span class="accent">Năm</span> thành lập</div>
+          <div class="hero-sub">Kỷ niệm hành trình đầu tiên</div>
+        </div>
+      </div>
+
+      <div class="ribbon">
+        <span class="ribbon-year">2025</span>
+        <span class="ribbon-dot"></span>
+        <span class="ribbon-year">2026</span>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>
