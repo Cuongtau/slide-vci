@@ -309,8 +309,8 @@
     .res-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 16px;
+      gap: 12px;
+      margin-top: 12px;
     }
 
     .res-card {
@@ -321,8 +321,8 @@
       background:
         linear-gradient(180deg, var(--rc-tint-soft) 0%, #fff 35%) #fff;
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px 20px 18px;
+      border-radius: 12px;
+      padding: 12px 14px 12px;
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
@@ -367,60 +367,61 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
       position: relative;
       z-index: 1;
     }
 
     .res-card .res-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
       background: linear-gradient(135deg, var(--rc-tint), var(--rc-accent-2));
       display: flex;
       align-items: center;
       justify-content: center;
       color: #fff;
-      box-shadow: 0 6px 14px var(--rc-tint);
+      box-shadow: 0 4px 10px var(--rc-tint);
       margin-bottom: 0;
     }
 
     .res-card .res-icon svg {
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
     }
 
     .res-chip {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
+      gap: 5px;
+      padding: 3px 8px;
       border-radius: 999px;
       background: var(--rc-tint);
       color: var(--rc-accent);
       font-family: var(--font-heading);
       font-weight: 700;
-      font-size: .5em;
-      letter-spacing: 1.2px;
+      font-size: .42em;
+      letter-spacing: 1px;
       text-transform: uppercase;
     }
 
     .res-chip-dot {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       background: var(--rc-accent);
-      box-shadow: 0 0 0 3px var(--rc-tint);
+      box-shadow: 0 0 0 2px var(--rc-tint);
     }
 
     .res-card h4 {
       color: var(--text);
       text-transform: none;
       letter-spacing: 0;
-      font-size: .85em;
+      font-size: .68em;
       font-weight: 800;
       font-family: var(--font-heading);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      line-height: 1.25;
       position: relative;
       z-index: 1;
     }
@@ -435,38 +436,38 @@
 
     /* First bullet — headline outcome */
     .res-card li {
-      font-size: .58em;
+      font-size: .48em;
       color: var(--text-soft);
-      line-height: 1.5;
-      padding: 5px 0 5px 22px;
+      line-height: 1.45;
+      padding: 3px 0 3px 18px;
       position: relative;
     }
 
     .res-card li:first-child {
-      font-size: .65em;
+      font-size: .52em;
       font-weight: 700;
       color: var(--text);
-      padding-bottom: 8px;
-      margin-bottom: 4px;
+      padding-bottom: 5px;
+      margin-bottom: 3px;
       border-bottom: 1px dashed var(--rc-tint);
     }
 
     .res-card li::before {
       content: '';
       position: absolute;
-      left: 4px;
-      top: 12px;
-      width: 8px;
-      height: 8px;
+      left: 3px;
+      top: 9px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--rc-accent-2);
-      box-shadow: 0 0 0 3px var(--rc-tint);
+      box-shadow: 0 0 0 2px var(--rc-tint);
     }
 
     .res-card li:first-child::before {
-      width: 10px;
-      height: 10px;
-      top: 11px;
+      width: 8px;
+      height: 8px;
+      top: 8px;
       background: var(--rc-accent);
     }
 
@@ -1005,7 +1006,7 @@
             <ul>
               <li><b>Đội ngũ trực tiếp:</b> BA · Tester · Dev — hơn 50% là nhân sự mới</li>
               <li><b>Phối hợp nội bộ:</b> HCNS, BIM &amp; các phòng ban nghiệp vụ</li>
-              <li><b>Công cụ &amp; nền tảng:</b> AI assistants, hệ thống PM, tự động hóa test</li>
+              <li><b>Công cụ &amp; nền tảng:</b> AI assistants, hệ thống PM, tự động hóa test ...</li>
             </ul>
           </div>
         </div>
@@ -1039,11 +1040,11 @@
             </div>
             <h4>Hệ thống phát triển nội bộ</h4>
             <ul>
-              <li>Bàn giao &amp; vận hành 3 hệ thống đặc thù: TC.CMS (thi công), TC.IMS (kho), TC.EMS (máy thiết bị)
+              <li>Bàn giao &amp; và phát triển hệ thống đặc thù: TC.CMS (thi công), TC.IMS (kho), TC.EMS (máy thiết bị)
               </li>
               <li>Số hóa các nghiệp vụ cốt lõi ngành xây dựng — vốn chưa có giải pháp chuyên biệt trên thị trường</li>
               <li>ERP · HRM · RM — đang phát triển, mở rộng số hóa toàn doanh nghiệp</li>
-              <li>Tạo nền tảng dữ liệu thống nhất — tăng minh bạch &amp; ra quyết định</li>
+              <li>Tạo nền tảng dữ liệu thống nhất AI — tăng minh bạch &amp; ra quyết định</li>
             </ul>
           </div>
 
@@ -1061,7 +1062,7 @@
             </div>
             <h4>Ứng dụng AI vào phát triển sản phẩm</h4>
             <ul>
-              <li>Rút ngắn rõ rệt vòng đời phát triển — từ ý tưởng đến bàn giao nhanh hơn</li>
+              <li>Rút ngắn rõ rệt vòng đời phát triển — từ ý tưởng đến sản phẩm bàn giao nhanh hơn</li>
               <li>AI hỗ trợ phân tích yêu cầu, thiết kế &amp; viết code — tăng năng suất Dev/BA</li>
               <li>Tự động hóa kiểm thử — giảm tải QA, phát hiện lỗi sớm</li>
               <li>Nâng chất lượng output, giảm CR sau bàn giao</li>
