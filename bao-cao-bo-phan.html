@@ -97,7 +97,10 @@
       flex: 0 0 38px;
     }
 
-    .ov-icon svg { width: 20px; height: 20px; }
+    .ov-icon svg {
+      width: 20px;
+      height: 20px;
+    }
 
     .ov-label {
       font-family: var(--font-heading);
@@ -117,6 +120,7 @@
       position: relative;
       z-index: 1;
     }
+
     .ov-stat .ov-stat-num {
       color: var(--oc-accent);
       font-size: 1.3em;
@@ -155,25 +159,32 @@
     }
 
     /* 4 palette variants */
-    .ov-card.oc-1 {  /* xanh lá VCI — sản phẩm */
+    .ov-card.oc-1 {
+      /* xanh lá VCI — sản phẩm */
       --oc-accent: #1f8a63;
       --oc-accent-2: #33b351;
       --oc-tint: rgba(51, 179, 81, .14);
       --oc-tint-soft: rgba(51, 179, 81, .05);
     }
-    .ov-card.oc-2 {  /* tím — AI */
+
+    .ov-card.oc-2 {
+      /* tím — AI */
       --oc-accent: #6D28D9;
       --oc-accent-2: #A78BFA;
       --oc-tint: rgba(167, 139, 250, .18);
       --oc-tint-soft: rgba(167, 139, 250, .05);
     }
-    .ov-card.oc-3 {  /* hồng — đào tạo */
+
+    .ov-card.oc-3 {
+      /* hồng — đào tạo */
       --oc-accent: #BE185D;
       --oc-accent-2: #EC4899;
       --oc-tint: rgba(236, 72, 153, .15);
       --oc-tint-soft: rgba(236, 72, 153, .05);
     }
-    .ov-card.oc-4 {  /* cam — tồn tại */
+
+    .ov-card.oc-4 {
+      /* cam — tồn tại */
       --oc-accent: #C2410C;
       --oc-accent-2: #F97316;
       --oc-tint: rgba(249, 115, 22, .15);
@@ -198,8 +209,13 @@
       overflow: hidden;
     }
 
-    .ov-ctx.left { border-left: 5px solid #1f8a63; }
-    .ov-ctx.right { border-left: 5px solid #08587b; }
+    .ov-ctx.left {
+      border-left: 5px solid #1f8a63;
+    }
+
+    .ov-ctx.right {
+      border-left: 5px solid #08587b;
+    }
 
     .ov-ctx-head {
       display: flex;
@@ -217,9 +233,19 @@
       justify-content: center;
       color: #fff;
     }
-    .ov-ctx.left .ov-ctx-ico { background: linear-gradient(135deg, #33b351, #1f8a63); }
-    .ov-ctx.right .ov-ctx-ico { background: linear-gradient(135deg, #14726e, #08587b); }
-    .ov-ctx-ico svg { width: 20px; height: 20px; }
+
+    .ov-ctx.left .ov-ctx-ico {
+      background: linear-gradient(135deg, #33b351, #1f8a63);
+    }
+
+    .ov-ctx.right .ov-ctx-ico {
+      background: linear-gradient(135deg, #14726e, #08587b);
+    }
+
+    .ov-ctx-ico svg {
+      width: 20px;
+      height: 20px;
+    }
 
     .ov-ctx-cap {
       font-family: var(--font-heading);
@@ -263,8 +289,16 @@
       border-radius: 50%;
       box-shadow: 0 0 0 3px rgba(0, 0, 0, .04);
     }
-    .ov-ctx.left li::before { background: #33b351; box-shadow: 0 0 0 3px rgba(51, 179, 81, .15); }
-    .ov-ctx.right li::before { background: #14726e; box-shadow: 0 0 0 3px rgba(20, 114, 110, .15); }
+
+    .ov-ctx.left li::before {
+      background: #33b351;
+      box-shadow: 0 0 0 3px rgba(51, 179, 81, .15);
+    }
+
+    .ov-ctx.right li::before {
+      background: #14726e;
+      box-shadow: 0 0 0 3px rgba(20, 114, 110, .15);
+    }
 
     .ov-ctx li b {
       color: var(--text);
@@ -843,7 +877,8 @@
           <div class="ov-card oc-1 anim-fade-up d-1">
             <div class="ov-head">
               <div class="ov-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
                   <path d="M3 21h18" />
                   <path d="M5 21V7l8-4v18" />
                   <path d="M19 21V11l-6-4" />
@@ -865,16 +900,19 @@
           <div class="ov-card oc-2 anim-fade-up d-2">
             <div class="ov-head">
               <div class="ov-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
                   <circle cx="12" cy="12" r="4" />
-                  <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
+                  <path
+                    d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
                 </svg>
               </div>
               <div class="ov-label">Ứng dụng AI</div>
             </div>
-            <div class="ov-stat"><span class="ov-stat-num">4</span>hướng áp dụng</div>
+            <div class="ov-stat"><span class="ov-stat-num">5</span>hướng áp dụng</div>
             <div class="ov-tags">
               <span class="ov-tag">Phát triển SP</span>
+              <span class="ov-tag">Nâng cao chất lượng Code</span>
               <span class="ov-tag">Tự động hóa test</span>
               <span class="ov-tag">Hỗ trợ HCNS · BIM</span>
               <span class="ov-tag">Notee · YouNote</span>
@@ -885,7 +923,8 @@
           <div class="ov-card oc-3 anim-fade-up d-3">
             <div class="ov-head">
               <div class="ov-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                   <path d="M6 12v5c3 3 9 3 12 0v-5" />
                 </svg>
@@ -904,20 +943,21 @@
           <div class="ov-card oc-4 anim-fade-up d-4">
             <div class="ov-head">
               <div class="ov-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
                   <path d="M12 9v4M12 17h.01" />
                   <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
                 </svg>
               </div>
               <div class="ov-label">Tồn tại cần xử lý</div>
             </div>
-            <div class="ov-stat"><span class="ov-stat-num">8</span>vấn đề chính</div>
+            <div class="ov-stat"><span class="ov-stat-num">5</span>vấn đề chính</div>
             <div class="ov-tags">
               <span class="ov-tag">Nhân sự mới &gt;50%</span>
               <span class="ov-tag">Gắn kết chưa cao</span>
               <span class="ov-tag">Chuyên môn còn hạn chế</span>
-              <span class="ov-tag">Thiếu Lead quản lý</span>
-              <span class="ov-tag">Thiếu UI/UX</span>
+              <span class="ov-tag">Thiếu Lead quản lý cứng</span>
+              <span class="ov-tag">Thiếu UI/UX cứng</span>
             </div>
           </div>
         </div>
@@ -927,7 +967,8 @@
           <div class="ov-ctx left anim-slide-l d-5">
             <div class="ov-ctx-head">
               <div class="ov-ctx-ico">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10" />
                   <circle cx="12" cy="12" r="4" />
                   <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
@@ -948,7 +989,8 @@
           <div class="ov-ctx right anim-slide-r d-6">
             <div class="ov-ctx-head">
               <div class="ov-ctx-ico">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                   <circle cx="9" cy="7" r="4" />
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
