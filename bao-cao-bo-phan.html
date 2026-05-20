@@ -113,7 +113,7 @@
       color: #047857;
     }
 
-    /* Result grid (3-up cards) */
+    /* Result grid (3-up cards) — color-coded per category */
     .res-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -122,19 +122,26 @@
     }
 
     .res-card {
-      background: #fff;
+      --rc-accent: #0E6FA8;
+      --rc-accent-2: #0FB4F0;
+      --rc-tint: rgba(15, 180, 240, .10);
+      --rc-tint-soft: rgba(15, 180, 240, .04);
+      background:
+        linear-gradient(180deg, var(--rc-tint-soft) 0%, #fff 35%) #fff;
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 22px;
+      padding: 18px 20px 18px;
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
-      transition: transform .25s, box-shadow .25s;
+      transition: transform .3s cubic-bezier(.2, .7, .3, 1), box-shadow .3s;
+      display: flex;
+      flex-direction: column;
     }
 
     .res-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 38px rgba(0, 0, 0, .12);
     }
 
     .res-card::before {
@@ -143,20 +150,47 @@
       left: 0;
       right: 0;
       top: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--brand-accent), var(--brand-primary));
+      height: 5px;
+      background: linear-gradient(90deg, var(--rc-accent), var(--rc-accent-2));
+    }
+
+    /* Decorative blob in top-right */
+    .res-card::after {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: var(--rc-tint);
+      filter: blur(10px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Header row: icon + chip */
+    .res-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .res-card .res-icon {
       width: 44px;
       height: 44px;
       border-radius: 10px;
-      background: linear-gradient(135deg, #E8F4FB, #B0DEF5);
+      background: linear-gradient(135deg, var(--rc-tint), var(--rc-accent-2));
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--brand-primary);
-      margin-bottom: 10px;
+      color: #fff;
+      box-shadow: 0 6px 14px var(--rc-tint);
+      margin-bottom: 0;
     }
 
     .res-card .res-icon svg {
@@ -164,40 +198,128 @@
       height: 24px;
     }
 
+    .res-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--rc-tint);
+      color: var(--rc-accent);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: .5em;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .res-chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--rc-accent);
+      box-shadow: 0 0 0 3px var(--rc-tint);
+    }
+
     .res-card h4 {
       color: var(--text);
       text-transform: none;
       letter-spacing: 0;
-      font-size: .82em;
+      font-size: .85em;
       font-weight: 800;
       font-family: var(--font-heading);
       margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
     }
 
     .res-card ul {
       margin: 0;
       padding-left: 0;
       list-style: none;
+      position: relative;
+      z-index: 1;
     }
 
+    /* First bullet — headline outcome */
     .res-card li {
-      font-size: .62em;
+      font-size: .58em;
       color: var(--text-soft);
-      line-height: 1.45;
-      padding: 4px 0 4px 22px;
+      line-height: 1.5;
+      padding: 5px 0 5px 22px;
       position: relative;
+    }
+
+    .res-card li:first-child {
+      font-size: .65em;
+      font-weight: 700;
+      color: var(--text);
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+      border-bottom: 1px dashed var(--rc-tint);
     }
 
     .res-card li::before {
       content: '';
       position: absolute;
       left: 4px;
-      top: 11px;
+      top: 12px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--rc-accent-2);
+      box-shadow: 0 0 0 3px var(--rc-tint);
+    }
+
+    .res-card li:first-child::before {
       width: 10px;
       height: 10px;
-      border-radius: 50%;
-      background: var(--brand-accent);
-      box-shadow: 0 0 0 3px rgba(15, 180, 240, .18);
+      top: 11px;
+      background: var(--rc-accent);
+    }
+
+    /* === 6 palette variants (theo brand VCI) === */
+    /* 1 — Xanh lá VCI: sản phẩm */
+    .res-card.rc-1 {
+      --rc-accent: #1f8a63;
+      --rc-accent-2: #33b351;
+      --rc-tint: rgba(51, 179, 81, .14);
+      --rc-tint-soft: rgba(51, 179, 81, .05);
+    }
+    /* 2 — Tím: AI */
+    .res-card.rc-2 {
+      --rc-accent: #6D28D9;
+      --rc-accent-2: #A78BFA;
+      --rc-tint: rgba(167, 139, 250, .16);
+      --rc-tint-soft: rgba(167, 139, 250, .05);
+    }
+    /* 3 — Xanh ngọc VCI: quy trình */
+    .res-card.rc-3 {
+      --rc-accent: #08587b;
+      --rc-accent-2: #14726e;
+      --rc-tint: rgba(20, 114, 110, .14);
+      --rc-tint-soft: rgba(20, 114, 110, .05);
+    }
+    /* 4 — Cam: vận hành */
+    .res-card.rc-4 {
+      --rc-accent: #C2410C;
+      --rc-accent-2: #F97316;
+      --rc-tint: rgba(249, 115, 22, .14);
+      --rc-tint-soft: rgba(249, 115, 22, .05);
+    }
+    /* 5 — Hồng đào: đào tạo */
+    .res-card.rc-5 {
+      --rc-accent: #BE185D;
+      --rc-accent-2: #EC4899;
+      --rc-tint: rgba(236, 72, 153, .14);
+      --rc-tint-soft: rgba(236, 72, 153, .05);
+    }
+    /* 6 — Vàng đồng: lan tỏa */
+    .res-card.rc-6 {
+      --rc-accent: #B45309;
+      --rc-accent-2: #EAB308;
+      --rc-tint: rgba(234, 179, 8, .16);
+      --rc-tint-soft: rgba(234, 179, 8, .05);
     }
 
     /* Issues — limitation list (orange theme) */
@@ -623,99 +745,120 @@
         </div>
 
         <div class="res-grid">
-          <div class="res-card anim-fade-up d-1">
-            <div class="res-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
+          <div class="res-card rc-1 anim-fade-up d-1">
+            <div class="res-head">
+              <div class="res-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M3 21h18" />
+                  <path d="M5 21V7l8-4v18" />
+                  <path d="M19 21V11l-6-4" />
+                  <path d="M9 9h.01M9 12h.01M9 15h.01M9 18h.01" />
+                </svg>
+              </div>
+              <span class="res-chip"><span class="res-chip-dot"></span>SẢN PHẨM · 3 + 3</span>
             </div>
-            <h4>Hệ thống phát triển cho VCI</h4>
+            <h4>Hệ thống phát triển nội bộ</h4>
             <ul>
-              <li>Bàn giao &amp; vận hành 3 hệ thống đặc thù: TC.CMS (thi công), TC.IMS (kho), TC.EMS (máy thiết bị)</li>
+              <li>Bàn giao &amp; vận hành 3 hệ thống đặc thù: TC.CMS (thi công), TC.IMS (kho), TC.EMS (máy thiết bị)
+              </li>
               <li>Số hóa các nghiệp vụ cốt lõi ngành xây dựng — vốn chưa có giải pháp chuyên biệt trên thị trường</li>
               <li>ERP · HRM · RM — đang phát triển, mở rộng số hóa toàn doanh nghiệp</li>
               <li>Tạo nền tảng dữ liệu thống nhất — tăng minh bạch &amp; ra quyết định</li>
             </ul>
           </div>
 
-          <div class="res-card anim-fade-up d-2">
-            <div class="res-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M3 3v18h18" />
-                <path d="M7 14l4-4 3 3 5-6" />
-              </svg>
+          <div class="res-card rc-2 anim-fade-up d-2">
+            <div class="res-head">
+              <div class="res-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M12 2v3M12 19v3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M2 12h3M19 12h3M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
+                  <circle cx="12" cy="12" r="4" />
+                </svg>
+              </div>
+              <span class="res-chip"><span class="res-chip-dot"></span>AI · Tăng tốc</span>
             </div>
             <h4>Ứng dụng AI vào phát triển sản phẩm</h4>
             <ul>
               <li>Rút ngắn rõ rệt vòng đời phát triển — từ ý tưởng đến bàn giao nhanh hơn</li>
               <li>AI hỗ trợ phân tích yêu cầu, thiết kế &amp; viết code — tăng năng suất Dev/BA</li>
               <li>Tự động hóa kiểm thử — giảm tải QA, phát hiện lỗi sớm</li>
-              <li>Nâng chất lượng output, giảm rework sau bàn giao</li>
+              <li>Nâng chất lượng output, giảm CR sau bàn giao</li>
             </ul>
           </div>
 
-          <div class="res-card anim-fade-up d-3">
-            <div class="res-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <circle cx="12" cy="8" r="6" />
-                <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
-              </svg>
+          <div class="res-card rc-3 anim-fade-up d-3">
+            <div class="res-head">
+              <div class="res-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M9 11l3 3 8-8" />
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+              </div>
+              <span class="res-chip"><span class="res-chip-dot"></span>QUY TRÌNH · Chuẩn hóa</span>
             </div>
             <h4>Quy trình phát triển sản phẩm</h4>
             <ul>
               <li>Hoàn thiện bộ quy trình từ ý tưởng → release, áp dụng xuyên suốt cho mọi dự án CĐS</li>
               <li>Định hình rõ vai trò &amp; trách nhiệm: PM · BA · Dev · Tester — giảm chồng chéo</li>
-              <li>Chuẩn hóa artifact bàn giao: SRS, test plan, release notes</li>
-              <li>Tăng tính nhất quán &amp; khả năng dự đoán tiến độ dự án</li>
+              <li>Chuẩn hóa tài liệu BA: Markdown, tài liệu AI hiểu</li>
             </ul>
           </div>
 
-          <div class="res-card anim-fade-up d-4">
-            <div class="res-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M9 9h6v6H9z" />
-              </svg>
+          <div class="res-card rc-4 anim-fade-up d-4">
+            <div class="res-head">
+              <div class="res-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="16" rx="2" />
+                  <path d="M3 10h18" />
+                  <path d="M8 4v4M16 4v4" />
+                  <path d="M7 14h4M7 17h7" />
+                </svg>
+              </div>
+              <span class="res-chip"><span class="res-chip-dot"></span>VẬN HÀNH · Realtime</span>
             </div>
             <h4>Hệ thống PM (Task Manager)</h4>
             <ul>
-              <li>Đưa vào vận hành công cụ quản trị công việc nội bộ — thay thế cách giao việc thủ công</li>
+              <li>Đưa vào vận hành công cụ quản trị công việc nội bộ — giảm chi phí và tối ưu sản phẩm</li>
               <li>Theo dõi tiến độ &amp; khối lượng công việc theo thời gian thực</li>
               <li>Đo lường được năng suất &amp; chi phí vận hành — cơ sở tối ưu liên tục</li>
               <li>Giảm thời gian họp, tăng minh bạch trong phân công &amp; báo cáo</li>
             </ul>
           </div>
 
-          <div class="res-card anim-fade-up d-5">
-            <div class="res-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
+          <div class="res-card rc-5 anim-fade-up d-5">
+            <div class="res-head">
+              <div class="res-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                  <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                </svg>
+              </div>
+              <span class="res-chip"><span class="res-chip-dot"></span>ĐÀO TẠO · Toàn team</span>
             </div>
             <h4>Đào tạo &amp; nâng cao năng lực</h4>
             <ul>
-              <li>Toàn team (PM, BA, Tester, Dev) đã ứng dụng AI vào công việc hàng ngày</li>
+              <li>Toàn team (BA, Tester, Dev) đã ứng dụng AI vào công việc hàng ngày</li>
               <li>Hoàn thành nhiều buổi đào tạo AI nội bộ — lan tỏa kiến thức &amp; công cụ</li>
               <li>Nâng tư duy số hóa &amp; tinh thần chủ động học công nghệ mới</li>
-              <li>Thành viên tự phát triển các ứng dụng cá nhân hỗ trợ năng suất</li>
+              <li>Phát triển các ứng dụng cá nhân hỗ trợ năng suất công việc</li>
             </ul>
           </div>
 
-          <div class="res-card anim-fade-up d-6">
-            <div class="res-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
+          <div class="res-card rc-6 anim-fade-up d-6">
+            <div class="res-head">
+              <div class="res-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
+                </svg>
+              </div>
+              <span class="res-chip"><span class="res-chip-dot"></span>LAN TỎA · Liên phòng</span>
             </div>
             <h4>Hỗ trợ phòng ban khác</h4>
             <ul>
