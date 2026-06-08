@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Thông báo Go-live — Hệ thống TC.IMS</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+  <style>
+    /* === Go-live specific === */
+    .live-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #16A34A, #22C55E);
+      color: #fff;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: .56em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 6px 18px rgba(34, 197, 94, .4);
+    }
+
+    .live-chip .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, .8);
+      animation: pulseLive 1.4s ease-out infinite;
+    }
+
+    @keyframes pulseLive {
+      0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .8); }
+      80% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+
+    /* Access block */
+    .access-block {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 28px;
+      margin-top: 24px;
+    }
+
+    .date-card,
+    .url-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .date-card::before,
+    .url-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 6px;
+    }
+    .date-card::before { background: linear-gradient(180deg, #16A34A, #22C55E); }
+    .url-card::before { background: linear-gradient(180deg, #0FB4F0, #0E6FA8); }
+
+    .date-card .cap,
+    .url-card .cap {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: .5em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .date-card .big-date {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.8em;
+      color: #16A34A;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .date-card .sub {
+      font-size: .56em;
+      color: var(--text-soft);
+    }
+
+    .url-card .url-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: .9em;
+      color: var(--brand-primary);
+      word-break: break-all;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      text-decoration: none;
+      border-bottom: 2px dashed rgba(15, 180, 240, .35);
+      padding-bottom: 6px;
+    }
+
+    .url-card .url-link svg { width: 22px; height: 22px; flex: 0 0 22px; }
+
+    .url-card .hint {
+      font-size: .56em;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .url-card .hint b { color: var(--text); font-weight: 700; }
+
+    /* Highlight callout */
+    .live-hero {
+      margin-top: 14px;
+      padding: 24px 28px;
+      background:
+        linear-gradient(135deg, rgba(34, 197, 94, .08), rgba(15, 180, 240, .04));
+      border: 1px solid rgba(34, 197, 94, .25);
+      border-left: 6px solid #16A34A;
+      border-radius: 14px;
+      font-size: .78em;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .live-hero strong { color: #16A34A; font-weight: 800; }
+    .live-hero .hl-yellow { background: linear-gradient(180deg, transparent 55%, rgba(244,199,90,.65) 0); padding: 0 4px; }
+
+    /* Goal card override — Go-live tinted green */
+    .goal-card.go-green {
+      border-color: rgba(34, 197, 94, .3);
+    }
+    .goal-card.go-green .goal-num {
+      color: #16A34A;
+    }
+    .goal-card.go-green .goal-tag {
+      background: rgba(34, 197, 94, .12);
+      color: #15803D;
+    }
+    .goal-card.go-green .goal-icon {
+      color: #16A34A;
+    }
+
+    /* Slide number */
+    .reveal .slide-number {
+      right: auto !important;
+      left: 14px !important;
+      bottom: 10px !important;
+      top: auto !important;
+      width: auto !important;
+      height: auto !important;
+      display: inline-block !important;
+      padding: 3px 10px !important;
+      border-radius: 999px;
+      background: rgba(10, 37, 64, .55);
+      color: #fff;
+      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      line-height: 1.4;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ========== 1. COVER ========== -->
+      <section data-background-color="#0E6FA8" class="slide-bg-mesh slide-cover" data-transition="convex">
+        <div class="cover-v3">
+          <div class="cv3-top">
+            <img src="assets/logo-trungchinh.png" alt="Trung Chính" class="cv3-tc" />
+            <img src="assets/logo-vci.png" alt="VCI" class="cv3-vci" />
+          </div>
+
+          <div class="cv3-divider"><span></span></div>
+
+          <div class="cv3-tag" style="display:flex; align-items:center; justify-content:center; gap: 14px;">
+            <span class="live-chip"><span class="pulse-dot"></span>GO-LIVE</span>
+            <span>HỆ THỐNG TC.IMS · 10/06/2026</span>
+          </div>
+
+          <h1 class="cv3-title">
+            Thông báo Go-live<br />
+            <span class="cv3-sub">Hệ thống Quản trị Kho</span>
+          </h1>
+
+          <div class="cv3-hero" aria-label="TC.IMS">
+            <span class="cv3-hero-bracket cv3-hero-bracket-l">[</span>
+            <span class="cv3-hero-text">
+              <span class="cv3-hero-letter">T</span><span class="cv3-hero-letter">C</span><span
+                class="cv3-hero-dot">.</span><span class="cv3-hero-letter">I</span><span
+                class="cv3-hero-letter">M</span><span class="cv3-hero-letter">S</span>
+            </span>
+            <span class="cv3-hero-bracket cv3-hero-bracket-r">]</span>
+            <span class="cv3-hero-glow"></span>
+          </div>
+
+          <div class="cv3-date">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            <span>Chính thức vận hành · 10/06/2026</span>
+          </div>
+
+          <div class="cv3-bot">
+            <span>Production</span>
+            <span class="cv3-bot-sep"></span>
+            <span>system.trungchinh.com.vn/ims/</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 2. THÔNG BÁO GO-LIVE ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up" style="background: linear-gradient(135deg, #16A34A, #22C55E); color:#fff;">01 — Thông báo</div>
+            <h2 class="anim-fade-up d-1">Chính thức Go-live TC.IMS</h2>
+          </div>
+        </div>
+        <p class="lead lead-hero anim-fade-up d-2">
+          Hệ thống <strong>TC.IMS</strong> chính thức <span class="hl-yellow">vận hành thật</span>
+          từ ngày <strong>10/06/2026</strong>.
+        </p>
+        <div class="cards cards-goal">
+          <div class="goal-card go-green anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+            <h3>Chính thức vận hành</h3>
+            <p>Hệ thống đã hoàn tất UAT, sẵn sàng phục vụ nghiệp vụ thật trên môi trường production.</p>
+            <div class="goal-tag"><span class="dot"></span>PRODUCTION READY</div>
+          </div>
+          <div class="goal-card go-green anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+            </div>
+            <h3>Dữ liệu thật</h3>
+            <p>Toàn bộ giao dịch nhập / xuất / tồn / điều chuyển ghi nhận trực tiếp lên hệ thống chính thức.</p>
+            <div class="goal-tag"><span class="dot"></span>LIVE DATA</div>
+          </div>
+          <div class="goal-card go-green anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+                <line x1="6" y1="1" x2="6" y2="4" />
+                <line x1="10" y1="1" x2="10" y2="4" />
+                <line x1="14" y1="1" x2="14" y2="4" />
+              </svg>
+            </div>
+            <h3>Hỗ trợ liên tục</h3>
+            <p>Quy trình tiếp nhận &amp; xử lý lỗi vẫn giữ nguyên như UAT — đảm bảo phản hồi nhanh, không gián đoạn vận hành.</p>
+            <div class="goal-tag"><span class="dot"></span>SUPPORT 24/7</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 3. THỜI GIAN & TRUY CẬP ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">02 — Thời gian &amp; Truy cập</div>
+            <h2 class="anim-fade-up d-1">Mốc Go-live &amp; địa chỉ hệ thống</h2>
+          </div>
+        </div>
+
+        <div class="access-block">
+          <div class="date-card anim-fade-up d-1">
+            <div class="cap">Thời điểm Go-live</div>
+            <div class="big-date">10/06/2026</div>
+            <div class="sub">Hệ thống chính thức tiếp nhận giao dịch thật từ thời điểm này.</div>
+          </div>
+
+          <div class="url-card anim-fade-up d-2">
+            <div class="cap">Địa chỉ truy cập (Production)</div>
+            <a class="url-link" href="https://system.trungchinh.com.vn/ims/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z" />
+              </svg>
+              system.trungchinh.com.vn/ims/
+            </a>
+            <div class="hint">
+              <b>Đăng nhập:</b> sử dụng tài khoản do <b>Ban CĐS Trung Chính</b> cấp.<br />
+              <b>Lưu ý:</b> mọi giao dịch trên môi trường này là <b>dữ liệu thật</b>, không phải UAT.
+            </div>
+          </div>
+        </div>
+
+        <div class="live-hero anim-fade-up d-3">
+          <strong>Quy trình tiếp nhận &amp; xử lý lỗi vẫn được giữ nguyên như giai đoạn UAT.</strong>
+          Mọi vấn đề phát sinh đều đi qua đầu mối <span class="hl-yellow">support.vcijsc.com</span>
+          → Ban CĐS Trung Chính → VCI để xử lý.
+        </div>
+      </section>
+
+      <!-- ========== 4. PHẠM VI GO-LIVE — IMS ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">03 — Phạm vi Go-live</div>
+            <h3 class="anim-fade-up d-1">Phạm vi Go-live — Sơ đồ phân rã chức năng</h3>
+          </div>
+          <div class="legend anim-fade d-1">
+            <span class="legend-item"><span class="legend-dot d1"></span>Go-live đợt này</span>
+            <span class="legend-item"><span class="legend-dot d2"></span>Triển khai đợt sau</span>
+          </div>
+        </div>
+
+        <div class="ims-tree">
+          <div class="ims-root anim-zoom d-1">IMS – EMS</div>
+
+          <svg class="ims-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <path id="imsP1" d="M 600 0 V 50 H 120 V 110" />
+              <path id="imsP2" d="M 600 0 V 50 H 360 V 110" />
+              <path id="imsP3" d="M 600 0 V 110" />
+              <path id="imsP4" d="M 600 0 V 50 H 840 V 110" />
+              <path id="imsP5" d="M 600 0 V 50 H 1080 V 110" />
+            </defs>
+            <g fill="none" stroke-width="2" opacity=".35">
+              <use href="#imsP1" stroke="#0FB4F0" />
+              <use href="#imsP2" stroke="#0FB4F0" />
+              <use href="#imsP3" stroke="#0FB4F0" />
+              <use href="#imsP4" stroke="#F4A261" />
+              <use href="#imsP5" stroke="#F4A261" />
+            </g>
+            <g fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="18 14">
+              <use href="#imsP1" stroke="#0FB4F0">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP2" stroke="#0FB4F0">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.18s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP3" stroke="#0FB4F0">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.36s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP4" stroke="#F4A261">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.54s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP5" stroke="#F4A261">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.72s" repeatCount="indefinite" />
+              </use>
+            </g>
+            <g fill="none" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 26" opacity=".9">
+              <use href="#imsP1" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP2" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.18s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP3" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.36s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP4" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.54s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP5" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.72s" repeatCount="indefinite" />
+              </use>
+            </g>
+          </svg>
+
+          <div class="ims-cols">
+            <div class="ims-col anim-fade-up d-2">
+              <div class="ims-head d1">QL Danh mục</div>
+              <div class="ims-leaf d2">Kỳ kiểm kê</div>
+              <div class="ims-leaf d1">Đơn vị tính</div>
+              <div class="ims-leaf d1">Nhóm vật tư</div>
+              <div class="ims-leaf d1">Vật tư thi công</div>
+              <div class="ims-leaf d1">Máy thiết bị</div>
+              <div class="ims-leaf d1">Loại giao dịch kho</div>
+              <div class="ims-leaf d1">Dự án</div>
+              <div class="ims-leaf d1">Kho</div>
+              <div class="ims-leaf d1">Thầu phụ</div>
+            </div>
+            <div class="ims-col anim-fade-up d-3">
+              <div class="ims-head d1">Quản lý giao dịch</div>
+              <div class="ims-leaf d1">Nhập kho</div>
+              <div class="ims-leaf d1">Xuất kho</div>
+            </div>
+            <div class="ims-col anim-fade-up d-4">
+              <div class="ims-head d1">Quản lý điều chuyển</div>
+              <div class="ims-leaf d1">Đơn đặt hàng</div>
+              <div class="ims-leaf d1">Đề nghị cấp vật tư</div>
+              <div class="ims-leaf d1">Lệnh điều động</div>
+              <div class="ims-leaf d1">Biên bản giao nhận</div>
+              <div class="ims-leaf d1">Lệnh tách gộp</div>
+              <div class="ims-leaf d1">Luân chuyển nội bộ</div>
+              <div class="ims-leaf d1">Hiện trạng bàn giao</div>
+            </div>
+            <div class="ims-col anim-fade-up d-5">
+              <div class="ims-head d1">Báo cáo</div>
+              <div class="ims-leaf d1">Trạng thái tồn VTTC</div>
+              <div class="ims-leaf d1">Tổng hợp NXT dự án</div>
+              <div class="ims-leaf d1">Tổng hợp NXT công ty</div>
+              <div class="ims-leaf d1">Chi tiết NXT</div>
+              <div class="ims-leaf d2">Báo cáo kiểm kê</div>
+            </div>
+            <div class="ims-col anim-fade-up d-6">
+              <div class="ims-head d2">Thanh lý / Kiểm kê</div>
+              <div class="ims-leaf d2">Quản lý thanh lý</div>
+              <div class="ims-leaf d2">Quản lý kiểm kê</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 5. QUY TRÌNH TIẾP NHẬN & XỬ LÝ LỖI (giữ như UAT) ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">04 — Quy trình hỗ trợ</div>
+            <h3 class="anim-fade-up d-1">Quy trình tiếp nhận &amp; xử lý lỗi</h3>
+          </div>
+        </div>
+        <p class="anim-fade-up">
+          Quy trình hỗ trợ sau Go-live <strong>giữ nguyên như giai đoạn UAT</strong> — mỗi vấn đề đi qua
+          <strong>6 bước tuần tự</strong>, đảm bảo không bỏ sót, không trùng lặp.
+        </p>
+
+        <div class="proc-flow anim-fade-up d-1">
+          <svg class="proc-svg" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="procGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0FB4F0" />
+                <stop offset="50%" stop-color="#0E6FA8" />
+                <stop offset="100%" stop-color="#F4A261" />
+              </linearGradient>
+              <path id="procPath" d="M 100 70
+                     L 500 70
+                     L 900 70
+                     Q 1100 70 1100 180
+                     Q 1100 290 900 290
+                     L 500 290
+                     L 100 290" />
+            </defs>
+            <use href="#procPath" stroke="rgba(15,180,240,.18)" stroke-width="4" fill="none" />
+            <use href="#procPath" stroke="url(#procGrad)" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="20 16">
+              <animate attributeName="stroke-dashoffset" from="0" to="-36" dur="1s" repeatCount="indefinite" />
+            </use>
+            <use href="#procPath" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="8 28" opacity=".85">
+              <animate attributeName="stroke-dashoffset" from="0" to="-36" dur="1s" begin="-.3s" repeatCount="indefinite" />
+            </use>
+          </svg>
+
+          <div class="proc-grid">
+            <div class="proc-step" data-step="1">
+              <div class="ps-num">01</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 11l3 3L22 4" />
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+              </div>
+              <div class="ps-title">Người dùng thao tác</div>
+              <div class="ps-desc">Sử dụng hệ thống TC.IMS trong nghiệp vụ hàng ngày</div>
+              <div class="ps-actor">End User · TC</div>
+            </div>
+
+            <div class="proc-step" data-step="2">
+              <div class="ps-num">02</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="9" y1="13" x2="15" y2="13" />
+                  <line x1="9" y1="17" x2="13" y2="17" />
+                </svg>
+              </div>
+              <div class="ps-title">Ghi nhận vấn đề</div>
+              <div class="ps-desc">Mô tả + screenshot, gửi qua support.vcijsc.com</div>
+              <div class="ps-actor">End User · TC</div>
+            </div>
+
+            <div class="proc-step" data-step="3">
+              <div class="ps-num">03</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  <line x1="11" y1="8" x2="11" y2="14" />
+                  <line x1="8" y1="11" x2="14" y2="11" />
+                </svg>
+              </div>
+              <div class="ps-title">BA/QA phân loại</div>
+              <div class="ps-desc">Kiểm tra, gán mức độ Critical / Major / Minor</div>
+              <div class="ps-actor">BA · Test Lead · VCI</div>
+            </div>
+
+            <div class="proc-step" data-step="4">
+              <div class="ps-num">04</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="16 18 22 12 16 6" />
+                  <polyline points="8 6 2 12 8 18" />
+                </svg>
+              </div>
+              <div class="ps-title">Dev xử lý &amp; vá lỗi</div>
+              <div class="ps-desc">Fix code · deploy bản vá · ghi note ticket</div>
+              <div class="ps-actor">Dev Team · VCI</div>
+            </div>
+
+            <div class="proc-step" data-step="5">
+              <div class="ps-num">05</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </div>
+              <div class="ps-title">Người dùng Re-Test</div>
+              <div class="ps-desc">Xác nhận đã đạt → đóng issue · hoặc reopen</div>
+              <div class="ps-actor">End User · TC</div>
+            </div>
+
+            <div class="proc-step" data-step="6">
+              <div class="ps-num">06</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10" />
+                  <line x1="12" y1="20" x2="12" y2="4" />
+                  <line x1="6" y1="20" x2="6" y2="14" />
+                </svg>
+              </div>
+              <div class="ps-title">PM theo dõi tiến độ</div>
+              <div class="ps-desc">Cập nhật ưu tiên · báo cáo định kỳ thứ 6</div>
+              <div class="ps-actor">QLDA · VCI</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 6. KÊNH TIẾP NHẬN & PIC (giữ như UAT) ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">05 — Kênh tiếp nhận</div>
+            <h2 class="anim-fade-up d-1">Đầu mối &amp; kênh tiếp nhận yêu cầu</h2>
+          </div>
+        </div>
+
+        <div class="channel-flow anim-fade-up d-1">
+          <svg class="channel-svg" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="trackGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#0FB4F0" />
+                <stop offset="33%" stop-color="#0E6FA8" />
+                <stop offset="66%" stop-color="#F4A261" />
+                <stop offset="100%" stop-color="#CB2330" />
+              </linearGradient>
+            </defs>
+            <line x1="150" y1="40" x2="1050" y2="40" stroke="url(#trackGrad)" stroke-width="6" stroke-linecap="round" />
+            <line x1="150" y1="40" x2="1050" y2="40" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="22 18" opacity=".95">
+              <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="1s" repeatCount="indefinite" />
+            </line>
+            <line x1="150" y1="40" x2="1050" y2="40" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 34" opacity=".85">
+              <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="1s" begin="-.3s" repeatCount="indefinite" />
+            </line>
+          </svg>
+
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg></div>
+            <div class="channel-text"><strong>End user</strong>Phát sinh vấn đề khi sử dụng hệ thống</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z" />
+              </svg></div>
+            <div class="channel-text"><strong>support.vcijsc.com</strong>Ghi nhận vấn đề lên hệ thống ticket</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M9 9h6v6H9z" />
+              </svg></div>
+            <div class="channel-text"><strong>Ban CĐS Trung Chính</strong>Phân loại, xử lý sơ bộ → "Chờ VCI Xử lý"</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg></div>
+            <div class="channel-text"><strong>VCI</strong>Tiếp nhận, xử lý &amp; báo cáo định kỳ</div>
+          </div>
+        </div>
+
+        <div class="contacts anim-fade-up d-3">
+          <div class="contact-card">
+            <div class="avatar">VA</div>
+            <div class="info">
+              <h4>Khúc Vân Anh</h4>
+              <p>Vận hành hỗ trợ — VCI</p>
+              <p class="phone">📞 0376.513.402</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="avatar">XC</div>
+            <div class="info">
+              <h4>Bùi Xuân Cương</h4>
+              <p>Quản lý dự án — VCI</p>
+              <p class="phone">📞 033.5055.068</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 16px; text-align: center;" class="anim-fade-up d-4">
+          <a class="support-link" href="https://support.vcijsc.com" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+            </svg>
+            support.vcijsc.com
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    const deck = new Reveal({
+      hash: true,
+      history: true,
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      showSlideNumber: 'all',
+      center: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      width: 1920,
+      height: 1080,
+      margin: 0.02,
+      minScale: 0.2,
+      maxScale: 2.0,
+    });
+    deck.initialize().then(() => {
+      deck.on('slidechanged', (e) => activateSlide(e.currentSlide));
+      activateSlide(deck.getCurrentSlide());
+    });
+
+    function activateSlide(slide) {
+      if (!slide) return;
+      const timeline = slide.querySelector('.timeline');
+      if (timeline) {
+        const pins = timeline.querySelectorAll('.pin');
+        pins.forEach((p, i) => {
+          p.classList.remove('active');
+          setTimeout(() => p.classList.add('active'), 600 + i * 350);
+        });
+        const fill = timeline.querySelector('.progress-fill');
+        if (fill) {
+          fill.style.width = '0%';
+          void fill.offsetWidth;
+          fill.style.width = fill.dataset.progress || '100%';
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>
