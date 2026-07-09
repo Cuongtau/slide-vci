@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Tìm hiểu về AI — Nhà máy Hạ Long EPC</title>
+
+  <!-- Google Fonts: Inter + Be Vietnam Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Reveal.js core -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+
+  <!-- Custom theme & animations -->
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+  <style>
+    /* ===== Ha Long EPC brand override (lấy từ halongepc.com) ===== */
+    :root {
+      --brand-primary:   #1A75BC;   /* Deep blue (accent đậm) */
+      --brand-primary-2: #2288CE;
+      --brand-primary-3: #29ABE2;   /* Cyan sáng — primary */
+      --brand-accent:    #29ABE2;   /* Cyan chính */
+      --brand-accent-2:  #7FC8EB;   /* Cyan nhạt */
+      --brand-accent-3: #C6E7F6;
+      --brand-green:     #29845E;   /* Xanh lá EPC */
+      --brand-red:       #D52027;   /* Đỏ EPC */
+      --brand-red-soft:  #E5586F;
+      --brand-warn:      #EEC759;   /* Vàng gold */
+    }
+
+    /* Ha Long EPC signature gradient */
+    .cv3-hero-glow {
+      background: radial-gradient(circle, rgba(41, 171, 226, .35), transparent 70%) !important;
+    }
+    .brand-bar { border-bottom-color: rgba(41, 171, 226, .25) !important; }
+
+    /* Tùy biến riêng cho deck AI — bổ sung trên nền theme.css */
+
+    /* Chat mockup: minh họa hỏi–đáp với AI */
+    .chat-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .chat-msg {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .chat-msg .who {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .38em;
+      letter-spacing: .5px;
+      color: #fff;
+    }
+
+    .chat-msg.user .who { background: var(--brand-primary); }
+    .chat-msg.ai .who { background: #6D28D9; }
+
+    .chat-msg .bubble {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px 14px 14px 14px;
+      padding: 12px 18px;
+      font-size: .66em;
+      line-height: 1.55;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chat-msg.ai .bubble {
+      border-left: 3px solid #6D28D9;
+      background: linear-gradient(135deg, rgba(167, 139, 250, .08), #fff 55%);
+    }
+
+    /* Danh sách "chưa làm được" — icon X đỏ thay check xanh */
+    .resp-col ul li .cross {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(203, 35, 48, .12);
+      color: var(--brand-red);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+
+    .resp-col ul li .cross svg { width: 12px; height: 12px; }
+
+    .resp-col.warn {
+      border-top: 4px solid var(--brand-red);
+    }
+
+    .resp-col.warn h3 { color: var(--brand-red); }
+
+    /* Stat strip — con số ấn tượng về AI */
+    .ai-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    .ai-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px 18px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-stat::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--brand-accent), var(--brand-primary));
+    }
+
+    .ai-stat .num {
+      font-family: var(--font-display);
+      font-size: 1.9em;
+      font-weight: 800;
+      color: var(--brand-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .ai-stat .num small {
+      font-size: .45em;
+      font-weight: 700;
+      color: var(--brand-accent);
+      vertical-align: super;
+    }
+
+    .ai-stat .cap {
+      margin-top: 8px;
+      font-size: .62em;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    /* Bảng before/after cho slide văn phòng */
+    .ba-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .ba-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ba-card .ba-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .52em;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+    }
+
+    .ba-card.before .ba-tag { background: rgba(91, 107, 125, .12); color: var(--text-soft); }
+    .ba-card.after .ba-tag { background: rgba(15, 180, 240, .14); color: var(--brand-primary); }
+
+    .ba-card ul { list-style: none; margin: 0; padding: 0; }
+
+    .ba-card ul li {
+      font-size: .66em;
+      line-height: 1.5;
+      padding: 7px 0 7px 22px;
+      position: relative;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .ba-card ul li:last-child { border-bottom: none; }
+
+    .ba-card.before ul li::before {
+      content: "•";
+      position: absolute;
+      left: 6px;
+      color: var(--text-soft);
+    }
+
+    .ba-card.after ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--brand-accent);
+      font-weight: 800;
+    }
+
+    .ba-card .ba-time {
+      margin-top: 12px;
+      font-size: .6em;
+      font-weight: 700;
+    }
+
+    .ba-card.before .ba-time { color: var(--text-soft); }
+    .ba-card.after .ba-time { color: var(--brand-primary); }
+
+    /* Nguyên tắc sử dụng AI — 4 rule cards */
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .rule-card {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .rule-card .rule-num {
+      flex: 0 0 auto;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: .8em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rule-card h3 {
+      font-size: .8em;
+      margin: 0 0 6px;
+      color: var(--brand-primary);
+    }
+
+    .rule-card p {
+      font-size: .62em;
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+
+    /* Reveal cuối bài */
+    .big-reveal {
+      margin-top: 26px;
+      padding: 16px 26px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, .08);
+      border: 1px dashed rgba(255, 255, 255, .35);
+      font-size: .78em;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, .92);
+    }
+
+    .big-reveal strong { color: #84D2F4; }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ========== 1. COVER ========== -->
+      <section data-background-color="#0E6FA8" class="slide-bg-mesh slide-cover" data-transition="convex">
+        <div class="cover-v3">
+          <div class="cv3-top">
+            <img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" class="cv3-tc" />
+            <img src="assets/logo-vci.png" alt="VCI" class="cv3-vci" />
+          </div>
+
+          <div class="cv3-divider"><span></span></div>
+
+          <div class="cv3-tag">CHUYÊN ĐỀ CHIA SẺ · NHÀ MÁY HẠ LONG EPC · 07/2026</div>
+
+          <h1 class="cv3-title">
+            Tìm hiểu về AI<br />
+            <span class="cv3-sub">Trí tuệ nhân tạo — AI đã &amp; đang làm được gì cho chúng ta</span>
+          </h1>
+
+          <div class="cv3-hero" aria-label="AI">
+            <span class="cv3-hero-bracket cv3-hero-bracket-l">[</span>
+            <span class="cv3-hero-text">
+              <span class="cv3-hero-letter">A</span><span class="cv3-hero-dot">·</span><span
+                class="cv3-hero-letter">I</span>
+            </span>
+            <span class="cv3-hero-bracket cv3-hero-bracket-r">]</span>
+            <span class="cv3-hero-glow"></span>
+          </div>
+
+          <div class="cv3-date">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" />
+            </svg>
+            <span>15 — 20 phút · Một góc nhìn tiếp cận</span>
+          </div>
+
+          <div class="cv3-bot">
+            <span>Tháng 07 / 2026</span>
+            <span class="cv3-bot-sep"></span>
+            <span>VCI × Hạ Long EPC</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 2. NỘI DUNG ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">Mục lục</div>
+            <h3 class="anim-fade-up d-1">Nội dung trình bày</h3>
+          </div>
+        </div>
+        <ol class="toc" style="display: grid; grid-template-columns: 1fr 1fr;">
+          <li class="anim-fade-up d-1"><span>AI là gì? — Hiểu đơn giản</span></li>
+          <li class="anim-fade-up d-2"><span>AI đang thay đổi thế giới thế nào</span></li>
+          <li class="anim-fade-up d-3"><span>AI trong công việc hàng ngày — Văn bản &amp; Excel</span></li>
+          <li class="anim-fade-up d-4"><span>Không chỉ chat — AI Agent &amp; Claude Code</span></li>
+          <li class="anim-fade-up d-5"><span>AI đã làm gì tại VCI &amp; dự án Trung Chính</span></li>
+          <li class="anim-fade-up d-6"><span>Dùng AI đúng cách — Làm được &amp; chưa làm được</span></li>
+        </ol>
+      </section>
+
+      <!-- ========== 3. AI LÀ GÌ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">01 — AI là gì?</div>
+            <h2 class="anim-fade-up d-1">Hiểu AI thật đơn giản</h2>
+          </div>
+        </div>
+        <p class="lead lead-hero anim-fade-up d-2">
+          AI ngày nay giống một <strong>trợ lý</strong> biết đọc, viết, hiểu tiếng Việt lẫn tiếng Anh —
+          <span class="hl-yellow">giao tiếp bằng lời nói thường ngày, không cần biết công nghệ</span>.
+        </p>
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </div>
+            <h3>Hiểu ngôn ngữ tự nhiên</h3>
+            <p>Bạn hỏi như hỏi đồng nghiệp: "Tóm tắt giúp tôi biên bản này" — AI hiểu và trả lời ngay.</p>
+            <div class="goal-tag"><span class="dot"></span>NGÔN NGỮ</div>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M12 6.5a9.8 9.8 0 0 1 8 0v12a9.8 9.8 0 0 0-8 0 9.8 9.8 0 0 0-8 0v-12a9.8 9.8 0 0 1 8 0z" />
+                <path d="M12 6.5v12" />
+              </svg>
+            </div>
+            <h3>Học từ kho tri thức khổng lồ</h3>
+            <p>Được "đọc" phần lớn sách vở, tài liệu kỹ thuật, quy chuẩn... nên trả lời được rất nhiều lĩnh vực.</p>
+            <div class="goal-tag"><span class="dot"></span>TRI THỨC</div>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" />
+                <circle cx="12" cy="12" r="4" />
+              </svg>
+            </div>
+            <h3>Tạo ra sản phẩm mới</h3>
+            <p>Không chỉ tra cứu — AI viết văn bản, lập bảng tính, vẽ sơ đồ, dựng slide, viết phần mềm.</p>
+            <div class="goal-tag"><span class="dot"></span>SÁNG TẠO</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 4. AI ĐANG THAY ĐỔI THẾ GIỚI ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">02 — Bức tranh toàn cầu</div>
+            <h2 class="anim-fade-up d-1">AI đang thay đổi thế giới</h2>
+          </div>
+        </div>
+
+        <p class="anim-fade-up d-1">
+          Chỉ trong <strong>3 năm</strong>, AI đi từ phòng thí nghiệm vào công việc hàng ngày của hàng trăm triệu người.
+        </p>
+
+        <div class="ai-stats anim-fade-up d-2">
+          <div class="ai-stat">
+            <div class="num">100<small>triệu</small></div>
+            <div class="cap">ChatGPT đạt 100 triệu người dùng chỉ sau <b>2 tháng</b> ra mắt — nhanh nhất lịch sử Internet</div>
+          </div>
+          <div class="ai-stat">
+            <div class="num">80<small>%+</small></div>
+            <div class="cap">Phần lớn doanh nghiệp lớn toàn cầu đã đưa AI vào quy trình làm việc hoặc đang thử nghiệm</div>
+          </div>
+          <div class="ai-stat">
+            <div class="num">Mọi<small>ngành</small></div>
+            <div class="cap">Văn phòng · Xây dựng · Sản xuất · Y tế · Tài chính · Giáo dục — không ngành nào đứng ngoài</div>
+          </div>
+        </div>
+
+        <div class="two-col two-col-compact" style="margin-top: 18px;">
+          <div class="resp-col vci anim-slide-l d-3">
+            <h4>Quen thuộc hơn bạn nghĩ</h4>
+            <h3 class="accent">AI đã ở quanh ta</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Google Dịch, camera nhận diện khuôn mặt</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Gợi ý video TikTok / YouTube, lọc thư rác</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Trợ lý ảo trên điện thoại, bản đồ chỉ đường</li>
+            </ul>
+          </div>
+          <div class="resp-col tc anim-slide-r d-4">
+            <h4>Làn sóng mới</h4>
+            <h3>AI tạo sinh (Generative AI)</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>ChatGPT, Claude, Gemini — trò chuyện, viết, phân tích</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Tích hợp thẳng vào Word, Excel, Email (Copilot)</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Tạo ảnh, video, giọng nói, phần mềm hoàn chỉnh</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 5. AI VỚI VĂN BẢN & TÀI LIỆU ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">03 — Công việc hàng ngày</div>
+            <h2 class="anim-fade-up d-1">AI với văn bản &amp; tài liệu</h2>
+          </div>
+        </div>
+
+        <p class="anim-fade-up d-1">
+          Những việc "ngốn" thời gian nhất của khối văn phòng — <strong>AI xử lý trong vài phút</strong>.
+        </p>
+
+        <div class="ba-grid">
+          <div class="ba-card before anim-slide-l d-2">
+            <span class="ba-tag">Trước đây — làm thủ công</span>
+            <ul>
+              <li>Đọc hết hợp đồng, biên bản 40–50 trang để nắm ý chính</li>
+              <li>Soạn công văn, tờ trình từ trang giấy trắng</li>
+              <li>Dịch tài liệu kỹ thuật tiếng Anh từng đoạn</li>
+              <li>Tổng hợp báo cáo từ nhiều email, file rời rạc</li>
+            </ul>
+            <div class="ba-time">⏱ Nửa ngày → vài ngày</div>
+          </div>
+          <div class="ba-card after anim-slide-r d-3">
+            <span class="ba-tag">Với AI — giao việc bằng một câu</span>
+            <ul>
+              <li>"Tóm tắt hợp đồng này thành 1 trang, nêu rõ nghĩa vụ mỗi bên"</li>
+              <li>"Soạn tờ trình xin phê duyệt mua vật tư theo mẫu công ty"</li>
+              <li>"Dịch tài liệu này sang tiếng Việt, giữ nguyên thuật ngữ kỹ thuật"</li>
+              <li>"Gộp 5 báo cáo tuần này thành 1 báo cáo tháng"</li>
+            </ul>
+            <div class="ba-time">⚡ Vài phút — con người chỉ rà soát &amp; duyệt</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 6. AI VỚI EXCEL & SỐ LIỆU ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">03 — Công việc hàng ngày</div>
+            <h2 class="anim-fade-up d-1">AI với Excel &amp; số liệu</h2>
+          </div>
+        </div>
+
+        <p class="lead anim-fade-up d-1" style="margin-bottom: 18px;">
+          Không cần nhớ công thức — <strong>mô tả điều bạn muốn, AI viết công thức và phân tích giúp bạn</strong>.
+        </p>
+
+        <div class="chat-demo">
+          <div class="chat-msg user anim-fade-up d-2">
+            <div class="who">BẠN</div>
+            <div class="bubble">Tôi có bảng theo dõi vật tư 2.000 dòng. Hãy tính tổng giá trị tồn theo từng nhóm vật tư,
+              tìm các mã tồn quá 90 ngày và dựng biểu đồ so sánh theo tháng.</div>
+          </div>
+          <div class="chat-msg ai anim-fade-up d-3">
+            <div class="bubble" style="border-radius: 14px 4px 14px 14px;">
+              Đã xong. Tôi tạo: ① Bảng tổng hợp tồn theo nhóm (Pivot) · ② Danh sách 37 mã tồn &gt; 90 ngày,
+              tô đỏ các mã giá trị lớn · ③ Biểu đồ cột so sánh 6 tháng. Bạn muốn xuất PDF gửi báo cáo không?</div>
+            <div class="who">AI</div>
+          </div>
+        </div>
+
+        <div class="cards" style="margin-top: 22px; grid-template-columns: repeat(4, 1fr); gap: 18px;">
+          <div class="card anim-fade-up d-3" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Viết công thức</h3>
+            <p>VLOOKUP, SUMIFS, Pivot... mô tả bằng lời — AI viết đúng công thức</p>
+          </div>
+          <div class="card anim-fade-up d-4" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Dọn &amp; chuẩn hóa dữ liệu</h3>
+            <p>Gộp file, tách cột, bỏ trùng lặp, phát hiện dòng bất thường</p>
+          </div>
+          <div class="card anim-fade-up d-5" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Phân tích &amp; nhận xét</h3>
+            <p>Chỉ ra xu hướng tăng giảm, điểm bất thường trong số liệu</p>
+          </div>
+          <div class="card anim-fade-up d-6" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Báo cáo &amp; biểu đồ</h3>
+            <p>Tự dựng dashboard, biểu đồ, xuất báo cáo định kỳ</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 7. AI AGENT & CLAUDE CODE ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">04 — Bước tiến mới</div>
+            <h2 class="anim-fade-up d-1">Không chỉ chat — AI biết "làm việc"</h2>
+          </div>
+        </div>
+
+        <p class="anim-fade-up d-1">
+          Thế hệ mới — <strong>AI Agent</strong> (như <strong>Claude Code</strong>) — không chỉ trả lời,
+          mà <span class="hl-yellow">tự thực hiện công việc nhiều bước từ đầu đến cuối</span>.
+        </p>
+
+        <div class="channel-flow anim-fade-up d-2">
+          <svg class="channel-svg" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="agentGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#0FB4F0" />
+                <stop offset="50%" stop-color="#0E6FA8" />
+                <stop offset="100%" stop-color="#6D28D9" />
+              </linearGradient>
+            </defs>
+            <line x1="150" y1="40" x2="1050" y2="40" stroke="url(#agentGrad)" stroke-width="6" stroke-linecap="round" />
+            <line x1="150" y1="40" x2="1050" y2="40" stroke="#fff" stroke-width="4" stroke-linecap="round"
+              stroke-dasharray="22 18" opacity=".95">
+              <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="1s" repeatCount="indefinite" />
+            </line>
+          </svg>
+
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg></div>
+            <div class="channel-text"><strong>1. Bạn giao việc</strong>"Làm cho tôi bộ slide báo cáo tiến độ tháng"</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" /></svg></div>
+            <div class="channel-text"><strong>2. AI tự tìm hiểu</strong>Đọc số liệu, file mẫu, quy chuẩn liên quan</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" /></svg></div>
+            <div class="channel-text"><strong>3. AI tự thực hiện</strong>Lập kế hoạch, làm từng bước, tự kiểm tra lại</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" /></svg></div>
+            <div class="channel-text"><strong>4. Bạn nghiệm thu</strong>Nhận sản phẩm hoàn chỉnh — duyệt hoặc yêu cầu sửa</div>
+          </div>
+        </div>
+
+        <p class="anim-fade-up d-4" style="margin-top: 18px; font-size: .78em; color: var(--text-soft);">
+          Khác biệt cốt lõi: từ <strong>"hỏi – đáp từng câu"</strong> sang <strong>"giao việc – nhận sản phẩm"</strong>.
+          Một người có thể "điều hành" nhiều trợ lý AI làm việc song song.
+        </p>
+      </section>
+
+      <!-- ========== 8. AI ĐÃ LÀM GÌ TẠI VCI ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">05 — Câu chuyện thật</div>
+            <h2 class="anim-fade-up d-1">AI đã làm gì tại VCI &amp; dự án Trung Chính</h2>
+          </div>
+        </div>
+
+        <p class="lead lead-hero anim-fade-up d-1">
+          Không phải viễn cảnh — đây là những việc <strong>đội VCI đã và đang làm hàng ngày bằng AI</strong>
+          <span class="hl-yellow">ngay trong các dự án của Trung Chính</span>.
+        </p>
+
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </div>
+            <h3>Phát triển phần mềm</h3>
+            <p>AI hỗ trợ phân tích yêu cầu, viết code, tự động hóa kiểm thử trên TC.IMS · TC.EMS · TC.CMS —
+              rút ngắn rõ rệt thời gian từ ý tưởng đến bàn giao.</p>
+            <div class="goal-tag"><span class="dot"></span>TC.IMS · EMS · CMS</div>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
+            </div>
+            <h3>Thiết kế UI/UX &amp; tài liệu</h3>
+            <p>AI dựng wireframe, mockup giao diện, slide báo cáo, tài liệu hướng dẫn —
+              chất lượng đồng đều, tốc độ gấp nhiều lần.</p>
+            <div class="goal-tag"><span class="dot"></span>DESIGN · DOCS</div>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 4.5-3 5.7V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.3c-1.8-1.2-3-3.3-3-5.7a7 7 0 0 1 7-7z" />
+                <path d="M9 21h6" />
+              </svg>
+            </div>
+            <h3>Hỗ trợ người dùng</h3>
+            <p>Chatbot hướng dẫn sử dụng hệ thống, video đào tạo — người dùng tự tra cứu thay vì chờ hỗ trợ.</p>
+            <div class="goal-tag"><span class="dot"></span>SUPPORT</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 9. LÀM ĐƯỢC / CHƯA LÀM ĐƯỢC ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">06 — Góc nhìn đúng</div>
+            <h2 class="anim-fade-up d-1">AI làm được gì — và chưa làm được gì</h2>
+          </div>
+        </div>
+
+        <div>
+        <div class="two-col two-col-compact">
+          <div class="resp-col vci anim-slide-l d-1">
+            <h4>Điểm mạnh</h4>
+            <h3 class="accent">AI làm rất tốt</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Soạn thảo, tóm tắt, dịch thuật văn bản</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Xử lý &amp; phân tích số liệu lặp đi lặp lại</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Tạo bản nháp đầu tiên cực nhanh (báo cáo, slide, kế hoạch)</li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" /></svg></span>Làm việc 24/7, không mệt, không quên</li>
+            </ul>
+          </div>
+          <div class="resp-col warn anim-slide-r d-2">
+            <h4>Giới hạn</h4>
+            <h3>Cần con người kiểm soát</h3>
+            <ul>
+              <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M18 6 6 18M6 6l12 12" /></svg></span>Có thể "bịa" thông tin nghe rất thuyết phục — <b>luôn phải kiểm tra lại</b></li>
+              <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M18 6 6 18M6 6l12 12" /></svg></span>Không nắm bối cảnh nội bộ nếu ta không cung cấp</li>
+              <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M18 6 6 18M6 6l12 12" /></svg></span>Không chịu trách nhiệm — <b>quyết định cuối cùng là của con người</b></li>
+              <li><span class="cross"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M18 6 6 18M6 6l12 12" /></svg></span>Không thay được kinh nghiệm hiện trường, quan hệ, đàm phán</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="anim-fade-up d-3" style="margin-top: 16px; font-size: .78em; color: var(--text-soft); text-align: center;">
+          Công thức đúng: <strong>AI làm bản nháp &amp; việc lặp lại — con người thẩm định, quyết định &amp; chịu trách nhiệm.</strong>
+        </p>
+        </div>
+      </section>
+
+      <!-- ========== 10. DÙNG AI ĐÚNG CÁCH ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">06 — Bắt đầu thế nào</div>
+            <h2 class="anim-fade-up d-1">4 nguyên tắc dùng AI đúng cách</h2>
+          </div>
+        </div>
+
+        <div class="rule-grid">
+          <div class="rule-card anim-fade-up d-1">
+            <div class="rule-num">01</div>
+            <div>
+              <h3>Bắt đầu từ việc nhỏ, hàng ngày</h3>
+              <p>Tóm tắt biên bản, soạn email, viết công thức Excel — quen tay rồi mới đến việc lớn.
+                Mỗi người thử 1 việc trong tuần này.</p>
+            </div>
+          </div>
+          <div class="rule-card anim-fade-up d-2">
+            <div class="rule-num">02</div>
+            <div>
+              <h3>Bảo mật dữ liệu nội bộ</h3>
+              <p>Không đưa hợp đồng, giá, thông tin nhân sự... lên công cụ AI công cộng chưa được phê duyệt.
+                Dùng tài khoản/công cụ do công ty quy định.</p>
+            </div>
+          </div>
+          <div class="rule-card anim-fade-up d-3">
+            <div class="rule-num">03</div>
+            <div>
+              <h3>Luôn thẩm định kết quả</h3>
+              <p>AI đưa bản nháp — người có chuyên môn rà soát số liệu, căn cứ pháp lý, thuật ngữ
+                trước khi sử dụng chính thức.</p>
+            </div>
+          </div>
+          <div class="rule-card anim-fade-up d-4">
+            <div class="rule-num">04</div>
+            <div>
+              <h3>Giao việc càng rõ, kết quả càng tốt</h3>
+              <p>Nói rõ bối cảnh, mẫu biểu, kết quả mong muốn — như giao việc cho một nhân viên mới:
+                cụ thể thì mới đúng ý.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 11. THÔNG ĐIỆP KẾT ========== -->
+      <section data-background-color="#0A2540" class="slide-bg-mesh" data-transition="convex">
+        <div class="closing closing-v2 thanks-slide">
+          <div class="deco"></div>
+          <div class="deco-2"></div>
+
+          <div class="closing-vci-logo anim-fade">
+            <img src="assets/logo-vci.png" alt="VCI" />
+          </div>
+
+          <div class="closing-tag anim-fade-up">THÔNG ĐIỆP · AI &amp; CHÚNG TA</div>
+          <h1 class="anim-fade-up d-1 closing-h1" style="font-size: 2.2em;">AI không thay thế bạn.<br />
+            Người biết dùng AI thì có thể.</h1>
+          <p class="closing-sub anim-fade-up d-2">
+            Hãy xem AI như một <strong>đồng nghiệp mới</strong>: rất nhanh, rất chăm —
+            nhưng cần bạn giao việc rõ ràng và kiểm tra kết quả.
+          </p>
+
+          <div class="big-reveal anim-fade-up d-3">
+            💡 Một tiết lộ nhỏ: <strong>toàn bộ slide này được xây dựng cùng AI (Claude Code)</strong> —
+            từ dàn ý, nội dung đến thiết kế — chỉ trong chưa đầy một buổi làm việc.
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 12. Q&A ========== -->
+      <section data-background-color="#0A2540" class="slide-bg-mesh slide-qa" data-transition="convex">
+        <div class="qa-wrap">
+          <div class="qa-bubbles" aria-hidden="true">
+            <span class="qa-bubble qb1">?</span>
+            <span class="qa-bubble qb2">?</span>
+            <span class="qa-bubble qb3">?</span>
+            <span class="qa-bubble qb4">?</span>
+            <span class="qa-bubble qb5">?</span>
+            <span class="qa-bubble qb6">?</span>
+          </div>
+
+          <div class="qa-tag">DISCUSSION · OPEN FLOOR</div>
+
+          <h1 class="qa-title">
+            <span class="qa-q">Q</span><span class="qa-amp">&amp;</span><span class="qa-a">A</span>
+          </h1>
+
+          <p class="qa-sub">Mời quý anh chị đặt câu hỏi &amp; trao đổi về AI.</p>
+
+          <div class="qa-foot">
+            <span>VCI × Hạ Long EPC · Chuyên đề chia sẻ AI</span>
+            <span class="qa-foot-sep"></span>
+            <span>support.vcijsc.com</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+  <script src="js/slides.js"></script>
+
+</body>
+
+</html>
