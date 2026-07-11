@@ -1,0 +1,382 @@
+[
+ {
+  "mnv": "",
+  "name": "Thái Doãn Phúc",
+  "role": "BA",
+  "cats": {
+   "co_ban": 10.0,
+   "chuyen_mon": 48.5,
+   "mem": 10.0,
+   "quan_ly": 10.0,
+   "vh_dd": 10.0,
+   "cong_hien": 10.0
+  },
+  "tot": {
+   "ns": 98.5,
+   "cbqltt": 98.5,
+   "capt": 98.5
+  },
+  "team": "BA",
+  "orig": "KNL_THÁI DOÃN PHÚC_BA.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Cao Thị Trang",
+  "role": "BA",
+  "cats": {
+   "co_ban": 9.0,
+   "chuyen_mon": 42.45,
+   "mem": 8.0,
+   "quan_ly": 8.33,
+   "vh_dd": 10.0,
+   "cong_hien": 6.33
+  },
+  "tot": {
+   "ns": 84.12,
+   "cbqltt": 80.43,
+   "capt": null
+  },
+  "team": "BA",
+  "orig": "KNL_Cao Thị Trang_BA.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Nguyễn Thị Thùy Linh",
+  "role": "BA",
+  "cats": {
+   "co_ban": 9.5,
+   "chuyen_mon": 41.55,
+   "mem": 7.83,
+   "quan_ly": 8.33,
+   "vh_dd": 9.67,
+   "cong_hien": 6.33
+  },
+  "tot": {
+   "ns": 83.22,
+   "cbqltt": 74.45,
+   "capt": 76.78
+  },
+  "team": "BA",
+  "orig": "KNL_Nguyen Thi Thuy Linh_BA.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Hoàng Như Quỳnh",
+  "role": "BA",
+  "cats": {
+   "co_ban": 9.5,
+   "chuyen_mon": 41.05,
+   "mem": 8.17,
+   "quan_ly": 7.83,
+   "vh_dd": 9.33,
+   "cong_hien": 6.33
+  },
+  "tot": {
+   "ns": 82.22,
+   "cbqltt": 77.78,
+   "capt": 73.95
+  },
+  "team": "BA",
+  "orig": "DGNL_QuynhHN.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Nguyễn Văn Vương",
+  "role": "Dev BE",
+  "cats": {
+   "co_ban": 10.0,
+   "chuyen_mon": 39.63,
+   "mem": 7.5,
+   "quan_ly": 7.0,
+   "vh_dd": 8.17,
+   "cong_hien": 7.0
+  },
+  "tot": {
+   "ns": 79.29,
+   "cbqltt": 76.45,
+   "capt": null
+  },
+  "team": "DEV",
+  "orig": "VCI.QĐ.3058_Hệ thống KNL_D02_NGUYEN-VAN-VUONG.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Mai Hoàng Thái Bảo",
+  "role": "Dev BE",
+  "cats": {
+   "co_ban": 10.0,
+   "chuyen_mon": 37.56,
+   "mem": 7.83,
+   "quan_ly": 6.6,
+   "vh_dd": 9.17,
+   "cong_hien": 6.0
+  },
+  "tot": {
+   "ns": 77.16,
+   "cbqltt": 68.81,
+   "capt": 66.05
+  },
+  "team": "DEV",
+  "orig": "DGNL BE Mai Hoang Thai Bao.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Phạm Gia Trung",
+  "role": "Dev FE",
+  "cats": {
+   "co_ban": 7.75,
+   "chuyen_mon": 37.67,
+   "mem": 7.17,
+   "quan_ly": 7.67,
+   "vh_dd": 8.33,
+   "cong_hien": 6.33
+  },
+  "tot": {
+   "ns": 74.92,
+   "cbqltt": 68.12,
+   "capt": 67.62
+  },
+  "team": "DEV",
+  "orig": "KNL_Phạm Gia Trung_FE.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "NGUYEN-VAN-VUONG",
+  "role": "Dev FE",
+  "cats": {
+   "co_ban": 7.5,
+   "chuyen_mon": 37.63,
+   "mem": 7.5,
+   "quan_ly": 7.0,
+   "vh_dd": 8.0,
+   "cong_hien": 7.0
+  },
+  "tot": {
+   "ns": 74.62,
+   "cbqltt": 74.09,
+   "capt": null
+  },
+  "team": "DEV",
+  "orig": "VCI.QĐ.3058_Hệ thống KNL_D02_NGUYEN-VAN-VUONG.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Đàm Văn Thanh",
+  "role": "Dev BE",
+  "cats": {
+   "co_ban": 10.0,
+   "chuyen_mon": 32.53,
+   "mem": 7.0,
+   "quan_ly": 7.2,
+   "vh_dd": 9.0,
+   "cong_hien": 7.0
+  },
+  "tot": {
+   "ns": 72.73,
+   "cbqltt": 70.07,
+   "capt": 70.37
+  },
+  "team": "DEV",
+  "orig": "KNL_Đàm Văn Thanh_BE.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Vũ Tiến Hai",
+  "role": "Mobile Dev",
+  "cats": {
+   "co_ban": 6.5,
+   "chuyen_mon": 38.2,
+   "mem": 6.33,
+   "quan_ly": 6.67,
+   "vh_dd": 6.0,
+   "cong_hien": 6.0
+  },
+  "tot": {
+   "ns": 69.7,
+   "cbqltt": 69.7,
+   "capt": 69.7
+  },
+  "team": "DEV",
+  "orig": "KNL_Vũ Tiến Hai_DEV_Mobile.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Nguyễn Ngọc Minh",
+  "role": "Dev BE",
+  "cats": {
+   "co_ban": 10.0,
+   "chuyen_mon": 31.62,
+   "mem": 6.17,
+   "quan_ly": 5.6,
+   "vh_dd": 7.0,
+   "cong_hien": 6.0
+  },
+  "tot": {
+   "ns": 66.39,
+   "cbqltt": 70.19,
+   "capt": 67.67
+  },
+  "team": "DEV",
+  "orig": "VCI.QĐ.3058_Hệ thống KNL_D02_Nguyễn Ngọc MinhBE.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Đặng Anh Đức",
+  "role": "Dev FE",
+  "cats": {
+   "co_ban": 6.75,
+   "chuyen_mon": 31.49,
+   "mem": 6.5,
+   "quan_ly": 6.5,
+   "vh_dd": 8.0,
+   "cong_hien": 5.83
+  },
+  "tot": {
+   "ns": 65.07,
+   "cbqltt": 56.95,
+   "capt": 56.95
+  },
+  "team": "DEV",
+  "orig": "KNL_Đặng Anh Đức_FE.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Nguyễn Hữu Lợi",
+  "role": "Dev FE",
+  "cats": {
+   "co_ban": 6.0,
+   "chuyen_mon": 32.44,
+   "mem": 5.83,
+   "quan_ly": 6.0,
+   "vh_dd": 6.0,
+   "cong_hien": 6.0
+  },
+  "tot": {
+   "ns": 62.27,
+   "cbqltt": 71.92,
+   "capt": 66.12
+  },
+  "team": "DEV",
+  "orig": "KNL_Nguyễn Hữu Lợi_FE.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Trần Thế Duy",
+  "role": "Dev BE",
+  "cats": {
+   "co_ban": 10.0,
+   "chuyen_mon": 28.83,
+   "mem": 6.0,
+   "quan_ly": 5.8,
+   "vh_dd": 5.67,
+   "cong_hien": 2.0
+  },
+  "tot": {
+   "ns": 58.3,
+   "cbqltt": 68.16,
+   "capt": null
+  },
+  "team": "DEV",
+  "orig": "KNL_Trần Thế Duy_DEV_BE.xlsx"
+ },
+ {
+  "mnv": "VCI.33",
+  "name": "Khúc Vân Anh",
+  "role": "QC",
+  "cats": {
+   "co_ban": 9.25,
+   "chuyen_mon": 41.12,
+   "mem": 8.5,
+   "quan_ly": 8.5,
+   "vh_dd": 9.0,
+   "cong_hien": 9.0
+  },
+  "tot": {
+   "ns": 85.37,
+   "cbqltt": 77.97,
+   "capt": null
+  },
+  "team": "QC",
+  "orig": "KNL_VCI.0033. Khúc Vân Anh_QAQC.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Đào Thị Ngà",
+  "role": "QC",
+  "cats": {
+   "co_ban": 8.0,
+   "chuyen_mon": 37.63,
+   "mem": 6.9,
+   "quan_ly": 8.0,
+   "vh_dd": 8.0,
+   "cong_hien": 7.67
+  },
+  "tot": {
+   "ns": 76.2,
+   "cbqltt": 72.0,
+   "capt": 69.78
+  },
+  "team": "QC",
+  "orig": "VCI.QĐ.3058_Hệ thống KNL_Đào Thị Ngà_QAQC .xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Trần Thị Hường",
+  "role": "QC",
+  "cats": {
+   "co_ban": 8.0,
+   "chuyen_mon": 34.74,
+   "mem": 6.83,
+   "quan_ly": 6.92,
+   "vh_dd": 7.83,
+   "cong_hien": 6.0
+  },
+  "tot": {
+   "ns": 70.33,
+   "cbqltt": 70.0,
+   "capt": 70.33
+  },
+  "team": "QC",
+  "orig": "VCI.QĐ.3058_Hệ thống KNL_Q01_QAQC_HuongTT.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Đỗ Thành Công",
+  "role": "QC",
+  "cats": {
+   "co_ban": 7.75,
+   "chuyen_mon": 34.53,
+   "mem": 5.83,
+   "quan_ly": 6.33,
+   "vh_dd": 9.83,
+   "cong_hien": 5.0
+  },
+  "tot": {
+   "ns": 69.28,
+   "cbqltt": 66.67,
+   "capt": 66.06
+  },
+  "team": "QC",
+  "orig": "KNL_Đỗ Thành Công_QAQC.xlsx"
+ },
+ {
+  "mnv": "",
+  "name": "Bùi Đức Cường",
+  "role": "UI/UX",
+  "cats": {
+   "co_ban": 6.8,
+   "chuyen_mon": 39.75,
+   "mem": 6.33,
+   "quan_ly": 6.33,
+   "vh_dd": 8.67,
+   "cong_hien": 5.0
+  },
+  "tot": {
+   "ns": 72.88,
+   "cbqltt": 66.67,
+   "capt": null
+  },
+  "team": "UIUX",
+  "orig": "KNL_Bùi Đức Cường_UIUX.xlsx"
+ }
+]
