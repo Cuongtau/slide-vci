@@ -1,0 +1,2324 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Claude &amp; AI trong công việc — VCI</title>
+
+  <!-- Google Fonts: Inter + Be Vietnam Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Reveal.js core -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+
+  <!-- Custom theme & animations -->
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/animations.css" />
+
+  <style>
+    /* ===== AI DARK THEME — giao diện "AI hiện đại" theo brand VCI (xanh VCI → cyan trên nền navy đậm) =====
+       Bảng màu: vcijsc.com / css/theme.css — primary #0E6FA8 · accent #0FB4F0 · đỏ VCI #CB2330.
+       Chỉ áp dụng cho deck này — theme.css dùng chung KHÔNG bị sửa. */
+    :root {
+      --brand-primary:   #0E6FA8;   /* Xanh VCI */
+      --brand-primary-2: #1284C2;
+      --brand-primary-3: #0E6FA8;   /* Xanh VCI cho chữ nhấn trên nền sáng */
+      --brand-accent:    #0FB4F0;   /* Cyan VCI */
+      --brand-accent-2:  #0B87B8;   /* Cyan đậm — đọc được trên nền sáng */
+      --brand-accent-3:  rgba(15,180,240,.35);
+      --brand-green:     #0E9E6E;   /* Xanh lá đậm (nền sáng) */
+      --brand-red:       #CB2330;   /* Đỏ VCI gốc */
+      --brand-red-soft:  #E5586F;
+      --brand-warn:      #C2711F;
+
+      --bg:      #F8FAFC;
+      --bg-card: #FFFFFF;
+      --bg-soft: #EFF6FB;
+      --text:      #0F2A43;
+      --text-soft: #47586B;
+      --border: #E2E8F0;
+
+      --shadow-sm: 0 2px 8px rgba(14,111,168,.08);
+      --shadow:    0 12px 30px rgba(14,111,168,.12);
+      --shadow-lg: 0 24px 60px rgba(14,111,168,.16);
+    }
+
+    /* Backdrop ngoài khung slide */
+    .reveal-viewport { background: #E9F1F8 !important; }
+
+    /* Slide thường: navy VCI + glow xanh/cyan mờ ở góc
+       (không !important — để animation aurora dịch background-position được;
+       vẫn thắng theme.css nhờ đứng sau theo thứ tự nguồn) */
+    .slide-bg-light {
+      background:
+        radial-gradient(900px 620px at -8% -12%, rgba(14,111,168,.07), transparent 60%),
+        radial-gradient(820px 560px at 108% 112%, rgba(15,180,240,.06), transparent 60%),
+        radial-gradient(640px 420px at 88% -6%, rgba(15,180,240,.04), transparent 60%),
+        linear-gradient(160deg, #F8FAFC 0%, #EFF6FB 100%);
+    }
+    /* Gạch nhấn góc: hazard stripe → thanh gradient xanh VCI→cyan */
+    .slide-bg-light::before { background: linear-gradient(90deg, #0E6FA8, #0FB4F0) !important; opacity: .9 !important; }
+    .slide-bg-light::after  { background: linear-gradient(180deg, #0FB4F0, #0E6FA8) !important; opacity: .9 !important; }
+
+    /* Nền mesh (cover, Q&A) — navy sâu hơn, glow xanh/cyan đậm hơn
+       (không !important — để animation aurora chạy được, xem ghi chú trên) */
+    .slide-bg-mesh {
+      background:
+        radial-gradient(1100px 720px at 14% 8%, rgba(59,150,216,.30), transparent 62%),
+        radial-gradient(900px 680px at 100% 100%, rgba(15,180,240,.20), transparent 60%),
+        linear-gradient(150deg, #071626 0%, #0A1B2E 45%, #0E2E4E 100%);
+    }
+
+    /* Hero glow [CLAUDE] — xanh VCI → cyan (giữ nhịp "thở" cv3HeroGlow sẵn có của theme) */
+    .cv3-hero-glow {
+      background: radial-gradient(ellipse at center, rgba(59,150,216,.42), rgba(15,180,240,.20) 55%, transparent 78%) !important;
+    }
+
+    /* Highlight vàng → highlight cyan mờ */
+    .hl-yellow { background: linear-gradient(180deg, transparent 58%, rgba(15,180,240,.30) 58%) !important; }
+
+    /* Brand bar: nền tối ánh xanh→cyan + hairline gradient dưới chân */
+    .brand-bar::before {
+      background:
+        linear-gradient(90deg, rgba(14,111,168,.10), rgba(15,180,240,.05)),
+        #FFFFFF !important;
+    }
+    .brand-bar::after {
+      height: 2px !important;
+      background: linear-gradient(90deg, #0E6FA8, #0FB4F0) !important;
+      opacity: .9;
+    }
+
+    /* Chữ trên nền sáng: heading navy đậm, strong xanh VCI — Cover/Q&A (mesh tối) giữ trắng */
+    .reveal h1, .reveal h2, .reveal h3 { color: var(--text); }
+    .reveal .slide-bg-mesh h1, .reveal .slide-bg-mesh h2, .reveal .slide-bg-mesh h3 { color: #F4F6FE; }
+    .reveal strong { color: #0E6FA8; }
+    .lead-hero strong { color: #0E6FA8; }
+
+    /* Slide number badge */
+    .reveal .slide-number {
+      background: linear-gradient(135deg, #0E6FA8, #0FB4F0) !important;
+      box-shadow: 0 6px 18px rgba(14,111,168,.30), 0 0 0 4px rgba(14,111,168,.10);
+      border: 1px solid rgba(132,210,244,.35);
+    }
+
+    /* Tùy biến riêng cho deck AI — bổ sung trên nền theme.css */
+
+    /* Chat mockup: minh họa hỏi–đáp với AI */
+    .chat-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .chat-msg {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .chat-msg .who {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .38em;
+      letter-spacing: .5px;
+      color: #fff;
+    }
+
+    .chat-msg.user .who { background: var(--brand-primary); }
+    .chat-msg.ai .who { background: linear-gradient(135deg, #E8891E, #C42127); }
+
+    .chat-msg .bubble {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px 14px 14px 14px;
+      padding: 12px 18px;
+      font-size: .66em;
+      line-height: 1.55;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chat-msg.ai .bubble {
+      border-left: 3px solid var(--brand-accent);
+      background: linear-gradient(135deg, rgba(240, 180, 41, .12), #fff 55%);
+    }
+
+    /* Danh sách "chưa làm được" — icon X đỏ thay check xanh */
+    .resp-col ul li .cross {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(203, 35, 48, .12);
+      color: var(--brand-red);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+
+    .resp-col ul li .cross svg { width: 12px; height: 12px; }
+
+    .resp-col.warn {
+      border-top: 4px solid var(--brand-red);
+    }
+
+    .resp-col.warn h3 { color: var(--brand-red); }
+
+    /* Stat strip — con số ấn tượng về AI */
+    .ai-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    .ai-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px 18px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-stat::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--brand-accent), var(--brand-primary));
+    }
+
+    .ai-stat .num {
+      font-family: var(--font-display);
+      font-size: 1.9em;
+      font-weight: 800;
+      color: var(--brand-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .ai-stat .num small {
+      font-size: .45em;
+      font-weight: 700;
+      color: var(--brand-accent);
+      vertical-align: super;
+    }
+
+    .ai-stat .cap {
+      margin-top: 8px;
+      font-size: .62em;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    /* Bảng before/after cho slide văn phòng */
+    .ba-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .ba-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ba-card .ba-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .52em;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+    }
+
+    .ba-card.before .ba-tag { background: rgba(91, 107, 125, .12); color: var(--text-soft); }
+    .ba-card.after .ba-tag { background: rgba(232, 137, 30, .14); color: var(--brand-accent); }
+
+    .ba-card ul { list-style: none; margin: 0; padding: 0; }
+
+    .ba-card ul li {
+      font-size: .66em;
+      line-height: 1.5;
+      padding: 7px 0 7px 22px;
+      position: relative;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .ba-card ul li:last-child { border-bottom: none; }
+
+    .ba-card.before ul li::before {
+      content: "•";
+      position: absolute;
+      left: 6px;
+      color: var(--text-soft);
+    }
+
+    .ba-card.after ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--brand-accent);
+      font-weight: 800;
+    }
+
+    .ba-card .ba-time {
+      margin-top: 12px;
+      font-size: .6em;
+      font-weight: 700;
+    }
+
+    .ba-card.before .ba-time { color: var(--text-soft); }
+    .ba-card.after .ba-time { color: var(--brand-primary); }
+
+    /* Nguyên tắc sử dụng AI — 4 rule cards */
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .rule-card {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .rule-card .rule-num {
+      flex: 0 0 auto;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: .8em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rule-card h3 {
+      font-size: .8em;
+      margin: 0 0 6px;
+      color: var(--brand-primary);
+    }
+
+    .rule-card p {
+      font-size: .62em;
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+
+    /* Reveal cuối bài */
+    .big-reveal {
+      margin-top: 26px;
+      padding: 16px 26px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+      border: 1px dashed var(--border);
+      font-size: .78em;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .big-reveal strong { color: #0B87B8; }
+
+    /* ===== Timeline lịch sử AI — 2 hàng × 4 mốc, mỗi hàng 1 đường kẻ ===== */
+    .ai-timeline {
+      position: relative;
+      margin: 24px 0 8px;
+      padding: 6px 0 4px;
+    }
+    .ai-tl-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      position: relative;
+      padding-bottom: 20px;
+    }
+    .ai-tl-row:first-child { margin-bottom: 34px; }
+    /* Đường kẻ dưới MỖI hàng — chấm mốc của card cắm đúng tâm đường */
+    .ai-tl-row::after {
+      content: '';
+      position: absolute;
+      left: 8px; right: 8px; bottom: 2px;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #0E6FA8, #0FB4F0);
+      z-index: 0;
+    }
+    .ai-tl-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 14px 12px;
+      box-shadow: var(--shadow-sm);
+      text-align: left;
+      position: relative;
+      z-index: 1; /* card + chấm nằm TRÊN đường kẻ của hàng */
+    }
+    /* Chấm mốc: tâm chấm (12px) trùng tâm đường kẻ (4px trên đáy hàng, card cách đáy 20px) */
+    .ai-tl-item::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -22px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--brand-accent);
+      box-shadow: 0 0 0 4px rgba(232,137,30,.20);
+      transform: translateX(-50%);
+    }
+    .ai-tl-year {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: .82em;
+      color: var(--brand-primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .ai-tl-title {
+      font-weight: 700;
+      font-size: .58em;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .ai-tl-desc {
+      font-size: .52em;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    /* ===== Model & Tool grid ===== */
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .model-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+    .model-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 5px;
+      background: var(--brand-accent);
+    }
+    .model-card.claude::before { background: linear-gradient(180deg, #E97852, #A8451A); }
+    .model-card.gpt::before { background: linear-gradient(180deg, #10A37F, #0E8A6C); }
+    .model-card.gemini::before { background: linear-gradient(180deg, #4285F4, #1A73E8); }
+    .model-card.grok::before { background: linear-gradient(180deg, #333, #000); }
+    .model-card.deepseek::before { background: linear-gradient(180deg, #4B6BFB, #2649D7); }
+    .model-card.llama::before { background: linear-gradient(180deg, #7C3AED, #5B21B6); }
+
+    .model-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .model-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: .78em;
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .model-owner {
+      font-size: .5em;
+      font-weight: 700;
+      color: var(--text-soft);
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+    .model-desc {
+      font-size: .58em;
+      color: var(--text-soft);
+      line-height: 1.5;
+      margin: 4px 0 8px;
+    }
+    .model-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .model-tag {
+      font-size: .48em;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(30,111,176,.10);
+      color: var(--brand-primary);
+    }
+
+    /* Tool grid */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 14px 12px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .tool-card:hover { transform: translateY(-3px); box-shadow: 0 12px 22px rgba(0,0,0,.08); }
+    .tool-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--brand-accent), var(--brand-primary));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-family: var(--font-display);
+      font-size: .68em;
+    }
+    .tool-name {
+      font-weight: 800;
+      font-size: .65em;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .tool-desc {
+      font-size: .5em;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+    .tool-tag {
+      display: inline-block;
+      font-size: .42em;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: rgba(41,132,94,.15);
+      color: var(--brand-green);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-top: 4px;
+      align-self: flex-start;
+    }
+
+    /* Pros/Cons cards */
+    .pc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .pc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .pc-card.pro { border-top: 4px solid var(--brand-green); }
+    .pc-card.con { border-top: 4px solid var(--brand-red); }
+    .pc-card .pc-ico {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .pc-card.pro .pc-ico { background: linear-gradient(135deg, #34D399, var(--brand-green)); }
+    .pc-card.con .pc-ico { background: linear-gradient(135deg, #E5586F, #CB2330); }
+    .pc-card .pc-ico svg { width: 18px; height: 18px; }
+    .pc-card h3 {
+      font-size: .72em;
+      color: var(--text);
+      margin: 0 0 4px;
+    }
+    .pc-card p {
+      font-size: .58em;
+      color: var(--text-soft);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* Stage cards — AI đang ở giai đoạn nào */
+    .stage-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .stage-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      position: relative;
+    }
+    .stage-card.now { border-color: var(--brand-accent); box-shadow: 0 8px 24px rgba(232,137,30,.22); }
+    .stage-card.now::after {
+      content: 'CHÚNG TA ĐANG Ở ĐÂY';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--brand-red);
+      color: #fff;
+      font-size: .42em;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      padding: 4px 12px;
+      border-radius: 99px;
+    }
+    .stage-card.future { opacity: .6; background: repeating-linear-gradient(45deg, #fff 0 8px, #f5f5f5 8px 16px); }
+    .stage-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 8px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand-accent), var(--brand-primary));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stage-icon svg { width: 26px; height: 26px; }
+    .stage-card h3 { font-size: .82em; margin: 0 0 4px; }
+    .stage-card p { font-size: .55em; color: var(--text-soft); line-height: 1.5; margin: 0; }
+    .stage-arrow {
+      color: var(--brand-accent);
+      font-size: 1.4em;
+      font-weight: 800;
+    }
+
+    /* Claude Code hero showcase */
+    .cc-hero {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 24px;
+      margin-top: 12px;
+    }
+    .cc-left {
+      background: linear-gradient(140deg, #0A2F52, #1E6FB0 58%, #E8891E 130%);
+      border-radius: var(--radius-lg);
+      padding: 26px 28px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .cc-left::after {
+      content: 'CLAUDE CODE';
+      position: absolute;
+      right: -20px;
+      bottom: -30px;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 4em;
+      color: rgba(255,255,255,.06);
+      letter-spacing: -0.05em;
+    }
+    .cc-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 99px;
+      background: rgba(255,255,255,.18);
+      font-size: .5em;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .cc-badge::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #22C55E;
+    }
+    .cc-hero h3 {
+      font-size: 1.1em;
+      margin: 0 0 8px;
+      color: #fff;
+      line-height: 1.15;
+    }
+    .cc-hero .lead-hero { font-size: .72em; opacity: .95; line-height: 1.55; }
+    .cc-right ul { list-style: none; padding: 0; margin: 0; }
+    .cc-right li {
+      display: flex;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      box-shadow: var(--shadow-sm);
+      font-size: .62em;
+      color: var(--text);
+      line-height: 1.45;
+      align-items: flex-start;
+    }
+    .cc-right li b { color: var(--brand-primary); font-weight: 800; }
+    .cc-right li .cc-ico {
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(232,137,30,.14);
+      color: var(--brand-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cc-right li .cc-ico svg { width: 16px; height: 16px; }
+
+    /* Office use case grid */
+    .office-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .office-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+    .office-card::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0; height: 4px;
+      background: linear-gradient(90deg, var(--brand-accent), var(--brand-primary));
+    }
+    .office-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--brand-accent-2), var(--brand-accent));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    .office-icon svg { width: 22px; height: 22px; }
+    .office-card h3 {
+      font-size: .78em;
+      color: var(--text);
+      margin: 0 0 6px;
+      line-height: 1.2;
+    }
+    .office-card ul { list-style: none; padding: 0; margin: 0; }
+    .office-card li {
+      font-size: .56em;
+      color: var(--text-soft);
+      padding: 3px 0 3px 14px;
+      position: relative;
+      line-height: 1.45;
+    }
+    .office-card li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 9px;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--brand-accent);
+    }
+
+    /* ===== AI DARK — re-skin component (đặt CUỐI khối style để thắng các rule phía trên) ===== */
+
+    /* Glassmorphism chung: bo 16px + blur + viền trắng mờ */
+    .card, .goal-card, .toc li, .ai-stat, .ba-card, .rule-card, .model-card,
+    .tool-card, .pc-card, .stage-card, .office-card, .ai-tl-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+    .card:hover, .goal-card:hover, .tool-card:hover, .toc li:hover {
+      border-color: rgba(14,111,168,.45);
+      box-shadow: 0 16px 38px rgba(14,111,168,.16);
+    }
+
+    /* Step pill: gradient tím→cyan, chữ trắng + chấm pulse */
+    .slide-header .step-pill {
+      padding: 8px 18px 8px 14px;
+      background: linear-gradient(135deg, #0E6FA8, #0FB4F0);
+      color: #fff;
+      border-radius: 999px;
+      letter-spacing: 2px;
+      box-shadow: 0 6px 18px rgba(59,150,216,.35);
+    }
+    .slide-header .step-pill::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #fff;
+      margin-right: 10px;
+      align-self: center;
+      animation: aiPillDot 2.2s ease-in-out infinite;
+    }
+    .slide-header .step-pill::after { display: none; }
+    @keyframes aiPillDot {
+      0%, 100% { opacity: .55; box-shadow: 0 0 0 0 rgba(255,255,255,.35); }
+      50%      { opacity: 1;   box-shadow: 0 0 0 4px rgba(255,255,255,.18); }
+    }
+
+    /* TOC: số gradient cyan→xanh sáng (bản sáng cho nền tối) + chữ sáng */
+    .toc li::before {
+      background: linear-gradient(135deg, #0FB4F0, #0E6FA8);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .toc li span { color: var(--text); }
+
+    /* Goal cards */
+    .goal-card::before { background: linear-gradient(90deg, #0E6FA8, #0FB4F0); }
+    .goal-card::after { color: rgba(59,150,216,.07); }
+    .goal-tag {
+      background: rgba(15,180,240,.10);
+      border-color: rgba(15,180,240,.28);
+      color: #0B87B8;
+    }
+
+    /* Timeline lịch sử AI */
+    .ai-tl-item::after { background: #0FB4F0; box-shadow: 0 0 0 4px rgba(15,180,240,.22); }
+    .ai-tl-year { color: #0E6FA8; }
+
+    /* Stat strip: số gradient tím→cyan */
+    .ai-stat .num {
+      background: linear-gradient(135deg, #0E6FA8, #0FB4F0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .ai-stat .num small { color: #0B87B8; }
+
+    /* Chat bubble: user = glass tím nhạt · AI = viền gradient tím→cyan */
+    .chat-msg .bubble {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .chat-msg.user .bubble {
+      background: #EFF6FB;
+      border-color: rgba(14,111,168,.35);
+    }
+    .chat-msg.ai .bubble {
+      border: 1px solid transparent;
+      background:
+        linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+        linear-gradient(135deg, #0E6FA8, #0FB4F0) border-box;
+    }
+    .chat-msg.ai .who { background: linear-gradient(135deg, #0E6FA8, #0FB4F0); }
+
+    /* Before/After: before xám mờ · after tag cyan */
+    .ba-card.before .ba-tag { background: rgba(71,88,107,.12); color: var(--text-soft); }
+    .ba-card.after .ba-tag { background: rgba(15,180,240,.14); color: #0B87B8; }
+    .ba-card.after .ba-time { color: var(--brand-primary); }
+
+    /* Model & tool: tag sáng; viền trái giữ màu hãng (riêng Grok đen → xám sáng cho thấy trên nền tối) */
+    .model-tag { background: rgba(14,111,168,.10); color: #0B87B8; }
+    .model-card.grok::before { background: linear-gradient(180deg, #6B7280, #1F2937); }
+    .tool-tag { background: rgba(14,158,110,.14); color: var(--brand-green); }
+    .tool-card:hover { box-shadow: 0 14px 28px rgba(14,111,168,.16); }
+
+    /* Stage flow */
+    .stage-card.now { border-color: rgba(15,180,240,.65); box-shadow: 0 8px 24px rgba(15,180,240,.22); }
+    .stage-card.now::after { background: linear-gradient(135deg, #0E6FA8, #0FB4F0); }
+    .stage-card.future {
+      opacity: .65;
+      background: repeating-linear-gradient(45deg, #FFFFFF 0 8px, #F1F5F9 8px 16px);
+    }
+
+    /* Chữ nhấn trong card trên nền sáng */
+    .rule-card h3 { color: var(--brand-primary); }
+    .rule-card p b, .stage-card p b { color: var(--text); }
+
+    /* ===== VCI REBRAND ADD-ONS ===== */
+
+    /* Avatar diễn giả: vòng tròn viền gradient xanh→cyan, chữ CB */
+    .speaker-avatar {
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      background:
+        linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+        linear-gradient(135deg, #0E6FA8, #0FB4F0) border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 30px rgba(15,180,240,.22);
+    }
+    .speaker-avatar span {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: .9em;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #0E6FA8, #0FB4F0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Cột "AI cộng sự" (Tiến hóa): badge nổi trên viền — kiểu badge CHÚNG TA ĐANG Ở ĐÂY */
+    .office-card.evo-next { overflow: visible; }
+    .office-card.evo-next::before { display: none; }
+    .evo-next-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #0E6FA8, #0FB4F0);
+      color: #fff;
+      font-size: .42em;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      white-space: nowrap;
+      box-shadow: 0 6px 16px rgba(15,180,240,.30);
+    }
+
+    /* Badge card Anthropic/Claude (model-grid) */
+    .model-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: .46em;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 3px 11px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #0E6FA8, #0FB4F0);
+      color: #fff;
+    }
+
+    /* Watermark icon ứng dụng (Word/Excel/PowerPoint) góc phải slide */
+    .app-mark {
+      position: absolute;
+      top: 64px;
+      right: 70px;
+      width: 148px;
+      height: 148px;
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 92px;
+      color: #fff;
+      opacity: .12;
+      pointer-events: none;
+    }
+    .app-mark.word  { background: #185ABD; }
+    .app-mark.excel { background: #107C41; }
+    .app-mark.ppt   { background: #C43E1C; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide-header .step-pill::before { animation: none; }
+    }
+
+    /* ============================================================
+       ANIMATION PACK — chuyển động từng trang (chỉ deck này)
+       Mọi animation vào-slide scope .reveal .present → chạy lại
+       mỗi lần vào slide. Trạng thái ẩn chỉ tồn tại trong .present
+       (pattern "animation ... both") — không set opacity:0 tĩnh.
+       ============================================================ */
+
+    /* ---- Keyframes chung ---- */
+    @keyframes aiAurora {
+      0%, 100% { background-position: 0% 0%; }
+      50%      { background-position: 100% 65%; }
+    }
+    @keyframes aiCardIn {
+      from { opacity: 0; transform: translateY(14px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes aiLetterIn {
+      from { opacity: 0; transform: translateY(16px); filter: blur(4px); }
+      to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+    }
+    @keyframes aiTagDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes aiUnderline {
+      from { width: 0; opacity: 0; }
+      to   { width: 48px; opacity: 1; }
+    }
+    @keyframes aiDotPop {
+      0%   { transform: translateX(-50%) scale(0);    box-shadow: 0 0 0 0 rgba(15,180,240,.55); }
+      60%  { transform: translateX(-50%) scale(1.35); box-shadow: 0 0 0 8px rgba(15,180,240,.30); }
+      100% { transform: translateX(-50%) scale(1);    box-shadow: 0 0 0 4px rgba(15,180,240,.22); }
+    }
+    @keyframes aiArrowNudge {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(4px); }
+    }
+    @keyframes aiBadgeShake {
+      0%   { transform: translateX(-50%) rotate(0); }
+      25%  { transform: translateX(-52%) rotate(-2deg); }
+      50%  { transform: translateX(-48%) rotate(2deg); }
+      72%  { transform: translateX(-51%) rotate(-1deg); }
+      100% { transform: translateX(-50%) rotate(0); }
+    }
+    @keyframes aiCursorBlink {
+      0%   { opacity: 1; }
+      12%  { opacity: 0; }
+      24%  { opacity: 1; }
+      36%  { opacity: 0; }
+      48%  { opacity: 1; }
+      60%  { opacity: 0; }
+      72%  { opacity: 1; }
+      84%  { opacity: 0; }
+      92%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes aiBaLeft {
+      from { opacity: 0; transform: translateX(-36px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes aiBaRight {
+      from { opacity: 0; transform: translateX(36px) scale(.97); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes aiIconGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(15,180,240,0); }
+      50%      { box-shadow: 0 0 22px 2px rgba(15,180,240,.25); }
+    }
+
+    /* ---- 1. Aurora trôi chậm trên mọi slide tối (rất tinh tế: 8% / 80s) ---- */
+    .reveal .slides section.present.slide-bg-light,
+    .reveal .slides section.present.slide-bg-mesh {
+      background-size: 108% 108%;
+      animation: aiAurora 80s linear infinite;
+    }
+
+    /* ---- 2. Cover: chữ [A·I] hiện lần lượt (blur→rõ), tag trượt xuống, title fade-up ---- */
+    .reveal .slides section.present .cv3-hero-text .cv3-hero-letter {
+      animation: aiLetterIn .55s cubic-bezier(.4,0,.2,1) both,
+                 cv3HeroShift 4s ease-in-out 2s infinite;
+    }
+    .reveal .slides section.present .cv3-hero-text .cv3-hero-letter:nth-child(1) { animation-delay: 1.05s, 2s; }
+    .reveal .slides section.present .cv3-hero-text .cv3-hero-dot                { animation-delay: 1.12s, 2.05s; }
+    .reveal .slides section.present .cv3-hero-text .cv3-hero-letter:nth-child(3) { animation-delay: 1.19s, 2.1s; }
+    .reveal .slides section.present .cover-v3 > .cv3-tag {
+      animation: aiTagDown .7s cubic-bezier(.4,0,.2,1) .5s both;
+    }
+    .reveal .slides section.present .cover-v3 > .cv3-title {
+      animation: cv3In .9s cubic-bezier(.4,0,.2,1) .7s both;
+    }
+    /* .cv3-hero-glow: giữ nguyên nhịp thở cv3HeroGlow của theme */
+
+    /* ---- 3. Tiêu đề slide: gạch chân gradient tím→cyan vẽ dần ---- */
+    .slide-header h2,
+    .slide-header h3 { position: relative; }
+    .slide-header h2::after,
+    .slide-header h3::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      bottom: -10px;
+      width: 48px;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #0E6FA8, #0FB4F0);
+    }
+    .reveal .slides section.present .slide-header h2::after,
+    .reveal .slides section.present .slide-header h3::after {
+      animation: aiUnderline .6s cubic-bezier(.4,0,.2,1) .3s both;
+    }
+
+    /* ---- 4. Lưới card: stagger con, container chỉ fade (tránh giật đúp) ---- */
+    .reveal .slides section.present .anim-fade-up:is(.model-grid, .tool-grid, .pc-grid, .office-grid, .rule-grid, .stage-flow, .ai-timeline) {
+      animation: fadeIn .5s ease .1s both;
+    }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > * {
+      animation: aiCardIn .6s cubic-bezier(.22,.68,.3,1.02) both;
+    }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *:nth-child(1) { animation-delay: .25s; }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *:nth-child(2) { animation-delay: .32s; }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *:nth-child(3) { animation-delay: .39s; }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *:nth-child(4) { animation-delay: .46s; }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *:nth-child(5) { animation-delay: .53s; }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *:nth-child(6) { animation-delay: .60s; }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *:nth-child(7) { animation-delay: .67s; }
+    .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *:nth-child(8) { animation-delay: .74s; }
+
+    /* ---- 5. Timeline lịch sử: mỗi hàng 1 đường vẽ dần (hàng 2 trễ ~.6s) → cascade → chấm pop ---- */
+    .reveal .slides section.present .ai-tl-row::after {
+      animation: tlLineDraw 1s cubic-bezier(.4,0,.2,1) .15s both;
+      transform-origin: left center;
+    }
+    .reveal .slides section.present .ai-tl-row:nth-child(2)::after { animation-delay: .75s; }
+    @keyframes tlLineDraw {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    .reveal .slides section.present .ai-tl-row > .ai-tl-item {
+      animation: aiCardIn .6s cubic-bezier(.22,.68,.3,1.02) both;
+    }
+    .reveal .slides section.present .ai-tl-row:nth-child(1) > .ai-tl-item:nth-child(1) { animation-delay: .30s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(1) > .ai-tl-item:nth-child(2) { animation-delay: .42s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(1) > .ai-tl-item:nth-child(3) { animation-delay: .54s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(1) > .ai-tl-item:nth-child(4) { animation-delay: .66s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(2) > .ai-tl-item:nth-child(1) { animation-delay: .90s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(2) > .ai-tl-item:nth-child(2) { animation-delay: 1.02s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(2) > .ai-tl-item:nth-child(3) { animation-delay: 1.14s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(2) > .ai-tl-item:nth-child(4) { animation-delay: 1.26s; }
+    .reveal .slides section.present .ai-tl-row > .ai-tl-item::after {
+      animation: aiDotPop .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    .reveal .slides section.present .ai-tl-row:nth-child(1) > .ai-tl-item:nth-child(1)::after { animation-delay: .75s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(1) > .ai-tl-item:nth-child(2)::after { animation-delay: .87s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(1) > .ai-tl-item:nth-child(3)::after { animation-delay: .99s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(1) > .ai-tl-item:nth-child(4)::after { animation-delay: 1.11s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(2) > .ai-tl-item:nth-child(1)::after { animation-delay: 1.35s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(2) > .ai-tl-item:nth-child(2)::after { animation-delay: 1.47s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(2) > .ai-tl-item:nth-child(3)::after { animation-delay: 1.59s; }
+    .reveal .slides section.present .ai-tl-row:nth-child(2) > .ai-tl-item:nth-child(4)::after { animation-delay: 1.71s; }
+
+    /* ---- 6. Stage-flow: card pop lần lượt, mũi tên trôi nhẹ, badge rung 1 lần ---- */
+    .reveal .slides section.present .stage-flow > .stage-card {
+      animation: aiCardIn .6s cubic-bezier(.22,.68,.3,1.02) both;
+    }
+    .reveal .slides section.present .stage-flow > .stage-card:nth-child(1) { animation-delay: .20s; }
+    .reveal .slides section.present .stage-flow > .stage-card:nth-child(3) { animation-delay: .40s; }
+    .reveal .slides section.present .stage-flow > .stage-card:nth-child(5) { animation-delay: .60s; }
+    .reveal .slides section.present .stage-flow > .stage-arrow {
+      animation: fadeIn .5s ease both, aiArrowNudge 2.4s ease-in-out infinite;
+    }
+    .reveal .slides section.present .stage-flow > .stage-arrow:nth-child(2) { animation-delay: .40s, 1.3s; }
+    .reveal .slides section.present .stage-flow > .stage-arrow:nth-child(4) { animation-delay: .60s, 1.5s; }
+    .reveal .slides section.present .stage-card.now::after {
+      animation: aiBadgeShake .55s ease-in-out 1.15s 1;
+    }
+
+    /* ---- 7. Chat-demo: user vào từ trái → AI vào từ phải (trễ ~.8s) + con trỏ gõ ---- */
+    .reveal .slides section.present .chat-msg.user {
+      animation: slideInLeft .6s cubic-bezier(.4,0,.2,1) .25s both;
+    }
+    .reveal .slides section.present .chat-msg.ai {
+      animation: slideInRight .6s cubic-bezier(.4,0,.2,1) 1.05s both;
+    }
+    .reveal .slides section.present .chat-msg.ai .bubble::after {
+      content: '▍';
+      margin-left: 3px;
+      color: #0FB4F0;
+      opacity: 0;
+      animation: aiCursorBlink 2.1s step-end 1.15s 1 forwards;
+    }
+
+    /* ---- 8. Before/After: before từ trái trước, after từ phải sau (+scale nhẹ) ---- */
+    .reveal .slides section.present .ba-grid > .ba-card.before {
+      animation: aiBaLeft .65s cubic-bezier(.22,.68,.3,1.02) .20s both;
+    }
+    .reveal .slides section.present .ba-grid > .ba-card.after {
+      animation: aiBaRight .65s cubic-bezier(.22,.68,.3,1.02) .55s both;
+    }
+
+    /* ---- 9. Q&A: theme.css đã có qaFloat (bubble trôi lệch pha) + qaLetter/qaAmp (title pop),
+            tự chạy lại khi vào slide — không cần bổ sung ---- */
+
+    /* ---- 10. Icon glow pulse rất nhẹ — chỉ trên slide present ---- */
+    .reveal .slides section.present .goal-icon,
+    .reveal .slides section.present .office-icon,
+    .reveal .slides section.present .stage-icon {
+      animation: aiIconGlow 4s ease-in-out 1.4s infinite;
+    }
+
+    /* ---- Tắt toàn bộ animation mới khi người dùng giảm chuyển động ---- */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal .slides section.present.slide-bg-light,
+      .reveal .slides section.present.slide-bg-mesh,
+      .reveal .slides section.present .cv3-hero-text .cv3-hero-letter,
+      .reveal .slides section.present .cv3-hero-text .cv3-hero-dot,
+      .reveal .slides section.present .cover-v3 > .cv3-tag,
+      .reveal .slides section.present .cover-v3 > .cv3-title,
+      .reveal .slides section.present .slide-header h2::after,
+      .reveal .slides section.present .slide-header h3::after,
+      .reveal .slides section.present :is(.cards-goal, .model-grid, .tool-grid, .pc-grid, .office-grid, .ai-stats, .rule-grid) > *,
+      .reveal .slides section.present .anim-fade-up:is(.model-grid, .tool-grid, .pc-grid, .office-grid, .rule-grid, .stage-flow, .ai-timeline),
+      .reveal .slides section.present .ai-tl-row::after,
+      .reveal .slides section.present .ai-tl-row > .ai-tl-item,
+      .reveal .slides section.present .ai-tl-row > .ai-tl-item::after,
+      .reveal .slides section.present .stage-flow > .stage-card,
+      .reveal .slides section.present .stage-flow > .stage-arrow,
+      .reveal .slides section.present .stage-card.now::after,
+      .reveal .slides section.present .chat-msg.user,
+      .reveal .slides section.present .chat-msg.ai,
+      .reveal .slides section.present .ba-grid > .ba-card.before,
+      .reveal .slides section.present .ba-grid > .ba-card.after,
+      .reveal .slides section.present .goal-icon,
+      .reveal .slides section.present .office-icon,
+      .reveal .slides section.present .stage-icon {
+        animation: none !important;
+      }
+      /* Cover: theme đặt opacity 0 tĩnh — khi tắt animation phải ép hiện */
+      .reveal .slides section.present .cover-v3 > *,
+      .reveal .slides section.present .cv3-hero-text .cv3-hero-letter,
+      .reveal .slides section.present .cv3-hero-text .cv3-hero-dot {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      .reveal .slides section.present .chat-msg.ai .bubble::after { content: none; }
+    }
+
+    /* ============================================================
+       ANIMATION PACK 2 — design pass (chỉ transform/opacity, tiết chế)
+       ============================================================ */
+
+    /* ---- 11. Diễn giả: shimmer chạy chậm trên tên gradient ---- */
+    @keyframes aiShimmer {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .reveal .slides section.present .speaker-name {
+      animation: aiShimmer 7s ease-in-out 1.2s infinite;
+    }
+
+    /* ---- 12. Tiến hóa: bar vẽ dần → 3 cột trái→phải → chip con stagger → callout sau cùng ---- */
+    @keyframes aiBarDraw {
+      from { transform: scaleX(0); opacity: 0; }
+      to   { transform: scaleX(1); opacity: 1; }
+    }
+    @keyframes aiChipUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal .slides section.present .evo-bar {
+      transform-origin: left center;
+      animation: aiBarDraw .9s cubic-bezier(.4,0,.2,1) .15s both;
+    }
+    .reveal .slides section.present .evo-grid > .office-card {
+      animation: aiCardIn .6s cubic-bezier(.22,.68,.3,1.02) both;
+    }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(1) { animation-delay: .30s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(2) { animation-delay: .55s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(3) { animation-delay: .80s; }
+    .reveal .slides section.present .evo-grid > .office-card span {
+      animation: aiChipUp .45s ease both;
+    }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(1) span:nth-child(1) { animation-delay: .62s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(1) span:nth-child(2) { animation-delay: .68s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(1) span:nth-child(3) { animation-delay: .74s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(2) span:nth-child(1) { animation-delay: .87s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(2) span:nth-child(2) { animation-delay: .93s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(2) span:nth-child(3) { animation-delay: .99s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(3) span:nth-child(1) { animation-delay: 1.12s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(3) span:nth-child(2) { animation-delay: 1.18s; }
+    .reveal .slides section.present .evo-grid > .office-card:nth-child(3) span:nth-child(3) { animation-delay: 1.24s; }
+
+    /* ---- 13. Câu chốt/callout: fade-up + viền glow nhẹ 1 lần (không lặp) ---- */
+    @keyframes aiPunchGlow {
+      0%   { box-shadow: 0 0 0 0 rgba(15,180,240,0); }
+      40%  { box-shadow: 0 0 26px 3px rgba(15,180,240,.28); }
+      100% { box-shadow: 0 0 0 0 rgba(15,180,240,0); }
+    }
+    .reveal .slides section.present .punch-line {
+      border-radius: 10px;
+      animation: fadeUp .8s cubic-bezier(.4,0,.2,1) both, aiPunchGlow 1.8s ease-out 1;
+      animation-delay: .60s, 1.35s;
+    }
+    /* Callout slide Tiến hóa: hiện SAU cùng (delay ~1.2s) */
+    .reveal .slides section.present .evo-callout {
+      animation: fadeUp .8s cubic-bezier(.4,0,.2,1) both, aiPunchGlow 1.8s ease-out 1;
+      animation-delay: 1.2s, 1.95s;
+    }
+
+    /* ---- 14. Hover: nhấc nhẹ + viền sáng cyan (transition, không animation;
+            dùng thuộc tính `translate` để không đụng transform của animation fill) ---- */
+    .goal-card, .tool-card, .office-card {
+      transition: translate .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .goal-card:hover, .tool-card:hover, .office-card:hover {
+      translate: 0 -4px;
+      border-color: rgba(15,180,240,.55);
+      box-shadow: 0 14px 30px rgba(14,111,168,.16), 0 0 16px rgba(15,180,240,.14);
+    }
+
+    /* ---- Tắt animation pack 2 khi người dùng giảm chuyển động ---- */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal .slides section.present .speaker-name,
+      .reveal .slides section.present .evo-bar,
+      .reveal .slides section.present .evo-grid > .office-card,
+      .reveal .slides section.present .evo-grid > .office-card span,
+      .reveal .slides section.present .evo-callout,
+      .reveal .slides section.present .punch-line {
+        animation: none !important;
+      }
+      .goal-card, .tool-card, .office-card { transition: none; }
+      .goal-card:hover, .tool-card:hover, .office-card:hover { translate: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ========== 1. COVER ========== -->
+      <section data-background-color="#0A1B2E" class="slide-bg-mesh slide-cover" data-transition="convex">
+        <div class="cover-v3">
+          <div class="cv3-top">
+            <img src="../assets/logo-vci-white.png" alt="VCI" class="cv3-vci" />
+          </div>
+
+          <div class="cv3-divider"><span></span></div>
+
+          <div class="cv3-tag">KHÓA ĐÀO TẠO NỘI BỘ · VCI · 2026</div>
+
+          <h1 class="cv3-title">
+            Claude &amp; AI trong công việc<br />
+            <span class="cv3-sub">Từ hiểu AI đến ứng dụng Claude vào công việc văn phòng</span>
+          </h1>
+
+          <div class="cv3-hero" aria-label="CLAUDE" style="font-size: 92px;">
+            <span class="cv3-hero-bracket cv3-hero-bracket-l">[</span>
+            <span class="cv3-hero-text">
+              <span class="cv3-hero-letter" style="animation-delay: 1.05s, 2s;">C</span><span
+                class="cv3-hero-letter" style="animation-delay: 1.12s, 2.08s;">L</span><span
+                class="cv3-hero-letter" style="animation-delay: 1.19s, 2.16s;">A</span><span
+                class="cv3-hero-letter" style="animation-delay: 1.26s, 2.24s;">U</span><span
+                class="cv3-hero-letter" style="animation-delay: 1.33s, 2.32s;">D</span><span
+                class="cv3-hero-letter" style="animation-delay: 1.40s, 2.4s;">E</span>
+            </span>
+            <span class="cv3-hero-bracket cv3-hero-bracket-r">]</span>
+            <span class="cv3-hero-glow"></span>
+          </div>
+
+          <div class="cv3-date">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" />
+            </svg>
+            <span>45–60 phút · Có thực hành</span>
+          </div>
+
+          <div class="cv3-bot">
+            <span>Tháng 08 / 2026</span>
+            <span class="cv3-bot-sep"></span>
+            <span>VCI · Đào tạo nội bộ</span>
+            <span class="cv3-bot-sep"></span>
+            <span>vcijsc.com</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 2. GIỚI THIỆU DIỄN GIẢ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">Diễn giả</div>
+            <h2 class="anim-fade-up d-1">Người đồng hành hôm nay</h2>
+          </div>
+        </div>
+
+        <div class="anim-fade-up d-2" style="text-align: center; margin-top: 16px;">
+          <img src="../assets/speaker-cuong-bui.jpg" alt="Mr. Cuong Bui" style="width:180px;height:180px;border-radius:50%;object-fit:cover;object-position:top;border:4px solid #0FB4F0;box-shadow:0 12px 32px rgba(14,111,168,.25);" onerror="this.style.display='none';document.getElementById('cb-fallback').style.display='flex'" />
+          <div class="speaker-avatar" id="cb-fallback" style="display:none;"><span>CB</span></div>
+          <div class="speaker-name" style="font-family: var(--font-display); font-weight: 800; font-size: 1.5em; letter-spacing: -0.02em; line-height: 1.1; background: linear-gradient(120deg, #0E6FA8 20%, #0B87B8 40%, #0FB4F0 50%, #0B87B8 60%, #0E6FA8 80%); background-size: 220% auto; -webkit-background-clip: text; background-clip: text; color: transparent;">
+            Mr. Cuong Bui</div>
+          <div style="margin-top: 8px; font-size: .66em; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-soft);">
+            PMO · Công ty VCI</div>
+        </div>
+
+        <p class="lead lead-hero anim-fade-up d-3" style="text-align: center; max-width: 900px; margin-left: auto; margin-right: auto;">
+          Hơn <strong>12 năm</strong> phát triển phần mềm · quản lý dự án
+          <span class="hl-yellow">chuyển đổi số cho doanh nghiệp xây dựng</span> · dùng AI/Claude hằng ngày tại VCI.
+        </p>
+
+        <div class="ai-stats anim-fade-up d-4" style="max-width: 880px; margin: 20px auto 0;">
+          <div class="ai-stat">
+            <div class="num">12<small>+</small></div>
+            <div class="cap">Năm kinh nghiệm phần mềm</div>
+          </div>
+          <div class="ai-stat">
+            <div class="num">PMO</div>
+            <div class="cap">Quản lý dự án chuyển đổi số</div>
+          </div>
+          <div class="ai-stat">
+            <div class="num">VCI</div>
+            <div class="cap">Ứng dụng AI/Claude hằng ngày</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 3. MỤC LỤC ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">Mục lục</div>
+            <h3 class="anim-fade-up d-1">Nội dung trình bày</h3>
+          </div>
+        </div>
+        <ol class="toc" style="display: grid; grid-template-columns: 1fr 1fr;">
+          <li class="anim-fade-up d-1"><span>Mở đầu — AI đang thay đổi cách làm việc</span></li>
+          <li class="anim-fade-up d-2"><span>Sự tiến hóa của AI &amp; các mô hình trên thị trường</span></li>
+          <li class="anim-fade-up d-3"><span>Giới thiệu Claude</span></li>
+          <li class="anim-fade-up d-4"><span>Ứng dụng Claude: Word, Excel, PowerPoint &amp; công cụ</span></li>
+          <li class="anim-fade-up d-5"><span>Hỏi đáp</span></li>
+        </ol>
+      </section>
+
+      <!-- ========== 4. MỞ ĐẦU — VÌ SAO CẦN HỌC DÙNG AI BÀI BẢN ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">01 — Mở đầu</div>
+            <h2 class="anim-fade-up d-1">Vì sao cần học dùng AI bài bản?</h2>
+          </div>
+        </div>
+        <p class="lead lead-hero anim-fade-up d-2">
+          Cách làm việc kiểu cũ đang có <strong>3 vấn đề lớn</strong> —
+          <span class="hl-yellow">và dùng AI tùy tiện không giải quyết được vấn đề nào</span>.
+        </p>
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3 2" />
+              </svg>
+            </div>
+            <h3>Việc lặp chiếm 70–80%</h3>
+            <p>Báo cáo định kỳ, nhập liệu, email mẫu — ngốn phần lớn thời gian nhưng không tạo giá trị mới.</p>
+            <div class="goal-tag"><span class="dot"></span>VIỆC LẶP</div>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <path d="M12 9v4M12 17h.01" />
+              </svg>
+            </div>
+            <h3>Dùng AI tự phát</h3>
+            <p>Mỗi người một kiểu, dán cả dữ liệu công ty lên công cụ ngoài — mà không ai kiểm soát.</p>
+            <div class="goal-tag"><span class="dot"></span>RỦI RO</div>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <line x1="17" y1="8" x2="22" y2="13" />
+                <line x1="22" y1="8" x2="17" y2="13" />
+              </svg>
+            </div>
+            <h3>Kiến thức bốc hơi</h3>
+            <p>Kinh nghiệm nằm trong đầu từng người — <strong>người nghỉ việc là kiến thức đi theo</strong>.</p>
+            <div class="goal-tag"><span class="dot"></span>TRI THỨC</div>
+          </div>
+        </div>
+        <p class="anim-fade-up d-5 punch-line" style="margin-top: 20px; font-size: .68em; color: var(--text-soft); text-align: center;">
+          <strong style="color: var(--brand-primary);">Khóa này để dùng AI ĐÚNG CÁCH — hiệu quả và an toàn.</strong><br />
+          78% người dùng Internet Việt Nam đã dùng AI (Decision Lab, 2025) · tiết kiệm trung bình <strong>~5,4 giờ/tuần</strong>
+        </p>
+      </section>
+
+      <!-- ========== 5. SỰ TIẾN HÓA — TỪ AI HỎI ĐÁP → AI CỘNG SỰ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">02 — Tiến hóa AI</div>
+            <h2 class="anim-fade-up d-1">Sự tiến hóa: từ AI hỏi đáp đến AI cộng sự</h2>
+          </div>
+        </div>
+
+        <div class="anim-fade-up d-2 evo-bar" style="height: 4px; border-radius: 2px; margin: 14px 0 16px;
+          background: linear-gradient(90deg, rgba(147,160,196,.45), #0E6FA8 55%, #0FB4F0);"></div>
+
+        <div class="office-grid evo-grid" style="grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 0;">
+          <div class="office-card" style="opacity: .75;">
+            <div style="font-family: var(--font-display); font-weight: 800; font-size: .72em; color: var(--text-soft);">2023–2024 · Thời ChatGPT</div>
+            <h3 style="margin-top: 6px;">Hỏi–đáp, thụ động, chỉ văn bản</h3>
+            <p style="font-size: .56em; color: var(--text-soft); line-height: 1.5; margin: 0 0 10px;">
+              Bạn hỏi — AI trả lời; việc còn lại tự copy, tự làm.</p>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-soft);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Hỏi → nhận trả lời</span>
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-soft);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> Không nhớ ngữ cảnh</span>
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-soft);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 1 người, 1 cuộc trò chuyện</span>
+            </div>
+          </div>
+
+          <div class="office-card" style="border-color: rgba(15,180,240,.45); box-shadow: 0 10px 26px rgba(15,180,240,.14);">
+            <div style="font-family: var(--font-display); font-weight: 800; font-size: .72em; color: #0B87B8;">2025 · Claude Code</div>
+            <h3 style="margin-top: 6px;">AI tự làm việc: dùng công cụ, đọc file</h3>
+            <p style="font-size: .56em; color: var(--text-soft); line-height: 1.5; margin: 0 0 10px;">
+              Không chỉ trả lời — AI trực tiếp thao tác trên tài liệu và dữ liệu của bạn.</p>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: rgba(15,180,240,.10); border: 1px solid rgba(15,180,240,.30); color: #0B87B8;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Tự dùng công cụ</span>
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: rgba(15,180,240,.10); border: 1px solid rgba(15,180,240,.30); color: #0B87B8;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Đọc &amp; viết file</span>
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: rgba(15,180,240,.10); border: 1px solid rgba(15,180,240,.30); color: #0B87B8;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Tự chạy nhiều bước</span>
+            </div>
+          </div>
+
+          <div class="office-card evo-next" style="border: 1px solid transparent;
+            background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+                        linear-gradient(135deg, #0E6FA8, #0FB4F0) border-box;
+            box-shadow: 0 14px 34px rgba(14,111,168,.20);">
+            <div class="evo-next-badge">CHÚNG TA HƯỚNG TỚI</div>
+            <div style="font-family: var(--font-display); font-weight: 800; font-size: .72em;
+              background: linear-gradient(135deg, #0E6FA8, #0FB4F0); -webkit-background-clip: text; background-clip: text; color: transparent;">2026 → · AI cộng sự (Agents)</div>
+            <h3 style="margin-top: 6px;">Phối hợp nhóm, tự kiểm tra, tự cải thiện</h3>
+            <p style="font-size: .56em; color: var(--text-soft); line-height: 1.5; margin: 0 0 10px;">
+              Nhiều AI chia việc, nhớ bối cảnh, tự rà kết quả trước khi giao.</p>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: rgba(14,111,168,.10); border: 1px solid rgba(14,111,168,.30); color: #0B87B8;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Nhiều AI cùng làm</span>
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: rgba(14,111,168,.10); border: 1px solid rgba(14,111,168,.30); color: #0B87B8;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg> Nhớ xuyên phiên</span>
+              <span style="align-self: flex-start; font-size: .5em; font-weight: 600; padding: 4px 10px; border-radius: 99px; background: rgba(14,111,168,.10); border: 1px solid rgba(14,111,168,.30); color: #0B87B8;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#0E6FA8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:3px"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Tự cải thiện</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="evo-callout" style="margin: 22px auto 0; max-width: 860px; padding: 14px 24px; text-align: center;
+          font-size: .7em; line-height: 1.6; border-radius: 12px; border: 1px solid transparent; color: var(--text);
+          background: linear-gradient(#EFF6FB, #EFF6FB) padding-box,
+                      linear-gradient(135deg, #0E6FA8, #0FB4F0) border-box;">
+          Không phải <strong>"nhanh hơn"</strong> — mà là <strong>"làm được thứ trước đây cần cả một nhóm người"</strong>.
+        </p>
+      </section>
+
+      <!-- ========== 6. CÁC NHÀ PHÁT TRIỂN AI ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">03 — Nhà phát triển</div>
+            <h2 class="anim-fade-up d-1">Các nhà phát triển AI trên thị trường</h2>
+          </div>
+        </div>
+        <p class="anim-fade-up d-2" style="font-size: .72em; color: var(--text-soft);">
+          Nhiều hãng lớn cùng phát triển mô hình ngôn ngữ (LLM) — mỗi hãng một <strong>thế mạnh riêng</strong>.
+          Hôm nay chúng ta tập trung vào <strong>Claude của Anthropic</strong>.
+        </p>
+
+        <div class="model-grid anim-fade-up d-3">
+          <div class="model-card gpt">
+            <div class="model-head">
+              <div class="model-name">GPT-5 · ChatGPT</div>
+              <div class="model-owner">OpenAI</div>
+            </div>
+            <div class="model-desc">Mô hình đa năng phổ biến nhất. Mạnh về hội thoại, sáng tạo, viết văn.</div>
+            <div class="model-tags"><span class="model-tag">Đa năng</span><span class="model-tag">Phổ biến nhất</span></div>
+          </div>
+          <div class="model-card claude" style="border-color: rgba(233,120,82,.60); box-shadow: 0 12px 30px rgba(233,120,82,.25);">
+            <div class="model-head">
+              <div class="model-name">Claude</div>
+              <div class="model-owner">Anthropic</div>
+            </div>
+            <div class="model-desc">Nổi bật về tài liệu dài, phân tích số liệu, viết chỉn chu — đặt an toàn làm nền tảng.</div>
+            <div class="model-tags"><span class="model-tag">Tài liệu dài</span><span class="model-tag">Phân tích</span><span class="model-tag">An toàn</span></div>
+            <div class="model-badge">★ Dùng trong khóa này</div>
+          </div>
+          <div class="model-card gemini">
+            <div class="model-head">
+              <div class="model-name">Gemini</div>
+              <div class="model-owner">Google</div>
+            </div>
+            <div class="model-desc">Tích hợp sâu với hệ Google: Gmail, Docs, Drive. Mạnh về đa phương tiện.</div>
+            <div class="model-tags"><span class="model-tag">Hệ Google</span><span class="model-tag">Đa phương tiện</span></div>
+          </div>
+          <div class="model-card llama">
+            <div class="model-head">
+              <div class="model-name">Llama</div>
+              <div class="model-owner">Meta</div>
+            </div>
+            <div class="model-desc">Mã nguồn mở — doanh nghiệp tự triển khai &amp; huấn luyện lại theo nhu cầu.</div>
+            <div class="model-tags"><span class="model-tag">Mã nguồn mở</span><span class="model-tag">Tùy biến</span></div>
+          </div>
+          <div class="model-card grok">
+            <div class="model-head">
+              <div class="model-name">Grok</div>
+              <div class="model-owner">xAI</div>
+            </div>
+            <div class="model-desc">Truy cập X (Twitter) theo thời gian thực — hợp cho theo dõi tin tức.</div>
+            <div class="model-tags"><span class="model-tag">Thời gian thực</span><span class="model-tag">Mạng xã hội</span></div>
+          </div>
+          <div class="model-card deepseek">
+            <div class="model-head">
+              <div class="model-name">DeepSeek</div>
+              <div class="model-owner">Trung Quốc</div>
+            </div>
+            <div class="model-desc">Mã nguồn mở, chi phí thấp, mạnh về suy luận logic &amp; tính toán.</div>
+            <div class="model-tags"><span class="model-tag">Mã nguồn mở</span><span class="model-tag">Chi phí thấp</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 7. CHỌN MÔ HÌNH THEO VIỆC ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">04 — Mô hình</div>
+            <h2 class="anim-fade-up d-1">Mỗi mô hình một thế mạnh — chọn theo việc</h2>
+          </div>
+        </div>
+        <p class="anim-fade-up d-2" style="font-size: .72em; color: var(--text-soft);">
+          Câu hỏi đúng không phải "AI nào tốt nhất?" mà là <strong>"việc này nên giao cho AI nào?"</strong>
+        </p>
+
+        <div class="tool-grid anim-fade-up d-3" style="grid-template-columns: repeat(5, 1fr);">
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#E97852,#A8451A)">CL</div>
+            <div class="tool-name">Claude</div>
+            <div class="tool-desc">Viết &amp; phân tích tài liệu dài, số liệu, báo cáo chỉn chu</div>
+            <span class="tool-tag">Tài liệu</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#20808D,#0C4A5A)">Px</div>
+            <div class="tool-name">Perplexity</div>
+            <div class="tool-desc">Tra cứu có trích dẫn nguồn — nghiên cứu, kiểm chứng thông tin</div>
+            <span class="tool-tag">Tra cứu</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#0067B8,#005A9E)">CP</div>
+            <div class="tool-name">Copilot</div>
+            <div class="tool-desc">Làm việc ngay trong Word, Excel, Outlook — hệ Microsoft 365</div>
+            <span class="tool-tag">Microsoft</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#4285F4,#1A73E8)">Ge</div>
+            <div class="tool-name">Gemini</div>
+            <div class="tool-desc">Gmail, Docs, Sheets, Drive — hệ Google Workspace</div>
+            <span class="tool-tag">Google</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">GPT</div>
+            <div class="tool-name">ChatGPT</div>
+            <div class="tool-desc">Sáng tạo đa năng: viết, dịch, tạo ảnh, hội thoại</div>
+            <span class="tool-tag">Đa năng</span>
+          </div>
+        </div>
+
+        <p class="anim-fade-up d-6 punch-line" style="margin-top: 24px; font-size: .68em; color: var(--text-soft); text-align: center;">
+          <strong style="color: var(--brand-primary);">Không có mô hình tốt nhất cho mọi việc — chỉ có mô hình hợp với việc của bạn.</strong>
+        </p>
+      </section>
+
+      <!-- ========== 8. CLAUDE LÀ GÌ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">05 — Claude là gì</div>
+            <h2 class="anim-fade-up d-1">Claude là gì?</h2>
+          </div>
+        </div>
+        <p class="lead lead-hero anim-fade-up d-2">
+          Claude là <strong>trợ lý AI</strong> mạnh về đọc, viết và phân tích —
+          <span class="hl-yellow">sinh ra để làm việc với tài liệu và số liệu</span>.
+        </p>
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z" />
+              </svg>
+            </div>
+            <h3>Do Anthropic phát triển</h3>
+            <p>Công ty AI của Mỹ, thành lập 2021 — đặt <strong>an toàn</strong> làm nền tảng ngay từ khâu thiết kế mô hình.</p>
+            <div class="goal-tag"><span class="dot"></span>ANTHROPIC</div>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+                <line x1="9" y1="17" x2="13" y2="17" />
+              </svg>
+            </div>
+            <h3>Mạnh về công việc văn phòng</h3>
+            <p>Đọc hiểu tài liệu rất dài (hàng trăm trang), viết chỉn chu, phân tích số liệu — tiếng Việt tốt.</p>
+            <div class="goal-tag"><span class="dot"></span>VĂN PHÒNG</div>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M12 2 2 7l10 5 10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h3>Một hệ nhiều cấp</h3>
+            <p>Các bản <strong>Haiku</strong> (nhanh gọn) · <strong>Sonnet</strong> (cân bằng) · <strong>Opus</strong> (mạnh nhất) — chọn theo độ khó của việc.</p>
+            <div class="goal-tag"><span class="dot"></span>NHIỀU CẤP</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 9. BA CÁCH DÙNG CLAUDE ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">06 — Dùng Claude ở đâu</div>
+            <h2 class="anim-fade-up d-1">Ba cách dùng Claude</h2>
+          </div>
+        </div>
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </div>
+            <h3>Claude.ai</h3>
+            <p>Web &amp; ứng dụng điện thoại: trò chuyện, đính kèm file Word, Excel, PDF, ảnh — dùng ngay không cần cài đặt.</p>
+            <div class="goal-tag"><span class="dot"></span>PHỔ THÔNG</div>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
+            </div>
+            <h3>Claude trong công cụ</h3>
+            <p>Tích hợp vào phần mềm của công ty qua API — Claude chạy "ngầm" bên trong quy trình nghiệp vụ.</p>
+            <div class="goal-tag"><span class="dot"></span>DOANH NGHIỆP</div>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5" />
+                <line x1="12" y1="19" x2="20" y2="19" />
+              </svg>
+            </div>
+            <h3>Claude Code</h3>
+            <p>AI làm việc trực tiếp trên máy tính: đọc cả thư mục file, xử lý số liệu, tạo báo cáo &amp; slide nhiều bước liền.</p>
+            <div class="goal-tag"><span class="dot"></span>NÂNG CAO</div>
+          </div>
+        </div>
+        <p class="anim-fade-up d-5 punch-line" style="margin-top: 22px; font-size: .68em; color: var(--text-soft); text-align: center;">
+          💡 <strong style="color: var(--brand-primary);">Chính bộ slide này được dựng bằng Claude Code.</strong>
+        </p>
+      </section>
+
+      <!-- ========== 10. VÌ SAO CLAUDE HỢP VĂN PHÒNG ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">07 — Vì sao Claude hợp văn phòng</div>
+            <h2 class="anim-fade-up d-1">Vì sao Claude hợp công việc văn phòng?</h2>
+          </div>
+        </div>
+
+        <div class="pc-grid anim-fade-up d-2">
+          <div class="pc-card pro">
+            <div class="pc-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <h3>Đọc tài liệu rất dài</h3>
+            <p>Nạp hàng trăm trang một lần — hỏi đáp, tóm tắt, đối chiếu trên toàn bộ tài liệu.</p>
+          </div>
+          <div class="pc-card pro">
+            <div class="pc-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+            <h3>Artifacts — xem ngay kết quả</h3>
+            <p>Tài liệu, bảng, slide, sơ đồ hiện ngay cạnh khung chat — xem trước và chỉnh tiếp tại chỗ.</p>
+          </div>
+          <div class="pc-card pro">
+            <div class="pc-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3>Projects — nhớ bối cảnh</h3>
+            <p>Lưu tài liệu &amp; bối cảnh theo từng dự án — không phải giải thích lại từ đầu mỗi lần.</p>
+          </div>
+          <div class="pc-card pro">
+            <div class="pc-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+            </div>
+            <h3>Phân tích Excel/CSV trực tiếp</h3>
+            <p>Đính kèm file số liệu — Claude tính toán, vẽ biểu đồ, đưa nhận xét ngay trong chat.</p>
+          </div>
+          <div class="pc-card pro">
+            <div class="pc-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3>Tiếng Việt tự nhiên</h3>
+            <p>Viết email, công văn, báo cáo bằng tiếng Việt chỉn chu, đúng giọng công sở.</p>
+          </div>
+          <div class="pc-card pro">
+            <div class="pc-ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/></svg>
+            </div>
+            <h3>Trả lời thận trọng</h3>
+            <p>Được huấn luyện đặt an toàn lên đầu — nói rõ khi không chắc chắn, hạn chế "bịa" thông tin.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 11. BA CẤP ĐỘ DÙNG AI ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">08 — Ba cấp độ</div>
+            <h2 class="anim-fade-up d-1">Ba cấp độ dùng AI — càng lên cao càng hiệu quả</h2>
+          </div>
+        </div>
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </div>
+            <h3>Cấp 1 · Viết yêu cầu tốt</h3>
+            <p>Hỏi rõ, đủ bối cảnh — như giao việc cho người mới: <strong>mục đích, đối tượng, kết quả</strong>.</p>
+            <div class="goal-tag"><span class="dot"></span>YÊU CẦU</div>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+                <line x1="9" y1="17" x2="13" y2="17" />
+              </svg>
+            </div>
+            <h3>Cấp 2 · Cung cấp đúng tài liệu</h3>
+            <p>Đính kèm <strong>file, số liệu, mẫu chuẩn</strong> — để AI hiểu đúng việc, không phải đoán.</p>
+            <div class="goal-tag"><span class="dot"></span>TÀI LIỆU</div>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5" />
+                <line x1="12" y1="19" x2="20" y2="19" />
+              </svg>
+            </div>
+            <h3>Cấp 3 · Xây quy trình</h3>
+            <p>Biến việc lặp lại thành quy trình AI làm theo: <strong>soạn → kiểm → gửi</strong> — làm một lần, dùng lại mãi.</p>
+            <div class="goal-tag"><span class="dot"></span>QUY TRÌNH</div>
+          </div>
+        </div>
+        <p class="anim-fade-up d-5 punch-line" style="margin-top: 22px; font-size: .68em; color: var(--text-soft); text-align: center;">
+          <strong style="color: var(--brand-primary);">Cùng một AI — khác cách tổ chức, hiệu quả có thể tăng thêm 64%</strong> (nghiên cứu Princeton NLP).
+        </p>
+      </section>
+
+      <!-- ========== 12. CLAUDE HỖ TRỢ KHỐI VĂN PHÒNG ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">09 — Văn phòng</div>
+            <h2 class="anim-fade-up d-1">Claude hỗ trợ khối văn phòng làm gì?</h2>
+          </div>
+        </div>
+        <p class="anim-fade-up d-2" style="font-size: .78em; color: var(--text-soft);">
+          AI giúp tiết kiệm trung bình <strong>5,4 giờ mỗi tuần</strong> (khảo sát Cục Dự trữ Liên bang Mỹ, 2026) cho các tác vụ hàng ngày — từ soạn văn bản đến báo cáo.
+        </p>
+
+        <div class="office-grid anim-fade-up d-3" style="grid-template-columns: repeat(4, 1fr);">
+          <div class="office-card">
+            <div class="office-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+            </div>
+            <h3>Word — Tài liệu</h3>
+            <ul>
+              <li>Soạn thảo, hiệu chỉnh, mở rộng ý</li>
+              <li>Tóm tắt tài liệu dài trong vài giây</li>
+              <li>Rà soát chính tả, ngữ pháp</li>
+            </ul>
+          </div>
+          <div class="office-card">
+            <div class="office-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+            </div>
+            <h3>Excel — Số liệu</h3>
+            <ul>
+              <li>Viết công thức phức tạp bằng tiếng Việt</li>
+              <li>Phân tích dữ liệu, đưa nhận xét</li>
+              <li>Chuẩn hóa &amp; dọn dẹp dữ liệu bẩn</li>
+            </ul>
+          </div>
+          <div class="office-card">
+            <div class="office-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h3>PowerPoint — Slide</h3>
+            <ul>
+              <li>Lên dàn ý từ mẩu nội dung ngắn</li>
+              <li>Viết gạch đầu dòng, tiêu đề slide</li>
+              <li>Tạo ghi chú thuyết trình</li>
+            </ul>
+          </div>
+          <div class="office-card">
+            <div class="office-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <h3>Báo cáo &amp; phân tích</h3>
+            <ul>
+              <li>Tổng hợp dữ liệu → viết báo cáo</li>
+              <li>So sánh, đánh giá, đề xuất</li>
+              <li>Trình bày biểu đồ &amp; kết luận</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 13. WORD & VĂN BẢN — TRƯỚC/SAU ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">10 — Word</div>
+            <h2 class="anim-fade-up d-1">Claude với văn bản &amp; tài liệu — trước và sau</h2>
+          </div>
+        </div>
+        <div class="app-mark word" aria-hidden="true">W</div>
+
+        <p class="anim-fade-up d-1">
+          Những việc "ngốn" thời gian nhất của khối văn phòng — <strong>Claude xử lý trong vài phút</strong>.
+        </p>
+
+        <div class="ba-grid">
+          <div class="ba-card before anim-slide-l d-2">
+            <span class="ba-tag">Trước đây — làm thủ công</span>
+            <ul>
+              <li>Đọc hết hợp đồng, biên bản 40–50 trang để nắm ý chính</li>
+              <li>Soạn công văn, tờ trình từ trang giấy trắng</li>
+              <li>Dịch tài liệu kỹ thuật tiếng Anh từng đoạn</li>
+              <li>Tổng hợp báo cáo từ nhiều email, file rời rạc</li>
+            </ul>
+            <div class="ba-time">⏱ Nửa ngày → vài ngày</div>
+          </div>
+          <div class="ba-card after anim-slide-r d-3">
+            <span class="ba-tag">Với Claude — giao việc bằng một câu</span>
+            <ul>
+              <li>"Tóm tắt hợp đồng này thành 1 trang, nêu rõ nghĩa vụ mỗi bên"</li>
+              <li>"Soạn tờ trình xin phê duyệt mua vật tư theo mẫu công ty"</li>
+              <li>"Dịch tài liệu này sang tiếng Việt, giữ nguyên thuật ngữ kỹ thuật"</li>
+              <li>"Gộp 5 báo cáo tuần này thành 1 báo cáo tháng"</li>
+            </ul>
+            <div class="ba-time">⚡ Vài phút — con người chỉ rà soát &amp; duyệt</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 14. EXCEL & SỐ LIỆU ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">11 — Excel</div>
+            <h2 class="anim-fade-up d-1">Claude với Excel &amp; số liệu</h2>
+          </div>
+        </div>
+        <div class="app-mark excel" aria-hidden="true">X</div>
+
+        <p class="lead anim-fade-up d-1" style="margin-bottom: 18px;">
+          Không cần nhớ công thức — <strong>mô tả điều bạn muốn, Claude viết công thức và phân tích giúp bạn</strong>.
+        </p>
+
+        <div class="chat-demo">
+          <div class="chat-msg user anim-fade-up d-2">
+            <div class="who">BẠN</div>
+            <div class="bubble">Tôi có bảng theo dõi vật tư 2.000 dòng. Hãy tính tổng giá trị tồn theo từng nhóm vật tư,
+              tìm các mã tồn quá 90 ngày và dựng biểu đồ so sánh theo tháng.</div>
+          </div>
+          <div class="chat-msg ai anim-fade-up d-3">
+            <div class="bubble" style="border-radius: 14px 4px 14px 14px;">
+              Đã xong. Tôi tạo: ① Bảng tổng hợp tồn theo nhóm (Pivot) · ② Danh sách 37 mã tồn &gt; 90 ngày,
+              tô đỏ các mã giá trị lớn · ③ Biểu đồ cột so sánh 6 tháng. Bạn muốn xuất PDF gửi báo cáo không?</div>
+            <div class="who">CL</div>
+          </div>
+        </div>
+
+        <div class="cards" style="margin-top: 22px; grid-template-columns: repeat(4, 1fr); gap: 18px;">
+          <div class="card anim-fade-up d-3" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Viết công thức</h3>
+            <p>VLOOKUP, SUMIFS, Pivot... mô tả bằng lời — Claude viết đúng công thức</p>
+          </div>
+          <div class="card anim-fade-up d-4" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Dọn &amp; chuẩn hóa dữ liệu</h3>
+            <p>Gộp file, tách cột, bỏ trùng lặp, phát hiện dòng bất thường</p>
+          </div>
+          <div class="card anim-fade-up d-5" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Phân tích &amp; nhận xét</h3>
+            <p>Chỉ ra xu hướng tăng giảm, điểm bất thường trong số liệu</p>
+          </div>
+          <div class="card anim-fade-up d-6" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Báo cáo &amp; biểu đồ</h3>
+            <p>Tự dựng bảng theo dõi, biểu đồ, xuất báo cáo định kỳ</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 15. POWERPOINT ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">12 — PowerPoint</div>
+            <h2 class="anim-fade-up d-1">Claude với PowerPoint — dựng slide nhanh</h2>
+          </div>
+        </div>
+        <div class="app-mark ppt" aria-hidden="true">P</div>
+
+        <p class="lead anim-fade-up d-1" style="margin-bottom: 18px;">
+          Từ một dàn ý ngắn, Claude giúp bạn ra bộ slide hoàn chỉnh.
+        </p>
+
+        <div class="chat-demo">
+          <div class="chat-msg user anim-fade-up d-2">
+            <div class="who">BẠN</div>
+            <div class="bubble">Tôi cần bộ slide 8 trang giới thiệu quy trình an toàn lao động cho công nhân mới.
+              Hãy lên dàn ý, viết gạch đầu dòng từng slide và ghi chú cho người thuyết trình.</div>
+          </div>
+          <div class="chat-msg ai anim-fade-up d-3">
+            <div class="bubble" style="border-radius: 14px 4px 14px 14px;">
+              Đã xong. Tôi tạo dàn ý 8 slide (mục tiêu → 5 quy tắc → tình huống → cam kết), mỗi slide 3–4 gạch đầu dòng ngắn,
+              kèm ghi chú thuyết trình gợi ý lời dẫn. Bạn muốn tôi xuất file PowerPoint không?</div>
+            <div class="who">CL</div>
+          </div>
+        </div>
+
+        <div class="cards" style="margin-top: 22px; grid-template-columns: repeat(4, 1fr); gap: 18px;">
+          <div class="card anim-fade-up d-3" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Lên dàn ý</h3>
+            <p>Từ nội dung ngắn, dựng cấu trúc slide mạch lạc</p>
+          </div>
+          <div class="card anim-fade-up d-4" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Viết gạch đầu dòng &amp; tiêu đề</h3>
+            <p>Súc tích, đúng trọng tâm cho từng slide</p>
+          </div>
+          <div class="card anim-fade-up d-5" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Tạo ghi chú thuyết trình</h3>
+            <p>Gợi ý lời dẫn giúp thuyết trình tự tin</p>
+          </div>
+          <div class="card anim-fade-up d-6" style="padding: 16px;">
+            <h3 style="font-size: .78em;">Gợi ý hình ảnh &amp; bố cục</h3>
+            <p>Đề xuất minh họa, cách sắp xếp trực quan</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 16. BỘ CÔNG CỤ TRONG CLAUDE ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">13 — Công cụ Claude</div>
+            <h2 class="anim-fade-up d-1">Bộ công cụ trong Claude</h2>
+          </div>
+        </div>
+        <p class="anim-fade-up d-2" style="font-size: .72em; color: var(--text-soft);">
+          Claude không chỉ là khung chat — bên trong có sẵn <strong>bộ công cụ làm việc</strong> cho dân văn phòng.
+        </p>
+
+        <div class="tool-grid anim-fade-up d-3" style="grid-template-columns: repeat(5, 1fr);">
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#E97852,#A8451A)">Ar</div>
+            <div class="tool-name">Artifacts</div>
+            <div class="tool-desc">Tạo &amp; xem trước tài liệu, trang web, sơ đồ ngay cạnh khung chat</div>
+            <span class="tool-tag">Tạo nội dung</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#0FB4F0,#0E6FA8)">Pr</div>
+            <div class="tool-name">Projects</div>
+            <div class="tool-desc">Không gian làm việc theo dự án — nhớ bối cảnh &amp; tài liệu chung</div>
+            <span class="tool-tag">Bối cảnh</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#0FB4F0,#0E7490)">Dt</div>
+            <div class="tool-name">Phân tích dữ liệu</div>
+            <div class="tool-desc">Đọc Excel/CSV, tính toán, vẽ biểu đồ ngay trong chat</div>
+            <span class="tool-tag">Số liệu</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#34D399,#0F766E)">We</div>
+            <div class="tool-name">Tìm kiếm web</div>
+            <div class="tool-desc">Tra cứu thông tin mới — vượt "mốc kiến thức" của mô hình</div>
+            <span class="tool-tag">Cập nhật</span>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: linear-gradient(135deg,#F59E0B,#B45309)">CC</div>
+            <div class="tool-name">Claude Code</div>
+            <div class="tool-desc">Tự động hóa việc nhiều bước ngay trên máy tính của bạn</div>
+            <span class="tool-tag">Tự động</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 17. QUY TẮC VÀNG ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">14 — Quy tắc vàng</div>
+            <h2 class="anim-fade-up d-1">Quy tắc vàng: Claude soạn — bạn kiểm</h2>
+          </div>
+        </div>
+        <p class="lead lead-hero anim-fade-up d-2">
+          Xem kết quả AI như <strong>bản nháp của nhân viên mới</strong> — <span class="hl-yellow">phải kiểm trước khi gửi</span>.
+        </p>
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                <path d="M8 11l2 2 4-4" />
+              </svg>
+            </div>
+            <h3>Đọc lại toàn bộ trước khi gửi</h3>
+            <p>Duyệt như bài của người mới: ý <strong>đúng thực tế</strong> chưa, giọng văn hợp người nhận chưa.</p>
+            <div class="goal-tag"><span class="dot"></span>ĐỌC LẠI</div>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <path d="M12 9v4M12 17h.01" />
+              </svg>
+            </div>
+            <h3>Tra lại chỗ AI hay sai</h3>
+            <p><strong>Con số, ngày tháng, tên riêng, trích dẫn</strong> — đối chiếu với file gốc trước khi dùng.</p>
+            <div class="goal-tag"><span class="dot"></span>SỐ LIỆU</div>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M16 11l2 2 4-4" />
+              </svg>
+            </div>
+            <h3>Việc hệ trọng — người thật duyệt</h3>
+            <p>Hợp đồng, pháp lý, số liệu gửi khách hàng: <strong>người có chuyên môn</strong> phải xem lại.</p>
+            <div class="goal-tag"><span class="dot"></span>TRÁCH NHIỆM</div>
+          </div>
+        </div>
+        <p class="anim-fade-up d-5 punch-line" style="margin-top: 14px; padding: 10px 18px; border-left: 4px solid #CB2330; background: rgba(203,35,48,.08); border-radius: 10px; font-size: .62em; line-height: 1.55;"><strong style="color:#CB2330;">⚠</strong> <strong style="color: var(--brand-primary);">Kiểm 2 phút trước khi gửi</strong> — và không đưa dữ liệu công ty/khách hàng lên công cụ AI bên ngoài (<strong>Luật Bảo vệ dữ liệu cá nhân</strong>).</p>
+      </section>
+
+      <!-- ========== 18. BẮT ĐẦU NHƯ THẾ NÀO ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">15 — Bắt đầu</div>
+            <h2 class="anim-fade-up d-1">Bắt đầu với Claude như thế nào?</h2>
+          </div>
+        </div>
+        <p class="anim-fade-up d-2" style="font-size: .78em; color: var(--text-soft);">
+          Không cần biết lập trình, không cần khoá học phức tạp — chỉ cần <strong>4 bước đơn giản</strong>.
+        </p>
+
+        <div class="rule-grid anim-fade-up d-3">
+          <div class="rule-card">
+            <div class="rule-num">01</div>
+            <div>
+              <h3>Chọn công cụ để bắt đầu</h3>
+              <p>Vào <b>Claude.ai</b> trên web/điện thoại — dùng bản miễn phí trước, làm quen dần.</p>
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-num">02</div>
+            <div>
+              <h3>Bắt đầu bằng việc thật</h3>
+              <p>Áp dụng vào 1 việc thật: tóm tắt tài liệu, viết công thức Excel, lên dàn ý slide. <b>Học bằng làm</b>.</p>
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-num">03</div>
+            <div>
+              <h3>Cung cấp bối cảnh rõ ràng</h3>
+              <p>Nêu rõ <b>mục đích, đối tượng, ràng buộc</b> — càng rõ, Claude càng chính xác.</p>
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-num">04</div>
+            <div>
+              <h3>Kiểm tra lại trước khi dùng</h3>
+              <p>AI có thể sai. <b>Đọc lại, đối chiếu, chỉnh</b> — bạn vẫn là người chịu trách nhiệm.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="anim-fade-up d-5 punch-line" style="margin-top: 20px; padding: 12px 20px; border-left: 4px solid var(--brand-accent); background: rgba(15,180,240,.07); border-radius: 10px; font-size: .64em;">🖊 <strong>Cam kết:</strong> <em>"Tuần này tôi sẽ dùng Claude cho việc ______"</em> — cùng xem lại kết quả sau 2 tuần.</p>
+      </section>
+
+      <!-- ========== 19. Q&A ========== -->
+      <section data-background-color="#071626" class="slide-bg-mesh slide-qa" data-transition="convex">
+        <div class="qa-wrap">
+          <div class="qa-bubbles" aria-hidden="true">
+            <span class="qa-bubble qb1">?</span>
+            <span class="qa-bubble qb2">?</span>
+            <span class="qa-bubble qb3">?</span>
+            <span class="qa-bubble qb4">?</span>
+            <span class="qa-bubble qb5">?</span>
+            <span class="qa-bubble qb6">?</span>
+          </div>
+
+          <div class="qa-tag">THẢO LUẬN · HỎI ĐÁP</div>
+
+          <h1 class="qa-title">
+            <span class="qa-q">Q</span><span class="qa-amp">&amp;</span><span class="qa-a">A</span>
+          </h1>
+
+          <p class="qa-sub">Mời quý anh chị đặt câu hỏi &amp; trao đổi về Claude &amp; AI.</p>
+
+          <div class="qa-foot">
+            <span>VCI · Khóa đào tạo Claude &amp; AI</span>
+            <span class="qa-foot-sep"></span>
+            <span>vcijsc.com</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+  <script src="../js/slides.js"></script>
+
+</body>
+
+</html>

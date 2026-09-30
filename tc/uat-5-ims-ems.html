@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Kế hoạch UAT Đợt 5 — IMS &amp; EMS: Phê duyệt · Phân quyền · CR</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/animations.css" />
+
+  <style>
+    /* ===== Slide 5 — Thành phần: compact + stagger animation ===== */
+    .team-compact .org-chart { grid-template-columns: 1fr 100px 1fr; gap: 14px; margin-top: 4px; }
+    .team-compact .org-panel { padding: 22px 18px 16px; }
+    .team-compact .org-panel-label { top: -12px; padding: 4px 12px; font-size: .58em; letter-spacing: 1.2px; display: inline-flex; align-items: center; gap: 6px; }
+    .team-compact .org-panel-label svg { width: 12px; height: 12px; }
+    .team-compact .org-panel-footer { font-size: .62em; margin-top: 12px; padding-top: 10px; }
+    .team-compact .org-node { padding: 10px 12px; font-size: .68em; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; opacity: 0; transform: translateY(10px); animation: teamNode .5s cubic-bezier(.22,.68,.3,1.02) forwards; }
+    .team-compact .org-node small { font-size: .78em; margin-top: 1px; }
+    .team-compact .org-node .n-body { text-align: left; }
+    .team-compact .org-node .n-ico { width: 26px; height: 26px; border-radius: 7px; background: rgba(15,180,240,.18); color: var(--brand-primary); display: flex; align-items: center; justify-content: center; flex: 0 0 26px; }
+    .team-compact .org-node .n-ico svg { width: 14px; height: 14px; }
+    .team-compact .org-node.primary .n-ico { background: rgba(255,255,255,.2); color: #fff; }
+    .team-compact .org-node.accent .n-ico { background: rgba(255,209,190,.55); color: #B5430F; }
+    .team-compact .org-line-v { height: 14px; margin: 2px auto; }
+    .reveal .present .team-compact .org-node { animation-delay: var(--nd, 0s); }
+    @keyframes teamNode { to { opacity: 1; transform: translateY(0); } }
+    .team-compact .org-connector-arrow { background: linear-gradient(90deg, var(--brand-accent), var(--brand-primary), var(--brand-accent)); background-size: 200% 100%; animation: connectorFlow 2s linear infinite; }
+    @keyframes connectorFlow { 0% { background-position: 0% 0%; } 100% { background-position: -200% 0%; } }
+    .team-compact .org-connector-label { font-size: .52em; letter-spacing: .8px; padding: 3px 8px; line-height: 1.15; animation: connectorLabelPulse 2.4s ease-in-out infinite; }
+    @keyframes connectorLabelPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .team-compact .slide-header { margin-bottom: 8px; }
+
+    /* ===== Slide 8 — Bảng chi tiết nội dung kiểm thử ===== */
+    .pm-table td.pm-mod { text-align: left; font-weight: 800; white-space: nowrap; vertical-align: middle; }
+    .pm-table td.pm-mod.ims { color: #0B5A8A; background: rgba(15,180,240,.10) !important; }
+    .pm-table td.pm-mod.ems { color: #B5430F; background: rgba(255,157,84,.16) !important; }
+    .pm-table td.pm-fn { text-align: left; font-weight: 700; color: var(--text); white-space: nowrap; }
+    .pm-table td.pm-desc { text-align: left; color: var(--text-soft); line-height: 1.5; }
+    .pm-table td.pm-desc b { color: var(--text); }
+    .pm-chip.ims { background: rgba(15,180,240,.16); color: #0B5A8A; border: 1px solid rgba(14,111,168,.30); }
+    .pm-chip.ems { background: rgba(255,157,84,.22); color: #B5430F; border: 1px solid rgba(244,117,60,.45); }
+    .ims-tree .ims-cols.two { grid-template-columns: repeat(2, 1fr); max-width: 1240px; margin: 0 auto; }
+
+    /* ===== Slide 8 — Ma trận phân quyền ===== */
+    .pm-table {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      margin-top: 10px; font-size: .52em;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm);
+    }
+    .pm-table th, .pm-table td { padding: 11px 12px; text-align: center; border-bottom: 1px solid var(--border); }
+    .pm-table thead th {
+      background: linear-gradient(135deg, rgba(14,111,168,.10), rgba(15,180,240,.06));
+      color: var(--brand-primary); font-weight: 800; font-size: .95em;
+      line-height: 1.25; letter-spacing: .2px; border-bottom: 2px solid rgba(14,111,168,.25);
+    }
+    .pm-table tbody tr:last-child td { border-bottom: 0; }
+    .pm-table tbody tr:nth-child(even) td { background: rgba(14,111,168,.028); }
+    .pm-table td.pm-role {
+      text-align: left; font-weight: 800; color: var(--text);
+      background: rgba(14,111,168,.055) !important; white-space: nowrap;
+    }
+    .pm-table .pm-scope { text-align: left; color: var(--text-soft); font-size: .95em; white-space: nowrap; }
+    .pm-table .pm-scope b { color: var(--brand-primary); }
+    .pm-chip {
+      display: inline-block; padding: 4px 11px; border-radius: 999px;
+      font-size: .92em; font-weight: 700; white-space: nowrap;
+    }
+    .pm-chip.full { background: rgba(15,180,240,.16); color: #0B5A8A; border: 1px solid rgba(14,111,168,.30); }
+    .pm-chip.part { background: rgba(240,180,41,.20); color: #8A5B00; border: 1px solid rgba(240,180,41,.45); }
+    .pm-chip.none { background: rgba(120,132,145,.14); color: #5B6B7D; border: 1px solid rgba(120,132,145,.30); }
+    .pm-note {
+      margin-top: 16px; text-align: center; font-size: .55em; color: var(--text-soft); line-height: 1.6;
+    }
+    .pm-note b { color: var(--text); }
+    .legend .pm-chip { font-size: .82em; }
+    .resp-col ul li .li-txt { flex: 1; }
+
+    /* bảng ma trận: to hơn cho kín slide */
+    .pm-table { font-size: .58em; margin-top: 22px; }
+    .pm-table th, .pm-table td { padding: 15px 14px; }
+    .pm-chip { padding: 5px 13px; }
+    .pm-note { margin-top: 26px; font-size: .58em; }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ========== 1. COVER ========== -->
+      <section data-background-color="#0E6FA8" class="slide-bg-mesh slide-cover" data-transition="convex">
+        <div class="cover-v3">
+          <div class="cv3-top">
+            <img src="../assets/logo-trungchinh.png" alt="Trung Chính" class="cv3-tc" />
+            <img src="../assets/logo-vci.png" alt="VCI" class="cv3-vci" />
+          </div>
+
+          <div class="cv3-divider"><span></span></div>
+
+          <div class="cv3-tag">KẾ HOẠCH UAT · ĐỢT 5 · 09/2026</div>
+
+          <h1 class="cv3-title">
+            Kế hoạch UAT (Đợt 5)<br />
+            <span class="cv3-sub">Hệ thống phê duyệt · Phân quyền · CR sau Go-live</span>
+          </h1>
+
+          <div class="cv3-hero" aria-label="TC.IMS TC.EMS">
+            <span class="cv3-hero-bracket cv3-hero-bracket-l">[</span>
+            <span class="cv3-hero-text">
+              <span class="cv3-hero-letter">I</span><span class="cv3-hero-letter">M</span><span
+                class="cv3-hero-letter">S</span><span class="cv3-hero-dot">·</span><span
+                class="cv3-hero-letter">E</span><span class="cv3-hero-letter">M</span><span
+                class="cv3-hero-letter">S</span>
+            </span>
+            <span class="cv3-hero-bracket cv3-hero-bracket-r">]</span>
+            <span class="cv3-hero-glow"></span>
+          </div>
+
+          <div class="cv3-date">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18" />
+            </svg>
+            <span>Khởi động · 09:00, 30/09/2026</span>
+          </div>
+
+          <div class="cv3-bot">
+            <span>Tháng 09 / 2026</span>
+            <span class="cv3-bot-sep"></span>
+            <span>system-uat.trungchinh.com.vn</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 2. MỤC LỤC ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">Mục lục</div>
+            <h3 class="anim-fade-up d-1">Nội dung trình bày</h3>
+          </div>
+        </div>
+        <ol class="toc" style="display: grid; grid-template-columns: 1fr 1fr;">
+          <li class="anim-fade-up d-1"><span>Mục đích UAT Đợt 5</span></li>
+          <li class="anim-fade-up d-2"><span>Quy trình tiếp nhận &amp; xử lý lỗi</span></li>
+          <li class="anim-fade-up d-3"><span>Thành phần tham gia</span></li>
+          <li class="anim-fade-up d-4"><span>Cách thức tổ chức &amp; Chuẩn bị</span></li>
+          <li class="anim-fade-up d-5"><span>Phạm vi tính năng UAT</span></li>
+          <li class="anim-fade-up d-6"><span>Chi tiết nội dung kiểm thử</span></li>
+          <li class="anim-fade-up d-6"><span>Kênh tiếp nhận &amp; Đầu mối</span></li>
+        </ol>
+      </section>
+
+      <!-- ========== 3. GIỚI THIỆU – MỤC ĐÍCH ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">01 — Giới thiệu</div>
+            <h2 class="anim-fade-up d-1">Mục đích UAT Đợt 5</h2>
+          </div>
+        </div>
+        <p class="lead lead-hero anim-fade-up d-2">
+          Kiểm chứng <strong>luồng phê duyệt</strong> trên IMS &amp; EMS, <strong>phân quyền EMS</strong> và
+          <strong>các CR sau Go-live</strong>: <span class="hl-yellow">đúng luồng · đúng vai trò · đúng nội dung đã thống nhất</span>.
+        </p>
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+            <h3>Phê duyệt đúng luồng</h3>
+            <p>Trình duyệt → phê duyệt / từ chối → thu hồi / xử lý lại: <b>đúng người, đúng bước, đúng trạng thái</b> chứng từ trên cả IMS và EMS.</p>
+            <div class="goal-tag"><span class="dot"></span>APPROVAL FLOW</div>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <h3>Phân quyền EMS đúng phạm vi</h3>
+            <p>Nhóm quyền, quyền theo người dùng, phạm vi dữ liệu và chức năng truy cập đúng vai trò. <b>Xác nhận cả chiều ngược lại:</b> không thấy, không làm được ngoài phạm vi.</p>
+            <div class="goal-tag"><span class="dot"></span>ROLE &amp; DATA SCOPE</div>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+              </svg>
+            </div>
+            <h3>CR đúng nội dung thống nhất</h3>
+            <p>Các yêu cầu thay đổi (CR) sau đợt Go-live trước đã cập nhật đúng biên bản; ghi nhận lỗi, vướng mắc, góp ý để VCI hiệu chỉnh.</p>
+            <div class="goal-tag"><span class="dot"></span>CR &amp; FEEDBACK</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 4. QUY TRÌNH TIẾP NHẬN & XỬ LÝ LỖI ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">02 — Kế hoạch tổ chức</div>
+            <h3 class="anim-fade-up d-1">Quy trình tiếp nhận &amp; xử lý lỗi</h3>
+          </div>
+        </div>
+        <p class="anim-fade-up">
+          Quy trình <strong>giữ nguyên như các đợt trước</strong> — mỗi vấn đề đi qua <strong>6 bước tuần tự</strong>
+          đảm bảo không bỏ sót, không trùng lặp.
+        </p>
+
+        <div class="proc-flow anim-fade-up d-1">
+          <svg class="proc-svg" viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="procGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0FB4F0" />
+                <stop offset="50%" stop-color="#0E6FA8" />
+                <stop offset="100%" stop-color="#F4A261" />
+              </linearGradient>
+              <path id="procPath" d="M 100 70
+                       L 500 70
+                       L 900 70
+                       Q 1100 70 1100 180
+                       Q 1100 290 900 290
+                       L 500 290
+                       L 100 290" />
+            </defs>
+            <use href="#procPath" stroke="rgba(15,180,240,.18)" stroke-width="4" fill="none" />
+            <use href="#procPath" stroke="url(#procGrad)" stroke-width="4" fill="none" stroke-linecap="round"
+              stroke-dasharray="20 16">
+              <animate attributeName="stroke-dashoffset" from="0" to="-36" dur="1s" repeatCount="indefinite" />
+            </use>
+            <use href="#procPath" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"
+              stroke-dasharray="8 28" opacity=".85">
+              <animate attributeName="stroke-dashoffset" from="0" to="-36" dur="1s" begin="-.3s"
+                repeatCount="indefinite" />
+            </use>
+          </svg>
+
+          <div class="proc-grid">
+            <div class="proc-step" data-step="1">
+              <div class="ps-num">01</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M9 11l3 3L22 4" />
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                </svg>
+              </div>
+              <div class="ps-title">Người dùng kiểm thử</div>
+              <div class="ps-desc">Theo checklist / free test trên hệ thống</div>
+              <div class="ps-actor">End User · TC</div>
+            </div>
+
+            <div class="proc-step" data-step="2">
+              <div class="ps-num">02</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="9" y1="13" x2="15" y2="13" />
+                  <line x1="9" y1="17" x2="13" y2="17" />
+                </svg>
+              </div>
+              <div class="ps-title">Ghi nhận vấn đề</div>
+              <div class="ps-desc">Mark Pass/Fail + screenshot &amp; mô tả</div>
+              <div class="ps-actor">End User · TC</div>
+            </div>
+
+            <div class="proc-step" data-step="3">
+              <div class="ps-num">03</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  <line x1="11" y1="8" x2="11" y2="14" />
+                  <line x1="8" y1="11" x2="14" y2="11" />
+                </svg>
+              </div>
+              <div class="ps-title">BA/QA phân loại</div>
+              <div class="ps-desc">Gán mức độ Critical / Major / Minor — <b>duyệt sai người / lộ dữ liệu ngoài phạm vi luôn là Critical</b></div>
+              <div class="ps-actor">BA · Test Lead · VCI</div>
+            </div>
+
+            <div class="proc-step" data-step="4">
+              <div class="ps-num">04</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="16 18 22 12 16 6" />
+                  <polyline points="8 6 2 12 8 18" />
+                </svg>
+              </div>
+              <div class="ps-title">Dev xử lý &amp; vá lỗi</div>
+              <div class="ps-desc">Fix code · deploy bản vá · ghi note ticket</div>
+              <div class="ps-actor">Dev Team · VCI</div>
+            </div>
+
+            <div class="proc-step" data-step="5">
+              <div class="ps-num">05</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </div>
+              <div class="ps-title">Người dùng Re-Test</div>
+              <div class="ps-desc">Xác nhận đã đạt → đóng issue · hoặc reopen</div>
+              <div class="ps-actor">End User · TC</div>
+            </div>
+
+            <div class="proc-step" data-step="6">
+              <div class="ps-num">06</div>
+              <div class="ps-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10" />
+                  <line x1="12" y1="20" x2="12" y2="4" />
+                  <line x1="6" y1="20" x2="6" y2="14" />
+                </svg>
+              </div>
+              <div class="ps-title">PM theo dõi tiến độ</div>
+              <div class="ps-desc">Cập nhật ưu tiên · báo cáo định kỳ thứ 6</div>
+              <div class="ps-actor">QLDA · VCI</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 5. THÀNH PHẦN THAM GIA ========== -->
+      <section class="slide-bg-light team-compact">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">03 — Thành phần</div>
+            <h2 class="anim-fade-up d-1">Thành phần tham gia</h2>
+          </div>
+        </div>
+
+        <div class="org-chart">
+          <!-- LEFT: Chi nhánh -->
+          <div class="org-panel anim-slide-l d-1">
+            <div class="org-panel-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg>
+              Chi nhánh — Kiểm thử, xác nhận
+            </div>
+
+            <div class="org-row" style="grid-template-columns: 1fr auto 1fr; align-items: center;">
+              <div class="org-node" style="--nd:.10s">
+                <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span>
+                <span class="n-body">Mr. Mậu · Mr. Chiến<small>PP. KSNB</small></span>
+              </div>
+              <div class="org-line-h-dash" style="width: 24px; flex: 0 0 24px;"></div>
+              <div class="org-node primary" style="--nd:.20s">
+                <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span>
+                <span class="n-body">Mr. Cường<small>Chi nhánh</small></span>
+              </div>
+            </div>
+
+            <div class="org-line-v"></div>
+
+            <div class="org-node" style="margin: 0 12%; --nd:.30s">
+              <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
+              <span class="n-body">Người trình · Người duyệt<small>Thủ kho · Quản lý máy thiết bị · Cấp phê duyệt</small></span>
+            </div>
+
+            <div class="org-panel-footer">Kiểm thử, xác nhận nghiệp vụ</div>
+          </div>
+
+          <!-- CENTER: Connector -->
+          <div class="org-connector anim-fade d-3">
+            <div class="org-connector-label">Quản lý<br />điều phối</div>
+            <div class="org-connector-arrow"></div>
+          </div>
+
+          <!-- RIGHT: VCI -->
+          <div class="org-panel anim-slide-r d-1">
+            <div class="org-panel-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/></svg>
+              Khối HTKT — Hỗ trợ kiểm thử, vá lỗi
+            </div>
+
+            <div class="org-node primary" style="margin: 0 22%; --nd:.15s">
+              <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg></span>
+              <span class="n-body">Mr. Cương<small>QLDA</small></span>
+            </div>
+
+            <div class="org-line-v"></div>
+
+            <div class="org-row">
+              <div class="org-node" style="--nd:.32s">
+                <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
+                <span class="n-body">Ms. Trang<small>BA</small></span>
+              </div>
+            </div>
+
+            <div class="org-line-v"></div>
+
+            <div class="org-row two">
+              <div class="org-node accent" style="--nd:.50s">
+                <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+                <span class="n-body">Khối kỹ thuật<small>Dev + Test</small></span>
+              </div>
+              <div class="org-node accent" style="--nd:.55s">
+                <span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+                <span class="n-body">Khối BA<small>BA + Design</small></span>
+              </div>
+            </div>
+
+            <div class="org-panel-footer">Hỗ trợ kiểm thử, vá lỗi</div>
+          </div>
+        </div>
+
+        <div class="org-footer anim-fade-up d-5">Mô hình trao đổi liên lạc — <span>Chi nhánh × VCI</span></div>
+      </section>
+
+      <!-- ========== 6. CÁCH THỨC TỔ CHỨC — TIMELINE + CHUẨN BỊ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">04 — Cách thức tổ chức</div>
+            <h2 class="anim-fade-up d-1">Cách thức tổ chức UAT Đợt 5</h2>
+          </div>
+        </div>
+
+        <div class="timeline timeline-compact anim-fade d-1">
+          <div class="track">
+            <div class="progress-fill" data-progress="100%"></div>
+          </div>
+          <div class="pins">
+            <div class="pin">
+              <div class="dot anim-pulse"></div>
+              <div class="date">30/09/2026</div>
+              <div class="label">Khởi động UAT Đợt 5 (09:00)</div>
+            </div>
+            <div class="pin">
+              <div class="dot"></div>
+              <div class="date">30/09 – 14/10</div>
+              <div class="label">Thực hiện UAT, kiểm thử (2 tuần)</div>
+            </div>
+            <div class="pin">
+              <div class="dot"></div>
+              <div class="date">10/2026</div>
+              <div class="label">Vá lỗi, hoàn thiện · sẵn sàng Go-live</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col two-col-compact">
+          <div class="resp-col vci anim-slide-l d-2">
+            <h4>VCI</h4>
+            <h3 class="accent">Cung cấp &amp; hỗ trợ UAT</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span><span class="li-txt"><b>Sơ đồ luồng phê duyệt</b> IMS &amp; EMS (các cấp duyệt, trạng thái) gửi trước ngày khởi động</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span><span class="li-txt"><b>Ma trận phân quyền EMS</b> (nhóm quyền × chức năng × phạm vi dữ liệu)</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span><span class="li-txt"><b>Danh sách CR đã thống nhất</b> kèm mô tả thay đổi để đối chiếu</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span><span class="li-txt"><b>Tài khoản test theo vai trò</b> — người trình, từng cấp duyệt, quản trị</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Kịch bản kiểm thử, dữ liệu mẫu · hỗ trợ kỹ thuật trực tiếp trong phiên UAT</li>
+            </ul>
+          </div>
+          <div class="resp-col tc anim-slide-r d-3">
+            <h4>Chi Nhánh</h4>
+            <h3>Thực hiện kiểm thử UAT</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span><span class="li-txt">Bố trí <b>đủ người theo từng cấp duyệt</b> — người trình và người duyệt cùng tham gia</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span><span class="li-txt">Đăng nhập <b>đúng tài khoản vai trò của mình</b>, không mượn tài khoản</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span><span class="li-txt">Kiểm thử <b>cả nhánh từ chối, thu hồi, xử lý lại</b> — không chỉ nhánh duyệt thành công</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span><span class="li-txt">Log issues kèm evidence — <b>nêu rõ vai trò, bước đang làm &amp; mã chứng từ</b></span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="5 12 10 17 19 7" />
+                  </svg></span>Re-test các bug đã được fix</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 7. PHẠM VI UAT — IMS / EMS ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">05 — Phạm vi UAT</div>
+            <h3 class="anim-fade-up d-1">Phạm vi tính năng UAT Đợt 5 — Sơ đồ phân rã</h3>
+          </div>
+          <div class="legend anim-fade d-1">
+            <span class="legend-item"><span class="legend-dot d1"></span>TC.IMS</span>
+            <span class="legend-item"><span class="legend-dot d2"></span>TC.EMS</span>
+          </div>
+        </div>
+
+        <div class="ims-tree">
+          <div class="ims-root anim-zoom d-1">IMS · EMS</div>
+
+          <svg class="ims-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <path id="imsP1" d="M 600 0 V 50 H 300 V 110" />
+              <path id="imsP2" d="M 600 0 V 50 H 900 V 110" />
+            </defs>
+            <g fill="none" stroke-width="2" opacity=".35">
+              <use href="#imsP1" stroke="#0FB4F0" />
+              <use href="#imsP2" stroke="#F4753C" />
+            </g>
+            <g fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="18 14">
+              <use href="#imsP1" stroke="#0FB4F0">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP2" stroke="#F4753C">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.45s"
+                  repeatCount="indefinite" />
+              </use>
+            </g>
+            <g fill="none" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 26" opacity=".9">
+              <use href="#imsP1" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" repeatCount="indefinite" />
+              </use>
+              <use href="#imsP2" stroke="#fff">
+                <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-.45s"
+                  repeatCount="indefinite" />
+              </use>
+            </g>
+          </svg>
+
+                    <div class="ims-cols two">
+            <div class="ims-col anim-fade-up d-2">
+              <div class="ims-head d1">TC.IMS — Quản lý vật tư thi công</div>
+              <div class="ims-leaf d1">Hệ thống phê duyệt — trình duyệt · phê duyệt · từ chối · thu hồi</div>
+              <div class="ims-leaf d1">Trạng thái chứng từ / yêu cầu theo vai trò người dùng</div>
+              <div class="ims-leaf d1">Các CR thay đổi từ đợt Go-live trước</div>
+            </div>
+            <div class="ims-col anim-fade-up d-3">
+              <div class="ims-head d2">TC.EMS — Quản lý máy thiết bị</div>
+              <div class="ims-leaf d2">Phân quyền — nhóm quyền · quyền theo người dùng · phạm vi dữ liệu</div>
+              <div class="ims-leaf d2">Phê duyệt — tạo yêu cầu · trình · duyệt / từ chối · xử lý lại · theo dõi trạng thái</div>
+              <div class="ims-leaf d2">Hiệu quả kinh doanh</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="anim-fade-up d-5" style="margin-top: 18px; text-align: center; font-size: .6em; color: var(--text-soft);">
+          Môi trường UAT: <b>https://system-uat.trungchinh.com.vn/</b>
+        </p>
+      </section>
+
+      <!-- ========== 8. CHI TIẾT NỘI DUNG KIỂM THỬ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">06 — Chi tiết kiểm thử</div>
+            <h3 class="anim-fade-up d-1">Chi tiết nội dung kiểm thử theo từng phân hệ</h3>
+          </div>
+          <div class="legend anim-fade d-1">
+            <span class="legend-item"><span class="pm-chip ims">TC.IMS</span></span>
+            <span class="legend-item"><span class="pm-chip ems">TC.EMS</span></span>
+          </div>
+        </div>
+
+        <table class="pm-table anim-fade-up d-2">
+          <thead>
+            <tr>
+              <th style="text-align:left">Phân hệ</th>
+              <th style="text-align:left">Chức năng</th>
+              <th style="text-align:left">Nội dung cần kiểm thử</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="pm-mod ims" rowspan="2">TC.IMS<br /><small style="font-weight:600">Quản lý vật tư thi công</small></td>
+              <td class="pm-fn">Hệ thống phê duyệt</td>
+              <td class="pm-desc">Luồng <b>trình duyệt → phê duyệt → từ chối → thu hồi</b>; trạng thái chứng từ / yêu cầu chuyển đúng ở mỗi bước và <b>đúng vai trò người dùng</b> được phép thao tác.</td>
+            </tr>
+            <tr>
+              <td class="pm-fn">CR sau Go-live trước</td>
+              <td class="pm-desc">Các yêu cầu thay đổi đã cập nhật sau giai đoạn Go-live: chức năng vận hành <b>đúng nội dung CR đã thống nhất</b> (đối chiếu từng CR trong danh sách VCI gửi).</td>
+            </tr>
+            <tr>
+              <td class="pm-mod ems" rowspan="3">TC.EMS<br /><small style="font-weight:600">Quản lý máy thiết bị</small></td>
+              <td class="pm-fn">Hệ thống phân quyền</td>
+              <td class="pm-desc">Gán <b>nhóm quyền</b>, <b>quyền theo người dùng</b>, <b>phạm vi dữ liệu</b> và khả năng truy cập chức năng đúng vai trò được cấp — kiểm cả chiều <b>không được phép</b>.</td>
+            </tr>
+            <tr>
+              <td class="pm-fn">Hệ thống phê duyệt</td>
+              <td class="pm-desc">Đầy đủ luồng <b>tạo yêu cầu → trình duyệt → phê duyệt / từ chối → xử lý lại</b>; theo dõi trạng thái yêu cầu xuyên suốt, đúng người ở từng cấp.</td>
+            </tr>
+            <tr>
+              <td class="pm-fn">Hiệu quả kinh doanh</td>
+              <td class="pm-desc">Số liệu hiệu quả kinh doanh máy thiết bị hiển thị <b>đúng, đủ, khớp dữ liệu gốc</b>; lọc và xuất theo phạm vi dữ liệu người dùng được cấp.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="pm-note anim-fade-up d-4">
+          Với phê duyệt và phân quyền, <b>nhánh từ chối / thu hồi / không được phép</b> quan trọng không kém nhánh thành công —
+          người kiểm thử đối chiếu với sơ đồ luồng và ma trận phân quyền VCI gửi trước ngày khởi động.
+        </p>
+      </section>
+
+      <!-- ========== 9. ĐẦU MỐI & KÊNH TIẾP NHẬN ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../assets/logo-trungchinh.png" alt="Trung Chính" /></div>
+          <div class="logo-vci"><img src="../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">07 — Kênh tiếp nhận</div>
+            <h2 class="anim-fade-up d-1">Đầu mối &amp; kênh tiếp nhận yêu cầu</h2>
+          </div>
+        </div>
+
+        <div class="channel-flow anim-fade-up d-1">
+          <svg class="channel-svg" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="trackGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#0FB4F0" />
+                <stop offset="33%" stop-color="#0E6FA8" />
+                <stop offset="66%" stop-color="#F4A261" />
+                <stop offset="100%" stop-color="#CB2330" />
+              </linearGradient>
+            </defs>
+            <line x1="150" y1="40" x2="1050" y2="40" stroke="url(#trackGrad)" stroke-width="6" stroke-linecap="round" />
+            <line x1="150" y1="40" x2="1050" y2="40" stroke="#fff" stroke-width="4" stroke-linecap="round"
+              stroke-dasharray="22 18" opacity=".95">
+              <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="1s" repeatCount="indefinite" />
+            </line>
+            <line x1="150" y1="40" x2="1050" y2="40" stroke="#fff" stroke-width="2" stroke-linecap="round"
+              stroke-dasharray="6 34" opacity=".85">
+              <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="1s" begin="-.3s"
+                repeatCount="indefinite" />
+            </line>
+          </svg>
+
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg></div>
+            <div class="channel-text"><strong>End user</strong>Phát sinh vấn đề khi UAT</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+              </svg></div>
+            <div class="channel-text"><strong>Nhóm Zalo VCI–Chi Nhánh</strong>Trao đổi nhanh, đồng bộ thông tin</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z" />
+              </svg></div>
+            <div class="channel-text"><strong>support.vcijsc.com</strong>Ghi nhận vấn đề lên hệ thống ticket</div>
+          </div>
+          <div class="channel-step">
+            <div class="channel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg></div>
+            <div class="channel-text"><strong>VCI xử lý</strong>Tiếp nhận, phân loại &amp; phản hồi</div>
+          </div>
+        </div>
+
+        <div class="contacts anim-fade-up d-3" style="grid-template-columns: repeat(2, 1fr); gap: 14px;">
+          <div class="contact-card">
+            <div class="avatar">XC</div>
+            <div class="info">
+              <h4>Bùi Xuân Cương</h4>
+              <p>PM — đầu mối chính · VCI</p>
+              <p class="phone">📞 033.5055.068</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="avatar">CT</div>
+            <div class="info">
+              <h4>Cao Thị Trang</h4>
+              <p>BA — Nghiệp vụ · VCI</p>
+              <p class="phone">📩 support.vcijsc.com</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 16px; text-align: center;" class="anim-fade-up d-4">
+          <a class="support-link" href="https://support.vcijsc.com" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+            </svg>
+            support.vcijsc.com
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== 10. Q&A / CẢM ƠN ========== -->
+      <section data-background-color="#0A2540" class="slide-bg-mesh slide-qa" data-transition="convex">
+        <div class="qa-wrap">
+          <div class="qa-bubbles" aria-hidden="true">
+            <span class="qa-bubble qb1">?</span>
+            <span class="qa-bubble qb2">?</span>
+            <span class="qa-bubble qb3">?</span>
+            <span class="qa-bubble qb4">?</span>
+            <span class="qa-bubble qb5">?</span>
+            <span class="qa-bubble qb6">?</span>
+          </div>
+
+          <div class="qa-tag">THẢO LUẬN · GÓP Ý</div>
+
+          <h1 class="qa-title">
+            <span class="qa-q">Q</span><span class="qa-amp">&amp;</span><span class="qa-a">A</span>
+          </h1>
+
+          <p class="qa-sub">
+            Rất mong nhận được sự phối hợp &amp; tham gia đầy đủ của Quý Anh/Chị<br />
+            để các chức năng mới đáp ứng tốt nhất nghiệp vụ tại Chi nhánh.
+          </p>
+
+          <div class="qa-foot">
+            <span>UAT Đợt 5 · IMS &amp; EMS — Phê duyệt · Phân quyền · CR</span>
+            <span class="qa-foot-sep"></span>
+            <span>30/09/2026</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    const deck = new Reveal({
+      hash: true,
+      history: true,
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      showSlideNumber: 'all',
+      center: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      width: 1920,
+      height: 1080,
+      margin: 0.02,
+      minScale: 0.2,
+      maxScale: 2.0,
+    });
+    deck.initialize().then(() => {
+      deck.on('slidechanged', (e) => activateSlide(e.currentSlide));
+      activateSlide(deck.getCurrentSlide());
+    });
+
+    function activateSlide(slide) {
+      if (!slide) return;
+      const timeline = slide.querySelector('.timeline');
+      if (timeline) {
+        const pins = timeline.querySelectorAll('.pin');
+        pins.forEach((p, i) => {
+          p.classList.remove('active');
+          setTimeout(() => p.classList.add('active'), 600 + i * 350);
+        });
+        const fill = timeline.querySelector('.progress-fill');
+        if (fill) {
+          fill.style.width = '0%';
+          void fill.offsetWidth;
+          fill.style.width = fill.dataset.progress || '100%';
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>

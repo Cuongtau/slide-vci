@@ -1,0 +1,35 @@
+# Prompt sinh ảnh minh họa — deck `claude-v2.html`
+
+> **Ghi chú:** Slide đã có **tranh minh họa vẽ sẵn** (SVG theo nội dung từng trang) — ảnh AI generate là **tùy chọn nâng cấp**; thả file `.jpg` đúng tên vào `assets/ai-img/` là ảnh thật tự thay tranh vẽ.
+
+## Hướng dẫn 3 bước
+
+1. **Tạo ảnh**: mở công cụ tạo ảnh (Midjourney / DALL-E / Ideogram / Canva AI…), dán nguyên cột **Prompt** của từng dòng bên dưới, chọn khung ngang theo cột **Kích thước gợi ý**.
+2. **Lưu file**: lưu ảnh vào thư mục `assets/ai-img/` (ngang cấp với thư mục `ai-claude/`) — đặt tên **đúng y hệt** cột "Tên file" (chữ thường, đuôi `.jpg`). Chưa có thư mục thì tạo mới `assets/ai-img/`.
+3. **Mở lại slide**: mở `ai-claude/claude-v2.html` — ảnh tự hiện đúng khung. File nào chưa có, khung đó tự ẩn (không vỡ layout).
+
+> Phong cách đồng bộ cả bộ: *minh họa phẳng hiện đại (modern flat illustration), tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch, nhân viên văn phòng Việt Nam*. Không chữ, không logo trong ảnh.
+
+## Bảng prompt
+
+| Tên file | Slide dùng | Prompt tiếng Việt (dán vào công cụ tạo ảnh) | Kích thước gợi ý |
+|---|---|---|---|
+| `office-ai.jpg` | S1 — Trang bìa (polaroid góc phải dưới) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhóm nhân viên văn phòng Việt Nam làm việc quanh bàn với laptop, phía trên màn hình có biểu tượng AI phát sáng nhẹ, không khí hiện đại tích cực. Không chữ. | Ngang 3:2 (1200×800) |
+| `teamwork-ai.jpg` | S4 — Vì sao dùng AI đúng cách (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: hai nhân viên văn phòng Việt Nam trao đổi trước màn hình lớn hiển thị khung chat với trợ lý AI, một người chỉ tay vào màn hình, thể hiện cách đặt câu hỏi rõ ràng. Không chữ. | Ngang 3:2 (1200×800) |
+| `check-review.jpg` | S16 — Quy tắc vàng (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam cầm kính lúp soát tài liệu do máy tính in ra, bên cạnh có dấu tick xanh và lá chắn bảo vệ dữ liệu, nhấn mạnh việc con người kiểm tra kết quả AI. Không chữ. | Ngang 3:2 (1200×800) |
+| `muc-tieu.jpg` | S2 — Mục tiêu buổi học (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam đứng cạnh bảng checklist lớn có các ô được tick dần, mũi tên hướng lên đích, thể hiện mục tiêu học tập rõ ràng. Không chữ. | Ngang 3:2 (1200×800) |
+| `ai-viec-nao.jpg` | S5 — AI nên làm việc gì (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam đứng giữa hai làn việc — một bên robot AI xử lý chồng giấy tờ lặp lại, một bên con người bắt tay khách hàng và ký duyệt, thể hiện phân công đúng việc. Không chữ. | Ngang 3:2 (1200×800) |
+| `chon-cong-cu.jpg` | S6 — Chọn công cụ theo việc (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam đứng trước kệ trưng bày nhiều hộp công cụ khác nhau, tay chọn một hộp phát sáng phù hợp, thể hiện chọn đúng công cụ AI cho từng việc. Không chữ. | Ngang 3:2 (1200×800) |
+| `claude-la-gi.jpg` | S7 — Claude là gì (góc phải trên, bản nhỏ) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: trợ lý AI thân thiện dạng nhân vật robot mềm mại đứng cạnh nhân viên văn phòng Việt Nam, xung quanh là tài liệu, bảng tính và email đang được sắp xếp gọn gàng. Không chữ. | Ngang 3:2 (1200×800) |
+| `claude-o-dau.jpg` | S8 — Claude dùng ở đâu (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam dùng cùng lúc laptop mở trình duyệt và điện thoại chụp ảnh tài liệu, các thiết bị kết nối tới một đám mây AI phát sáng. Không chữ. | Ngang 3:2 (1200×800) |
+| `giao-viec.jpg` | S9 — Công thức giao việc (góc phải trên, bản nhỏ) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: quản lý văn phòng Việt Nam đưa bản mô tả công việc chi tiết cho nhân viên mới, kèm các mảnh ghép puzzle ghép khít vào nhau, thể hiện giao việc rõ ràng đủ ngữ cảnh. Không chữ. | Ngang 4:3 (1200×900) |
+| `ba-cap-do.jpg` | S10 — Ba cấp độ ứng dụng (góc phải trên, bản nhỏ) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam bước lên cầu thang ba bậc đi lên, bậc cao dần phát sáng, phía trên có lá cờ đích, thể hiện lộ trình từ dùng thử đến thành quy trình. Không chữ. | Ngang 4:3 (1200×900) |
+| `ban-do-vp.jpg` | S11 — Bản đồ ứng dụng văn phòng (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: bàn làm việc nhìn từ trên xuống với bốn khu vực — văn bản, bảng tính, slide thuyết trình và sổ kế hoạch — nối với nhau bằng các đường mạch sáng như bản đồ. Không chữ. | Ngang 3:2 (1200×800) |
+| `demo-word.jpg` | S12 — Demo Word (góc phải dưới, bản nhỏ) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam soạn văn bản trên laptop, màn hình hiển thị trang tài liệu có các dòng được đánh dấu sửa lỗi màu đỏ nhẹ và trợ lý AI gợi ý bên cạnh. Không chữ. | Ngang 4:3 (1200×900) |
+| `demo-excel.jpg` | S13 — Demo Excel (góc phải dưới, bản nhỏ) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam xem màn hình bảng tính với các cột số liệu và biểu đồ đường đi lên, robot AI nhỏ chỉ vào ô nổi bật, thể hiện phân tích dữ liệu. Không chữ. | Ngang 4:3 (1200×900) |
+| `demo-ppt.jpg` | S14 — Demo PowerPoint (góc phải dưới, bản nhỏ) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam đứng trình bày trước màn chiếu slide tối giản có biểu đồ và tiêu đề lớn, trợ lý AI nhỏ sắp xếp các trang slide bay bên cạnh. Không chữ. | Ngang 4:3 (1200×900) |
+| `cong-cu-claude.jpg` | S15 — Công cụ trong Claude (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: hộp công cụ mở nắp phát sáng trên bàn làm việc, bên trong bay lên các biểu tượng tệp tài liệu, thư mục dự án, biểu đồ và kính lúp tìm kiếm, nhân viên văn phòng Việt Nam quan sát. Không chữ. | Ngang 3:2 (1200×800) |
+| `bat-dau.jpg` | S17 — Bắt đầu từ tuần này (góc phải trên) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhân viên văn phòng Việt Nam khoanh tròn một ngày trên lịch tuần và bắt đầu gõ laptop đầy quyết tâm, đường chạy xuất phát với lá cờ nhỏ phía trước, thể hiện bắt tay làm ngay một việc thật. Không chữ. | Ngang 3:2 (1200×800) |
+| `qa.jpg` | S18 — Q&A (góc trái dưới, bản nhỏ) | Minh họa phẳng hiện đại, tông xanh dương #0E6FA8 và cyan #0FB4F0, nền sáng sạch: nhóm nhân viên văn phòng Việt Nam giơ tay đặt câu hỏi trong buổi đào tạo, các bong bóng dấu hỏi màu cyan bay phía trên, không khí cởi mở vui vẻ. Không chữ. | Ngang 3:2 (1200×800) |
+
+**Ghi chú:** khung ảnh dùng `object-fit: cover` nên ảnh 3:2 hay 4:3 đều hiển thị đẹp — công cụ nào chỉ cho 16:9 hoặc 1:1 vẫn dùng được, phần thừa sẽ tự cắt giữa.
