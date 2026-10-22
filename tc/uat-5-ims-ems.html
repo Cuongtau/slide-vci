@@ -93,6 +93,15 @@
     .pm-table th, .pm-table td { padding: 15px 14px; }
     .pm-chip { padding: 5px 13px; }
     .pm-note { margin-top: 26px; font-size: .58em; }
+
+    /* bảng chi tiết kiểm thử: phóng to cho kín slide */
+    .pm-table.pm-detail { font-size: .78em; margin-top: 30px; }
+    .pm-table.pm-detail th, .pm-table.pm-detail td { padding: 24px 22px; }
+    .pm-table.pm-detail thead th { font-size: .9em; }
+    .pm-table.pm-detail td.pm-mod { font-size: 1.1em; padding-left: 26px; }
+    .pm-table.pm-detail td.pm-mod small { font-size: .62em; }
+    .pm-table.pm-detail td.pm-desc { line-height: 1.55; }
+    .pm-note.pm-detail-note { margin-top: 34px; font-size: .68em; }
   </style>
 </head>
 
@@ -627,7 +636,7 @@
           </div>
         </div>
 
-        <table class="pm-table anim-fade-up d-2">
+        <table class="pm-table pm-detail anim-fade-up d-2">
           <thead>
             <tr>
               <th style="text-align:left">Phân hệ</th>
@@ -661,7 +670,7 @@
           </tbody>
         </table>
 
-        <p class="pm-note anim-fade-up d-4">
+        <p class="pm-note pm-detail-note anim-fade-up d-4">
           Với phê duyệt và phân quyền, <b>nhánh từ chối / thu hồi / không được phép</b> quan trọng không kém nhánh thành công —
           người kiểm thử đối chiếu với sơ đồ luồng và ma trận phân quyền VCI gửi trước ngày khởi động.
         </p>
