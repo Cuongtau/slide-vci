@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Kế hoạch UAT MES — Quản lý sản xuất · Nhà máy Hạ Long EPC</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/animations.css" />
+
+  <style>
+    /* ===== Slide 5 — Thành phần: compact + stagger animation ===== */
+    .team-compact .org-chart { grid-template-columns: 1fr 100px 1fr; gap: 14px; margin-top: 4px; }
+    .team-compact .org-panel { padding: 22px 18px 16px; }
+    .team-compact .org-panel-label { top: -12px; padding: 4px 12px; font-size: .58em; letter-spacing: 1.2px; display: inline-flex; align-items: center; gap: 6px; }
+    .team-compact .org-panel-label svg { width: 12px; height: 12px; }
+    .team-compact .org-panel-footer { font-size: .62em; margin-top: 12px; padding-top: 10px; }
+    .team-compact .org-node { padding: 10px 12px; font-size: .68em; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; opacity: 0; transform: translateY(10px); animation: teamNode .5s cubic-bezier(.22,.68,.3,1.02) forwards; }
+    .team-compact .org-node small { font-size: .78em; margin-top: 1px; }
+    .team-compact .org-node .n-body { text-align: left; }
+    .team-compact .org-node .n-ico { width: 26px; height: 26px; border-radius: 7px; background: rgba(15,180,240,.18); color: var(--brand-primary); display: flex; align-items: center; justify-content: center; flex: 0 0 26px; }
+    .team-compact .org-node .n-ico svg { width: 14px; height: 14px; }
+    .team-compact .org-node.primary .n-ico { background: rgba(255,255,255,.2); color: #fff; }
+    .team-compact .org-node.accent .n-ico { background: rgba(255,209,190,.55); color: #B5430F; }
+    .team-compact .org-line-v { height: 14px; margin: 2px auto; }
+    .reveal .present .team-compact .org-node { animation-delay: var(--nd, 0s); }
+    @keyframes teamNode { to { opacity: 1; transform: translateY(0); } }
+    .team-compact .org-connector-arrow { background: linear-gradient(90deg, var(--brand-accent), var(--brand-primary), var(--brand-accent)); background-size: 200% 100%; animation: connectorFlow 2s linear infinite; }
+    @keyframes connectorFlow { 0% { background-position: 0% 0%; } 100% { background-position: -200% 0%; } }
+    .team-compact .org-connector-label { font-size: .52em; letter-spacing: .8px; padding: 3px 8px; line-height: 1.15; animation: connectorLabelPulse 2.4s ease-in-out infinite; }
+    @keyframes connectorLabelPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .team-compact .slide-header { margin-bottom: 8px; }
+
+    /* ===== Slide 8 — Bảng chi tiết nội dung kiểm thử ===== */
+    .pm-table td.pm-mod { text-align: left; font-weight: 800; white-space: nowrap; vertical-align: middle; }
+    .pm-table td.pm-mod.ims { color: #0B5A8A; background: rgba(15,180,240,.10) !important; }
+    .pm-table td.pm-mod.ems { color: #B5430F; background: rgba(255,157,84,.16) !important; }
+    .pm-table td.pm-fn { text-align: left; font-weight: 700; color: var(--text); white-space: nowrap; }
+    .pm-table td.pm-desc { text-align: left; color: var(--text-soft); line-height: 1.5; }
+    .pm-table td.pm-desc b { color: var(--text); }
+    .pm-chip.ims { background: rgba(15,180,240,.16); color: #0B5A8A; border: 1px solid rgba(14,111,168,.30); }
+    .pm-chip.ems { background: rgba(255,157,84,.22); color: #B5430F; border: 1px solid rgba(244,117,60,.45); }
+    .ims-tree .ims-cols.two { grid-template-columns: repeat(2, 1fr); max-width: 1240px; margin: 0 auto; }
+
+    /* ===== Slide 8 — Ma trận phân quyền ===== */
+    .pm-table {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      margin-top: 10px; font-size: .52em;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm);
+    }
+    .pm-table th, .pm-table td { padding: 11px 12px; text-align: center; border-bottom: 1px solid var(--border); }
+    .pm-table thead th {
+      background: linear-gradient(135deg, rgba(14,111,168,.10), rgba(15,180,240,.06));
+      color: var(--brand-primary); font-weight: 800; font-size: .95em;
+      line-height: 1.25; letter-spacing: .2px; border-bottom: 2px solid rgba(14,111,168,.25);
+    }
+    .pm-table tbody tr:last-child td { border-bottom: 0; }
+    .pm-table tbody tr:nth-child(even) td { background: rgba(14,111,168,.028); }
+    .pm-table td.pm-role {
+      text-align: left; font-weight: 800; color: var(--text);
+      background: rgba(14,111,168,.055) !important; white-space: nowrap;
+    }
+    .pm-table .pm-scope { text-align: left; color: var(--text-soft); font-size: .95em; white-space: nowrap; }
+    .pm-table .pm-scope b { color: var(--brand-primary); }
+    .pm-chip {
+      display: inline-block; padding: 4px 11px; border-radius: 999px;
+      font-size: .92em; font-weight: 700; white-space: nowrap;
+    }
+    .pm-chip.full { background: rgba(15,180,240,.16); color: #0B5A8A; border: 1px solid rgba(14,111,168,.30); }
+    .pm-chip.part { background: rgba(240,180,41,.20); color: #8A5B00; border: 1px solid rgba(240,180,41,.45); }
+    .pm-chip.none { background: rgba(120,132,145,.14); color: #5B6B7D; border: 1px solid rgba(120,132,145,.30); }
+    .pm-note {
+      margin-top: 16px; text-align: center; font-size: .55em; color: var(--text-soft); line-height: 1.6;
+    }
+    .pm-note b { color: var(--text); }
+    .legend .pm-chip { font-size: .82em; }
+    .resp-col ul li .li-txt { flex: 1; }
+
+    /* bảng ma trận: to hơn cho kín slide */
+    .pm-table { font-size: .58em; margin-top: 22px; }
+    .pm-table th, .pm-table td { padding: 15px 14px; }
+    .pm-chip { padding: 5px 13px; }
+    .pm-note { margin-top: 26px; font-size: .58em; }
+
+    /* bảng chi tiết kiểm thử: phóng to cho kín slide */
+    .pm-table.pm-detail { font-size: .78em; margin-top: 30px; }
+    .pm-table.pm-detail th, .pm-table.pm-detail td { padding: 24px 22px; }
+    .pm-table.pm-detail thead th { font-size: .9em; }
+    .pm-table.pm-detail td.pm-mod { font-size: 1.1em; padding-left: 26px; }
+    .pm-table.pm-detail td.pm-mod small { font-size: .62em; }
+    .pm-table.pm-detail td.pm-desc { line-height: 1.55; }
+    .pm-note.pm-detail-note { margin-top: 34px; font-size: .68em; }
+  
+    /* ===== Ha Long EPC brand override (màu lấy trực tiếp từ pixel logo) =====
+       Logo EPC: chữ xanh #2070B0 · ngọn lửa vàng #E0A020 → cam #D07020 → đỏ #C02020
+       Logo VCI: đỏ #CB2330 + xanh lá */
+    :root {
+      --brand-primary:   #1E6FB0;   /* Xanh EPC (chữ logo) */
+      --brand-primary-2: #2380C8;
+      --brand-primary-3: #3B96D8;
+      --brand-accent:    #E8891E;   /* Cam lửa EPC */
+      --brand-accent-2:  #F0B429;   /* Vàng gold lửa */
+      --brand-accent-3:  #FBE3B5;   /* Vàng rất nhạt */
+      --brand-green:     #29845E;   /* Xanh lá VCI */
+      --brand-red:       #C42127;   /* Đỏ lửa EPC ≈ đỏ VCI */
+      --brand-red-soft:  #E5586F;
+      --brand-warn:      #E0A020;   /* Vàng gold logo */
+      --shadow-sm: 0 2px 8px rgba(30,111,176,.06);
+      --shadow: 0 12px 32px rgba(30,111,176,.10);
+      --shadow-lg: 0 24px 60px rgba(30,111,176,.18);
+    }
+
+    /* Ha Long EPC signature — glow vàng cam như ngọn lửa logo */
+    .cv3-hero-glow {
+      background: radial-gradient(circle, rgba(240, 180, 41, .38), rgba(232, 137, 30, .18) 55%, transparent 75%) !important;
+    }
+    .hl-yellow { background: linear-gradient(180deg, transparent 58%, rgba(240, 180, 41, .45) 58%) !important; }
+
+    /* Nền mesh (cover, Q&A) — xanh EPC + glow lửa */
+    .slide-bg-mesh {
+      background:
+        radial-gradient(1200px 700px at 12% 8%, rgba(240, 180, 41, .20), transparent 60%),
+        radial-gradient(900px 700px at 100% 100%, rgba(232, 137, 30, .14), transparent 60%),
+        linear-gradient(135deg, #0E4573 0%, #14568C 45%, #1E6FB0 100%) !important;
+    }
+
+    /* Brand bar: trắng (logo EPC) → xanh EPC → lửa cam → đỏ (logo VCI) */
+    .brand-bar::before {
+      background: linear-gradient(90deg,
+        #FFFFFF 0%, #EAF2F9 10%, #AECFE9 26%, #4E93C9 44%,
+        #1E6FB0 60%, #D2571F 74%, #E8891E 84%, #C42127 100%) !important;
+    }
+
+    /* Logo EPC hình vuông — phóng to cho cân với logo VCI ngang */
+    .brand-bar .logo-tc img { height: 62px !important; }
+    .cv3-top .cv3-tc { height: 96px !important; width: auto; }
+
+    /* Chữ nhấn mạnh trên nền panel xanh đậm */
+    .cc-left strong { color: #F0B429 !important; }
+
+
+    /* ===== Layout v2 (deck này): thang khoảng cách 8px, tiêu đề đồng nhất, nội dung căn trên ===== */
+    .reveal .slides section.slide-bg-light { padding: 36px 80px 64px; }
+    .reveal .slides section.slide-bg-light > .brand-bar { margin-bottom: 24px; }
+    .reveal .slides section.slide-bg-light > .slide-header { margin-bottom: 20px; }
+    .reveal .slides section.slide-bg-light > *:nth-child(3) { margin-top: 0 !important; }
+    .reveal .slides section.slide-bg-light > *:last-child:not(.brand-bar):not(.slide-header) { margin-bottom: auto !important; }
+    .slide-header h2, .slide-header h3 { font-size: 1.75em; font-weight: 800; letter-spacing: -.015em; line-height: 1.15; margin: 0; }
+    .slide-header .step-pill { font-size: .6em; margin-bottom: 10px; }
+    .slide-header .legend { align-self: flex-end; margin-bottom: 6px; }
+    .reveal .slides section.slide-bg-light > p.lead { margin-top: 0; }
+    .reveal .slides section.slide-bg-light > p.lead.lead-hero { font-size: 1.05em; margin-bottom: 20px; }
+    .cards.cards-goal { margin-top: 8px; }
+    .reveal ol.toc { margin-top: 8px; }
+    .reveal .slides section.slide-bg-light > .ims-tree { margin-top: 40px !important; }
+    .reveal .slides section.slide-bg-light > .agenda { margin-top: 18px !important; }
+    .reveal .slides section.slide-bg-light > .cards-goal { margin-top: 12px !important; }
+    .agenda { margin-top: 18px; }
+    .team-wide .org-chart { margin-top: 8px; }
+    .two-col.two-col-compact { margin-top: 8px !important; }
+    .issue-grid { margin-top: 8px; }
+
+    /* Cụm điều hướng gọn ở giữa đáy, thay controls + slide-number mặc định */
+    .reveal .controls { display: none !important; }
+    .reveal .slide-number { display: none !important; }
+    .reveal .progress { height: 3px; background: rgba(30,111,176,.10); }
+    .reveal .progress span { background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent)); }
+    .deck-nav {
+      position: absolute; right: 12px; bottom: 8px;
+      display: inline-flex; align-items: center; gap: 0;
+      height: 26px; padding: 0 4px; border-radius: 999px;
+      background: rgba(255,255,255,.88); backdrop-filter: blur(8px);
+      border: 1px solid rgba(30,111,176,.16); box-shadow: 0 2px 8px rgba(14,69,115,.10);
+      font-family: var(--font-heading); font-size: 11px; color: #0E4573; z-index: 60; user-select: none;
+      transition: opacity .2s ease;
+    }
+    .slide-cover ~ .deck-nav, .deck-nav.on-dark { background: rgba(10,47,82,.55); border-color: rgba(255,255,255,.25); color: #fff; }
+    .deck-nav button {
+      appearance: none; border: 0; background: transparent; color: inherit; cursor: pointer;
+      width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      transition: background-color .15s ease, color .15s ease;
+    }
+    .deck-nav button:hover { background: rgba(30,111,176,.12); }
+    .deck-nav.on-dark button:hover { background: rgba(255,255,255,.18); }
+    .deck-nav button:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 1px; }
+    .deck-nav button[disabled] { opacity: .3; cursor: default; }
+    .deck-nav button[disabled]:hover { background: transparent; }
+    .deck-nav button svg { width: 12px; height: 12px; }
+    .deck-nav .num { min-width: 44px; text-align: center; font-weight: 700; letter-spacing: .3px; font-variant-numeric: tabular-nums; }
+    .deck-nav .num span { opacity: .55; font-weight: 600; margin: 0 3px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal *, .reveal *::before, .reveal *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition-duration: .001s !important; }
+    }
+
+    /* ===== UAT MES ===== */
+    .ims-tree .ims-cols.three { grid-template-columns: repeat(3, 1fr); max-width: 1500px; margin: 0 auto; }
+    .ims-head.d2 { background: linear-gradient(135deg, #F0B429, #E8891E) !important; box-shadow: 0 4px 12px rgba(232,137,30,.3) !important; }
+    .ims-leaf.d2 { background: #FBE3B5 !important; color: #8A4A0C !important; border-color: #F0B429 !important; }
+    .legend-dot.d2 { background: linear-gradient(135deg, #FBE3B5, #F0B429) !important; }
+    .ims-head.d1 { background: linear-gradient(135deg, #3B96D8, #1E6FB0) !important; }
+    .team-compact .org-node .n-ico { background: rgba(30,111,176,.14); }
+    .team-compact .org-node.accent .n-ico { background: rgba(240,180,41,.4); color: #8A4A0C; }
+
+    /* Slide 5: rộng, thưa hơn */
+    .team-wide .org-chart { grid-template-columns: 1fr 130px 1fr; gap: 30px; margin-top: 22px; }
+    .team-wide .org-panel { padding: 40px 30px 28px; border-radius: 22px; display: flex; flex-direction: column; }
+    .team-wide .org-panel-footer { margin-top: auto !important; padding-top: 18px; }
+    .team-wide .org-panel-label { top: -16px; padding: 7px 18px; font-size: .64em; letter-spacing: 1.4px; }
+    .team-wide .org-panel-label svg { width: 15px; height: 15px; }
+    .team-wide .org-node { padding: 18px 20px; font-size: .8em; min-height: 76px; border-radius: 14px; gap: 14px; }
+    .team-wide .org-node small { font-size: .74em; margin-top: 4px; line-height: 1.35; }
+    .team-wide .org-node .n-ico { width: 36px; height: 36px; border-radius: 10px; flex: 0 0 36px; }
+    .team-wide .org-node .n-ico svg { width: 18px; height: 18px; }
+    .team-wide .org-row { gap: 22px; }
+    .team-wide .org-line-v { height: 26px; margin: 6px auto; }
+    .team-wide .org-line-h-dash { width: 40px !important; flex: 0 0 40px !important; }
+    .team-wide .org-panel-footer { font-size: .68em; margin-top: 22px; padding-top: 16px; }
+    .team-wide .org-connector-label { font-size: .58em; padding: 6px 12px; }
+    .team-wide .org-footer { margin-top: 26px; }
+
+    /* Slide 6-7: agenda */
+    .agenda { display: flex; flex-direction: column; gap: 12px; margin-top: 26px; }
+    .ag-row {
+      display: grid; grid-template-columns: 215px 1fr 360px; align-items: center; gap: 22px;
+      background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 16px 24px 16px 18px;
+      box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+    }
+    .ag-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: linear-gradient(180deg, #3B96D8, #1E6FB0); }
+    .ag-row.hl::before { background: linear-gradient(180deg, #F0B429, #E8891E); }
+    .ag-row.hl { background: linear-gradient(90deg, rgba(240,180,41,.10), #fff 45%); }
+    .ag-time { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding-left: 6px; }
+    .ag-time b { font-family: var(--font-heading); font-weight: 800; font-size: .8em; white-space: nowrap; color: var(--brand-primary); letter-spacing: -.01em; line-height: 1; }
+    .ag-row.hl .ag-time b { color: #B5430F; }
+    .ag-time span { font-size: .5em; color: var(--text-soft); letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; }
+    .ag-main h4 { font-family: var(--font-heading); font-weight: 800; font-size: .9em; margin: 0 0 4px; color: var(--text); line-height: 1.25; text-transform: none; letter-spacing: -.01em; }
+    .ag-main p { margin: 0; font-size: .62em; color: var(--text-soft); line-height: 1.45; }
+    .ag-who { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+    .chip { display: inline-flex; align-items: center; padding: 5px 11px; border-radius: 999px; font-size: .52em; font-weight: 800; letter-spacing: .4px; white-space: nowrap; border: 1px solid transparent; }
+    .chip.vci { background: rgba(30,111,176,.10); color: #1E6FB0; border-color: rgba(30,111,176,.25); }
+    .chip.nm { background: rgba(232,137,30,.14); color: #B5430F; border-color: rgba(232,137,30,.35); }
+    .chip.all { background: rgba(41,132,94,.12); color: #1F6B4A; border-color: rgba(41,132,94,.3); }
+    .chip.sub { background: #fff; color: var(--text-soft); border-color: var(--border); font-weight: 700; }
+    .ag-result { display: grid; grid-template-columns: 215px 1fr; align-items: center; gap: 22px; margin-top: 18px; padding: 14px 24px; border-radius: 16px; background: linear-gradient(135deg, rgba(30,111,176,.06), rgba(240,180,41,.08)); border: 1px dashed rgba(30,111,176,.35); }
+    .ag-result .ag-lbl { font-family: var(--font-heading); font-weight: 800; font-size: .58em; color: var(--brand-primary); letter-spacing: 1.2px; text-transform: uppercase; padding-left: 6px; }
+    .ag-result ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; flex-wrap: wrap; }
+    .ag-result li { font-size: .6em; font-weight: 700; color: var(--text); background: #fff; border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; display: inline-flex; align-items: center; gap: 8px; }
+    .ag-result li::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-accent); flex: 0 0 8px; }
+
+
+    /* ===== Fill: nội dung lấp đầy chiều cao slide ===== */
+    .reveal .slides section.slide-bg-light { padding: 36px 72px 60px; }
+    .reveal .slides section.slide-bg-light > .agenda,
+    .reveal .slides section.slide-bg-light > .cards.cards-goal,
+    .reveal .slides section.slide-bg-light > .ims-tree,
+    .reveal .slides section.slide-bg-light > .org-chart,
+    .reveal .slides section.slide-bg-light > .two-col,
+    .reveal .slides section.slide-bg-light > ol.toc { flex: 1 1 auto; min-height: 0; }
+    .reveal .slides section.slide-bg-light > ol.toc { align-content: center; gap: 18px 28px; }
+    .reveal .slides section.slide-bg-light > .ims-tree { justify-content: center; margin-top: 8px !important; }
+    .reveal .slides section.slide-bg-light > .cards.cards-goal { align-items: stretch; }
+    .goal-card { display: flex; flex-direction: column; }
+    .goal-card p { flex: 1 1 auto; }
+    .goal-card .goal-tag { margin-top: auto; }
+    .team-wide .org-chart { align-items: stretch; }
+    .two-col.two-col-compact .resp-col { display: flex; flex-direction: column; }
+
+    /* Lịch: hàng co giãn theo chiều cao còn lại */
+    .agenda { gap: 14px; }
+    .ag-row { flex: 1 1 0; min-height: 0; padding: 14px 28px 14px 22px; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .ag-row:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(14,69,115,.12); border-color: rgba(30,111,176,.35); }
+    .ag-row.hl:hover { border-color: rgba(232,137,30,.5); }
+    .ag-time b { font-size: .86em; }
+    .ag-main h4 { font-size: .96em; }
+    .ag-main p { font-size: .66em; }
+    .chip { font-size: .56em; padding: 6px 13px; }
+    .ag-result { flex: 0 0 auto; margin-top: 16px; }
+    .ag-result li { font-size: .64em; }
+
+    /* Slide 9: khối tiêu chí chiếm phần còn lại */
+    .reveal .slides section.slide-bg-light > .resp-col.vci { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+    .reveal .slides section.slide-bg-light > .resp-col.vci > ul { flex: 1 1 auto; align-content: center; }
+
+    /* ===== Animation: vào theo thứ tự, chỉ chạy khi slide hiện ===== */
+    @keyframes agIn { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+    @keyframes chipIn { from { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: none; } }
+    @keyframes resultIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    @keyframes barGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    .reveal .present .ag-row { animation: agIn .55s cubic-bezier(.22,.68,.3,1.02) both; animation-delay: calc(var(--i, 0) * 90ms + 120ms); }
+    .reveal .present .ag-row::before { transform-origin: top; animation: barGrow .5s ease-out both; animation-delay: calc(var(--i, 0) * 90ms + 360ms); }
+    .reveal .present .ag-row .chip { animation: chipIn .4s ease-out both; animation-delay: calc(var(--i, 0) * 90ms + 420ms); }
+    .reveal .present .ag-result { animation: resultIn .6s cubic-bezier(.22,.68,.3,1.02) both; animation-delay: calc(var(--n, 5) * 90ms + 300ms); }
+    .reveal .present .ag-result li { animation: chipIn .45s ease-out both; animation-delay: calc(var(--n, 5) * 90ms + 420ms + var(--j, 0) * 110ms); }
+    .reveal .present .ims-leaf { animation: agIn .5s ease-out both; animation-delay: calc(var(--k, 0) * 70ms + 500ms); }
+    .reveal .present .issue { animation: resultIn .55s cubic-bezier(.22,.68,.3,1.02) both; animation-delay: calc(var(--i, 0) * 120ms + 150ms); }
+    .reveal .present .contact-card { animation: resultIn .55s cubic-bezier(.22,.68,.3,1.02) both; animation-delay: calc(var(--i, 0) * 120ms + 200ms); }
+    .issue, .contact-card { transition: transform .2s ease, box-shadow .2s ease; }
+    .issue:hover, .contact-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(14,69,115,.14); }
+    .reveal .present .deck-nav { animation: none; }
+
+    /* Tinh chỉnh fill */
+    .goal-card .goal-tag { align-self: flex-start; }
+    .goal-card { justify-content: center; padding: 40px 36px; }
+    .goal-card .goal-num { font-size: 2.6em; margin-bottom: 14px; }
+    .goal-card .goal-icon { width: 64px; height: 64px; margin-bottom: 18px; }
+    .goal-card .goal-icon svg { width: 30px; height: 30px; }
+    .goal-card h3 { font-size: 1.25em; margin-bottom: 14px; line-height: 1.2; }
+    .goal-card p { font-size: .82em; line-height: 1.6; flex: 0 0 auto; }
+    .reveal .slides section.slide-bg-light > .org-chart { margin-top: 30px !important; }
+    .team-wide .org-panel { padding: 46px 32px 28px; }
+    .team-wide .org-node { min-height: 104px; font-size: .9em; padding: 20px 24px; }
+    .team-wide .org-node small { font-size: .72em; margin-top: 6px; }
+    .team-wide .org-node .n-ico { width: 42px; height: 42px; flex: 0 0 42px; }
+    .team-wide .org-node .n-ico svg { width: 20px; height: 20px; }
+    .team-wide .org-row { gap: 26px; }
+    .team-wide .org-line-v { height: 36px; margin: 8px auto; }
+    .team-wide .org-panel-footer { font-size: .74em; }
+    .team-wide .org-panel:first-child .org-node { min-height: 176px; }
+    .team-wide .org-panel:first-child .org-line-v { height: 72px; }
+    .team-wide .org-panel:first-child .org-row:first-of-type { grid-template-columns: 1fr auto 1fr; }
+    .team-wide .org-node .n-body { line-height: 1.3; }
+    .two-col-compact .resp-col ul { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-evenly; margin-top: 10px !important; }
+    .two-col-compact .resp-col li { font-size: .84em !important; padding: 10px 0 !important; }
+    .two-col-compact .resp-col h3 { font-size: 1.15em !important; }
+    .contacts .contact-card { padding: 40px 34px; }
+    .contacts .contact-card .info p { line-height: 1.5; }
+    .contacts .contact-card .avatar { width: 64px; height: 64px; font-size: 1.1em; }
+    .contacts .contact-card h4 { font-size: 1.05em; }
+    .contacts .contact-card p { font-size: .78em; }
+    .contacts .contact-card .phone { font-size: .9em; }
+    .reveal .slides section.slide-bg-light > .resp-col.vci > ul li { font-size: .82em !important; }
+
+    /* ===== Cover: cụm ngày giờ ===== */
+    .cv3-when { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 6px; }
+    .cw-days { display: inline-flex; align-items: stretch; gap: 0; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.12); backdrop-filter: blur(10px); border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.22); overflow: hidden; }
+    .cw-day { display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 14px; align-items: center; padding: 14px 30px; color: #fff; }
+    .cw-day .cw-k { grid-column: 1; grid-row: 1; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 2.2px; text-transform: uppercase; color: #F0B429; }
+    .cw-day .cw-w { grid-column: 1; grid-row: 2; font-size: 20px; font-weight: 600; color: rgba(255,255,255,.9); white-space: nowrap; }
+    .cw-day .cw-d { grid-column: 2; grid-row: 1 / span 2; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 54px; font-weight: 800; line-height: 1; letter-spacing: -1.5px; color: #fff; }
+    .cw-day .cw-d small { font-size: 22px; font-weight: 700; letter-spacing: 0; color: rgba(255,255,255,.75); margin-left: 2px; }
+    .cw-link { display: flex; align-items: center; justify-content: center; width: 64px; position: relative; }
+    .cw-link span { flex: 1; height: 2px; background: linear-gradient(90deg, rgba(255,255,255,.2), rgba(240,180,41,.9)); }
+    .cw-link span:last-child { background: linear-gradient(90deg, rgba(240,180,41,.9), rgba(255,255,255,.2)); }
+    .cw-link i { width: 10px; height: 10px; border-radius: 50%; background: #F0B429; box-shadow: 0 0 0 5px rgba(240,180,41,.25); }
+    .cw-meta { display: inline-flex; align-items: center; gap: 18px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 600; color: rgba(255,255,255,.92); letter-spacing: .3px; }
+    .cw-m { display: inline-flex; align-items: center; gap: 8px; }
+    .cw-m svg { width: 20px; height: 20px; color: #F0B429; }
+    .cw-sep { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,.5); }
+    .cv3-bot { margin-top: 18px; }
+
+    /* Slide rộng hơn 16:9: các khối có max-width phải giãn theo */
+    .ims-tree .ims-cols.three, .ims-tree .ims-cols.two { max-width: none; }
+    .reveal .slides section.slide-bg-light > .cards.cards-goal,
+    .reveal .slides section.slide-bg-light > .two-col,
+    .reveal .slides section.slide-bg-light > .issue-grid,
+    .reveal .slides section.slide-bg-light > .contacts,
+    .reveal .slides section.slide-bg-light > ol.toc { max-width: none; width: 100%; }
+    .brand-bar { margin-left: -72px !important; margin-right: -72px !important; }
+
+    /* Phạm vi 4 cột */
+    .ims-tree .ims-cols.four { grid-template-columns: repeat(4, 1fr); max-width: none; gap: 18px; }
+    .ims-head { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; font-size: .78em; }
+    .ims-head .ims-tag { font-size: .62em; font-weight: 600; letter-spacing: .3px; opacity: .9; text-transform: none; }
+    .ims-head.d0 { background: linear-gradient(135deg, #7FB3DC, #4E8DC2) !important; color: #fff; box-shadow: 0 4px 12px rgba(78,141,194,.3); }
+    .ims-leaf { font-size: .66em; padding: 10px 12px; }
+    .ims-leaf.d0 { background: #EEF4FA !important; color: #2F5E8A !important; border-color: #BFD6EA !important; }
+    .legend-dot.d0 { background: linear-gradient(135deg, #EEF4FA, #7FB3DC) !important; }
+    .scope-foot { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; margin-top: 16px; padding: 10px 18px; white-space: nowrap; border-radius: 14px; background: #fff; border: 1px dashed rgba(30,111,176,.35); font-size: .58em; }
+    .scope-foot .sf-k { font-family: var(--font-heading); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--text-soft); margin-right: 4px; }
+    .scope-foot .sf-k2 { margin-left: auto; color: #B5430F; padding-left: 16px; border-left: 1px solid var(--border); }
+    .scope-foot .sf-i { padding: 5px 12px; border-radius: 999px; background: rgba(120,132,145,.12); color: #4A5A6A; font-weight: 700; }
+    .scope-foot .sf-i.sf-s { background: rgba(232,137,30,.14); color: #B5430F; }
+
+    /* Dải xuyên suốt trên lịch */
+    .reveal .slides section.slide-bg-light > .ag-thread { flex: 0 0 auto; margin-top: 0 !important; }
+    .ag-thread { display: flex; align-items: center; flex-wrap: nowrap; gap: 8px; padding: 9px 16px; border-radius: 12px; background: linear-gradient(90deg, rgba(30,111,176,.08), rgba(240,180,41,.10)); border: 1px solid rgba(30,111,176,.18); font-size: .56em; white-space: nowrap; }
+    .ag-thread .th-k { font-family: var(--font-heading); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--brand-primary); margin-right: 6px; }
+    .ag-thread .th-i { padding: 5px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--border); color: var(--text-soft); }
+    .ag-thread .th-i b { color: var(--text); }
+    .reveal .slides section.slide-bg-light > .agenda { margin-top: 14px !important; }
+    .agenda { gap: 10px; }
+    .ag-row { padding: 10px 28px 10px 22px; }
+
+    /* Kênh trao đổi (slide 10) */
+    .chan-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 28px; margin-bottom: auto; }
+    .chan { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 22px 22px 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 8px; transition: transform .2s ease, box-shadow .2s ease; }
+    .chan:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(14,69,115,.14); }
+    .chan .c-ico { width: 42px; height: 42px; border-radius: 11px; background: rgba(30,111,176,.10); color: var(--brand-primary); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+    .chan .c-ico svg { width: 22px; height: 22px; }
+    .chan:nth-child(1) .c-ico { background: rgba(41,132,94,.12); color: #1F6B4A; }
+    .chan:nth-child(3) .c-ico, .chan:nth-child(4) .c-ico { background: rgba(232,137,30,.14); color: #B5430F; }
+    .chan b { font-family: var(--font-heading); font-size: .8em; color: var(--text); }
+    .chan p { margin: 0; font-size: .62em; line-height: 1.5; color: var(--text-soft); }
+    .reveal .present .chan { animation: resultIn .55s cubic-bezier(.22,.68,.3,1.02) both; }
+    .reveal .present .chan:nth-child(1) { animation-delay: .5s; } .reveal .present .chan:nth-child(2) { animation-delay: .62s; }
+    .reveal .present .chan:nth-child(3) { animation-delay: .74s; } .reveal .present .chan:nth-child(4) { animation-delay: .86s; }
+
+    /* ===== Slide 5: màu + animation v2 ===== */
+    .team-wide .org-panel { border: 2px dashed rgba(30,111,176,.35); background: rgba(255,255,255,.7); }
+    .team-wide .org-panel-label { background: linear-gradient(135deg, #1E6FB0, #14568C); color: #fff; box-shadow: 0 6px 16px rgba(30,111,176,.28); }
+    .team-wide .org-panel:last-of-type .org-panel-label { background: linear-gradient(135deg, #E8891E, #C42127); box-shadow: 0 6px 16px rgba(232,137,30,.3); }
+    .team-wide .org-panel:last-of-type { border-color: rgba(232,137,30,.45); }
+    .team-wide .org-node { background: #EAF3FB; border: 1px solid #BFD9EE; color: #0E4573; box-shadow: none; min-height: 96px; padding: 16px 20px; }
+    .team-wide .org-node .n-body { font-size: .98em; }
+    .team-wide .org-node small { color: #3D6A8F; font-weight: 500; }
+    .team-wide .org-node .n-ico { background: #fff; color: #1E6FB0; border: 1px solid #BFD9EE; }
+    .team-wide .org-node.primary { background: linear-gradient(135deg, #1E6FB0, #14568C); border-color: transparent; color: #fff; box-shadow: 0 10px 26px rgba(30,111,176,.32); }
+    .team-wide .org-node.primary small { color: rgba(255,255,255,.85); }
+    .team-wide .org-node.primary .n-ico { background: rgba(255,255,255,.18); color: #fff; border-color: rgba(255,255,255,.3); }
+    .team-wide .org-node.accent { background: #FFF4E5; border-color: #F5C98A; color: #8A4A0C; }
+    .team-wide .org-node.accent small { color: #A65F1E; }
+    .team-wide .org-node.accent .n-ico { background: #fff; color: #D46A12; border-color: #F5C98A; }
+    .team-wide .org-panel:last-of-type .org-node.primary { background: linear-gradient(135deg, #E8891E, #C94A1C); box-shadow: 0 10px 26px rgba(232,137,30,.32); }
+    .team-wide .org-node:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(14,69,115,.14); }
+    .team-wide .org-line-v { background: linear-gradient(180deg, #1E6FB0, #E8891E); width: 3px; border-radius: 2px; transform-origin: top; }
+    .team-wide .org-line-h-dash { border-top: 2px dashed #9FC3E0; }
+    .team-wide .org-panel-footer { color: #3D6A8F; border-top: 1px dashed #BFD9EE; }
+    .team-wide .org-connector-label { background: #fff; border: 1px solid #BFD9EE; color: #1E6FB0; }
+    .team-wide .org-footer { color: #0E4573; }
+    @keyframes lineGrow { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+    @keyframes labelDrop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+    @keyframes panelIn { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: none; } }
+    .reveal .present .team-wide .org-panel { animation: panelIn .6s cubic-bezier(.22,.68,.3,1.02) both; }
+    .reveal .present .team-wide .org-panel:last-of-type { animation-delay: .12s; }
+    .reveal .present .team-wide .org-panel-label { animation: labelDrop .5s ease-out both; animation-delay: .35s; }
+    .reveal .present .team-wide .org-line-v { animation: lineGrow .45s ease-out both; animation-delay: .5s; }
+    .reveal .present .team-wide .org-node { animation-delay: calc(var(--nd, 0s) + .35s); }
+    .reveal .present .team-wide .org-connector { animation: panelIn .5s ease-out both; animation-delay: .9s; }
+    .reveal .present .team-wide .org-footer { animation: labelDrop .5s ease-out both; animation-delay: 1.1s; }
+
+    /* Lịch 7 hàng: nén */
+    .agenda.dense { gap: 7px; }
+    .agenda.dense .ag-row { padding: 6px 22px 6px 20px; grid-template-columns: 200px 1fr 400px; gap: 16px; }
+    .agenda.dense .ag-time b { font-size: .7em; }
+    .agenda.dense .ag-time span { font-size: .44em; }
+    .agenda.dense .ag-main h4 { font-size: .74em; margin-bottom: 1px; }
+    .agenda.dense .ag-main p { font-size: .54em; line-height: 1.35; }
+    .agenda.dense .chip { font-size: .48em; padding: 4px 10px; }
+    .agenda.dense .ag-who { gap: 4px; }
+    .agenda.dense + .ag-result { margin-top: 10px; padding: 10px 20px; }
+    .agenda.dense + .ag-result li { font-size: .56em; padding: 6px 12px; }
+
+    /* Lịch 2 ngày */
+    .sched { font-size: .92em; margin-top: 34px; }
+    .sched th, .sched td { padding: 26px 24px; text-align: left; vertical-align: middle; }
+    .sched thead th { text-align: left; }
+    .sched td.t { font-family: var(--font-heading); font-weight: 800; color: var(--brand-primary); white-space: nowrap; }
+    .sched td.w { color: var(--text-soft); font-size: .92em; white-space: nowrap; }
+    .sched td.c b { color: var(--text); }
+    .sched tr.hl td { background: rgba(240,180,41,.14) !important; }
+    .sched-note { margin-top: 34px; font-size: .72em; max-width: 1500px; margin-left: auto; margin-right: auto; color: var(--text-soft); text-align: center; line-height: 1.6; }
+    .sched-note b { color: var(--brand-primary); }
+
+    /* Mốc kết quả */
+    .milestones { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 26px; }
+    .ms { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 18px 16px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--brand-primary); }
+    .ms:nth-child(3), .ms:nth-child(5) { border-top-color: var(--brand-accent); }
+    .ms .ms-t { font-family: var(--font-heading); font-weight: 800; font-size: .6em; color: var(--brand-primary); letter-spacing: .5px; text-transform: uppercase; margin-bottom: 8px; }
+    .ms:nth-child(3) .ms-t, .ms:nth-child(5) .ms-t { color: #B5430F; }
+    .ms p { font-size: .62em; line-height: 1.5; margin: 0; color: var(--text); }
+
+    /* Phân loại vấn đề */
+    .issue-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+    .issue { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; box-shadow: var(--shadow-sm); }
+    .issue .i-tag { display: inline-block; padding: 5px 12px; border-radius: 999px; font-family: var(--font-heading); font-weight: 800; font-size: .56em; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    .issue.crit .i-tag { background: rgba(196,33,39,.12); color: #C42127; }
+    .issue.norm .i-tag { background: rgba(30,111,176,.12); color: #1E6FB0; }
+    .issue.cr .i-tag { background: rgba(240,180,41,.25); color: #8A4A0C; }
+    .issue h3 { font-size: .8em; margin: 0 0 8px; }
+    .issue p { font-size: .62em; line-height: 1.55; margin: 0; color: var(--text-soft); }
+    .issue p b { color: var(--text); }
+
+    .crit-list { margin-top: 10px; }
+    .crit-list li { font-size: .7em !important; }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ========== 1. COVER ========== -->
+      <section data-background-color="#14568C" class="slide-bg-mesh slide-cover" data-transition="convex">
+        <div class="cover-v3">
+          <div class="cv3-top">
+            <img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" class="cv3-tc" />
+            <img src="../../assets/logo-vci.png" alt="VCI" class="cv3-vci" />
+          </div>
+          <div class="cv3-divider"><span></span></div>
+          <div class="cv3-tag">KẾ HOẠCH UAT · NHÀ MÁY HẠ LONG EPC · 11/2026</div>
+          <h1 class="cv3-title">
+            Kế hoạch UAT tại nhà máy<br />
+            <span class="cv3-sub">Hệ thống MES — Phân hệ Quản lý sản xuất</span>
+          </h1>
+          <div class="cv3-hero" aria-label="MES">
+            <span class="cv3-hero-bracket cv3-hero-bracket-l">[</span>
+            <span class="cv3-hero-text">
+              <span class="cv3-hero-letter">M</span><span class="cv3-hero-letter">E</span><span class="cv3-hero-letter">S</span>
+            </span>
+            <span class="cv3-hero-bracket cv3-hero-bracket-r">]</span>
+            <span class="cv3-hero-glow"></span>
+          </div>
+          <div class="cv3-when" aria-label="Thời gian UAT">
+            <div class="cw-days">
+              <div class="cw-day">
+                <span class="cw-k">Ngày 1</span>
+                <span class="cw-d">02<small>/11</small></span>
+                <span class="cw-w">Thứ Hai</span>
+              </div>
+              <div class="cw-link" aria-hidden="true"><span></span><i></i><span></span></div>
+              <div class="cw-day">
+                <span class="cw-k">Ngày 2</span>
+                <span class="cw-d">03<small>/11</small></span>
+                <span class="cw-w">Thứ Ba</span>
+              </div>
+            </div>
+            <div class="cw-meta">
+              <span class="cw-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>08:00 – 17:00</span>
+              <span class="cw-sep"></span>
+              <span class="cw-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Nhà máy Hạ Long EPC</span>
+              <span class="cw-sep"></span>
+              <span class="cw-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Tháng 11 / 2026</span>
+            </div>
+          </div>
+          <div class="cv3-bot">
+            <span>VCI × Hạ Long EPC</span>
+            <span class="cv3-bot-sep"></span>
+            <span>Kế hoạch UAT · Phân hệ Quản lý sản xuất</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 2. MỤC LỤC ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">Mục lục</div>
+            <h3 class="anim-fade-up d-1">Nội dung trình bày</h3>
+          </div>
+        </div>
+        <ol class="toc" style="display: grid; grid-template-columns: 1fr 1fr;">
+          <li class="anim-fade-up d-1"><span>Mục đích UAT</span></li>
+          <li class="anim-fade-up d-2"><span>Phạm vi kiểm thử &amp; khảo sát</span></li>
+          <li class="anim-fade-up d-3"><span>Thành phần tham gia</span></li>
+          <li class="anim-fade-up d-4"><span>Lịch 2 ngày tại nhà máy</span></li>
+          <li class="anim-fade-up d-5"><span>Chuẩn bị trước Ngày 1</span></li>
+          <li class="anim-fade-up d-6"><span>Ghi nhận vấn đề &amp; tiêu chí đạt</span></li>
+          <li class="anim-fade-up d-6"><span>Đầu mối liên hệ</span></li>
+        </ol>
+      </section>
+
+      <!-- ========== 3. MỤC ĐÍCH ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">01 — Mục đích</div>
+            <h2 class="anim-fade-up d-1">Phối hợp triển khai cùng nhà máy Hạ Long</h2>
+          </div>
+        </div>
+        <p class="lead lead-hero anim-fade-up d-2">
+          Chạy thử trên <strong>1 dự án, 1 cấu kiện hoặc cụm công việc đang làm</strong> —
+          <span class="hl-yellow">làm thật, số thật, ngay tại xưởng</span>.
+        </p>
+        <div class="cards cards-goal">
+          <div class="goal-card anim-zoom d-2">
+            <div class="goal-num">01</div>
+            <div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+            <h3>Tổ trưởng báo được sản lượng</h3>
+            <p>Cuối ca, tổ trưởng bấm báo trên điện thoại. <b>Làm xong bao nhiêu, báo bấy nhiêu.</b></p>
+          </div>
+          <div class="goal-card anim-zoom d-3">
+            <div class="goal-num">02</div>
+            <div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <h3>Lãnh đạo nhìn được tiến độ thật</h3>
+            <p>Tổ báo xong là thấy ngay, <b>không chờ cuối ngày tổng hợp</b>. Số trên màn hình là số ở xưởng.</p>
+          </div>
+          <div class="goal-card anim-zoom d-4">
+            <div class="goal-num">03</div>
+            <div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+            <h3>Biết từng công đoạn đang ở đâu</h3>
+            <p>Công đoạn nào đang làm, <b>trạng thái gì, khối lượng tới đâu</b> — nhìn một chỗ là rõ.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 4. PHẠM VI ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">02 — Phạm vi</div>
+            <h3 class="anim-fade-up d-1">Phạm vi UAT đợt này</h3>
+          </div>
+          <div class="legend anim-fade d-1">
+            <span class="legend-item"><span class="legend-dot d0"></span>Dữ liệu nền</span>
+            <span class="legend-item"><span class="legend-dot d1"></span>Kiểm thử chính</span>
+            <span class="legend-item"><span class="legend-dot d2"></span>Xem, đối chiếu</span>
+          </div>
+        </div>
+        <div class="ims-tree">
+          <div class="ims-root anim-zoom d-1">MES · QUẢN LÝ SẢN XUẤT</div>
+          <svg class="ims-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+            <defs><path id="imsP1" d="M 600 0 V 50 H 150 V 110" /><path id="imsP2" d="M 600 0 V 50 H 450 V 110" /><path id="imsP3" d="M 600 0 V 50 H 750 V 110" /><path id="imsP4" d="M 600 0 V 50 H 1050 V 110" /></defs>
+            <g fill="none" stroke-width="2" opacity=".35"><use href="#imsP1" stroke="#3B96D8" /><use href="#imsP2" stroke="#1E6FB0" /><use href="#imsP3" stroke="#1E6FB0" /><use href="#imsP4" stroke="#E8891E" /></g>
+            <g fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="18 14"><use href="#imsP1" stroke="#3B96D8"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-0.0s" repeatCount="indefinite" /></use><use href="#imsP2" stroke="#1E6FB0"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-0.2s" repeatCount="indefinite" /></use><use href="#imsP3" stroke="#1E6FB0"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-0.4s" repeatCount="indefinite" /></use><use href="#imsP4" stroke="#E8891E"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-0.6000000000000001s" repeatCount="indefinite" /></use></g>
+            <g fill="none" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 26" opacity=".9"><use href="#imsP1" stroke="#fff"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-0.0s" repeatCount="indefinite" /></use><use href="#imsP2" stroke="#fff"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-0.2s" repeatCount="indefinite" /></use><use href="#imsP3" stroke="#fff"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-0.4s" repeatCount="indefinite" /></use><use href="#imsP4" stroke="#fff"><animate attributeName="stroke-dashoffset" from="0" to="-32" dur="0.9s" begin="-0.6000000000000001s" repeatCount="indefinite" /></use></g>
+          </svg>
+          <div class="ims-cols four">
+            <div class="ims-col anim-fade-up d-2">
+              <div class="ims-head d0">Danh mục sản xuất<span class="ims-tag">VCI nhập trước · nhà máy soát</span></div>
+              <div style="--k:0" class="ims-leaf d0">Dự án · gán nhà máy thực hiện</div>
+              <div style="--k:1" class="ims-leaf d0">Công đoạn · thứ tự công đoạn</div>
+              <div style="--k:2" class="ims-leaf d0">Quy trình sản xuất · sơ đồ công đoạn</div>
+              <div style="--k:3" class="ims-leaf d0">Tổ sản xuất · nhóm · thợ</div>
+              <div style="--k:4" class="ims-leaf d0">Máy móc thiết bị</div>
+            </div>
+            <div class="ims-col anim-fade-up d-3">
+              <div class="ims-head d1">Kế hoạch sản xuất<span class="ims-tag">Phòng sản xuất · máy tính</span></div>
+              <div style="--k:0" class="ims-leaf d1">Lập kế hoạch tổng thể &amp; chi tiết</div>
+              <div style="--k:1" class="ims-leaf d1">Gán cấu kiện vào kế hoạch</div>
+              <div style="--k:2" class="ims-leaf d1">Thiết lập lịch, ca &amp; trạng thái việc</div>
+              <div style="--k:3" class="ims-leaf d1">Ban hành kế hoạch</div>
+              <div style="--k:4" class="ims-leaf d1">Theo dõi kế hoạch – thực tế</div>
+            </div>
+            <div class="ims-col anim-fade-up d-4">
+              <div class="ims-head d1">Giao việc &amp; báo sản lượng<span class="ims-tag">Tổ trưởng · điện thoại</span></div>
+              <div style="--k:0" class="ims-leaf d1">Phát phiếu · giao việc cho tổ / người</div>
+              <div style="--k:1" class="ims-leaf d1">Tổ báo sản lượng theo công đoạn</div>
+              <div style="--k:2" class="ims-leaf d1">Cập nhật trạng thái công việc</div>
+              <div style="--k:3" class="ims-leaf d1">Ảnh, trao đổi &amp; tệp đính kèm</div>
+              <div style="--k:4" class="ims-leaf d1">Lịch sử báo cáo · thư viện ảnh</div>
+              <div style="--k:5" class="ims-leaf d1">Huỷ, sửa, bổ sung báo cáo</div>
+            </div>
+            <div class="ims-col anim-fade-up d-5">
+              <div class="ims-head d2">Theo dõi &amp; báo cáo<span class="ims-tag">Lãnh đạo · kế hoạch</span></div>
+              <div style="--k:0" class="ims-leaf d2">Dashboard KPI toàn nhà máy / dự án</div>
+              <div style="--k:1" class="ims-leaf d2">Tiến độ theo nhóm công việc</div>
+              <div style="--k:2" class="ims-leaf d2">Sản lượng theo công đoạn, theo tháng</div>
+              <div style="--k:3" class="ims-leaf d2">Nhân lực theo tổ</div>
+              <div style="--k:4" class="ims-leaf d2">Báo cáo KH / TT · xuất Excel</div>
+            </div>
+          </div>
+        </div>
+        <div class="scope-foot anim-fade-up d-5">
+          <span class="sf-k">Ngoài phạm vi đợt này</span>
+          <span class="sf-i">BIM BOM · 3D · IFC</span>
+          <span class="sf-i">Kế hoạch nguồn lực</span>
+          <span class="sf-i">Đồng bộ tổ từ HRM</span>
+          <span class="sf-i">Tích hợp ngoài</span>
+          <span class="sf-k sf-k2">Khảo sát Ngày 2</span>
+          <span class="sf-i sf-s">Thiết kế → sản xuất</span>
+          <span class="sf-i sf-s">Camera &amp; hạ tầng</span>
+        </div>
+      </section>
+
+      <!-- ========== 5. THÀNH PHẦN ========== -->
+      <section class="slide-bg-light team-compact team-wide">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">03 — Thành phần</div>
+            <h2 class="anim-fade-up d-1">Thành phần tham gia</h2>
+          </div>
+        </div>
+        <div class="org-chart">
+          <div class="org-panel anim-slide-l d-1">
+            <div class="org-panel-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg> Nhà máy Hạ Long EPC — Vận hành thử, xác nhận</div>
+            <div class="org-row" style="grid-template-columns: 1fr auto 1fr; align-items: center;">
+              <div class="org-node primary" style="--nd:.10s"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span><span class="n-body">A. Thái · Tổng Giám đốc<small>Đại diện nhà máy · quyết nghiệp vụ</small></span></div>
+              <div class="org-line-h-dash" style="width: 24px; flex: 0 0 24px;"></div>
+              <div class="org-node " style="--nd:.22s"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span><span class="n-body">Phòng sản xuất<small>Lập kế hoạch, giao việc</small></span></div>
+            </div>
+            <div class="org-line-v"></div>
+            <div class="org-row two">
+              <div class="org-node accent" style="--nd:.34s"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span><span class="n-body">Tổ trưởng · Đốc công<small>Nhập báo cáo ngay tại tổ</small></span></div>
+              <div class="org-node accent" style="--nd:.42s"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><span class="n-body">Thiết kế · IT<small>Tiếp khảo sát Ngày 2</small></span></div>
+            </div>
+            <div class="org-panel-footer">Làm thật · xác nhận đạt / chưa đạt</div>
+          </div>
+
+          <div class="org-connector anim-fade d-3">
+            <div class="org-connector-label">Cùng làm<br />tại xưởng</div>
+            <div class="org-connector-arrow"></div>
+          </div>
+
+          <div class="org-panel anim-slide-r d-1">
+            <div class="org-panel-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/></svg> VCI — Hướng dẫn, hỗ trợ, ghi nhận</div>
+            <div class="org-node primary" style="margin: 0 22%; --nd:.16s"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg></span><span class="n-body">Cương · Quản lý dự án<small>Điều phối, chốt việc</small></span></div>
+            <div class="org-line-v"></div>
+            <div class="org-row">
+              <div class="org-node " style="--nd:.30s"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span><span class="n-body">Trang · Phân tích nghiệp vụ<small>Demo · hướng dẫn lập kế hoạch</small></span></div>
+            </div>
+            <div class="org-line-v"></div>
+            <div class="org-row two">
+              <div class="org-node accent" style="--nd:.44s"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><span class="n-body">Nhung · Phương<small>Kiểm thử — hỗ trợ tổ nhập · đối chiếu số</small></span></div>
+              <div class="org-node accent" style="--nd:.52s"><span class="n-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><span class="n-body">Duy · Kỹ thuật<small>Sửa nhanh · khảo sát thiết kế, camera</small></span></div>
+            </div>
+            <div class="org-panel-footer">Có mặt tại xưởng đủ 2 ngày</div>
+          </div>
+        </div>
+        <div class="org-footer anim-fade-up d-5">Mô hình phối hợp — <span>Nhà máy × VCI</span></div>
+      </section>
+
+      <!-- ========== 6. LỊCH NGÀY 1 ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">04 — Lịch làm việc</div>
+            <h3 class="anim-fade-up d-1">Ngày 1 · Thứ Hai 02/11 — Demo, chốt cụm, lập kế hoạch, xuống tổ</h3>
+          </div>
+        </div>
+        <div class="ag-thread anim-fade-up d-1">
+          <span class="th-k">Xuyên suốt 2 ngày</span>
+          <span class="th-i"><b>Hỗ trợ tổ báo cáo</b> ngay tại chỗ</span>
+          <span class="th-i"><b>Hướng dẫn lập kế hoạch</b> cho phòng sản xuất</span>
+          <span class="th-i"><b>Thu thập yêu cầu, vướng mắc</b> của nhà máy</span>
+          <span class="th-i"><b>Tham gia nhóm Zalo</b> báo cáo &amp; trao đổi của các tổ</span>
+        </div>
+        <div class="agenda dense">
+          <div class="ag-row " style="--i:0">
+            <div class="ag-time"><b>08:00–08:30</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Dự giao ban &amp; trình bày kế hoạch</h4><p>Nghe giao ban nhà máy; giới thiệu cách làm 2 ngày — chưa chốt gì</p></div>
+            <div class="ag-who"><span class="chip vci">PM · BA</span><span class="chip nm">A. Thái · phòng sản xuất</span></div>
+          </div>
+          <div class="ag-row " style="--i:1">
+            <div class="ag-time"><b>08:30–10:30</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Demo các phân hệ</h4><p>Đi hết luồng kế hoạch → giao việc → tổ báo sản lượng → xem tiến độ</p></div>
+            <div class="ag-who"><span class="chip vci">BA chủ trì</span><span class="chip sub">Duy · Nhung · Phương hỗ trợ</span></div>
+          </div>
+          <div class="ag-row " style="--i:2">
+            <div class="ag-time"><b>10:30–11:00</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Nêu kịch bản theo công đoạn</h4><p>Cụm A cắt → gá → hàn · cụm B tổ hợp → sơn → nghiệm thu; ai nhập, nhập lúc nào</p></div>
+            <div class="ag-who"><span class="chip vci">BA</span><span class="chip nm">Phòng sản xuất · tổ trưởng</span></div>
+          </div>
+          <div class="ag-row hl" style="--i:3">
+            <div class="ag-time"><b>11:00–11:30</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Chốt cụm cấu kiện &amp; tên tổ</h4><p>Chốt dự án, cụm A / B, tổ trưởng từng công đoạn, khung giờ xuống tổ chiều nay</p></div>
+            <div class="ag-who"><span class="chip vci">PM</span><span class="chip nm">A. Thái · phòng sản xuất</span></div>
+          </div>
+          <div class="ag-row " style="--i:4">
+            <div class="ag-time"><b>13:30–14:30</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Triển khai kế hoạch</h4><p>Phòng sản xuất tự lập kế hoạch cụm A, B và giao việc chiều nay</p></div>
+            <div class="ag-who"><span class="chip vci">BA · PM</span><span class="chip nm">Phòng sản xuất</span><span class="chip sub">Phương · Duy hỗ trợ</span></div>
+          </div>
+          <div class="ag-row hl" style="--i:5">
+            <div class="ag-time"><b>14:30–16:30</b><span>Tại tổ</span></div>
+            <div class="ag-main"><h4>Xuống các tổ</h4><p>Nắm cách báo cáo của tổ trưởng / đốc công; hướng dẫn và chạy thử báo cáo</p></div>
+            <div class="ag-who"><span class="chip vci">BA · Nhung</span><span class="chip nm">Tổ trưởng</span><span class="chip sub">PM điều phối · Duy</span></div>
+          </div>
+          <div class="ag-row " style="--i:6">
+            <div class="ag-time"><b>16:30–17:00</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Tổng hợp & chốt việc Ngày 2</h4><p>Kết quả, vướng mắc trong ngày</p></div>
+            <div class="ag-who"><span class="chip all">Toàn đội</span><span class="chip nm">Đầu mối nhà máy</span></div>
+          </div>
+        </div>
+<div class="ag-result" style="--n:5"><div class="ag-lbl">Kết quả<br />cuối ngày</div><ul><li style="--j:0">Cụm A / B và tổ trưởng từng công đoạn đã chốt sau demo</li><li style="--j:1">Kế hoạch 2 cụm đã lên MES, đã giao việc</li><li style="--j:2">Mỗi tổ có ≥ 1 báo cáo thật</li><li style="--j:3">Danh sách vướng mắc Ngày 1</li></ul></div>
+      </section>
+
+      <!-- ========== 7. LỊCH NGÀY 2 ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">04 — Lịch làm việc</div>
+            <h3 class="anim-fade-up d-1">Ngày 2 · Thứ Ba 03/11 — Tự báo cáo, khảo sát, tổng kết</h3>
+          </div>
+        </div>
+        <div class="ag-thread anim-fade-up d-1">
+          <span class="th-k">Xuyên suốt 2 ngày</span>
+          <span class="th-i"><b>Hỗ trợ tổ báo cáo</b> ngay tại chỗ</span>
+          <span class="th-i"><b>Hướng dẫn lập kế hoạch</b> cho phòng sản xuất</span>
+          <span class="th-i"><b>Thu thập yêu cầu, vướng mắc</b> của nhà máy</span>
+          <span class="th-i"><b>Tham gia nhóm Zalo</b> báo cáo &amp; trao đổi của các tổ</span>
+        </div>
+        <div class="agenda">
+          <div class="ag-row hl" style="--i:0">
+            <div class="ag-time"><b>07:30–08:00</b><span>Tại tổ</span></div>
+            <div class="ag-main"><h4>Dự họp đầu giờ các tổ</h4><p>Nghe tổ trưởng giao việc trong ngày; xem việc đó đã có trên MES chưa</p></div>
+            <div class="ag-who"><span class="chip vci">BA · Nhung · Phương</span><span class="chip nm">Tổ trưởng</span><span class="chip sub">PM</span></div>
+          </div>
+          <div class="ag-row hl" style="--i:1">
+            <div class="ag-time"><b>08:00–11:30</b><span>Tại tổ</span></div>
+            <div class="ag-main"><h4>Tổ tự báo cáo ca sáng</h4><p>Nhung đi kèm nhưng để tổ trưởng tự làm; Phương đối chiếu sản lượng, tiến độ với sổ</p></div>
+            <div class="ag-who"><span class="chip vci">Nhung · Phương</span><span class="chip nm">Tổ trưởng</span><span class="chip sub">BA · Duy · PM</span></div>
+          </div>
+          <div class="ag-row " style="--i:2">
+            <div class="ag-time"><b>13:30–14:30</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Khảo sát phòng thiết kế — công đoạn cắt</h4><p>File thiết kế → file cắt, file export báo cáo nhanh cắt; quy trình từ thiết kế cắt xuống phòng sản xuất</p></div>
+            <div class="ag-who"><span class="chip vci">Duy chủ trì · PM · BA</span><span class="chip nm">Phòng thiết kế</span><span class="chip sub">Nhung · Phương tại tổ</span></div>
+          </div>
+          <div class="ag-row " style="--i:3">
+            <div class="ag-time"><b>14:30–15:30</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Khảo sát camera &amp; hạ tầng</h4><p>Dev khảo sát vị trí, góc nhìn theo công đoạn, đầu ghi, mạng; đề xuất cách nối với MES</p></div>
+            <div class="ag-who"><span class="chip vci">Duy chủ trì · PM</span><span class="chip nm">IT nhà máy</span><span class="chip sub">BA · Nhung · Phương tại tổ</span></div>
+          </div>
+          <div class="ag-row " style="--i:4">
+            <div class="ag-time"><b>15:30–17:00</b><span>Phòng họp</span></div>
+            <div class="ag-main"><h4>Tổng kết hai ngày</h4><p>Thống nhất nội dung cần hoàn thiện và kế hoạch hỗ trợ tiếp</p></div>
+            <div class="ag-who"><span class="chip all">Toàn đội</span><span class="chip nm">Đại diện nhà máy</span></div>
+          </div>
+        </div>
+<div class="ag-result" style="--n:5"><div class="ag-lbl">Kết quả<br />cuối ngày</div><ul><li style="--j:0">Tổ trưởng tự báo cáo ca sáng, không cần hướng dẫn</li><li style="--j:1">Bảng đối chiếu sản lượng hệ thống ↔ thực tế</li><li style="--j:2">Biên bản tổng kết: kết quả · lỗi · việc cần hoàn thiện · kế hoạch hỗ trợ</li></ul></div>
+      </section>
+
+      <!-- ========== 8. CHUẨN BỊ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">05 — Chuẩn bị</div>
+            <h2 class="anim-fade-up d-1">Chuẩn bị trước Ngày 1 — dữ liệu · tài khoản · thiết bị</h2>
+          </div>
+        </div>
+        <div class="two-col two-col-compact" style="margin-top: 26px !important;">
+          <div class="resp-col vci anim-slide-l d-2">
+            <h4>VCI</h4>
+            <h3 class="accent">Hệ thống sẵn sàng chạy thật</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Dữ liệu kế hoạch</b> của dự án chạy thử đã nhập: danh mục cấu kiện, công đoạn, tổ, kế hoạch hiện tại</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Tài khoản theo vai trò</b>: phòng sản xuất, từng tổ trưởng / đốc công, lãnh đạo nhà máy — không dùng chung</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Thiết bị</b>: điện thoại, máy tính đã cài sẵn — dùng máy của VCI hoặc của HL.EPC đều được</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt">Kịch bản demo theo đúng dự án · mẫu ghi nhận vướng mắc · bảng đối chiếu sản lượng</span></li>
+            </ul>
+          </div>
+          <div class="resp-col tc anim-slide-r d-3">
+            <h4>Nhà máy Hạ Long EPC</h4>
+            <h3>Người, dự án &amp; kênh trao đổi</h3>
+            <ul>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Chọn dự án, chọn tổ</b> tham gia; gửi VCI danh mục cấu kiện và kế hoạch hiện tại để nhập trước</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Phòng sản xuất</b> (khối văn phòng) cử người làm trực tiếp trên hệ thống; mang sổ theo dõi sản lượng để đối chiếu</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Tổ trưởng / đốc công</b> có mặt đúng khung giờ, mang điện thoại — chưa có thì dùng máy VCI</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Thêm VCI vào nhóm Zalo</b> báo cáo của các tổ; báo lịch <b>giao ban, họp đầu giờ</b> để VCI cùng dự</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== 9. VẤN ĐỀ & TIÊU CHÍ ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">06 — Ghi nhận vấn đề</div>
+            <h3 class="anim-fade-up d-1">Ghi nhận, phân loại vấn đề &amp; tiêu chí UAT đạt</h3>
+          </div>
+        </div>
+        <p class="anim-fade-up d-1" style="font-size:.7em; margin-top: 6px;">
+          QC / BA ghi nhận <strong>ngay tại chỗ</strong>: màn hình · bước thao tác · người thao tác · tổ · ảnh chụp. Cuối mỗi buổi phân thành 3 loại:
+        </p>
+        <div class="issue-grid">
+          <div class="issue crit" style="--i:0">
+            <span class="i-tag">Chặn luồng</span>
+            <h3>Không giao được việc · không báo cáo được · số sai</h3>
+            <p>Dev <b>sửa tại chỗ</b> nếu được. Chưa sửa được thì là <b>ưu tiên số 1</b> ngay sau UAT.</p>
+          </div>
+          <div class="issue norm" style="--i:1">
+            <span class="i-tag">Lỗi thường</span>
+            <h3>Không chặn luồng, nhưng phải sửa</h3>
+            <p>Đưa vào <b>danh sách hoàn thiện</b>, có người phụ trách và hạn.</p>
+          </div>
+          <div class="issue cr" style="--i:2">
+            <span class="i-tag">Khác cách làm nhà máy</span>
+            <h3>Không phải lỗi — là yêu cầu thay đổi</h3>
+            <p>Ghi nhận, <b>không ép làm theo hệ thống</b> trong UAT. Hai bên thống nhất ở buổi tổng kết.</p>
+          </div>
+        </div>
+        <div class="resp-col vci anim-fade-up d-5" style="margin-top: 22px; padding: 18px 26px;">
+          <h4>Tiêu chí UAT đạt</h4>
+          <ul class="crit-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin-top: 6px;">
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt">Kế hoạch dự án chạy thử lập và giao việc được, đúng cấu kiện, đúng tổ</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>100% tổ tham gia</b> báo cáo được; Ngày 2 tổ trưởng <b>tự báo cáo</b> không cần hướng dẫn</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt">Sản lượng, tiến độ trên hệ thống <b>khớp</b> sổ nhà máy, hoặc lệch có giải thích được</span></li>
+              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt">Không còn lỗi chặn luồng chưa có phương án · biên bản tổng kết hai bên thống nhất</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ========== 10. ĐẦU MỐI ========== -->
+      <section class="slide-bg-light">
+        <div class="brand-bar">
+          <div class="logo-tc"><img src="../../assets/halongepc/logo-header.png" alt="Ha Long EPC" /></div>
+          <div class="logo-vci"><img src="../../assets/logo-vci.png" alt="VCI" /></div>
+        </div>
+        <div class="slide-header">
+          <div>
+            <div class="step-pill anim-fade-up">07 — Đầu mối</div>
+            <h2 class="anim-fade-up d-1">Đầu mối liên hệ trong 2 ngày UAT</h2>
+          </div>
+        </div>
+        <p class="lead anim-fade-up d-1" style="font-size: .82em; max-width: 1200px;">
+          Trong 2 ngày, VCI <strong>có mặt tại nhà máy</strong> — vướng ở đâu gọi trực tiếp hoặc nhắn nhóm Zalo.
+          Sau UAT, kế hoạch hỗ trợ tiếp (từ xa / tại chỗ, tần suất) chốt tại buổi tổng kết Ngày 2.
+        </p>
+        <div class="contacts anim-fade-up d-2" style="grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 36px;">
+          <div class="contact-card" style="--i:0">
+            <div class="avatar">XC</div>
+            <div class="info">
+              <h4>Bùi Xuân Cương</h4>
+              <p>PM — đầu mối chính · VCI</p>
+              <p class="phone">📞 033.5055.068</p>
+            </div>
+          </div>
+          <div class="contact-card" style="--i:1">
+            <div class="avatar">CT</div>
+            <div class="info">
+              <h4>Cao Thị Trang</h4>
+              <p>BA chủ trì — nghiệp vụ, hướng dẫn · VCI</p>
+              <p class="phone">💬 Nhóm Zalo UAT</p>
+            </div>
+          </div>
+          <div class="contact-card" style="--i:2">
+            <div class="avatar">T</div>
+            <div class="info">
+              <h4>A. Thái</h4>
+              <p>Tổng Giám đốc · đầu mối tiếp nhận · Hạ Long EPC</p>
+              <p class="phone">📞 0985.961.138</p>
+            </div>
+          </div>
+        </div>
+        <div class="chan-grid anim-fade-up d-3">
+          <div class="chan"><span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span><b>Nhóm Zalo của các tổ</b><p>VCI tham gia nhóm báo cáo, trao đổi sẵn có — không lập nhóm mới</p></div>
+          <div class="chan"><span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><b>Giao ban nhà máy</b><p>VCI dự giao ban đầu Ngày 1 — nghe việc, chốt dự án và tổ</p></div>
+          <div class="chan"><span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Họp đầu giờ từng tổ</b><p>07:30 Ngày 2 — nghe tổ trưởng giao việc, đối chiếu với MES</p></div>
+          <div class="chan"><span class="c-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><b>Gặp trực tiếp tại xưởng</b><p>QC ở tổ suốt 2 ngày — vướng là chỉ tay, không cần gọi</p></div>
+        </div>
+      </section>
+
+      <!-- ========== 11. Q&A ========== -->
+      <section data-background-color="#0A2F52" class="slide-bg-mesh slide-qa" data-transition="convex">
+        <div class="qa-wrap">
+          <div class="qa-bubbles" aria-hidden="true">
+            <span class="qa-bubble qb1">?</span><span class="qa-bubble qb2">?</span><span class="qa-bubble qb3">?</span>
+            <span class="qa-bubble qb4">?</span><span class="qa-bubble qb5">?</span><span class="qa-bubble qb6">?</span>
+          </div>
+          <div class="qa-tag">THỐNG NHẤT · BẮT ĐẦU</div>
+          <h1 class="qa-title"><span class="qa-q">Q</span><span class="qa-amp">&amp;</span><span class="qa-a">A</span></h1>
+          <p class="qa-sub">
+            08:30 vào demo. Xem xong, nghe kịch bản xong, 11:00 mình chốt cụm cấu kiện và tổ.<br />
+            Rất mong các anh chị tổ trưởng, phòng sản xuất làm thật trên hệ thống và nói thẳng chỗ nào chưa hợp.
+          </p>
+          <div class="qa-foot">
+            <span>UAT MES · Quản lý sản xuất · Nhà máy Hạ Long EPC</span>
+            <span class="qa-foot-sep"></span>
+            <span>02 – 03/11/2026</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    // Khung slide lấy đúng tỉ lệ cửa sổ: cao 1080, rộng theo màn hình → không dư trắng 2 bên
+    function deckSize() {
+      const ratio = Math.min(Math.max(window.innerWidth / window.innerHeight, 1.5), 2.4);
+      return { width: Math.round(1080 * ratio), height: 1080 };
+    }
+    const deck = new Reveal({
+      hash: true,
+      history: true,
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      showSlideNumber: 'all',
+      center: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      ...deckSize(),
+      margin: 0,
+      minScale: 0.2,
+      maxScale: 2.0,
+    });
+    deck.initialize().then(() => {
+      deck.on('slidechanged', (e) => { activateSlide(e.currentSlide); updateNav(); });
+      activateSlide(deck.getCurrentSlide());
+      buildNav(); updateNav();
+      let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { deck.configure(deckSize()); deck.layout(); }, 120); });
+    });
+
+    function buildNav() {
+      const nav = document.createElement('div');
+      nav.className = 'deck-nav';
+      nav.setAttribute('role', 'navigation');
+      nav.setAttribute('aria-label', 'Điều hướng slide');
+      nav.innerHTML = `
+        <button type="button" data-dir="prev" aria-label="Slide trước">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="num" aria-live="polite"><b class="cur">1</b><span>/</span><b class="tot">1</b></div>
+        <button type="button" data-dir="next" aria-label="Slide sau">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>`;
+      nav.querySelector('[data-dir="prev"]').addEventListener('click', () => deck.prev());
+      nav.querySelector('[data-dir="next"]').addEventListener('click', () => deck.next());
+      document.querySelector('.reveal').appendChild(nav);
+    }
+
+    function updateNav() {
+      const nav = document.querySelector('.deck-nav');
+      if (!nav) return;
+      const total = deck.getTotalSlides();
+      const idx = deck.getIndices().h;
+      nav.querySelector('.cur').textContent = idx + 1;
+      nav.querySelector('.tot').textContent = total;
+      nav.querySelector('[data-dir="prev"]').disabled = idx === 0;
+      nav.querySelector('[data-dir="next"]').disabled = idx === total - 1;
+      const cur = deck.getCurrentSlide();
+      nav.classList.toggle('on-dark', !!(cur && cur.classList.contains('slide-bg-mesh')));
+    }
+
+    function activateSlide(slide) {
+      if (!slide) return;
+      const timeline = slide.querySelector('.timeline');
+      if (timeline) {
+        const pins = timeline.querySelectorAll('.pin');
+        pins.forEach((p, i) => {
+          p.classList.remove('active');
+          setTimeout(() => p.classList.add('active'), 600 + i * 350);
+        });
+        const fill = timeline.querySelector('.progress-fill');
+        if (fill) {
+          fill.style.width = '0%';
+          void fill.offsetWidth;
+          fill.style.width = fill.dataset.progress || '100%';
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>

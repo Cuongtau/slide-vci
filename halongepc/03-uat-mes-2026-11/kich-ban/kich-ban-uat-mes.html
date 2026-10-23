@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8" />
+<title>Kịch bản — UAT MES Hạ Long EPC</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 18mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Be Vietnam Pro", "Segoe UI", Arial, sans-serif; color: #1a1a1a; font-size: 11.5pt; line-height: 1.5; margin: 0; background: #fff; }
+  .page { max-width: 180mm; margin: 0 auto; padding: 10mm 0; }
+  h1 { font-size: 18pt; color: #1E6FB0; margin: 0 0 4mm; line-height: 1.25; }
+  .meta { font-size: 10pt; color: #444; border-left: 4px solid #E8891E; padding: 2mm 4mm; margin-bottom: 6mm; background: #FFF7EA; }
+  .meta b { color: #1a1a1a; }
+  .goal { font-size: 10.5pt; padding: 3mm 4mm; border: 1px dashed #1E6FB0; border-radius: 3mm; margin-bottom: 6mm; }
+  .slide { break-inside: avoid; page-break-inside: avoid; margin-bottom: 7mm; border-top: 2px solid #1E6FB0; padding-top: 3mm; }
+  .slide h2 { font-size: 13pt; margin: 0 0 2mm; color: #0E4573; display: flex; justify-content: space-between; align-items: baseline; }
+  .slide h2 .min { font-size: 9.5pt; color: #fff; background: #E8891E; border-radius: 10px; padding: 1px 8px; font-weight: 600; white-space: nowrap; }
+  .spk { font-weight: 700; font-size: 10pt; margin: 3mm 0 1mm; letter-spacing: .3px; }
+  .spk.pm { color: #1E6FB0; } .spk.ba { color: #B5430F; }
+  .say { margin: 0 0 0 4mm; padding-left: 4mm; border-left: 3px solid #E6EEF5; }
+  .say p { margin: 0 0 2mm; }
+  .note { font-size: 10pt; background: #FFF7EA; border-radius: 2mm; padding: 2mm 3mm; margin-top: 2mm; color: #5a3a10; }
+  table { border-collapse: collapse; width: 100%; font-size: 10pt; margin-top: 2mm; }
+  th, td { border: 1px solid #cfd8e3; padding: 1.5mm 2.5mm; text-align: left; }
+  th { background: #EAF2F9; color: #0E4573; }
+  td.n { text-align: center; }
+  .footer { font-size: 9pt; color: #888; margin-top: 8mm; text-align: center; }
+  @media print { .page { padding: 0; max-width: none; } .noprint { display: none; } }
+  .noprint { position: fixed; right: 12px; top: 12px; }
+  .noprint button { font: inherit; padding: 6px 14px; border-radius: 8px; border: 1px solid #1E6FB0; background: #1E6FB0; color: #fff; cursor: pointer; }
+</style></head><body>
+<div class="noprint"><button onclick="window.print()">🖨 In / Lưu PDF</button></div>
+<div class="page">
+<h1>Kịch bản trình bày — Kế hoạch UAT MES Quản lý sản xuất<br /><span style="font-size:13pt;color:#444;font-weight:600">Nhà máy Hạ Long EPC · Thứ Hai 02/11/2026 · 08:00–08:30</span></h1>
+<div class="meta">
+  <b>Tổng thời lượng:</b> ~26 phút (trình bày 21 phút + chốt, hỏi đáp 5 phút) &nbsp;·&nbsp; <b>Slide:</b> 03-uat-mes-2026-11/uat-mes.html (11 slide)<br />
+  <b>PM</b> — Bùi Xuân Cương, QLDA VCI: dẫn dắt, mục đích, thành phần, chuẩn bị, tiêu chí, chốt &nbsp;·&nbsp;
+  <b>BA</b> — Cao Thị Trang, BA chủ trì VCI: phạm vi, lịch 2 ngày, cách ghi nhận vấn đề
+</div>
+<div class="goal"><b>Mục tiêu buổi 30 phút:</b> ra khỏi phòng với 3 thứ đã chốt — <i>tên dự án chạy thử · danh sách tổ tham gia · khung giờ xuống tổ chiều Ngày 1</i>.</div>
+
+<div class="slide"><h2><span>🎬 Slide 1 — Cover</span><span class="min">1 phút</span></h2>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Chào anh/chị đại diện nhà máy, phòng sản xuất và các anh tổ trưởng, đốc công. Tôi là Cương, phụ trách dự án phía VCI. Cùng đi hôm nay có chị Trang là BA chủ trì, hai bạn kiểm thử Nhung và Phương, và bạn Duy kỹ thuật.</p>
+<p>Hai ngày hôm nay, thứ Hai và thứ Ba, chúng tôi ở lại nhà máy để chạy thử hệ thống MES, phân hệ Quản lý sản xuất, trên đúng cấu kiện các anh đang làm. Buổi này 30 phút, chỉ để <b>giới thiệu cách làm 2 ngày</b>. 08:30 vào demo, xem hệ thống chạy, nghe kịch bản theo công đoạn, rồi <b>11:00 mới chốt</b> cụm cấu kiện và tổ, để anh chị chọn sau khi đã thấy hệ thống làm gì.</p>
+</div>
+<div class="note">📌 <b>Lưu ý:</b> Nói ngắn, không đọc slide. Nhìn vào tổ trưởng khi nói &quot;chạy trên đúng cấu kiện các anh đang làm&quot;.</div>
+</div>
+<div class="slide"><h2><span>📋 Slide 2 — Mục lục</span><span class="min">1 phút</span></h2>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Tôi đi qua 7 nội dung, mỗi nội dung một slide: mục đích, phạm vi, ai tham gia, lịch 2 ngày, cần chuẩn bị gì, cách ghi nhận vấn đề và tiêu chí đạt, cuối cùng là đầu mối liên hệ. Phần phạm vi và lịch chị Trang sẽ nói, vì chị là người trực tiếp làm với các anh chị.</p>
+</div>
+</div>
+<div class="slide"><h2><span>🎯 Slide 3 — Phối hợp triển khai cùng nhà máy Hạ Long</span><span class="min">3 phút</span></h2>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Hai ngày này không phải test trên dữ liệu mẫu. Mình chọn <b>một dự án, một cấu kiện hoặc một cụm công việc đang làm dở</b> ở xưởng và chạy thật trên đó. Làm được ba việc này là đạt.</p>
+<p><b>Một, tổ trưởng báo được sản lượng.</b> Cuối ca, tổ trưởng cầm điện thoại bấm báo: hôm nay làm xong bao nhiêu. Không cần ghi sổ rồi chờ ai nhập lại. Đây là bước quan trọng nhất, vì tổ không báo được thì phía trên không có gì để nhìn. Nên hai ngày này chúng tôi ở dưới tổ là chính, không ngồi phòng họp.</p>
+<p><b>Hai, lãnh đạo nhìn được tiến độ thật.</b> Tổ báo xong là trên màn hình thấy ngay, không phải chờ cuối ngày tổng hợp. Và số trên màn hình phải đúng là số ở xưởng. Lệch thì truy được vì sao lệch.</p>
+<p><b>Ba, biết từng công đoạn đang ở đâu.</b> Công đoạn nào đang làm, trạng thái gì, khối lượng tới đâu, nhìn một chỗ là rõ. Không phải gọi điện hỏi từng tổ.</p>
+</div>
+<div class="note">📌 <b>Lưu ý:</b> Ý 1 là ý cần nhấn. Nhìn về phía tổ trưởng khi nói &quot;tổ không báo được thì phía trên không có gì để nhìn&quot;. Chỗ hệ thống làm khác cách xưởng đang làm sẽ nói ở slide Gặp vướng thì sao, không nói ở đây.</div>
+</div>
+<div class="slide"><h2><span>🗂️ Slide 4 — Phạm vi UAT — Phân hệ Quản lý sản xuất</span><span class="min">3 phút</span></h2>
+<div class="spk ba">BA (Trang)</div><div class="say">
+<p>Đợt này chỉ một phân hệ Quản lý sản xuất, hai chức năng, cộng hai nội dung khảo sát.</p>
+<p><b>Lập kế hoạch sản xuất</b>: phòng sản xuất lập kế hoạch cho cấu kiện của dự án mình chọn hôm nay, có danh mục cấu kiện, khối lượng, tiến độ, rồi phân bổ xuống tổ. Phần này làm trên máy tính, chiều nay 13:30 em làm cùng phòng sản xuất.</p>
+<p><b>Giao việc, báo cáo sản lượng</b>: từ kế hoạch giao xuống từng tổ, tổ trưởng mở điện thoại hoặc máy tính thấy đúng việc của tổ mình, cuối ca báo sản lượng. Sửa được, bổ sung được, có việc phát sinh ngoài kế hoạch cũng báo được. Sang ngày 2 mình lấy số trên hệ thống đối chiếu với sổ theo dõi hiện tại của nhà máy.</p>
+<p>Cột màu cam là <b>khảo sát, không kiểm thử</b>: chiều ngày 2 em và anh Cương sang phòng thiết kế xem dữ liệu thiết kế đang chuyển sang sản xuất bằng gì, và xem camera, mạng, thiết bị ở xưởng. Hai cái này để biết cần hoàn thiện gì, chưa test.</p>
+<p>Ngoài phạm vi: các phân hệ khác và tích hợp với hệ thống ngoài. Và mình chỉ chạy <b>một dự án</b> để tập trung, không nhập hết.</p>
+</div>
+<div class="note">📌 <b>Lưu ý:</b> Nếu nhà máy hỏi &quot;sao không chạy hết dự án&quot;: trả lời là một dự án đủ để biết luồng có chạy được không, nhập hết sẽ mất thời gian nhập liệu thay vì thời gian test.</div>
+</div>
+<div class="slide"><h2><span>👥 Slide 5 — Thành phần tham gia</span><span class="min">2 phút</span></h2>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Phía nhà máy cần 4 nhóm người: anh Thái, Tổng Giám đốc, là đại diện nhà máy và đầu mối, quyết các vướng mắc nghiệp vụ tại chỗ; phòng sản xuất cử người làm trực tiếp trên hệ thống; các anh tổ trưởng, đốc công của những tổ mình chọn; và chiều mai có người bên thiết kế và IT nhà máy tiếp khảo sát.</p>
+<p>Phía VCI: tôi điều phối và tổng hợp; chị Trang chủ trì demo, hướng dẫn phòng sản xuất lập kế hoạch; Nhung ở dưới xưởng hỗ trợ tổ nhập báo cáo; Phương ở văn phòng đối chiếu số; Duy kỹ thuật, lỗi nào sửa nhanh được thì sửa tại chỗ, và chủ trì khảo sát thiết kế, camera chiều mai. Cả đội có mặt đủ 2 ngày, vướng gì gọi trực tiếp.</p>
+</div>
+</div>
+<div class="slide"><h2><span>🗓️ Slide 6 — Ngày 1 · Thứ Hai 02/11</span><span class="min">3 phút</span></h2>
+<div class="spk ba">BA (Trang)</div><div class="say">
+<p>Hôm nay. <b>08:30 đến 10:30</b> em demo, đi hết luồng kế hoạch, giao việc, tổ báo sản lượng, xem tiến độ. <b>10:30</b> em nêu kịch bản theo công đoạn: cụm A đi cắt, gá, hàn; cụm B đi tổ hợp, sơn, nghiệm thu; ai nhập, nhập lúc nào. <b>11:00</b> anh Cương cùng anh Thái và phòng sản xuất chốt: dự án nào, cụm nào, tổ trưởng công đoạn nào, chiều xuống tổ lúc mấy giờ. Chốt sau demo để anh chị chọn cụm khi đã hiểu hệ thống làm gì. Mời phòng sản xuất và các anh tổ trưởng dự cả buổi sáng, vì chiều là làm thật.</p>
+<p><b>13:30 đến 14:30</b> em ngồi với phòng sản xuất đưa kế hoạch của dự án mình chọn lên hệ thống, đúng cấu kiện đang làm, và giao việc xuống tổ.</p>
+<p><b>14:30 đến 16:30</b> cả đội xuống tổ. Trước hết là xem các anh đang ghi sản lượng thế nào, rồi hướng dẫn báo cáo trên hệ thống và chạy thử ngay với số thật của ca hôm nay. Mỗi tổ em và QC ở 10 đến 15 phút, không làm gián đoạn sản xuất.</p>
+<p><b>16:30</b> họp ngắn 30 phút: tổng hợp vướng mắc, chốt việc ngày mai.</p>
+<p>Xuyên suốt hai ngày, ngoài lịch trên, chúng tôi làm 4 việc song song: hỗ trợ tổ báo cáo ngay tại chỗ, hướng dẫn phòng sản xuất lập kế hoạch, ghi nhận mọi yêu cầu và vướng mắc của nhà máy, và xin được <b>tham gia các nhóm Zalo báo cáo, trao đổi của các tổ</b> để thấy cách các anh đang làm thật.</p>
+<p>Kết quả cần có cuối ngày hôm nay: kế hoạch đã có trên hệ thống, đã giao việc, và <b>mỗi tổ tham gia có ít nhất một báo cáo sản lượng thật</b>.</p>
+</div>
+<div class="note">📌 <b>Lưu ý:</b> Khung 14:30–16:30 có trùng giờ giao ca hay nghỉ của tổ không — hỏi và chốt lúc 11:00 cùng cụm và tổ.</div>
+</div>
+<div class="slide"><h2><span>🗓️ Slide 7 — Ngày 2 · Thứ Ba 03/11</span><span class="min">2 phút</span></h2>
+<div class="spk ba">BA (Trang)</div><div class="say">
+<p>Sáng mai <b>07:30</b> em và QC xin dự họp đầu giờ của từng tổ: nghe tổ trưởng giao việc trong ngày, rồi đối chiếu xem việc đó đã có trên MES chưa. <b>08:00 đến 11:30</b> các tổ tự báo cáo ca, QC đi kèm nhưng để tổ trưởng tự làm. Song song, em lấy số trên hệ thống đối chiếu với sổ theo dõi của nhà máy; lệch chỗ nào truy ngay tại chỗ.</p>
+<p>Chiều: <b>13:30</b> bạn Duy chủ trì khảo sát phòng thiết kế, tập trung công đoạn cắt: file thiết kế chuyển thành file cắt thế nào, phần mềm xuất được <b>báo cáo nhanh cắt</b> dạng gì, và quy trình từ thiết kế cắt xuống phòng sản xuất đi qua ai, mất bao lâu. Mục tiêu là sau này MES lấy được số cắt từ file đó, không phải nhập tay. <b>14:30</b> Duy tiếp tục khảo sát camera: camera nào nhìn công đoạn nào, đầu ghi có lấy hình ra ngoài không, mạng ở xưởng ra sao. Nhờ phòng thiết kế và IT nhà máy đi cùng. Nhung, Phương vẫn ở tổ.</p>
+<p><b>15:30 đến 17:00</b> tổng kết hai ngày, có đại diện nhà máy. Ra biên bản: kết quả, lỗi, nội dung cần hoàn thiện, và kế hoạch VCI hỗ trợ tiếp sau khi rời nhà máy.</p>
+</div>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Tôi bổ sung một ý: kết quả quan trọng nhất của ngày mai là <b>tổ trưởng tự báo cáo được ca sáng mà không cần hướng dẫn</b>. Đó là bằng chứng hệ thống dùng được ở xưởng.</p>
+</div>
+</div>
+<div class="slide"><h2><span>✅ Slide 8 — Chuẩn bị trước Ngày 1</span><span class="min">2 phút</span></h2>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Slide này để đối chiếu nhanh ba thứ phải có trước ngày mai: dữ liệu kế hoạch, tài khoản, thiết bị.</p>
+<p>Phía VCI: dữ liệu kế hoạch của dự án chạy thử đã nhập, gồm danh mục cấu kiện, công đoạn, tổ và kế hoạch hiện tại. Tài khoản cấp theo từng vai trò, mỗi tổ trưởng một tài khoản riêng. Thiết bị thì điện thoại, máy tính đã cài sẵn, dùng máy của VCI hay máy của nhà máy đều được.</p>
+<p>Phía nhà máy, xin anh/chị xác nhận luôn tại đây: dự án và các tổ tham gia; phòng sản xuất khối văn phòng có người làm trực tiếp và mang sổ theo dõi sản lượng; tổ trưởng có mặt đúng khung 14:30, mang điện thoại, chưa có thì dùng máy VCI; và xin anh/chị <b>thêm chúng tôi vào nhóm Zalo báo cáo của các tổ</b>, báo lịch giao ban, họp đầu giờ để chúng tôi cùng dự.</p>
+</div>
+<div class="note">📌 <b>Lưu ý:</b> Chỉ đối chiếu chuẩn bị, chưa chốt dự án và tổ ở đây — việc đó làm lúc 11:00 sau demo.</div>
+</div>
+<div class="slide"><h2><span>⚠️ Slide 9 — Ghi nhận vấn đề &amp; tiêu chí đạt</span><span class="min">3 phút</span></h2>
+<div class="spk ba">BA (Trang)</div><div class="say">
+<p>Khi test, các anh chị cứ làm, vướng gì nói ngay, QC ghi tại chỗ: màn hình nào, bước nào, ai làm, tổ nào, chụp ảnh. Các anh chị không phải viết gì cả.</p>
+<p>Cuối mỗi buổi em phân làm 3 loại. <b>Chặn luồng</b>: không giao được việc, không báo cáo được, số sai. Dev sửa ngay tại chỗ nếu được, không được thì là ưu tiên số 1 sau UAT. <b>Lỗi thường</b>: vào danh sách hoàn thiện, có người làm, có hạn. <b>Khác cách làm của nhà máy</b>: đây không phải lỗi. Hệ thống làm một kiểu, nhà máy quen làm kiểu khác, em ghi thành yêu cầu thay đổi, không ép các anh chị làm theo hệ thống trong 2 ngày này, mình bàn ở buổi tổng kết.</p>
+</div>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Tiêu chí đạt có 4 ý, tôi đọc nhanh: kế hoạch lập và giao việc được, đúng cấu kiện, đúng tổ. 100% tổ tham gia báo cáo được, ngày 2 tự báo cáo. Số trên hệ thống khớp sổ nhà máy, hoặc lệch mà giải thích được. Không còn lỗi chặn luồng chưa có phương án, và biên bản tổng kết hai bên cùng ký.</p>
+</div>
+<div class="note">📌 <b>Lưu ý:</b> Nhấn ý &quot;khác cách làm không phải lỗi&quot; để tổ trưởng yên tâm nói thật.</div>
+</div>
+<div class="slide"><h2><span>📞 Slide 10 — Đầu mối liên hệ</span><span class="min">1 phút</span></h2>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Hai ngày này không cần gửi ticket, vướng ở đâu gọi tôi hoặc chị Trang, nhắn nhóm Zalo, hoặc nói với QC đang ở tổ. Phía nhà máy, đầu mối tiếp nhận là <b>anh Thái, Tổng Giám đốc, 0985 961 138</b> — mọi vướng mắc nghiệp vụ, bố trí người, bố trí tổ, chúng tôi làm việc qua anh Thái.</p>
+<p>Sau UAT, hỗ trợ từ xa hay quay lại tại chỗ, tần suất thế nào, mình chốt ở buổi tổng kết chiều mai.</p>
+</div>
+</div>
+<div class="slide"><h2><span>❓ Slide 11 — Q&amp;A · Chốt và bắt đầu</span><span class="min">5 phút</span></h2>
+<div class="spk pm">PM (Cương)</div><div class="say">
+<p>Anh/chị có câu hỏi gì về cách làm 2 ngày không ạ? Ba việc <b>tên dự án và cụm cấu kiện</b>, <b>tổ trưởng từng công đoạn</b>, <b>khung giờ xuống tổ chiều nay</b> mình để 11:00 chốt, sau khi anh chị đã xem demo và nghe kịch bản.</p>
+<p>Cảm ơn anh chị. 08:30 chị Trang bắt đầu demo. Hai ngày này chúng tôi mong nhất một điều: các anh tổ trưởng, phòng sản xuất <b>làm thật trên hệ thống và nói thẳng chỗ nào chưa hợp</b>. Chỗ chưa hợp hôm nay là việc chúng tôi phải sửa, không phải lỗi của người dùng.</p>
+</div>
+<div class="note">📌 <b>Lưu ý:</b> Không để Q&amp;A kéo quá 08:30. Câu hỏi chi tiết về màn hình để sang phần demo. Nhớ quay lại 3 việc cần chốt lúc 11:00, ghi lên bảng.</div>
+</div>
+<div class="slide"><h2><span>⏱ Bảng thời gian</span></h2><table><tr><th>Slide</th><th>Nội dung</th><th>Người nói</th><th>Phút</th><th>Cộng dồn</th></tr>
+<tr><td class="n">1</td><td>Cover</td><td>PM</td><td class="n">1</td><td class="n">1</td></tr>
+<tr><td class="n">2</td><td>Mục lục</td><td>PM</td><td class="n">1</td><td class="n">2</td></tr>
+<tr><td class="n">3</td><td>Phối hợp triển khai cùng nhà máy Hạ Long</td><td>PM</td><td class="n">3</td><td class="n">5</td></tr>
+<tr><td class="n">4</td><td>Phạm vi UAT — Phân hệ Quản lý sản xuất</td><td>BA</td><td class="n">3</td><td class="n">8</td></tr>
+<tr><td class="n">5</td><td>Thành phần tham gia</td><td>PM</td><td class="n">2</td><td class="n">10</td></tr>
+<tr><td class="n">6</td><td>Ngày 1 · Thứ Hai 02/11</td><td>BA</td><td class="n">3</td><td class="n">13</td></tr>
+<tr><td class="n">7</td><td>Ngày 2 · Thứ Ba 03/11</td><td>BA + PM</td><td class="n">2</td><td class="n">15</td></tr>
+<tr><td class="n">8</td><td>Chuẩn bị trước Ngày 1</td><td>PM</td><td class="n">2</td><td class="n">17</td></tr>
+<tr><td class="n">9</td><td>Ghi nhận vấn đề &amp; tiêu chí đạt</td><td>BA + PM</td><td class="n">3</td><td class="n">20</td></tr>
+<tr><td class="n">10</td><td>Đầu mối liên hệ</td><td>PM</td><td class="n">1</td><td class="n">21</td></tr>
+<tr><td class="n">11</td><td>Q&amp;A · Chốt và bắt đầu</td><td>PM</td><td class="n">5</td><td class="n">26</td></tr>
+</table></div>
+<div class="footer">VCI × Hạ Long EPC · Kịch bản nội bộ cho người trình bày</div></div></body></html>
