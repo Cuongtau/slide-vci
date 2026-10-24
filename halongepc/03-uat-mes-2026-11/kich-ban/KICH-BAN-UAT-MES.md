@@ -73,7 +73,7 @@
 ## 🗓️ Slide 6 — Ngày 1 · Thứ Hai 02/11 *(3 phút)*
 
 **BA (Trang):**
-> Hôm nay. **08:30 đến 10:30** em demo, đi hết luồng kế hoạch, giao việc, tổ báo sản lượng, xem tiến độ. **10:30** em nêu kịch bản theo công đoạn: cụm A đi cắt, gá, hàn; cụm B đi tổ hợp, sơn, nghiệm thu; ai nhập, nhập lúc nào. **11:00** anh Cương cùng anh Thái và phòng sản xuất chốt: dự án nào, cụm nào, tổ trưởng công đoạn nào, chiều xuống tổ lúc mấy giờ. Chốt sau demo để anh chị chọn cụm khi đã hiểu hệ thống làm gì. Mời phòng sản xuất và các anh tổ trưởng dự cả buổi sáng, vì chiều là làm thật.
+> Hôm nay. **08:30 đến 10:30** em demo, đi hết luồng kế hoạch, giao việc, tổ báo sản lượng, xem tiến độ. **10:30** em nêu kịch bản theo công đoạn: cụm A đi cắt, gá, hàn; cụm B đi tổ hợp, sơn, đóng gói; ai nhập, nhập lúc nào. **11:00** anh Cương cùng anh Thái và phòng sản xuất chốt: dự án nào, cụm nào, tổ trưởng công đoạn nào, chiều xuống tổ lúc mấy giờ. Chốt sau demo để anh chị chọn cụm khi đã hiểu hệ thống làm gì. Mời phòng sản xuất và các anh tổ trưởng dự cả buổi sáng, vì chiều là làm thật.
 >
 > **13:30 đến 14:30** em ngồi với phòng sản xuất đưa kế hoạch của dự án mình chọn lên hệ thống, đúng cấu kiện đang làm, và giao việc xuống tổ.
 >

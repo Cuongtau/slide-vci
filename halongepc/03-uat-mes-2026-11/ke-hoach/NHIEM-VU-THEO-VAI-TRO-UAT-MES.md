@@ -31,7 +31,7 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 | Cụm | Đang ở công đoạn | Mục đích |
 |---|---|---|
 | **Cụm A** — cấu kiện mới vào | Cắt → gá → hàn | Test đầu chuyền: kế hoạch, giao việc, báo cáo các công đoạn gia công |
-| **Cụm B** — cấu kiện sắp xong | Tổ hợp / làm sạch → sơn → nghiệm thu → đóng gói | Test cuối chuyền: chuyển tiếp công đoạn, nghiệm thu, hoàn thành |
+| **Cụm B** — cấu kiện sắp xong | Tổ hợp / làm sạch → sơn → đóng gói | Test cuối chuyền: chuyển tiếp công đoạn, hoàn thành cụm |
 
 > Nhà máy chọn cụm cụ thể tại giao ban 08:00 Ngày 1. Tên công đoạn và thứ tự dưới đây dùng theo danh mục của nhà máy, nếu khác thì sửa tên, giữ cách chia.
 
@@ -45,8 +45,7 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 | 4 | **Tổ hợp** | Tổ tổ hợp | Nhận việc → báo cấu kiện tổ hợp xong | Tổ trưởng | Nhung | B | N1 chiều |
 | 5 | **Làm sạch** (phun bi) | Tổ làm sạch | Báo diện tích / cấu kiện làm sạch xong | Tổ trưởng | Nhung | B | N1 chiều → N2 sáng |
 | 6 | **Sơn** | Tổ sơn | Báo lớp sơn, cấu kiện sơn xong, ảnh | Tổ trưởng tổ sơn | Nhung | B | N2 sáng |
-| 7 | **Nghiệm thu** (KCS) | KCS / QC nhà máy | Xác nhận đạt / không đạt → chuyển công đoạn | KCS | Phương | B | N2 sáng |
-| 8 | **Đóng gói / xuất xưởng** | Tổ đóng gói | Báo cấu kiện đóng gói xong, hoàn thành cụm | Tổ trưởng | Phương | B | N2 sáng |
+| 7 | **Đóng gói / xuất xưởng** | Tổ đóng gói | Báo cấu kiện đóng gói xong, hoàn thành cụm | Tổ trưởng | Phương | B | N2 sáng |
 
 ### Luồng trên MES cho mỗi công đoạn
 
@@ -68,7 +67,7 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 |---|---|---|---|---|---|
 | 08:00–08:30 | Dự giao ban nhà máy. Trình bày cách làm 2 ngày. **Chưa chốt gì** | — | PM | A. Thái, phòng sản xuất | Nhà máy hiểu 2 ngày làm gì |
 | 08:30–10:30 | Demo 4 bước trên một cụm mẫu: lập kế hoạch → giao việc tổ cắt → tổ cắt báo trên điện thoại → xem tiến độ | Cắt (demo) | BA | Nhung chiếu điện thoại, Duy trực | Phòng sản xuất và tổ trưởng hiểu luồng |
-| 10:30–11:00 | **Nêu kịch bản theo công đoạn** (mục 2): cụm A, cụm B, ai nhập, nhập lúc nào, phát sinh xử lý thế nào | Cả 8 | BA | PM | Nhà máy hình dung được từng tổ phải làm gì |
+| 10:30–11:00 | **Nêu kịch bản theo công đoạn** (mục 2): cụm A, cụm B, ai nhập, nhập lúc nào, phát sinh xử lý thế nào | Cả 7 | BA | PM | Nhà máy hình dung được từng tổ phải làm gì |
 | 11:00–11:30 | **Chốt sau demo:** dự án, cụm A / B cụ thể, tổ trưởng / đốc công từng công đoạn, khung giờ xuống tổ chiều nay | — | PM | A. Thái, phòng sản xuất | Tên cụm, tên tổ trưởng từng công đoạn ghi lên bảng |
 | 13:30–14:30 | **Phòng sản xuất tự lập kế hoạch cụm A, cụm B** vừa chốt trên MES: công đoạn, khối lượng, tổ, lịch. Giao việc các công đoạn làm chiều nay | Cắt, gá, tổ hợp, làm sạch | BA + PM hỗ trợ | Phương kiểm tra việc rơi đúng tổ, Duy nhập bổ sung danh mục | Kế hoạch 2 cụm đã ban hành, việc đã xuống 4 tổ |
 | 14:30–16:30 | **Xuống tổ.** Tổ cắt, gá (cụm A) và tổ hợp, làm sạch (cụm B) làm xong phần nào **nhập ngay** phần đó. Nhung đi lần lượt 4 tổ, 15–20 phút/tổ | Cắt, gá, tổ hợp, làm sạch | Nhung | Tổ trưởng 4 tổ, BA đi cùng, PM điều phối, Duy trực | Mỗi tổ có ≥ 1 báo cáo thật kèm ảnh |
@@ -90,8 +89,8 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 
 | Giờ | Việc | Công đoạn chạm tới | Chủ trì | Cùng làm | Kết quả phải có |
 |---|---|---|---|---|---|
-| 07:30–08:00 | Dự họp đầu giờ các tổ. Nghe tổ trưởng giao việc trong ngày; phòng sản xuất **giao việc hôm nay trên MES** khớp với lời giao | Hàn, gá (A) · sơn, nghiệm thu, đóng gói (B) | BA | Nhung tại tổ, Phương cùng phòng sản xuất, PM dự 1–2 tổ | Việc hôm nay đã có trên MES trước 08:00 |
-| 08:00–11:30 | **Tổ tự nhập, VCI không bấm hộ.** Cụm A: gá xong → hàn. Cụm B: làm sạch xong → sơn → KCS nghiệm thu → đóng gói. Làm xong công đoạn nào nhập ngay | Gá, hàn · làm sạch, sơn, nghiệm thu, đóng gói | Nhung (quan sát) | Tổ trưởng, đốc công, KCS; Duy hỗ trợ xem log | Cụm B hoàn thành trên MES; tổ tự làm không cần nhắc |
+| 07:30–08:00 | Dự họp đầu giờ các tổ. Nghe tổ trưởng giao việc trong ngày; phòng sản xuất **giao việc hôm nay trên MES** khớp với lời giao | Hàn, gá (A) · sơn, đóng gói (B) | BA | Nhung tại tổ, Phương cùng phòng sản xuất, PM dự 1–2 tổ | Việc hôm nay đã có trên MES trước 08:00 |
+| 08:00–11:30 | **Tổ tự nhập, VCI không bấm hộ.** Cụm A: gá xong → hàn. Cụm B: làm sạch xong → sơn → đóng gói. Làm xong công đoạn nào nhập ngay | Gá, hàn · làm sạch, sơn, đóng gói | Nhung (quan sát) | Tổ trưởng, đốc công; Duy hỗ trợ xem log | Cụm B hoàn thành trên MES; tổ tự làm không cần nhắc |
 | 08:00–11:30 (song song) | Phương lập **bảng đối chiếu** số MES ↔ sổ tổ, từng công đoạn. Lệch thì hỏi ngay tổ trưởng | — | Phương | BA, phòng sản xuất | Bảng đối chiếu có nguyên nhân từng chỗ lệch |
 | 13:30–14:30 | **Khảo sát phòng thiết kế — công đoạn cắt** (theo bảng dưới): file thiết kế → file cắt, **file export báo cáo nhanh cắt**, quy trình từ thiết kế cắt xuống phòng sản xuất | Cắt | Duy | PM, BA, phòng thiết kế | Mẫu file thiết kế, file cắt, file báo cáo cắt · sơ đồ quy trình · ai chuyển, bao lâu |
 | 14:30–15:30 | **Khảo sát camera** (theo bảng dưới), mạng, thiết bị tại xưởng; đối chiếu vị trí sóng yếu ghi hôm qua | — | Duy | PM, IT nhà máy | Bảng khảo sát camera + sơ đồ tay + ảnh |
@@ -114,7 +113,7 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 | Mục | Cần ghi được | Hỏi ai |
 |---|---|---|
 | Hiện trạng | Số lượng camera, vị trí từng cái, hãng / model, độ phân giải, có hồng ngoại không | IT nhà máy |
-| Góc nhìn | Camera nào nhìn được công đoạn nào (cắt, gá, hàn, tổ hợp, làm sạch, sơn, nghiệm thu, đóng gói); công đoạn nào chưa có camera | Đi thực tế, chụp ảnh từng góc |
+| Góc nhìn | Camera nào nhìn được công đoạn nào (cắt, gá, hàn, tổ hợp, làm sạch, sơn, đóng gói); công đoạn nào chưa có camera | Đi thực tế, chụp ảnh từng góc |
 | Kết nối | Đầu ghi (NVR) loại gì, lưu bao nhiêu ngày, có cấp được luồng RTSP / API ra ngoài không, mạng camera chung hay tách với mạng văn phòng | IT nhà máy |
 | Hạ tầng | Mạng LAN / Wi-Fi tại xưởng, vùng sóng yếu (đối chiếu ghi nhận Ngày 1), nguồn điện tại vị trí muốn đặt thêm camera | IT nhà máy, đi thực tế |
 | Nhu cầu | Nhà máy muốn dùng camera để làm gì với MES: xác minh báo cáo, xem tiến độ từ xa, đếm tự động | A. Thái, phòng sản xuất |
@@ -124,8 +123,7 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 
 | Tình huống | Xử lý ngay | Ghi nhận |
 |---|---|---|
-| Cụm B chưa tới được nghiệm thu / đóng gói trong buổi sáng | Dùng cấu kiện khác đã sẵn ở KCS để test 2 công đoạn cuối | Thời gian thực tế mỗi công đoạn |
-| KCS đánh không đạt → quay lại công đoạn trước | Test luồng **trả về** trên MES | Hệ thống xử lý trả về thế nào |
+| Cụm B chưa tới được đóng gói trong buổi sáng | Dùng cấu kiện khác đã sơn xong để test công đoạn cuối | Thời gian thực tế mỗi công đoạn |
 | Số MES lệch sổ | Truy tại chỗ: nhập sai, thiếu báo cáo, hay định nghĩa sản lượng khác | Nguyên nhân từng chỗ |
 | Tổ trưởng vẫn cần nhắc mới nhập | Ghi tổ nào, bước nào vướng | Đề xuất hướng dẫn thêm hoặc sửa giao diện |
 
@@ -138,8 +136,8 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 | Việc | Ai | Hạn | Kiểm tra |
 |---|---|---|---|
 | Nhận từ nhà máy: dự án, 2 cụm cấu kiện dự kiến, danh mục cấu kiện, công đoạn, tổ, thợ, kế hoạch hiện tại | PM | 29/10 | Có file |
-| Nhập danh mục và kế hoạch 2 cụm lên môi trường UAT | BA | 30/10 | Mở MES thấy đủ công đoạn 1–8, đúng tổ |
-| Tài khoản: phòng sản xuất, lãnh đạo, **mỗi tổ trưởng / đốc công / KCS một tài khoản** | Duy | 30/10 | Đăng nhập thử từng tài khoản |
+| Nhập danh mục và kế hoạch 2 cụm lên môi trường UAT | BA | 30/10 | Mở MES thấy đủ công đoạn 1–7, đúng tổ |
+| Tài khoản: phòng sản xuất, lãnh đạo, **mỗi tổ trưởng / đốc công một tài khoản** | Duy | 30/10 | Đăng nhập thử từng tài khoản |
 | Chạy trước toàn bộ luồng bằng tài khoản tổ trưởng trên điện thoại: nhận việc, báo sản lượng, ảnh, sửa, việc phát sinh, dở dang | Nhung, Phương | 30/10 | Danh sách lỗi đã sửa |
 | Thiết bị: 4 điện thoại VCI cài sẵn, đăng nhập sẵn tài khoản tổ; 2 laptop; 4G dự phòng | Duy | 31/10 | Đóng thùng |
 | Kịch bản demo trên cụm A · mẫu ghi nhận vướng mắc · bảng đối chiếu theo công đoạn | BA | 31/10 | In 10 bản |
@@ -152,7 +150,7 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 | Việc | Ai | Hạn | Kiểm tra |
 |---|---|---|---|
 | Chọn dự án và **dự kiến 2 cụm cấu kiện** (1 mới vào chuyền, 1 sắp xong) để VCI nhập trước; cụm chính thức chốt lúc 11:00 Ngày 1 sau demo | A. Thái, phòng sản xuất | 29/10 | VCI xác nhận đã nhận |
-| Chốt **tổ trưởng / đốc công từng công đoạn** (cắt, gá, hàn, tổ hợp, làm sạch, sơn, KCS, đóng gói) có mặt 14:30 N1 và cả sáng N2, mang điện thoại | A. Thái | 30/10 | Danh sách tên + số điện thoại |
+| Chốt **tổ trưởng / đốc công từng công đoạn** (cắt, gá, hàn, tổ hợp, làm sạch, sơn, đóng gói) có mặt 14:30 N1 và cả sáng N2, mang điện thoại | A. Thái | 30/10 | Danh sách tên + số điện thoại |
 | Phòng sản xuất cử 1–2 người làm trực tiếp trên MES cả 2 ngày; mang sổ / bảng theo dõi sản lượng hiện tại | Phòng sản xuất | 30/10 | |
 | Thêm VCI vào **nhóm Zalo báo cáo của các tổ**; báo giờ giao ban và họp đầu giờ | A. Thái | 30/10 | VCI đã vào nhóm |
 | Bố trí chỗ ngồi có máy tính, mạng cho phòng sản xuất + VCI; chỗ chiếu demo sáng N1 | IT nhà máy | 31/10 | |
@@ -162,8 +160,7 @@ Chọn **2 cụm cấu kiện** của cùng 1 dự án để trong 2 ngày đi �
 
 ## 5. Giả định cần nhà máy xác nhận
 
-1. Tên và thứ tự 8 công đoạn ở mục 2 đúng với dây chuyền hiện tại chưa? Có công đoạn nào gộp hoặc tách không?
+1. Tên và thứ tự 7 công đoạn ở mục 2 đúng với dây chuyền hiện tại chưa? Có công đoạn nào gộp hoặc tách không?
 2. Mỗi công đoạn một tổ, hay một tổ làm nhiều công đoạn (ví dụ gá và hàn cùng tổ)?
 3. Đơn vị sản lượng từng công đoạn tổ đang ghi là gì (cấu kiện, tấn, mét hàn, m²)?
-4. KCS nghiệm thu theo cấu kiện hay theo lô?
-5. Có cụm cấu kiện nào đang ở gần cuối chuyền để làm cụm B không? Không có thì chỉ chạy cụm A, công đoạn 7–8 test trên cấu kiện cũ.
+4. Có cụm cấu kiện nào đang ở gần cuối chuyền để làm cụm B không? Không có thì chỉ chạy cụm A, công đoạn 6–7 test trên cấu kiện cũ.
