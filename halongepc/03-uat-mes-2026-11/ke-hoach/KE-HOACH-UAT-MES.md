@@ -8,11 +8,11 @@
 |---|---|
 | **Hệ thống** | MES — Quản lý sản xuất, Hạ Long EPC |
 | **Hình thức** | UAT tại nhà máy, 2 ngày liên tiếp, đi theo ca sản xuất thực tế |
-| **Thời gian** | **Thứ Hai 02/11 – Thứ Ba 03/11/2026** · 08:00 – 17:00 |
+| **Thời gian** | **Thứ Hai 02/11 – Thứ Ba 03/11/2026** · Thứ Hai 02/11 từ 09:00, Thứ Ba 03/11 từ 08:00, kết thúc 17:00 |
 | **Địa điểm** | Nhà máy Hạ Long EPC: phòng họp (demo, tổng kết) + xưởng / các tổ sản xuất (chạy thử báo cáo) |
-| **Dự án chạy thử** | 1 dự án đang sản xuất, chọn tại buổi thống nhất đầu Ngày 1 |
-| **Tổ tham gia** | Các tổ đang sản xuất cấu kiện của dự án trên — chốt danh sách đầu Ngày 1 |
-| **Môi trường** | *(điền địa chỉ UAT)* · tài khoản cấp theo vai trò trước Ngày 1 |
+| **Dự án chạy thử** | 1 dự án đang sản xuất, chọn tại buổi thống nhất đầu Thứ Hai 02/11 |
+| **Tổ tham gia** | Các tổ đang sản xuất cấu kiện của dự án trên — chốt danh sách đầu Thứ Hai 02/11 |
+| **Môi trường** | *(điền địa chỉ UAT)* · tài khoản cấp theo vai trò trước Thứ Hai 02/11 |
 
 ## 2. Mục tiêu UAT
 
@@ -52,7 +52,7 @@
 | **Hạ Long EPC** | Đại diện nhà máy — A. Thái, Tổng Giám đốc | Chốt dự án, cụm cấu kiện và tổ tham gia sau demo; quyết các vướng mắc nghiệp vụ |
 | | Phòng sản xuất | Lập kế hoạch và giao việc trên hệ thống cho dự án chạy thử |
 | | Tổ trưởng / đốc công các tổ tham gia | Báo cáo sản lượng trên hệ thống theo ca thực tế |
-| | Phòng thiết kế | Tiếp buổi khảo sát Ngày 2 |
+| | Phòng thiết kế | Tiếp buổi khảo sát Thứ Ba 03/11 |
 | | Phụ trách hạ tầng / IT nhà máy | Tiếp buổi khảo sát camera, mạng |
 | **VCI** | PM | Điều phối, tổng hợp kết quả, chốt việc tiếp theo |
 | | BA (chủ trì) — Cao Thị Trang | Demo, hướng dẫn luồng, triển khai kế hoạch cùng phòng sản xuất, hướng dẫn tổ |
@@ -63,15 +63,15 @@
 
 | Ngày | Thời gian | Nội dung | Phân công |
 |---|---|---|---|
-| **Ngày 1 · Thứ Hai 02/11** | 08:00–08:30 | Dự giao ban; trình bày cách làm 2 ngày (chưa chốt) | PM, đại diện nhà máy |
-| | 08:30–10:30 | Demo các phân hệ; đi hết luồng kế hoạch → giao việc → báo cáo sản xuất | BA chủ trì; Duy, Nhung, Phương hỗ trợ |
-| | 10:30–11:00 | Nêu kịch bản theo công đoạn: cụm A, cụm B, ai nhập, nhập lúc nào | BA; phòng sản xuất, tổ trưởng |
-| | 11:00–11:30 | Chốt dự án, cụm cấu kiện, tổ trưởng từng công đoạn, khung giờ xuống tổ | PM, A. Thái, phòng sản xuất |
+| **Thứ Hai 02/11** | 09:00–09:30 | Khai mạc; trình bày mục tiêu, cách làm 2 ngày (chưa chốt) | PM, đại diện nhà máy |
+| | 09:30–10:50 | Demo và hướng dẫn sử dụng; đi hết luồng kế hoạch → giao việc → báo cáo sản xuất | BA chủ trì; Duy, Nhung, Phương hỗ trợ |
+| | 10:50–11:10 | Nêu kịch bản theo công đoạn: cụm A, cụm B, ai nhập, nhập lúc nào | BA; phòng sản xuất, tổ trưởng |
+| | 11:10–11:30 | Chốt dự án, cụm cấu kiện, tổ trưởng từng công đoạn, khung giờ xuống tổ | PM, A. Thái, phòng sản xuất |
 | | 13:30–14:30 | Phòng sản xuất tự lập kế hoạch cụm A, B vừa chốt và giao việc chiều nay | BA, PM hỗ trợ; Phương, Duy |
 | | 14:30–16:30 | Xuống các tổ, nắm cách báo cáo của tổ trưởng / đốc công; hướng dẫn và chạy thử báo cáo | BA, Nhung; PM điều phối, Duy hỗ trợ |
 | | 16:30–17:00 | Tổng hợp kết quả và vướng mắc; chốt công việc ngày 2 | Toàn đội, đầu mối nhà máy |
-| **Ngày 2 · Thứ Ba 03/11** | 07:30–08:00 | Dự họp đầu giờ các tổ; đối chiếu việc giao với MES | BA, Nhung, Phương; PM |
-| | 08:00–11:30 | Tổ tự báo cáo ca sáng; đối chiếu sản lượng và tiến độ với sổ | Nhung, Phương; BA, Duy, PM |
+| **Thứ Ba 03/11** | 08:00–08:30 | Dự họp đầu giờ các tổ; đối chiếu việc giao với MES | BA, Nhung, Phương; PM |
+| | 08:30–11:30 | Tổ tự báo cáo ca sáng; đối chiếu sản lượng và tiến độ với sổ | Nhung, Phương; BA, Duy, PM |
 | | 13:30–14:30 | Khảo sát phòng thiết kế — công đoạn cắt: file cắt, file export báo cáo nhanh cắt, quy trình từ thiết kế cắt xuống phòng sản xuất | Duy chủ trì; PM, BA; Nhung, Phương tại tổ |
 | | 14:30–15:30 | Khảo sát camera và hạ tầng liên quan tại nhà máy | Duy chủ trì; PM, IT nhà máy |
 | | 15:30–17:00 | Tổng kết hai ngày; thống nhất các nội dung cần hoàn thiện và kế hoạch hỗ trợ tiếp | Toàn đội, đại diện nhà máy |
@@ -80,13 +80,13 @@
 
 | Mốc | Kết quả |
 |---|---|
-| Hết sáng Ngày 1 | Người dùng hiểu luồng và kịch bản; dự án, cụm cấu kiện, tổ trưởng từng công đoạn đã chốt sau demo |
-| 14:30 Ngày 1 | Kế hoạch của dự án chạy thử đã có trên hệ thống, đã giao việc xuống tổ |
-| Hết Ngày 1 | Mỗi tổ tham gia có ít nhất 1 báo cáo sản lượng thật trên hệ thống; danh sách vướng mắc Ngày 1 |
-| Trưa Ngày 2 | Tổ tự báo cáo ca sáng không cần hướng dẫn; bảng đối chiếu sản lượng hệ thống ↔ thực tế |
-| Hết Ngày 2 | Biên bản tổng kết: kết quả, lỗi, nội dung cần hoàn thiện, kế hoạch hỗ trợ tiếp |
+| Hết sáng Thứ Hai 02/11 | Người dùng hiểu luồng và kịch bản; dự án, cụm cấu kiện, tổ trưởng từng công đoạn đã chốt sau demo |
+| 14:30 Thứ Hai 02/11 | Kế hoạch của dự án chạy thử đã có trên hệ thống, đã giao việc xuống tổ |
+| Hết Thứ Hai 02/11 | Mỗi tổ tham gia có ít nhất 1 báo cáo sản lượng thật trên hệ thống; danh sách vướng mắc Thứ Hai 02/11 |
+| Trưa Thứ Ba 03/11 | Tổ tự báo cáo ca sáng không cần hướng dẫn; bảng đối chiếu sản lượng hệ thống ↔ thực tế |
+| Hết Thứ Ba 03/11 | Tổng kết: kết quả, lỗi, nội dung cần hoàn thiện, kế hoạch hỗ trợ tiếp |
 
-## 6. Chuẩn bị trước Ngày 1
+## 6. Chuẩn bị trước Thứ Hai 02/11
 
 **VCI**
 - Môi trường UAT ổn định, dữ liệu nền (danh mục cấu kiện, tổ, nhân sự) đã nhập theo danh sách nhà máy gửi.
@@ -98,7 +98,7 @@
 - Chọn trước dự án và các tổ tham gia; gửi VCI danh mục cấu kiện và kế hoạch hiện tại của dự án đó.
 - Bố trí tổ trưởng / đốc công có mặt đúng khung giờ, mang theo điện thoại dùng để báo cáo; phòng sản xuất cử người làm trực tiếp trên hệ thống (máy tính).
 - Sổ / bảng theo dõi sản lượng hiện tại để đối chiếu.
-- Bố trí người tiếp khảo sát thiết kế và hạ tầng Ngày 2.
+- Bố trí người tiếp khảo sát thiết kế và hạ tầng Thứ Ba 03/11.
 
 ## 7. Cách ghi nhận và xử lý vấn đề
 
@@ -107,33 +107,33 @@
    - **Chặn luồng** (không giao được việc, không báo cáo được, số sai): Dev sửa tại chỗ nếu được, chưa sửa được thì ưu tiên số 1 sau UAT.
    - **Lỗi thường**: đưa vào danh sách hoàn thiện, có hạn.
    - **Khác cách làm của nhà máy**: không phải lỗi, ghi thành yêu cầu thay đổi, nhà máy và VCI thống nhất ở buổi tổng kết.
-3. Tất cả được tổng hợp vào biên bản tổng kết Ngày 2, mỗi mục có người phụ trách và hạn.
+3. Tất cả được tổng hợp ở buổi tổng kết Thứ Ba 03/11, mỗi mục có người phụ trách và hạn.
 
 ## 8. Tiêu chí UAT đạt
 
 - Kế hoạch dự án chạy thử lập và giao việc được trên hệ thống, đúng cấu kiện, đúng tổ.
-- **100% tổ tham gia** báo cáo được sản lượng trên hệ thống; sang Ngày 2 tổ trưởng tự báo cáo không cần hướng dẫn.
+- **100% tổ tham gia** báo cáo được sản lượng trên hệ thống; sang Thứ Ba 03/11 tổ trưởng tự báo cáo không cần hướng dẫn.
 - Sản lượng và tiến độ trên hệ thống **khớp** với sổ theo dõi của nhà máy, hoặc lệch có giải thích được nguyên nhân.
 - Không còn lỗi chặn luồng chưa có phương án.
-- Biên bản tổng kết được hai bên thống nhất.
+- Hai bên thống nhất danh sách việc cần hoàn thiện ở buổi tổng kết.
 
 ## 9. Sản phẩm bàn giao sau UAT
 
 | Sản phẩm | Người làm | Hạn |
 |---|---|---|
-| Biên bản tổng kết 2 ngày (kết quả, lỗi, yêu cầu thay đổi, kế hoạch hỗ trợ) | PM VCI, đầu mối nhà máy ký | Cuối Ngày 2 |
+| Tổng hợp kết quả 2 ngày (kết quả, lỗi, yêu cầu thay đổi, kế hoạch hỗ trợ) | PM VCI gửi nhà máy | +1 ngày làm việc |
 | Danh sách lỗi và nội dung cần hoàn thiện, có ưu tiên và hạn | BA, QC | +2 ngày làm việc |
 | Ghi nhận khảo sát thiết kế – cắt (file cắt, báo cáo cắt, quy trình) và camera, kèm đề xuất | Duy, PM duyệt | +3 ngày làm việc |
-| Kế hoạch hỗ trợ tiếp (hỗ trợ từ xa / tại chỗ, tần suất, đầu mối) | PM | Cuối Ngày 2 |
+| Kế hoạch hỗ trợ tiếp (hỗ trợ từ xa / tại chỗ, tần suất, đầu mối) | PM | Cuối Thứ Ba 03/11 |
 
 ## 10. Rủi ro và cách xử lý
 
 | Rủi ro | Xử lý |
 |---|---|
-| Tổ trưởng bận sản xuất, không dành được thời gian | Chốt khung giờ từng tổ ngay đầu Ngày 1; QC đi theo ca, hướng dẫn ngay tại vị trí làm việc, mỗi lần 10–15 phút |
-| Dữ liệu nền chưa đủ (cấu kiện, tổ) nên không lập được kế hoạch | Nhà máy gửi danh mục trước Ngày 1; Dev nhập bổ sung tại chỗ trong buổi sáng |
+| Tổ trưởng bận sản xuất, không dành được thời gian | Chốt khung giờ từng tổ ngay đầu Thứ Hai 02/11; QC đi theo ca, hướng dẫn ngay tại vị trí làm việc, mỗi lần 10–15 phút |
+| Dữ liệu nền chưa đủ (cấu kiện, tổ) nên không lập được kế hoạch | Nhà máy gửi danh mục trước Thứ Hai 02/11; Dev nhập bổ sung tại chỗ trong buổi sáng |
 | Mạng / thiết bị tại xưởng không dùng được | VCI mang thiết bị dự phòng; ghi nhận vùng sóng yếu vào khảo sát hạ tầng |
-| Số trên hệ thống lệch số thực tế | Đối chiếu ngay trưa Ngày 2 để truy nguyên nhân (nhập sai, định nghĩa sản lượng khác nhau, thiếu báo cáo), không để dồn đến cuối |
+| Số trên hệ thống lệch số thực tế | Đối chiếu ngay trưa Thứ Ba 03/11 để truy nguyên nhân (nhập sai, định nghĩa sản lượng khác nhau, thiếu báo cáo), không để dồn đến cuối |
 | Nhà máy có cách ghi nhận khác với luồng hệ thống | Ghi thành yêu cầu thay đổi, không ép làm theo hệ thống ngay trong UAT |
 
 ## 11. Đầu mối

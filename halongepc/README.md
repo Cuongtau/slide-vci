@@ -18,7 +18,8 @@ Mỗi buổi làm việc với nhà máy Hạ Long EPC là một thư mục, đ�
 │   ├── kich-ban-uat-mes.html         Bản in A4, có nút In / Lưu PDF
 │   └── KICH-BAN-UAT-MES.pdf          PDF sẵn để in
 ├── gui-di/
-│   ├── GUI-NHA-MAY-HLEPC.md / .pdf   Thư gửi A. Thái: lịch 2 ngày, nhà máy chuẩn bị gì, câu hỏi cần xác nhận
+│   ├── GUI-NHA-MAY-HLEPC.html → .pdf Bản in cho ban lãnh đạo, 2 trang A4 (sửa nội dung ở file .html rồi xuất lại PDF)
+│   ├── GUI-NHA-MAY-HLEPC.md          Cùng nội dung dạng văn bản, để chép vào email / Zalo
 │   └── GUI-NOI-BO-VCI.md / .pdf      Gửi đội VCI: nguyên tắc, chuẩn bị có hạn, việc từng người theo giờ, sau UAT
 └── ke-hoach/
     ├── KE-HOACH-UAT-MES.md           Kế hoạch UAT gửi nhà máy (phạm vi, lịch, chuẩn bị, tiêu chí)

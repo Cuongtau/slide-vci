@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kế hoạch UAT MES — Nhà máy Hạ Long EPC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #1E6FB0; --navy: #0E3A5F; --orange: #D9731A; --orange-bg: #FFF4E6;
+    --ink: #17212E; --muted: #4A5868; --line: #D9E3EE; --soft: #F4F8FC; --hl: #FFE7A3;
+  }
+  @page { size: A4; margin: 13mm 14mm 15mm; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { margin: 0; background: #fff; }
+  body { font-family: "Noto Sans", "Segoe UI", Arial, sans-serif; color: var(--ink); font-size: 9.2pt; line-height: 1.45; }
+  .page { width: 182mm; margin: 0 auto; }
+  h1, h2, h3, .k { font-family: "Be Vietnam Pro", "Segoe UI", sans-serif; }
+  b, strong { font-weight: 700; }
+  mark { background: #FFEFB3; color: inherit; padding: 0 .8mm; border-radius: .6mm; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+  /* Header */
+  .hdr { display: flex; align-items: center; justify-content: space-between; padding-bottom: 2.4mm; }
+  .hdr img { height: 11mm; width: auto; display: block; }
+  .hdr .vci { height: 7.5mm; }
+  .hdr .tag { font-family: "Be Vietnam Pro"; font-size: 7.5pt; font-weight: 700; letter-spacing: 1.6px; color: var(--muted); text-transform: uppercase; text-align: center; }
+  .bar { height: 1.2mm; border-radius: 1mm; background: linear-gradient(90deg, #8FB9DD, var(--blue) 45%, #E8891E 80%, #C42127); margin-bottom: 4mm; }
+
+  /* Title */
+  h1 { font-size: 17pt; line-height: 1.2; margin: 0; color: var(--navy); font-weight: 800; letter-spacing: -.2px; }
+  .sub { font-size: 10pt; color: var(--blue); font-weight: 600; margin: .8mm 0 3.2mm; font-family: "Be Vietnam Pro"; }
+
+  /* Meta */
+  .meta { display: grid; grid-template-columns: 1.25fr 1fr 1fr 1fr; border: 1px solid var(--line); border-radius: 2.5mm; overflow: hidden; margin-bottom: 3.4mm; }
+  .meta > div { padding: 1.9mm 3mm; border-left: 1px solid var(--line); }
+  .meta > div:first-child { border-left: 0; background: var(--soft); }
+  .meta .k { font-size: 6.8pt; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: .6mm; }
+  .meta .v { font-weight: 700; font-size: 9.4pt; line-height: 1.35; color: var(--navy); }
+  .meta .v small { display: block; font-weight: 500; font-size: 8.2pt; color: var(--muted); }
+
+  p { margin: 0 0 2.4mm; }
+  .lead { font-size: 9.4pt; margin-bottom: 0; }
+
+  /* Goals */
+  .goals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 3mm 0 4mm; }
+  .goal { border: 1px solid var(--line); border-top: 1mm solid var(--blue); border-radius: 2mm; padding: 2mm 3mm; }
+  .goal:nth-child(2) { border-top-color: var(--orange); }
+  .goal:nth-child(3) { border-top-color: #2E8B62; }
+  .goal .n { font-family: "Be Vietnam Pro"; font-weight: 800; font-size: 8pt; color: var(--muted); letter-spacing: 1px; }
+  .goal b { display: block; font-family: "Be Vietnam Pro"; font-size: 9.6pt; color: var(--navy); margin: .4mm 0 .6mm; line-height: 1.3; }
+  .goal span { font-size: 8.4pt; color: var(--muted); line-height: 1.4; display: block; }
+
+  /* Section headings */
+  h2 { font-size: 12pt; color: var(--navy); margin: 0 0 2.6mm; display: flex; align-items: center; gap: 2.4mm; font-weight: 800; }
+  h2 .no { width: 6.4mm; height: 6.4mm; border-radius: 50%; background: var(--blue); color: #fff; font-size: 9pt; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+  h2 .aside { margin-left: auto; font-family: "Noto Sans"; font-size: 8.2pt; font-weight: 600; color: var(--muted); }
+  section { margin-bottom: 3mm; }
+
+  /* Schedule */
+  .day { border: 1px solid var(--line); border-radius: 2.5mm; overflow: hidden; margin-bottom: 2.6mm; break-inside: avoid; }
+  .day-h { display: flex; align-items: baseline; gap: 3mm; padding: 1.6mm 3.4mm; background: var(--navy); color: #fff; }
+  .day-h .d { font-family: "Be Vietnam Pro"; font-weight: 800; font-size: 10.5pt; }
+  .day-h .t { font-size: 8.4pt; opacity: .85; }
+  .day-h .f { margin-left: auto; font-size: 8pt; opacity: .85; font-style: italic; }
+  table { width: 100%; border-collapse: collapse; }
+  .sch td { padding: 1.15mm 3.4mm; border-top: 1px solid var(--line); vertical-align: top; font-size: 8.7pt; line-height: 1.38; }
+  .sch tr:first-child td { border-top: 0; }
+  .sch td.tm { width: 23mm; font-family: "Be Vietnam Pro"; font-weight: 700; color: var(--blue); white-space: nowrap; }
+  .sch td.who { width: 56mm; color: var(--muted); font-size: 8.4pt; }
+  .sch tr.key td { background: var(--orange-bg); }
+  .sch tr.key td.tm { color: var(--orange); box-shadow: inset 1mm 0 0 var(--orange); }
+  .sch tr.key td:nth-child(2) b { color: #8A3E00; }
+  .sch tr.pm td { border-top: 1.5px dashed #B9CDE0; }
+
+  /* Online meeting */
+  .callout { display: flex; align-items: center; gap: 3.5mm; border: 1px solid #F1C48C; background: var(--orange-bg); border-radius: 2.5mm; padding: 2.2mm 3.6mm; margin-bottom: 3.6mm; break-inside: avoid; }
+  .callout .ic { width: 9mm; height: 9mm; border-radius: 2mm; background: var(--orange); color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+  .callout .ic svg { width: 5mm; height: 5mm; }
+  .callout b.k { font-size: 10pt; color: #8A3E00; display: block; }
+  .callout span { font-size: 8.8pt; color: var(--ink); }
+
+  /* Prep */
+  .group { border: 1px solid var(--line); border-radius: 2.5mm; margin-bottom: 2.6mm; break-inside: avoid; overflow: hidden; }
+  .group-h { display: flex; align-items: center; gap: 2.4mm; padding: 1.6mm 3.4mm; background: var(--soft); border-bottom: 1px solid var(--line); }
+  .group-h h3 { margin: 0; font-size: 10pt; color: var(--navy); font-weight: 800; }
+  .due { margin-left: auto; font-family: "Be Vietnam Pro"; font-size: 8.2pt; font-weight: 700; color: #fff; background: var(--orange); padding: .7mm 2.6mm; border-radius: 10mm; white-space: nowrap; }
+  .group-note { padding: 1.8mm 3.4mm 0; font-size: 8.4pt; color: var(--muted); margin: 0; }
+  ul.chk { list-style: none; margin: 0; padding: 1.4mm 3.4mm 1.8mm; display: grid; gap: 1mm 6mm; }
+  ul.chk.two { grid-template-columns: 1fr 1fr; }
+  ul.chk li { display: grid; grid-template-columns: 4mm 1fr; gap: 2mm; font-size: 8.7pt; line-height: 1.38; }
+  ul.chk li::before { content: ""; width: 3.2mm; height: 3.2mm; border: 1.3px solid var(--blue); border-radius: .7mm; margin-top: .7mm; }
+  ul.chk li small { display: block; color: var(--muted); font-size: 8.1pt; }
+  .ppl td { padding: 1.3mm 3.4mm; border-top: 1px solid var(--line); vertical-align: top; font-size: 8.7pt; line-height: 1.38; }
+  .ppl tr:first-child td { border-top: 0; }
+  .ppl td:first-child { width: 42mm; font-weight: 700; color: var(--navy); }
+  .ppl td:last-child { width: 44mm; color: var(--muted); font-size: 8.4pt; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 3.2mm; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3.2mm; margin-bottom: 3mm; }
+  .card { border: 1px solid var(--line); border-radius: 2.5mm; padding: 2.2mm 3.4mm; break-inside: avoid; }
+  .card h3 { margin: 0 0 1.6mm; font-size: 10pt; color: var(--navy); font-weight: 800; }
+  .card ul, .card ol { margin: 0; padding-left: 4.6mm; font-size: 8.6pt; line-height: 1.4; }
+  .card li { margin-bottom: .6mm; }
+  .card li::marker { color: var(--blue); font-weight: 700; }
+
+  .contacts { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 2.5mm; overflow: hidden; margin-bottom: 3mm; break-inside: avoid; }
+  .contacts > div { padding: 2mm 3.2mm; border-left: 1px solid var(--line); }
+  .contacts > div:first-child { border-left: 0; background: var(--soft); }
+  .contacts .k { font-size: 6.8pt; font-weight: 700; letter-spacing: 1.1px; text-transform: uppercase; color: var(--muted); }
+  .contacts b { display: block; color: var(--navy); font-size: 9.2pt; }
+  .contacts .ph { font-family: "Be Vietnam Pro"; font-weight: 800; color: var(--orange); font-size: 10.5pt; }
+
+  .closing { display: grid; grid-template-columns: 1fr 52mm; gap: 6mm; align-items: end; break-inside: avoid; }
+  .close { font-size: 8.8pt; color: var(--ink); margin: 0; }
+  .sign { text-align: center; }
+  .sign .k { font-size: 8.4pt; color: var(--muted); }
+  .sign b { display: block; margin-top: 1mm; color: var(--navy); font-family: "Be Vietnam Pro"; }
+
+  .pb { break-before: page; }
+  @media screen {
+    body { background: #E9EEF4; padding: 10mm 0; }
+    .page { background: #fff; padding: 13mm 14mm 15mm; width: 210mm; box-shadow: 0 2mm 8mm rgba(14,58,95,.12); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hdr">
+    <img src="../../../assets/halongepc/logo-header.png" alt="Hạ Long EPC" />
+    <div class="tag">Kế hoạch UAT · Tháng 11/2026</div>
+    <img class="vci" src="../../../assets/logo-vci.png" alt="VCI" />
+  </div>
+  <div class="bar"></div>
+
+  <h1>Kế hoạch chạy thử hệ thống MES tại nhà máy</h1>
+  <div class="sub">Phân hệ Quản lý sản xuất · Nhà máy Hạ Long EPC</div>
+
+  <div class="meta">
+    <div><div class="k">Thời gian</div><div class="v">02 – 03/11/2026<small>Thứ Hai từ 09:00 · Thứ Ba từ 08:00<br />Kết thúc 17:00</small></div></div>
+    <div><div class="k">Địa điểm</div><div class="v">Nhà máy Hạ Long EPC<small>Phòng họp &amp; xưởng</small></div></div>
+    <div><div class="k">Kính gửi</div><div class="v">Anh Thái<small>Tổng Giám đốc</small></div></div>
+    <div><div class="k">Người gửi</div><div class="v">Bùi Xuân Cương<small>Quản lý dự án · VCI</small></div></div>
+  </div>
+
+  <p class="lead">Kính gửi anh Thái, VCI xin gửi anh kế hoạch và nội dung cần chuẩn bị cho 2 ngày chạy thử. Hai bên <b>làm trên dữ liệu thật</b>: tổ làm xong công đoạn nào, <mark>tổ trưởng nhập sản lượng ngay</mark> trên điện thoại, lãnh đạo xem được tiến độ thực tế.</p>
+
+  <div class="goals">
+    <div class="goal"><div class="n">MỤC TIÊU 01</div><b>Demo &amp; hướng dẫn sử dụng</b><span>Phòng sản xuất, tổ trưởng nắm được cách dùng hệ thống</span></div>
+    <div class="goal"><div class="n">MỤC TIÊU 02</div><b>Chạy thử trên sản xuất thật</b><span>1 dự án đang sản xuất, 1–2 cấu kiện đang làm</span></div>
+    <div class="goal"><div class="n">MỤC TIÊU 03</div><b>Thu thập yêu cầu, góp ý</b><span>Ghi nhận nội dung bổ sung để VCI hoàn thiện</span></div>
+  </div>
+
+  <section>
+    <h2><span class="no">1</span>Lịch làm việc</h2>
+
+    <div class="day">
+      <div class="day-h"><span class="d">Thứ Hai, 02/11/2026</span><span class="t">09:00 – 17:00</span><span class="f">Demo · chốt phạm vi · làm tại tổ</span></div>
+      <table class="sch">
+        <tr><td class="tm">09:00 – 09:30</td><td>Khai mạc; VCI trình bày mục tiêu, cách làm 2 ngày</td><td class="who">Anh Thái, phòng sản xuất</td></tr>
+        <tr><td class="tm">09:30 – 10:50</td><td>Demo và hướng dẫn sử dụng: lập kế hoạch → giao việc → tổ nhập sản lượng → xem tiến độ</td><td class="who">Phòng sản xuất, tổ trưởng các công đoạn</td></tr>
+        <tr><td class="tm">10:50 – 11:10</td><td>Kịch bản chạy thử theo từng công đoạn: ai nhập, nhập khi nào</td><td class="who">Phòng sản xuất, tổ trưởng</td></tr>
+        <tr class="key"><td class="tm">11:10 – 11:30</td><td><b>Chốt dự án, cấu kiện chạy thử và tổ trưởng từng công đoạn</b></td><td class="who">Anh Thái, phòng sản xuất</td></tr>
+        <tr class="pm"><td class="tm">13:30 – 14:30</td><td>Phòng sản xuất tự lập kế hoạch trên hệ thống, giao việc xuống tổ</td><td class="who">Phòng sản xuất</td></tr>
+        <tr class="key"><td class="tm">14:30 – 16:30</td><td><b>Làm việc tại tổ:</b> làm xong phần nào, nhập ngay phần đó</td><td class="who">Tổ trưởng cắt, gá, tổ hợp, làm sạch</td></tr>
+        <tr><td class="tm">16:30 – 17:00</td><td>Tổng hợp vướng mắc, thống nhất việc ngày Thứ Ba</td><td class="who">Anh Thái hoặc người được ủy quyền</td></tr>
+      </table>
+    </div>
+
+    <div class="day">
+      <div class="day-h"><span class="d">Thứ Ba, 03/11/2026</span><span class="t">08:00 – 17:00</span><span class="f">Tổ tự báo cáo · khảo sát · tổng kết</span></div>
+      <table class="sch">
+        <tr><td class="tm">08:00 – 08:30</td><td>VCI dự họp đầu giờ cùng các tổ</td><td class="who">Tổ trưởng</td></tr>
+        <tr class="key"><td class="tm">08:30 – 11:30</td><td><b>Tổ tự nhập báo cáo ca sáng;</b> đối chiếu số liệu trên hệ thống với sổ theo dõi của xưởng</td><td class="who">Tổ trưởng gá, hàn, làm sạch, sơn, đóng gói; phòng sản xuất</td></tr>
+        <tr class="pm"><td class="tm">13:30 – 14:30</td><td>Khảo sát phòng thiết kế: file cắt, báo cáo cắt, quy trình chuyển xuống sản xuất</td><td class="who">Người phụ trách file cắt</td></tr>
+        <tr><td class="tm">14:30 – 15:30</td><td>Khảo sát hệ thống camera, mạng tại xưởng</td><td class="who">IT nhà máy</td></tr>
+        <tr class="key"><td class="tm">15:30 – 17:00</td><td><b>Tổng kết, thống nhất việc cần hoàn thiện</b></td><td class="who">Anh Thái, phòng sản xuất</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <div class="callout pb">
+    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+    <div><b class="k">Họp online thống nhất kịch bản · Thứ Năm 29/10, 14:00 (khoảng 45 phút)</b>
+    <span>Thành phần: anh Thái, phòng sản xuất, đại diện tổ trưởng. VCI gửi link họp trước giờ họp.</span></div>
+  </div>
+
+  <section>
+    <h2><span class="no">2</span>Nhà máy chuẩn bị trước<span class="aside">Đánh dấu ✓ khi hoàn thành</span></h2>
+
+    <div class="group">
+      <div class="group-h"><h3>Dữ liệu gửi VCI</h3><span class="due">Hạn Thứ Năm 29/10</span></div>
+      <p class="group-note">VCI cần các dữ liệu này để nhập sẵn lên hệ thống. Thiếu dữ liệu thì sáng Thứ Hai không lập được kế hoạch.</p>
+      <ul class="chk two">
+        <li><span><b>1 dự án</b> đang sản xuất sẽ chạy thử</span></li>
+        <li><span><b>1–2 cấu kiện</b> hoặc cụm cấu kiện đang làm<small>Chốt chính thức lúc 11:10 Thứ Hai, sau demo</small></span></li>
+        <li><span><b>Danh mục cấu kiện</b>: mã, tên, số lượng, khối lượng</span></li>
+        <li><span><b>Danh sách công đoạn</b> và thứ tự trên dây chuyền</span></li>
+        <li><span><b>Danh sách tổ, tổ trưởng, thợ</b> theo từng công đoạn</span></li>
+        <li><span><b>Kế hoạch sản xuất hiện tại</b> của dự án</span></li>
+      </ul>
+    </div>
+
+    <div class="group">
+      <div class="group-h"><h3>Nhân sự tham gia</h3><span class="due">Hạn Thứ Sáu 30/10</span></div>
+      <table class="ppl">
+        <tr><td>Tổ trưởng / đốc công<br /><span style="font-weight:500;color:var(--muted);font-size:8.2pt">7 công đoạn: cắt, gá, hàn, tổ hợp, làm sạch, sơn, đóng gói</span></td><td>Gửi VCI <b>tên và số điện thoại</b>. Mỗi người <mark>mang theo điện thoại</mark> để nhập báo cáo</td><td>Cả ngày Thứ Hai · sáng Thứ Ba</td></tr>
+        <tr><td>Phòng sản xuất</td><td>Cử <b>1–2 người</b> làm trực tiếp trên hệ thống; mang theo <b>sổ theo dõi sản lượng</b> để đối chiếu</td><td>Cả 2 ngày</td></tr>
+        <tr><td>Phòng thiết kế</td><td>Người trực tiếp làm <b>file cắt</b> và <b>báo cáo cắt</b></td><td>Thứ Ba, 13:30 – 14:30</td></tr>
+        <tr><td>IT nhà máy</td><td>Người nắm hệ thống <b>camera, mạng</b> tại xưởng</td><td>Thứ Ba, 14:30 – 15:30</td></tr>
+      </table>
+    </div>
+
+    <div class="pair">
+      <div class="group">
+        <div class="group-h"><h3>Kênh trao đổi</h3><span class="due">Hạn 30/10</span></div>
+        <ul class="chk">
+          <li><span>Thêm VCI vào <b>các nhóm Zalo báo cáo</b> của tổ</span></li>
+          <li><span>Cho VCI dự <b>giao ban, họp đầu giờ của tổ, họp phòng sản xuất</b>; báo giúp giờ họp</span></li>
+        </ul>
+      </div>
+      <div class="group">
+        <div class="group-h"><h3>Địa điểm, thiết bị</h3><span class="due">Hạn 31/10</span></div>
+        <ul class="chk">
+          <li><span><b>Phòng họp có máy chiếu</b> cho buổi sáng Thứ Hai</span></li>
+          <li><span><b>Chỗ ngồi có máy tính, mạng</b> cho phòng sản xuất và VCI</span></li>
+          <li><span>Nếu được, gửi trước <b>file cắt, báo cáo cắt mẫu, sơ đồ camera</b></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>VCI chuẩn bị</h3>
+      <ul>
+        <li>Nhập sẵn danh mục và kế hoạch theo dữ liệu nhà máy gửi</li>
+        <li>Cấp tài khoản riêng cho phòng sản xuất, lãnh đạo và <b>từng tổ trưởng</b></li>
+        <li>Mang theo điện thoại, máy tính cài sẵn để dùng khi cần</li>
+        <li>Có mặt đủ 2 ngày: Cương, Trang, Nhung, Phương, Duy</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Kính nhờ anh xác nhận</h3>
+      <ol>
+        <li>Dây chuyền có đúng 7 công đoạn <b>cắt → gá → hàn → tổ hợp → làm sạch → sơn → đóng gói</b>?</li>
+        <li>Mỗi công đoạn một tổ, hay một tổ làm nhiều công đoạn?</li>
+        <li>Đơn vị sản lượng các tổ đang ghi: cấu kiện, tấn, mét hàn hay m²?</li>
+        <li>Có cấu kiện nào đang gần cuối chuyền để chạy thử phần sơn, đóng gói?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="contacts">
+    <div><div class="k">Đầu mối liên hệ</div><b>Trong 2 ngày chạy thử</b></div>
+    <div><div class="k">Nhà máy Hạ Long EPC</div><b>Anh Thái · Tổng Giám đốc</b><span class="ph">0985.961.138</span></div>
+    <div><div class="k">VCI</div><b>Bùi Xuân Cương · Quản lý dự án</b><span class="ph">033.5055.068</span></div>
+  </div>
+
+  <div class="closing">
+  <p class="close">Trong quá trình chạy thử, chỗ nào hệ thống chưa phù hợp với cách xưởng đang làm, VCI sẽ ghi nhận để hoàn thiện, không yêu cầu nhà máy thay đổi cách làm. Rất mong nhận được sự phối hợp của anh cùng các anh chị phòng sản xuất và các tổ.</p>
+
+  <div class="sign"><div class="k">Trân trọng,</div><b>Bùi Xuân Cương</b><div class="k">Quản lý dự án · VCI</div></div>
+  </div>
+
+</div>
+</body>
+</html>
