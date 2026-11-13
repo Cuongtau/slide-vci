@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HLEPC · Master Plan triển khai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --hl-red-deep:#8A241C;--hl-red-main:#E14138;--hl-red-soft:#FEF3F1;
+  --hl-orange-deep:#9A3A18;--hl-orange-main:#E2622F;--hl-orange-soft:#FEF6F0;
+  --hl-gold-deep:#A35A12;--hl-gold-main:#E29234;--hl-gold-light:#F6B64E;--hl-gold-soft:#FEFAF0;
+  --hl-navy-deep:#0C1726;--hl-navy-main:#1E3A8A;--hl-navy-soft:#EEF2F9;
+  --hl-steel-deep:#1C1917;--hl-steel-main:#44403C;--hl-steel-mid:#605B54;--hl-steel-light:#D6D3D1;--hl-steel-soft:#F5F3F0;
+  --hl-grad-hero:linear-gradient(135deg,#B5241B 0%,#E14138 38%,#F0633A 72%,#F6A35C 100%);
+  --hl-grad-flame:linear-gradient(135deg,#E14138,#F0763E);
+  --hl-grad-bg:linear-gradient(180deg,#FEF7F4,#FFFFFF 55%,#FBFAF9);
+  --line:#EAE3DB; --line-soft:#F1ECE6;
+  /* Màu theo nhóm */
+  --g-a:linear-gradient(135deg,#B23029,#D24A35); --c-a:#B23029; --s-a:#FDEEEA; --b-a:#F1D3CA;
+  --g-b:linear-gradient(135deg,#C2491F,#E2763A); --c-b:#C2491F; --s-b:#FEF1E7; --b-b:#F3D7C2;
+  --g-m:linear-gradient(135deg,#9C580F,#D0952C); --c-m:#9C580F; --s-m:#FBF3DF; --b-m:#EEDDB3;
+  --g-p:linear-gradient(135deg,#0C1726,#1E3A8A); --c-p:#1E3A8A; --s-p:#EEF2F9; --b-p:#C7D4EE;
+  --lab:250px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--hl-grad-bg);color:var(--hl-steel-deep);line-height:1.5;min-height:100vh}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+body{animation:pageIn .45s cubic-bezier(.22,.61,.36,1) both}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+a:focus-visible{outline:3px solid var(--hl-gold-light);outline-offset:3px;border-radius:8px}
+
+/* Header */
+header.hero{background:var(--hl-grad-hero);padding:16px clamp(16px,2.4vw,40px);display:flex;align-items:center;gap:18px;box-shadow:0 4px 18px rgba(30,41,59,.16);position:sticky;top:0;z-index:20}
+.logo-pill{background:#fff;padding:6px 10px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.logo-pill img{height:40px;display:block}
+.logo-pill .logo-fallback{font-weight:900;font-size:20px;background:var(--hl-grad-flame);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;letter-spacing:1px;display:inline-block;padding:2px 4px}
+.hero-tagline{color:rgba(255,255,255,.85);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600}
+.hero-title{color:#fff;font-size:19px;font-weight:800;letter-spacing:1.5px;text-shadow:0 1px 2px rgba(0,0,0,.18)}
+.crumb{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.crumb a{color:#fff;text-decoration:none;padding:6px 14px;background:rgba(255,255,255,.18);border-radius:999px;font-size:12px;font-weight:600;transition:background .2s}
+.crumb a:hover{background:rgba(255,255,255,.3)}
+.slide-tag{padding:5px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-weight:700;letter-spacing:1.5px;font-size:12px;color:#fff}
+
+/* Layout toàn màn */
+main{padding:28px clamp(16px,2.4vw,40px) 40px;display:flex;flex-direction:column;gap:30px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 32px;flex-wrap:wrap}
+.eyebrow{display:inline-block;padding:5px 14px;background:var(--hl-navy-soft);border:1px solid #93C5FD;color:var(--hl-navy-main);border-radius:999px;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+h1{font-size:clamp(24px,2.3vw,34px);font-weight:800;line-height:1.15;letter-spacing:-.02em}
+h2{font-size:clamp(19px,1.6vw,24px);font-weight:800;letter-spacing:-.02em}
+h1 em,h2 em{font-style:normal;background:var(--hl-grad-hero);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.sub{font-size:14px;color:var(--hl-steel-mid);margin-top:6px;max-width:900px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 28px rgba(15,23,42,.05)}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.kpi{padding:16px 20px;display:flex;align-items:center;gap:14px}
+.kpi b{font-size:clamp(26px,2.2vw,34px);font-weight:900;line-height:1;color:var(--k);font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi span{font-size:12.5px;color:var(--hl-steel-mid);font-weight:500;line-height:1.35}
+.kpi span strong{display:block;color:var(--hl-steel-deep);font-size:13.5px;font-weight:700}
+
+/* Gantt theo quý / tháng */
+.sheet{overflow-x:auto}
+.grid{display:grid;grid-template-columns:var(--lab) repeat(25,minmax(38px,1fr));min-width:calc(var(--lab) + 25 * 38px)}
+.grid > div{min-height:46px;display:flex;align-items:center;border-bottom:1px solid var(--line-soft)}
+.grid .yr{grid-row:1;min-height:0;overflow:hidden;white-space:nowrap;font-size:11px;font-weight:800;color:var(--hl-steel-deep);padding:8px 8px 2px;border-left:2px solid var(--line);border-bottom:0}
+.grid .mo{grid-row:2;min-height:0;justify-content:center;font-size:11px;font-weight:700;color:var(--hl-steel-mid);padding:6px 0;background:var(--hl-steel-soft);border-bottom:2px solid var(--line)}
+.grid .mo.now{background:var(--hl-red-main);color:#fff}
+.grid .corner{grid-row:1 / span 2;min-height:0;padding:0 18px;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--hl-steel-mid);border-bottom:2px solid var(--line);background:#fff;position:sticky;left:0;z-index:3}
+.grid .lab{padding:6px 14px 6px 18px;gap:10px;position:sticky;left:0;background:#fff;z-index:2;border-right:1px solid var(--line-soft)}
+.grid .lab .t{font-size:13px;font-weight:800;line-height:1.25}
+.grid .lab small{display:block;font-size:11px;font-weight:500;color:var(--hl-steel-mid)}
+.grid .cell{border-left:1px dashed var(--line-soft)}
+.grid .cell.now{background:rgba(225,65,56,.05)}
+.gnum{flex:0 0 26px;width:26px;height:26px;border-radius:7px;font-size:12px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;background:var(--g)}
+.bar{z-index:1;margin:0 2px;height:30px!important;min-height:30px!important;align-self:center;border-radius:8px;background:var(--g);color:#fff;font-size:11.5px;font-weight:700;padding:0 12px;gap:8px;white-space:nowrap;overflow:hidden;box-shadow:0 3px 8px rgba(0,0,0,.12);border-bottom:0!important;transition:transform .15s,box-shadow .15s}
+.bar:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(0,0,0,.16)}
+.bar em{font-style:normal;font-weight:600;opacity:.85}
+
+/* Bảng tổng hợp */
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th,td{text-align:left;padding:12px 18px;border-bottom:1px solid var(--line-soft);font-size:13px;vertical-align:middle}
+th{background:var(--hl-steel-soft);font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--hl-steel-mid)}
+tbody tr:hover td{background:#FFFBF8}
+tr:last-child td{border-bottom:0}
+td.n{font-weight:800;white-space:nowrap}
+td.d{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+td.m{font-weight:900;font-size:15px;color:var(--hl-red-deep);font-variant-numeric:tabular-nums}
+.qcol{font-weight:700;white-space:nowrap;color:var(--hl-steel-main)}
+
+/* Chi tiết phân hệ */
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:14px}
+.mod{padding:18px 18px 16px;border-left:5px solid var(--c);background:linear-gradient(135deg,var(--s) 0%,#fff 60%);display:flex;flex-direction:column;gap:10px}
+.mod .mh{display:flex;align-items:center;gap:12px}
+.mod .mh .t{font-size:16px;font-weight:900;line-height:1.2}
+.mod .mh .t small{display:block;font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--c)}
+.mod .when{margin-left:auto;text-align:right;font-size:11.5px;font-weight:700;color:var(--hl-steel-mid);white-space:nowrap}
+.mod .when b{display:block;font-size:15px;font-weight:900;color:var(--c)}
+.mod .meta{display:flex;flex-wrap:wrap;gap:6px}
+.mod .meta span{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:#fff;border:1px solid var(--bd);color:var(--hl-steel-main)}
+.mod .meta span.st{background:var(--c);border-color:var(--c);color:#fff}
+.mod ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:5px 14px}
+.mod li{font-size:12.5px;color:var(--hl-steel-main);font-weight:500;display:flex;gap:7px;line-height:1.4}
+.mod li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--c);margin-top:6px;flex:0 0 6px}
+
+/* Định biên nhân sự */
+.staff{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.role{padding:20px;border-top:5px solid var(--c);display:flex;flex-direction:column;gap:12px}
+.role .rh{display:flex;align-items:center;gap:14px}
+.role .rh b{font-size:40px;font-weight:900;line-height:1;color:var(--c)}
+.role .rh h3{font-size:17px;font-weight:900}
+.role .rh small{display:block;font-size:12px;font-weight:600;color:var(--hl-steel-mid)}
+.role ul{list-style:none;display:flex;flex-direction:column;gap:6px;flex:1}
+.role li{font-size:12.5px;color:var(--hl-steel-main);display:flex;gap:8px;line-height:1.45}
+.role li::before{content:'▸';color:var(--c);font-weight:800;flex-shrink:0}
+.role .tag{align-self:flex-start;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--hl-steel-soft);border:1px solid var(--line);color:var(--hl-steel-main)}
+.staff-total{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;padding:14px 20px;font-size:13.5px;font-weight:600;color:var(--hl-steel-main)}
+.staff-total b{font-size:22px;font-weight:900;color:var(--hl-red-deep)}
+
+footer.foot{background:var(--hl-navy-deep);color:rgba(255,255,255,.75);padding:20px;text-align:center;font-size:12.5px}
+footer.foot a{color:var(--hl-gold-light);text-decoration:none}
+
+@media (max-width:1200px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.staff{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){
+  :root{--lab:150px}
+  header.hero{flex-wrap:wrap}.crumb{margin-left:0;width:100%}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid .lab small{display:none}
+  .staff,.mods,.mod ul{grid-template-columns:1fr}
+  .bar em{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="logo-pill"><img src="../04-CHUYEN-DOI-SO-2026-11/1484ha-long-epc-01.png" alt="Hạ Long EPC" onerror="this.outerHTML='<span class=&quot;logo-fallback&quot;>HLEPC</span>'"></div>
+  <div>
+    <div class="hero-tagline">Công ty Cổ phần Công nghiệp Xanh</div>
+    <div class="hero-title">HẠ LONG EPC · CHUYỂN ĐỔI SỐ</div>
+  </div>
+  <div class="crumb">
+    <span class="slide-tag">MASTER PLAN</span>
+    <a href="../04-CHUYEN-DOI-SO-2026-11/index.html">Blueprint</a>
+    <a href="../04-CHUYEN-DOI-SO-2026-11/01_SOLUTION_HLEPC_PRS.html">Giải pháp 10 phân hệ</a>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <h1>Master Plan · <em>10 phân hệ, xong Q2/2028</em></h1>
+  </section>
+
+  <section class="kpis">
+    <div class="card kpi" style="--k:var(--hl-red-main)"><b>10</b><span><strong>phân hệ</strong>MES đã xong, đang UAT</span></div>
+    <div class="card kpi" style="--k:var(--hl-orange-main)"><b>Q2</b><span><strong>2028 xong toàn bộ</strong>chậm nhất 30/06/2028</span></div>
+    <div class="card kpi" style="--k:var(--hl-gold-deep)"><b>20</b><span><strong>tháng sau MES</strong>11/2026 → 06/2028</span></div>
+    <div class="card kpi" style="--k:var(--hl-navy-main)"><b>9</b><span><strong>người</strong>3 Dev · 3 BA · 3 QC (+1 PM)</span></div>
+    <div class="card kpi" style="--k:var(--hl-steel-main)"><b>1</b><span><strong>phân hệ mỗi lúc</strong>cả đội làm tuần tự</span></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Thời gian <em>từng phân hệ</em></h2>
+    <div class="card sheet"><div class="grid" id="gantt"></div></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Chi tiết <em>các phân hệ</em></h2>
+    <div class="mods" id="mods"></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Định biên <em>nhân sự</em></h2>
+    <div class="staff">
+      <div class="card role" style="--c:#E14138">
+        <div class="rh"><b>3</b><div><h3>Dev</h3><small>Fullstack · BE + FE + Mobile</small></div></div>
+        <ul>
+          <li>Thiết kế dữ liệu, API, giao diện web và app xưởng</li>
+          <li>Tích hợp với các phân hệ đã chạy qua SSO, master data</li>
+          <li>Triển khai, CI/CD, sửa lỗi sau go-live</li>
+        </ul>
+        <span class="tag">Cả 3 Dev trên 1 phân hệ</span>
+      </div>
+      <div class="card role" style="--c:#E2622F">
+        <div class="rh"><b>3</b><div><h3>BA</h3><small>Phân tích nghiệp vụ</small></div></div>
+        <ul>
+          <li>Khảo sát phòng ban, chốt phạm vi rút gọn (MVP)</li>
+          <li>Viết spec, mockup; spec phân hệ kế tiếp đi trước 1 tháng</li>
+          <li>Tổ chức UAT, đào tạo người dùng</li>
+        </ul>
+        <span class="tag">1 BA chính / phân hệ · 2 BA hỗ trợ</span>
+      </div>
+      <div class="card role" style="--c:#A35A12">
+        <div class="rh"><b>3</b><div><h3>QC</h3><small>Kiểm thử</small></div></div>
+        <ul>
+          <li>Viết test case theo spec, kiểm thử chức năng</li>
+          <li>Regression các phân hệ đã go-live khi có liên thông</li>
+          <li>Hỗ trợ nhà máy trong UAT, ghi nhận lỗi</li>
+        </ul>
+        <span class="tag">2 QC phân hệ mới · 1 QC regression</span>
+      </div>
+      <div class="card role" style="--c:#1E3A8A">
+        <div class="rh"><b>1</b><div><h3>PM</h3><small>Quản lý dự án</small></div></div>
+        <ul>
+          <li>Điều phối tiến độ, giữ mốc Q2/2028</li>
+          <li>Chốt phạm vi, quản lý thay đổi yêu cầu</li>
+          <li>Lịch UAT, nghiệm thu với nhà máy</li>
+        </ul>
+        <span class="tag">Xuyên suốt 10 phân hệ</span>
+      </div>
+    </div>
+    <div class="card staff-total"><span><b>9</b> người thực hiện</span><span>3 Dev · 3 BA · 3 QC</span><span><b>+1</b> PM điều phối</span><span>Làm tuần tự · 1 phân hệ mỗi lúc</span></div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2>Tổng hợp <em>số tháng cần</em></h2>
+    <div class="card tbl">
+      <table>
+        <thead><tr><th>#</th><th>Phân hệ</th><th>Thời gian</th><th>Quý</th><th>Số tháng</th></tr></thead>
+        <tbody id="sum"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">HẠ LONG EPC · CHUYỂN ĐỔI SỐ · Master Plan 06/2026 → Q2/2028 · <a href="../04-CHUYEN-DOI-SO-2026-11/index.html">← Blueprint</a></footer>
+
+<script>
+(function(){
+  /* Cột 0 = 06/2026 … cột 24 = 06/2028 */
+  const N = 25, Y0 = 2026, M0 = 6, NOW = 5; /* 11/2026 */
+  const ym = i => { const t = M0 - 1 + i; return [Y0 + Math.floor(t / 12), t % 12 + 1]; };
+  const lab = i => { const [y, m] = ym(i); return String(m).padStart(2, '0') + '/' + y; };
+  const qOf = i => { const [y, m] = ym(i); return 'Q' + (Math.floor((m - 1) / 3) + 1) + '/' + y; };
+  const mc = c => '--g:linear-gradient(135deg,' + c + ',color-mix(in srgb,' + c + ' 70%,#fff));--c:' + c + ';--s:color-mix(in srgb,' + c + ' 9%,#fff);--bd:color-mix(in srgb,' + c + ' 28%,#fff)';
+
+  /* Phân hệ làm tuần tự: [số, tên, mô tả, từ, đến, màu] */
+  const MODS = [
+    ['1',  'MES',       'Quản lý sản xuất',             0,  5,  '#E14138'],
+    ['2',  'QMS',       'Chất lượng · hàn · NDT',        5,  7,  '#EA580C'],
+    ['3',  'PPM',       'Quản lý dự án',                8,  9,  '#CA8A04'],
+    ['4',  'MMS · Kho', 'Vật tư · kho · barcode',        10, 11, '#16A34A'],
+    ['5',  'SRM',       'Cung ứng · mua hàng',           12, 13, '#0D9488'],
+    ['6',  'HRM',       'Nhân sự · chấm công · lương',   14, 15, '#0284C7'],
+    ['7',  'PDM/PLM',   'Bản vẽ · BOM · ECN',            16, 17, '#4F46E5'],
+    ['8',  'EAM',       'Máy móc · thiết bị · bảo trì',  18, 19, '#9333EA'],
+    ['9',  'ERP-FI',    'Tài chính · giá thành',         20, 22, '#DB2777'],
+    ['10', 'CRM',       'Khách hàng · portal',           23, 24, '#57534E'],
+  ];
+
+  /* Các quý trong khung thời gian (dùng cho header Gantt) */
+  const qs = [];
+  for (let i = 0; i < N; i++) {
+    const q = qOf(i);
+    if (!qs.length || qs[qs.length - 1].q !== q) qs.push({q, a: i, b: i});
+    else qs[qs.length - 1].b = i;
+  }
+
+  /* Gantt: hàng 1 = quý, hàng 2 = tháng */
+  let h = '<div class="corner">Phân hệ</div>';
+  qs.forEach(({q, a, b}) => { h += '<div class="yr" style="grid-column:' + (a + 2) + ' / ' + (b + 3) + '">' + (a === b ? q.split('/')[0] : q) + '</div>'; });
+  for (let i = 0; i < N; i++) {
+    h += '<div class="mo' + (i === NOW ? ' now' : '') + '" style="grid-column:' + (i + 2) + '">' + String(ym(i)[1]).padStart(2, '0') + '</div>';
+  }
+  let row = 3;
+  MODS.forEach(([no, name, desc, a, b, col]) => {
+    const n = b - a + 1;
+    h += '<div class="lab" style="grid-row:' + row + ';grid-column:1;' + mc(col) + '"><span class="gnum">' + no + '</span><span class="t">' + name + '<small>' + desc + '</small></span></div>';
+    for (let i = 0; i < N; i++) h += '<div class="cell' + (i === NOW ? ' now' : '') + '" style="grid-row:' + row + ';grid-column:' + (i + 2) + '"></div>';
+    h += '<div class="bar" title="' + name + ': ' + lab(a) + ' → ' + lab(b) + ' (' + n + ' tháng)" style="grid-row:' + row + ';grid-column:' + (a + 2) + ' / ' + (b + 3) + ';' + mc(col) + '">' + n + ' tháng' + (n > 3 ? ' <em>' + lab(a).replace('/20', '/') + ' → ' + lab(b).replace('/20', '/') + '</em>' : '') + '</div>';
+    row++;
+  });
+  document.getElementById('gantt').innerHTML = h;
+
+  /* Chi tiết phân hệ: số → [người dùng, trạng thái, tính năng] */
+  const DET = {
+    '1':  ['Ban Sản xuất · tổ xưởng', 'Đang UAT · 88 tính năng', ['Danh mục: dự án, công đoạn, quy trình, máy, tổ/thợ', 'Kế hoạch tổng thể & chi tiết, gán cấu kiện BIM', 'Phiếu giao việc, báo cáo sản lượng', 'Kế hoạch nguồn lực: sản lượng, nhân sự, máy', 'BIM BOM: import IFC, phiên bản BOM, xem 3D', 'Dashboard KPI, tiến độ trên BIM, camera', 'Mobile xưởng: quét QR, báo sản lượng, cảnh báo', 'Thư viện ảnh báo cáo']],
+    '2':  ['Phòng QA/QC', 'Chưa bắt đầu', ['Kế hoạch kiểm tra (ITP) theo bản vẽ', 'Kiểm tra trên tablet', 'Kiểm tra NDT: UT/RT/MT/PT', 'Sổ chứng chỉ thợ hàn', 'Quy trình hàn WPS/WPQ/PQR', 'NCR/CAR, xử lý 8D', 'Hồ sơ chất lượng song ngữ, chữ ký số', 'Đẩy báo cáo cho khách qua portal']],
+    '3':  ['Phòng QLDA', 'Chưa bắt đầu', ['WBS, Gantt, đường găng (CPM)', 'Ma trận RACI', 'Mốc tiến độ, lệnh thay đổi', 'Đường cong S, earned value', 'Rủi ro và vấn đề', 'Cân đối nguồn lực', 'Kho tài liệu theo dự án']],
+    '4':  ['Thủ kho', 'Đã có 12 module', ['Vị trí kho (bin), barcode/QR', 'Nhập kho, xếp kho', 'Xuất theo lệnh sản xuất', 'Kiểm kê định kỳ', 'Tồn min/max, đặt lại hàng', 'Mill cert gắn cuộn thép', 'App mobile cho thủ kho']],
+    '5':  ['Phòng Cung ứng', 'Chưa bắt đầu', ['Hồ sơ & đánh giá nhà cung cấp', 'Mời báo giá (RFQ), so sánh giá', 'Đơn mua hàng có luồng duyệt', 'Đối chiếu 3 bên PO / nhận hàng / hoá đơn', 'Chấm điểm NCC: đúng hạn, chất lượng, giá', 'Hợp đồng khung, gọi hàng', 'Cảnh báo lead time']],
+    '6':  ['Ban HCNS', 'Mới có khung', ['Hồ sơ nhân viên, sơ đồ tổ chức', 'Chấm công, ca/kíp', 'Lương, BHXH, khai thuế HTKK', 'KPI cá nhân và tổ', 'Đào tạo, chứng chỉ thợ hàn', 'Đào tạo an toàn (HSE)', 'Tuyển dụng, onboarding']],
+    '7':  ['Phòng Thiết kế', 'Chưa bắt đầu', ['Kho bản vẽ CAD, check-in/out', 'BOM theo bản vẽ', 'Thay đổi kỹ thuật ECN/ECR', 'Phát hành bản vẽ, revision', 'Sổ shop drawing', 'Ghi chú, bình luận trên bản vẽ', 'Phân quyền truy cập', 'Liên kết PPM và MES']],
+    '8':  ['Nhân viên Thiết bị', 'Chưa bắt đầu', ['Sổ tài sản, cây tài sản', 'Bảo trì theo lịch và giờ chạy', 'Yêu cầu sửa chữa, lệnh công việc', 'Kho phụ tùng', 'Dừng máy, MTBF/MTTR', 'Hồ sơ kiểm định', 'App mobile kỹ thuật viên']],
+    '9':  ['Phòng TC-KT', 'Chưa bắt đầu', ['Sổ cái, phải thu, phải trả, ngân hàng', 'Đa tiền tệ USD/JPY/EUR', 'Giá thành theo dự án', 'Giao dịch nội bộ giữa công ty', 'Thuế VAT/TNDN, HTKK', 'Hoá đơn điện tử', 'Ngân sách và chênh lệch', 'Dự báo dòng tiền']],
+    '10': ['Phòng Kinh doanh', 'Chưa bắt đầu', ['Khách tiềm năng, pipeline cơ hội', 'Báo giá, hồ sơ dự thầu', 'Theo dõi RFQ của khách', 'Hợp đồng và phụ lục', 'Dự báo doanh số', 'Khảo sát hài lòng (CSAT)', 'Customer Portal: tiến độ, tải hồ sơ QC']],
+  };
+  document.getElementById('mods').innerHTML = MODS.map(([no, name, desc, a, b, col]) => {
+    const [user, st, feats] = DET[no];
+    const qa = qOf(a), qb = qOf(b);
+    return '<div class="card mod" style="' + mc(col) + '"><div class="mh"><span class="gnum">' + no + '</span><div class="t"><small>' + desc + '</small>' + name + '</div><div class="when"><b>' + (b - a + 1) + ' tháng</b>' + lab(a) + ' → ' + lab(b) + '</div></div>' +
+      '<div class="meta"><span class="st">' + st + '</span><span>' + user + '</span><span>' + qa + (qa === qb ? '' : ' → ' + qb) + '</span></div>' +
+      '<ul>' + feats.map(f => '<li>' + f + '</li>').join('') + '</ul></div>';
+  }).join('');
+
+  /* Bảng tổng hợp */
+  document.getElementById('sum').innerHTML = MODS.map(([no, name, desc, a, b, col]) => {
+    const qa = qOf(a), qb = qOf(b);
+    return '<tr><td class="n"><span class="gnum" style="' + mc(col) + '">' + no + '</span></td><td class="n">' + name + ' <small style="font-weight:500;color:var(--hl-steel-mid)">· ' + desc + '</small></td><td class="d">' + lab(a) + ' → ' + lab(b) + '</td><td class="qcol">' + qa + (qa === qb ? '' : ' → ' + qb) + '</td><td class="m">' + (b - a + 1) + '</td></tr>';
+  }).join('');
+})();
+</script>
+</body>
+</html>
