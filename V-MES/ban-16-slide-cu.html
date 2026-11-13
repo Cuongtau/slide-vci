@@ -1,0 +1,929 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VCI MES — Giới thiệu sản phẩm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.css">
+<style>
+:root{
+  --ink:#0b1a2b;          /* nền xanh thép */
+  --ink-2:#10243a;
+  --grid:rgba(140,190,255,.07);
+  --grid-major:rgba(140,190,255,.13);
+  --line:#cfe1f5;         /* nét vẽ */
+  --line-dim:rgba(207,225,245,.35);
+  --muted:#8aa3bd;
+  --paint:#ff6b1a;        /* cam sơn chống gỉ / tia hàn */
+  --paint-soft:rgba(255,107,26,.14);
+  --steel:#4a90d9;        /* xanh thép sáng — dòng vật tư phụ */
+  --ok:#4fd1a5;
+  --sans:"Be Vietnam Pro",system-ui,sans-serif;
+  --cond:"Barlow Condensed","Be Vietnam Pro",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+html,body,.reveal-viewport{background:var(--ink)}
+.reveal{font-family:var(--sans);color:var(--line);font-size:30px}
+.reveal .slides{text-align:left}
+.reveal .slides section{height:100%;padding:0}
+
+/* ---- Giấy can kỹ thuật ---- */
+.reveal .backgrounds{background:
+  linear-gradient(var(--grid-major) 1px,transparent 1px) 0 0/120px 120px,
+  linear-gradient(90deg,var(--grid-major) 1px,transparent 1px) 0 0/120px 120px,
+  linear-gradient(var(--grid) 1px,transparent 1px) 0 0/24px 24px,
+  linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/24px 24px,
+  radial-gradient(ellipse at 70% 30%,#14304d 0%,var(--ink) 65%)}
+
+/* Khung viền bản vẽ */
+.sheet{position:absolute;inset:28px;border:1.5px solid var(--line-dim);pointer-events:none}
+.sheet::before{content:"";position:absolute;inset:8px;border:1px solid rgba(207,225,245,.12)}
+
+/* Khung tên bản vẽ — góc phải dưới */
+.title-block{position:absolute;right:28px;bottom:28px;display:grid;
+  grid-template-columns:auto auto auto auto;border-top:1.5px solid var(--line-dim);
+  border-left:1.5px solid var(--line-dim);font:500 13px/1 var(--mono);color:var(--muted);
+  background:rgba(11,26,43,.85)}
+.title-block div{padding:9px 14px;border-right:1px solid rgba(207,225,245,.18)}
+.title-block div:last-child{border-right:none}
+.title-block b{display:block;font:600 16px/1.2 var(--cond);letter-spacing:.06em;color:var(--line);margin-top:4px;text-transform:uppercase}
+.title-block .no b{color:var(--paint)}
+.brand{position:absolute;left:64px;top:56px;display:flex;align-items:center;gap:14px}
+.brand img{height:34px;margin:0}
+.brand span{font:600 15px var(--mono);color:var(--muted);letter-spacing:.12em}
+
+.kicker{font:600 20px var(--mono);color:var(--paint);letter-spacing:.2em;text-transform:uppercase;margin:0 0 18px}
+.reveal h1,.reveal h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;color:#fff;letter-spacing:.01em;margin:0}
+.reveal h2{font-size:58px;line-height:1}
+.reveal p{margin:0}
+.head{position:absolute;left:96px;top:104px;right:96px}
+.head .lead{font-size:24px;line-height:1.5;color:var(--muted);margin-top:16px;max-width:1040px}
+
+/* Nhãn trạng thái tính năng — nói thật cái nào chạy, cái nào chưa */
+.status{position:absolute;right:96px;top:104px;font:600 14px var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  padding:8px 14px;border:1.5px solid currentColor;border-radius:3px}
+.status::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:10px;vertical-align:1px}
+.st-live{color:var(--ok)}
+.st-pilot{color:#f5c451}
+.st-dev{color:var(--steel)}
+.st-vision{color:#c49cff}
+
+/* Nét vẽ tự kẻ */
+.draw{stroke-dasharray:var(--len,3000);stroke-dashoffset:var(--len,3000)}
+section.present .draw{animation:draw var(--dur,2.4s) cubic-bezier(.6,.05,.3,1) forwards;animation-delay:var(--d,0s)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.rise{opacity:0;transform:translateY(16px)}
+section.present .rise{animation:rise .8s ease forwards;animation-delay:var(--d,0s)}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* Cột ý chính bên phải */
+.points{position:absolute;right:96px;width:380px;list-style:none;margin:0;padding:0}
+.points li{padding:16px 0 16px 0;border-top:1px solid rgba(207,225,245,.16);font-size:21px;line-height:1.45;color:var(--line)}
+.points li b{display:block;font:600 14px var(--mono);color:var(--paint);letter-spacing:.14em;margin-bottom:6px}
+.points li strong{color:#fff}
+
+/* Khung "màn hình" — giao diện minh hoạ trên nền bản vẽ */
+.screen{position:absolute;background:#f5f6f8;border-radius:10px;overflow:hidden;color:#1f2937;
+  box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 1px rgba(207,225,245,.25);font-family:var(--sans)}
+.screen .chrome{height:34px;background:#e6e9ee;display:flex;align-items:center;gap:7px;padding:0 14px;font:500 12px var(--mono);color:#6b7280}
+.screen .chrome i{width:10px;height:10px;border-radius:50%;background:#cbd2dc}
+.screen .chrome span{margin-left:10px}
+.screen .chrome em{margin-left:auto;font-style:normal;color:#b45309;background:#fef3c7;padding:3px 8px;border-radius:3px}
+.screen .body{padding:18px 20px}
+.screen .ttl{font:700 18px var(--sans);color:#111827;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.screen .ttl small{font:500 12px var(--mono);color:#6b7280}
+
+/* ================= BÌA ================= */
+.cover-art{position:absolute;left:0;right:0;top:350px;width:100%}
+.cover-text{position:absolute;left:96px;top:130px;max-width:860px}
+.cover-text h1{font-size:180px;line-height:.82;letter-spacing:-.01em}
+.cover-text h1 em{font-style:normal;color:var(--paint)}
+.cover-text .tag{font:300 32px/1.35 var(--sans);color:var(--line);margin-top:22px}
+.cover-text .tag strong{font-weight:600;color:#fff}
+.dim-label{font:500 15px var(--mono);fill:var(--muted)}
+.spark{fill:var(--paint);filter:drop-shadow(0 0 10px var(--paint)) drop-shadow(0 0 22px var(--paint))}
+
+/* ================= CÂU HỎI 30 GIÂY ================= */
+.qs{position:absolute;left:96px;top:200px;width:880px}
+.qs p.q{font:600 50px/1.18 var(--sans);color:#fff;margin:0 0 30px;display:flex;gap:26px}
+.qs p.q span{font:600 18px var(--mono);color:var(--paint);padding-top:18px;min-width:44px}
+.qs .q-foot{font:400 28px/1.45 var(--sans);color:var(--muted);margin-top:46px;padding-left:70px;border-left:3px solid var(--paint)}
+.qs .q-foot strong{color:#fff}
+.xsec{position:absolute;right:120px;top:210px;width:440px}
+.xsec text{font:500 15px var(--mono);fill:var(--muted)}
+
+/* ================= SO SÁNH ================= */
+.cmp{position:absolute;left:96px;right:96px;top:290px;display:grid;grid-template-columns:190px 1fr 1.3fr}
+.cmp .cell{padding:13px 22px;border-top:1px solid rgba(207,225,245,.16);font-size:22px;line-height:1.35}
+.cmp .k{font:600 19px var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding-left:0}
+.cmp .a{color:var(--muted)}
+.cmp .b{color:#fff;background:var(--paint-soft);border-left:3px solid var(--paint)}
+.cmp .b strong{color:var(--paint);font-weight:700}
+.cmp .h{border-top:none;font:700 28px var(--cond);text-transform:uppercase;letter-spacing:.04em;padding-bottom:10px}
+.cmp .h.a{color:var(--muted)}
+.cmp .h.b{color:var(--paint);background:none;border-left:3px solid var(--paint)}
+.cmp .h small{display:block;font:500 15px var(--mono);letter-spacing:.12em;color:var(--muted);margin-top:4px}
+.punch{position:absolute;left:96px;bottom:62px;font:500 28px var(--sans);color:#fff}
+.punch span{color:var(--paint)}
+
+/* ================= 5 NỖI ĐAU ================= */
+.pains{position:absolute;left:96px;right:96px;top:290px;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.pain{border:1px solid rgba(207,225,245,.2);border-top:3px solid var(--paint);background:rgba(11,26,43,.6);padding:24px 22px 26px;min-height:360px}
+.pain .n{font:700 76px/1 var(--cond);color:transparent;-webkit-text-stroke:1.5px var(--paint)}
+.pain h3{font:700 28px/1.1 var(--cond);text-transform:uppercase;color:#fff;margin:18px 0 14px;letter-spacing:.02em}
+.pain p{font-size:19px;line-height:1.5;color:var(--muted)}
+.pain p strong{color:var(--line)}
+
+/* ================= TRỤC 5 GIAI ĐOẠN ================= */
+.axis{position:absolute;left:96px;right:96px;top:310px;display:grid;grid-template-columns:repeat(5,1fr)}
+.stop{position:relative;padding:0 18px}
+.stop::before{content:"";position:absolute;top:34px;left:0;right:0;height:2px;background:var(--line-dim)}
+.stop:first-child::before{left:50%}
+.stop:last-child::before{right:50%}
+.stop .dot{position:relative;width:68px;height:68px;margin:0 auto 26px;border-radius:50%;border:2px solid var(--paint);background:var(--ink);
+  display:flex;align-items:center;justify-content:center;font:700 30px var(--cond);color:var(--paint)}
+.stop.shop .dot{background:var(--paint);color:var(--ink)}
+.stop h3{font:700 27px/1.1 var(--cond);text-transform:uppercase;color:#fff;text-align:center;margin:0 0 14px;letter-spacing:.02em}
+.stop .who{font:600 13px var(--mono);letter-spacing:.14em;color:var(--paint);text-align:center;text-transform:uppercase;margin-bottom:12px}
+.stop p{font-size:18px;line-height:1.5;color:var(--muted);text-align:center}
+.axis-foot{position:absolute;left:96px;top:660px;font:400 22px var(--sans);color:var(--muted)}
+.axis-foot b{color:var(--paint);font-weight:600}
+
+/* ================= BẢN ĐỒ 3 BĂNG ================= */
+.bands{position:absolute;left:96px;top:280px;width:1010px}
+.band{display:grid;grid-template-columns:190px 1fr;align-items:center;padding:20px 0;border-top:1px solid rgba(207,225,245,.16)}
+.band .lbl{font:700 22px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.band .lbl small{display:block;font:500 13px var(--mono);letter-spacing:.1em;margin-top:6px;color:var(--muted);opacity:.8;text-transform:none}
+.chips{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chip{font-size:18px;padding:10px 16px;border:1px solid rgba(207,225,245,.3);border-radius:4px;color:var(--line);background:rgba(11,26,43,.7)}
+.chip.main{border-color:var(--paint);color:#fff;background:var(--paint-soft)}
+.chip.aux{border-color:var(--steel);background:rgba(74,144,217,.12)}
+.band.core{background:linear-gradient(90deg,rgba(255,107,26,.08),transparent)}
+.band.core .lbl{color:var(--paint)}
+.band.core .chip{font-weight:600;color:#fff;border-color:rgba(255,107,26,.6)}
+.arrow{color:var(--paint);font:600 20px var(--mono)}
+.flowtag{font:500 13px var(--mono);color:var(--muted);letter-spacing:.1em;padding:4px 0 4px 190px;text-transform:uppercase}
+.flowtag i{font-style:normal;color:var(--paint)}
+.asks{position:absolute;right:96px;top:280px;width:330px;border:1.5px solid var(--paint);padding:22px 24px;background:rgba(255,107,26,.06)}
+.asks .t{font:600 14px var(--mono);letter-spacing:.16em;color:var(--paint);text-transform:uppercase;margin-bottom:12px}
+.asks div{padding:14px 0;border-top:1px solid rgba(207,225,245,.16)}
+.asks div:first-of-type{border-top:none}
+.asks strong{display:block;font:700 30px/1.1 var(--cond);color:#fff;text-transform:uppercase}
+.asks span{font:400 16px var(--mono);color:var(--muted)}
+
+/* ================= IFC → BOM ================= */
+.iso{position:absolute;left:80px;top:300px;width:560px}
+.iso text{font:500 14px var(--mono);fill:var(--muted)}
+.tree{position:absolute;left:700px;top:300px;width:470px;list-style:none;margin:0;padding:0}
+.tree li{position:relative;padding:12px 0 12px 0}
+.tree .lv{font:600 13px var(--mono);letter-spacing:.14em;color:var(--paint);text-transform:uppercase}
+.tree .nm{font:600 23px var(--sans);color:#fff;margin-top:3px}
+.tree .nm small{font:400 17px var(--sans);color:var(--muted)}
+.tree li.l1{margin-left:34px}.tree li.l2{margin-left:68px}.tree li.l3{margin-left:102px}
+.tree li.l1::before,.tree li.l2::before,.tree li.l3::before{content:"";position:absolute;left:-22px;top:0;height:34px;width:16px;
+  border-left:1.5px solid var(--line-dim);border-bottom:1.5px solid var(--line-dim)}
+.points.ifc{top:300px;width:300px}
+
+/* ================= GANTT ================= */
+.gantt .row{display:grid;grid-template-columns:150px 1fr;align-items:center;height:52px;border-top:1px solid #e5e7eb;font-size:14px}
+.gantt .row .nm{font:600 14px var(--sans);color:#111827}
+.gantt .row .nm small{display:block;font:400 11px var(--mono);color:#6b7280}
+.gantt .lane{position:relative;height:100%}
+.gantt .seg{position:absolute;top:12px;height:14px;border-radius:2px}
+.gantt .act{position:absolute;top:31px;height:5px;border-radius:2px;background:#111827;opacity:.75}
+.gantt .act.late{background:#dc2626;opacity:1}
+.gantt .hdr{display:grid;grid-template-columns:150px 1fr;font:500 12px var(--mono);color:#6b7280;height:26px;align-items:end}
+.gantt .months{position:relative;height:100%}
+.gantt .months span{position:absolute;bottom:4px}
+.gantt .today{position:absolute;top:0;bottom:0;width:0;border-left:2px dashed #ff6b1a}
+.gantt .months .today::after{content:"HÔM NAY";position:absolute;top:-2px;left:6px;font:600 10px var(--mono);color:#ff6b1a}
+.glegend{display:flex;gap:16px;font:500 12px var(--mono);color:#4b5563;margin-top:12px}
+.glegend i{display:inline-block;width:14px;height:8px;border-radius:2px;margin-right:6px;vertical-align:0}
+
+/* ================= TIẾN ĐỘ TRÊN BẢN VẼ ================= */
+.prog-art{position:absolute;left:70px;top:300px;width:1060px}
+.prog-art .seg{stroke:var(--line);stroke-width:1.2;transition:fill .5s ease}
+.prog-art .arch-seg{fill:none;stroke-width:16;stroke-linecap:butt;transition:stroke .5s ease}
+.prog-art .seg.flash,.prog-art .arch-seg.flash{filter:drop-shadow(0 0 10px #fff)}
+.legend{position:absolute;left:96px;bottom:118px;display:flex;gap:6px;flex-wrap:nowrap}
+.legend div{font:500 13px var(--mono);color:var(--muted);width:84px}
+.legend i{display:block;height:10px;border-radius:2px;margin-bottom:6px}
+.panel{position:absolute;right:96px;top:300px;width:370px}
+.big{font:700 120px/.85 var(--cond);color:#fff}
+.big sup{font-size:60px;color:var(--paint);vertical-align:top;margin-left:4px}
+.big-label{font:500 16px var(--mono);color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin:12px 0 26px}
+.bars div{display:grid;grid-template-columns:118px 1fr 34px;align-items:center;gap:10px;font:500 15px var(--mono);color:var(--muted);height:24px}
+.bars s{display:block;height:7px;background:rgba(207,225,245,.1);text-decoration:none;position:relative}
+.bars s u{position:absolute;inset:0 auto 0 0;background:var(--paint);transition:width .5s ease;width:0}
+.bars b{color:#fff;text-align:right;font-weight:600}
+.note{position:absolute;left:96px;bottom:52px;width:900px;font:400 15px/1.5 var(--mono);color:var(--muted);border-left:2px solid var(--paint);padding-left:12px}
+
+/* ================= TẢI TỔ × TUẦN ================= */
+.heat{border-collapse:collapse;width:100%;font:500 12px var(--mono)}
+.heat th{color:#6b7280;font-weight:500;padding:0 0 8px;text-align:center}
+.heat th:first-child{text-align:left}
+.heat td{height:40px;text-align:center;border:2px solid #f5f6f8;color:#fff;font-weight:600}
+.heat td:first-child{text-align:left;color:#111827;font:600 13px var(--sans);padding-right:10px;white-space:nowrap}
+.hlegend{display:flex;gap:18px;font:500 12px var(--mono);color:#4b5563;margin-top:14px}
+.hlegend i{display:inline-block;width:14px;height:10px;margin-right:6px;border-radius:2px}
+
+/* ================= BÁO CÁO ================= */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px 14px}
+.kpi small{display:block;font:500 11px var(--mono);color:#6b7280;text-transform:uppercase;letter-spacing:.06em}
+.kpi b{display:block;font:700 34px/1.1 var(--cond);color:#111827;margin-top:4px}
+.kpi em{font:600 12px var(--mono);font-style:normal;color:#059669}
+.kpi em.dn{color:#dc2626}
+.chart{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px 14px}
+.chart .ct{font:600 13px var(--sans);color:#111827;margin-bottom:8px;display:flex;gap:16px;align-items:center}
+.chart .ct span{font:500 11px var(--mono);color:#6b7280}
+.chart .ct i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.chart svg text{font:500 11px var(--mono);fill:#6b7280}
+
+/* ================= HAI DÒNG VẬT TƯ ================= */
+.flows{position:absolute;left:96px;top:290px;width:1408px}
+.flows text{font-family:var(--sans)}
+.flows .bx{fill:rgba(11,26,43,.85);stroke-width:1.5}
+.flows .t1{font:600 20px var(--sans);fill:#fff}
+.flows .t2{font:400 15px var(--mono);fill:var(--muted)}
+.flows .pathm{fill:none;stroke:var(--paint);stroke-width:3}
+.flows .patha{fill:none;stroke:var(--steel);stroke-width:3}
+.flows .dash{stroke-dasharray:8 8;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-16}}
+
+/* ================= AI ================= */
+.chat{width:640px}
+.msg{max-width:84%;padding:12px 16px;border-radius:12px;font-size:16px;line-height:1.5;margin-bottom:12px}
+.msg.u{margin-left:auto;background:#1f2937;color:#fff;border-bottom-right-radius:3px}
+.msg.a{background:#fff;border:1px solid #e5e7eb;color:#111827;border-bottom-left-radius:3px}
+.msg.a b{color:#c2410c}
+.msg.a small{display:block;margin-top:8px;font:500 11px var(--mono);color:#6b7280}
+.ai-cards{position:absolute;right:96px;top:300px;width:560px;display:grid;gap:16px}
+.ai-card{border:1px solid rgba(196,156,255,.4);background:rgba(196,156,255,.06);padding:20px 22px}
+.ai-card h3{font:700 26px/1.1 var(--cond);text-transform:uppercase;color:#fff;margin:0 0 8px}
+.ai-card p{font-size:18px;line-height:1.5;color:var(--muted)}
+
+/* ================= CASE ================= */
+.cases{position:absolute;left:96px;right:96px;top:290px;display:grid;grid-template-columns:1.15fr 1fr;gap:28px}
+.case{border:1px solid rgba(207,225,245,.22);background:rgba(11,26,43,.65);padding:28px 30px}
+.case .tg{font:600 14px var(--mono);letter-spacing:.16em;color:var(--paint);text-transform:uppercase}
+.case h3{font:700 44px/1 var(--cond);text-transform:uppercase;color:#fff;margin:10px 0 22px}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.nums div b{display:block;font:700 72px/.9 var(--cond);color:#fff}
+.nums div b small{font-size:30px;color:var(--paint);margin-left:4px}
+.nums div span{font:500 14px var(--mono);color:var(--muted);letter-spacing:.06em}
+.nums i.cnt{font-style:normal}
+.case p{font-size:19px;line-height:1.5;color:var(--muted)}
+.case p strong{color:var(--line)}
+.split{display:flex;height:34px;margin:6px 0 14px}
+.split div{display:flex;align-items:center;justify-content:center;font:600 14px var(--mono);color:var(--ink)}
+.case-foot{position:absolute;left:96px;bottom:62px;font:500 26px var(--sans);color:#fff}
+.case-foot span{color:var(--paint)}
+
+/* ================= LỘ TRÌNH ================= */
+.phases{position:absolute;left:96px;right:96px;top:300px;display:grid;grid-template-columns:4fr 7fr 8fr;gap:0}
+.phase{position:relative;padding:0 26px 0 0}
+.phase .barw{height:14px;background:var(--paint);margin-bottom:22px;position:relative}
+.phase:nth-child(2) .barw{background:#ff8f4d}
+.phase:nth-child(3) .barw{background:#ffb380}
+.phase .barw::after{content:"";position:absolute;right:-1px;top:-6px;bottom:-6px;width:2px;background:var(--ink)}
+.phase .wk{font:600 15px var(--mono);color:var(--paint);letter-spacing:.12em}
+.phase h3{font:700 32px/1.05 var(--cond);text-transform:uppercase;color:#fff;margin:8px 0 14px}
+.phase ul{margin:0;padding:0 0 0 18px;font-size:19px;line-height:1.55;color:var(--muted)}
+.phase li{margin:4px 0}
+.phase li::marker{color:var(--paint)}
+.along{position:absolute;left:96px;right:96px;top:640px;border-top:1px dashed var(--line-dim);padding-top:18px;display:flex;gap:40px;font-size:19px;color:var(--line)}
+.along b{font:600 14px var(--mono);color:var(--paint);letter-spacing:.14em;margin-right:10px}
+
+/* ================= KẾT ================= */
+.end-art{position:absolute;left:0;right:0;top:470px;width:100%;opacity:.55}
+.end-text{position:absolute;left:96px;top:140px;width:900px}
+.end-text h2{font-size:110px;line-height:1.02;margin-top:34px}
+.end-text h2 em{font-style:normal;color:var(--paint)}
+.end-text p.sub{font:300 30px/1.4 var(--sans);margin-top:26px}
+.end-text p strong{font-weight:600;color:#fff}
+.contact{position:absolute;right:96px;top:140px;width:420px;border:1.5px solid var(--line-dim);background:rgba(11,26,43,.85);padding:26px 28px}
+.contact img{height:40px;margin:0 0 16px}
+.contact h3{font:700 24px/1.2 var(--cond);text-transform:uppercase;color:#fff;margin:0 0 14px}
+.contact p{font-size:17px;line-height:1.55;color:var(--muted);margin:0 0 10px}
+.contact p b{color:var(--line);font-weight:600}
+.contact .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.contact .tags span{font:500 13px var(--mono);border:1px solid rgba(207,225,245,.3);padding:5px 9px;color:var(--line)}
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- ============ 01 · BÌA ============ -->
+<section data-tb="Trang bìa">
+  <div class="brand rise"><img src="../_CHUNG/ASSETS/logo-vci-white.png" alt="VCI"><span>CÔNG NGHỆ SỐ VCI</span></div>
+  <svg class="cover-art" id="coverArt" viewBox="0 0 1600 520" aria-hidden="true"></svg>
+  <div class="cover-text">
+    <p class="kicker rise" style="--d:1.6s">Hệ thống điều hành xưởng kết cấu thép</p>
+    <h1 class="rise" style="--d:1.8s">VCI <em>MES</em></h1>
+    <p class="tag rise" style="--d:2.1s">Từ <strong>bản vẽ</strong> đến <strong>công trường</strong> — mỗi cấu kiện, mỗi mẻ thép, mỗi giờ công đều có chỗ trên một hệ thống.</p>
+  </div>
+  <aside class="notes">Mở bằng hình cây cầu tự vẽ ra. Một câu: VCI MES là hệ thống điều hành xưởng dành riêng cho chế tạo kết cấu thép theo dự án — không phải ERP chung chung.</aside>
+</section>
+
+<!-- ============ 02 · CÂU HỎI 30 GIÂY ============ -->
+<section data-tb="Câu hỏi 30 giây">
+  <div class="qs">
+    <p class="kicker rise">Thử trả lời trong 30 giây</p>
+    <p class="q rise" style="--d:.3s"><span>?01</span>Đốt vòm N3AR-7 đang ở công đoạn nào?</p>
+    <p class="q rise" style="--d:.9s"><span>?02</span>Thép của nó lấy từ mẻ nào?</p>
+    <p class="q rise" style="--d:1.5s"><span>?03</span>Tổ nào đang làm, đã tốn bao nhiêu giờ công?</p>
+    <p class="q-foot rise" style="--d:2.3s">Nếu phải gọi ba cuộc điện thoại và mở một file Excel để trả lời — <strong>đó là lúc xưởng cần VCI MES.</strong></p>
+  </div>
+  <svg class="xsec" viewBox="0 0 440 520" aria-hidden="true">
+    <!-- mặt cắt hộp đốt vòm -->
+    <g stroke="var(--line)" fill="none" stroke-width="2">
+      <path class="draw" style="--len:1300;--d:.2s" d="M80,70 H360 V400 H80 Z"/>
+      <path class="draw" style="--len:1200;--d:.5s" d="M104,94 H336 V376 H104 Z" stroke-width="1.2"/>
+      <path class="draw" style="--len:400;--d:.9s" d="M104,180 H336 M104,290 H336" stroke-width="1" stroke-dasharray="6 6"/>
+      <path class="draw" style="--len:600;--d:1.1s" d="M40,70 V400 M30,70 H50 M30,400 H50 M80,450 H360 M80,440 V460 M360,440 V460" stroke="var(--line-dim)" stroke-width="1"/>
+    </g>
+    <circle cx="220" cy="235" r="7" class="spark"/>
+    <text x="80" y="40" class="rise" style="--d:1.4s">MẶT CẮT ĐỐT VÒM · N3AR-7</text>
+    <text x="80" y="490" class="rise" style="--d:1.6s">KL 74,9 t · NHỊP TC3-TC4 · THĐ</text>
+  </svg>
+  <aside class="notes">Đốt N3AR-7 là đốt vòm thật của cầu Trần Hưng Đạo (74,9 tấn). Hỏi khán giả: ở xưởng anh/chị, trả lời 3 câu này mất bao lâu?</aside>
+</section>
+
+<!-- ============ 03 · VÌ SAO ERP THÔNG THƯỜNG KHÔNG VỪA ============ -->
+<section data-tb="Bài toán khác biệt">
+  <div class="head">
+    <p class="kicker rise">Vì sao ERP thông thường không vừa</p>
+    <h2 class="rise" style="--d:.15s">Xưởng thép theo dự án<br>không phải nhà máy làm hàng loạt</h2>
+  </div>
+  <div class="cmp">
+    <div class="cell k h"></div>
+    <div class="cell a h rise" style="--d:.3s">Sản xuất hàng loạt<small>ERP / MES phổ thông thiết kế cho</small></div>
+    <div class="cell b h rise" style="--d:.4s">Kết cấu thép theo dự án<small>VCI MES thiết kế cho</small></div>
+
+    <div class="cell k rise" style="--d:.55s">Sản phẩm</div>
+    <div class="cell a rise" style="--d:.6s">Một mã hàng, làm lại nhiều lần trong nhiều năm</div>
+    <div class="cell b rise" style="--d:.65s">Mỗi cấu kiện là <strong>một mã riêng</strong>, chỉ làm một lần cho một công trình</div>
+
+    <div class="cell k rise" style="--d:.75s">Định mức</div>
+    <div class="cell a rise" style="--d:.8s">Lập một lần, dùng lại mãi</div>
+    <div class="cell b rise" style="--d:.85s">Bóc tách lại <strong>từ bản vẽ</strong> cho từng dự án</div>
+
+    <div class="cell k rise" style="--d:.95s">Vật tư chính</div>
+    <div class="cell a rise" style="--d:1s">Nhà máy tự mua, tự chịu tiền</div>
+    <div class="cell b rise" style="--d:1.05s">Thép, sơn là <strong>tiền của chủ đầu tư</strong> — chung kho với vật tư phụ của xưởng</div>
+
+    <div class="cell k rise" style="--d:1.15s">Truy xuất</div>
+    <div class="cell a rise" style="--d:1.2s">Tuỳ ngành, nhiều nơi không bắt buộc</div>
+    <div class="cell b rise" style="--d:1.25s">Bắt buộc: chứng minh từng tấm thép <strong>đến từ mẻ nào</strong> để nghiệm thu</div>
+
+    <div class="cell k rise" style="--d:1.35s">Kết thúc</div>
+    <div class="cell a rise" style="--d:1.4s">Nhập kho thành phẩm, chờ bán</div>
+    <div class="cell b rise" style="--d:1.45s">Giao <strong>từng lô theo nhịp lắp dựng</strong>, quyết toán vật tư với chủ đầu tư</div>
+  </div>
+  <p class="punch rise" style="--d:1.8s">Ép bài toán này vào ERP chuẩn = <span>Excel chạy song song mãi mãi.</span></p>
+  <aside class="notes">Đây là slide định vị. Không chê đối thủ — chỉ nói họ được thiết kế cho bài toán khác.</aside>
+</section>
+
+<!-- ============ 04 · 5 NỖI ĐAU ============ -->
+<section data-tb="Năm nỗi đau">
+  <div class="head">
+    <p class="kicker rise">Những gì xưởng đang gánh</p>
+    <h2 class="rise" style="--d:.15s">Năm chỗ việc hay rơi mất</h2>
+  </div>
+  <div class="pains">
+    <div class="pain rise" style="--d:.3s"><div class="n">01</div><h3>Định mức làm lại từ đầu</h3><p>Mỗi dự án <strong>bóc tách lại toàn bộ chi tiết</strong> từ bản vẽ, gõ tay vào Excel. Bản vẽ đổi là làm lại.</p></div>
+    <div class="pain rise" style="--d:.45s"><div class="n">02</div><h3>Tiến độ nằm trong Excel &amp; Zalo</h3><p>Mỗi tổ một file, mỗi người một con số. <strong>Tổng hợp mất cả ngày</strong>, đến tay lãnh đạo đã cũ.</p></div>
+    <div class="pain rise" style="--d:.6s"><div class="n">03</div><h3>Thép chủ đầu tư lẫn vật tư phụ</h3><p>Chung một kho, khác người trả tiền. <strong>Quyết toán cuối dự án</strong> thành cuộc đối chiếu kéo dài.</p></div>
+    <div class="pain rise" style="--d:.75s"><div class="n">04</div><h3>Không truy được mẻ thép</h3><p>Nhập kho thiếu chứng chỉ thì <strong>không dựng lại được hồ sơ nghiệm thu</strong> — điều kiện để công trình được nhận.</p></div>
+    <div class="pain rise" style="--d:.9s"><div class="n">05</div><h3>Không thấy tải tổ &amp; máy</h3><p>Tổ này quá tải, tổ kia ngồi chờ. <strong>Biết khi đã trễ</strong> nhịp lắp dựng ngoài công trường.</p></div>
+  </div>
+  <aside class="notes">Mời khán giả chọn nỗi đau lớn nhất của họ — dẫn vào demo đúng chỗ đó.</aside>
+</section>
+
+<!-- ============ 05 · TRỤC DỰ ÁN ============ -->
+<section data-tb="Giải pháp tổng thể">
+  <div class="head">
+    <p class="kicker rise">Giải pháp trên một trang</p>
+    <h2 class="rise" style="--d:.15s">Một trục dự án — từ hợp đồng tới công trường</h2>
+  </div>
+  <div class="axis">
+    <div class="stop rise" style="--d:.3s"><div class="dot">01</div><h3>Hợp đồng &amp; hồ sơ</h3><div class="who">Kinh doanh · PM</div><p>Đơn hàng và hạng mục giao; phụ lục ghi rõ vật tư nào ai cấp</p></div>
+    <div class="stop rise" style="--d:.5s"><div class="dot">02</div><h3>Bóc tách &amp; định mức</h3><div class="who">Kỹ thuật</div><p>Mã cấu kiện, định mức thép, quy trình chế tạo — từ bản vẽ và mô hình 3D</p></div>
+    <div class="stop rise" style="--d:.7s"><div class="dot">03</div><h3>Kế hoạch &amp; lệnh</h3><div class="who">Phòng kế hoạch</div><p>Kế hoạch tổng thể → chi tiết → lệnh sản xuất; nhu cầu thép theo đợt</p></div>
+    <div class="stop shop rise" style="--d:.9s"><div class="dot">04</div><h3>Chế tạo tại xưởng</h3><div class="who">Quản đốc · tổ thợ</div><p>Báo công đoạn trên máy tính bảng; giờ công, giờ máy, sản lượng</p></div>
+    <div class="stop rise" style="--d:1.1s"><div class="dot">05</div><h3>Nghiệm thu &amp; giao</h3><div class="who">KCS · kho</div><p>Kết quả kiểm tra kèm ảnh; giao lô theo nhịp lắp; quyết toán thép</p></div>
+  </div>
+  <p class="axis-foot rise" style="--d:1.4s">Văn phòng dùng web · <b>Giai đoạn 04 chạy trên máy tính bảng ngay tại xưởng</b></p>
+  <aside class="notes">Mỗi ô là một khối việc có người chịu trách nhiệm. Chỗ chuyển giữa các ô là chỗ việc hay rơi — hệ thống giữ điều kiện bàn giao.</aside>
+</section>
+
+<!-- ============ 06 · BẢN ĐỒ 3 BĂNG ============ -->
+<section data-tb="Bản đồ tổng thể">
+  <div class="head">
+    <p class="kicker rise">Đọc trong 30 giây</p>
+    <h2 class="rise" style="--d:.15s">Ba băng dữ liệu, ba câu hỏi của lãnh đạo</h2>
+  </div>
+  <div class="bands">
+    <div class="band rise" style="--d:.3s"><div class="lbl">Kho &amp; vật tư<small>vật tư ở đâu ra, ai trả tiền</small></div>
+      <div class="chips"><span class="chip main">Thép · sơn — tiền chủ đầu tư</span><span class="chip aux">Vật tư phụ — tiền xưởng</span><span class="chip">Nhập · xuất · tồn</span><span class="chip">Mẻ thép &amp; chứng chỉ</span></div></div>
+    <div class="flowtag rise" style="--d:.45s"><i>▼</i> vật tư cấp xuống theo lệnh</div>
+    <div class="band core rise" style="--d:.55s"><div class="lbl">Trục dự án<small>việc theo thứ tự thời gian</small></div>
+      <div class="chips"><span class="chip">Hợp đồng</span><span class="arrow">→</span><span class="chip">Bóc tách</span><span class="arrow">→</span><span class="chip">Lệnh</span><span class="arrow">→</span><span class="chip">Xưởng</span><span class="arrow">→</span><span class="chip">Giao</span></div></div>
+    <div class="flowtag rise" style="--d:.7s"><i>▲</i> năng lực xưởng đẩy lên</div>
+    <div class="band rise" style="--d:.8s"><div class="lbl">Nguồn lực xưởng<small>ai và máy nào làm</small></div>
+      <div class="chips"><span class="chip">Tổ sản xuất</span><span class="chip">Máy &amp; thiết bị</span><span class="chip">Công đoạn &amp; quy trình</span><span class="chip">Giờ công</span></div></div>
+  </div>
+  <div class="asks rise" style="--d:1.1s">
+    <div class="t">Lãnh đạo hỏi — hệ thống trả lời</div>
+    <div><strong>Xong bao nhiêu?</strong><span>tiến độ theo tấn &amp; công đoạn</span></div>
+    <div><strong>Chế tạo tốn bao nhiêu?</strong><span>giờ công · giờ máy · vật tư phụ</span></div>
+    <div><strong>Thép đi đâu hết?</strong><span>truy theo mẻ, quyết toán với CĐT</span></div>
+  </div>
+  <aside class="notes">Băng giữa là việc, băng trên là vật tư, băng dưới là người và máy. Mọi dữ liệu rơi về ba câu hỏi bên phải.</aside>
+</section>
+
+<!-- ============ 07 · TỪ MÔ HÌNH 3D ĐẾN BOM ============ -->
+<section data-tb="Từ mô hình đến BOM">
+  <div class="head">
+    <p class="kicker rise">Bóc tách · định mức</p>
+    <h2 class="rise" style="--d:.15s">Từ mô hình 3D thẳng ra BOM</h2>
+  </div>
+  <span class="status st-pilot rise" style="--d:.3s">Chạy thử · Nhịp TC3-TC4</span>
+  <svg class="iso" viewBox="0 0 560 420" aria-hidden="true">
+    <g fill="none" stroke="var(--line)" stroke-width="1.8">
+      <!-- hộp đốt vòm phối cảnh -->
+      <path class="draw" style="--len:900;--d:.3s" d="M60,150 L330,60 L500,130 L230,220 Z"/>
+      <path class="draw" style="--len:900;--d:.6s" d="M60,150 V320 L230,390 V220 M230,390 L500,300 V130"/>
+      <path class="draw" style="--len:700;--d:.9s" stroke="var(--line-dim)" stroke-dasharray="5 6" d="M60,320 L330,230 L500,300 M330,230 V60"/>
+      <path class="draw" style="--len:800;--d:1.2s" stroke="var(--paint)" stroke-width="1.4" d="M105,168 V335 M150,186 V354 M195,205 V372 M275,205 V375 M320,190 V360 M365,175 V345 M410,160 V330 M455,145 V315"/>
+    </g>
+    <text x="60" y="40" class="rise" style="--d:1.4s">MÔ HÌNH IFC · ĐỐT VÒM N3AR-3</text>
+    <text x="300" y="412" class="rise" style="--d:1.6s">→ CÂY LẮP RÁP</text>
+  </svg>
+  <ul class="tree">
+    <li class="rise" style="--d:1s"><div class="lv">LOT</div><div class="nm">Nhịp TC3-TC4 <small>· cầu Trần Hưng Đạo</small></div></li>
+    <li class="l1 rise" style="--d:1.2s"><div class="lv">Đốt</div><div class="nm">Đốt vòm số 3 · N3AR-3 <small>· 65,6 t</small></div></li>
+    <li class="l2 rise" style="--d:1.4s"><div class="lv">Cấu kiện</div><div class="nm">Panel bụng · panel cánh · vách ngăn</div></li>
+    <li class="l3 rise" style="--d:1.6s"><div class="lv">Chi tiết</div><div class="nm">Tấm, sườn <small>· quy cách, khối lượng, mã vật liệu</small></div></li>
+  </ul>
+  <ul class="points ifc">
+    <li class="rise" style="--d:1.8s"><b>01</b>Đọc khối lượng <strong>thẳng từ mô hình IFC</strong> — không gõ lại BOM.</li>
+    <li class="rise" style="--d:2s"><b>02</b>Cây nhiều cấp: <strong>LOT → đốt → cấu kiện → chi tiết</strong>.</li>
+    <li class="rise" style="--d:2.2s"><b>03</b>Tiến độ <strong>cộng dồn từ dưới lên</strong>; bản vẽ đổi thì so phiên bản BOM.</li>
+  </ul>
+  <aside class="notes">Đang chạy thử trên mô hình IFC nhịp TC3-TC4. Đối thủ (BRAVO, MESCore, ERPNext) đều khai định mức thủ công.</aside>
+</section>
+
+<!-- ============ 08 · KẾ HOẠCH SẢN XUẤT ============ -->
+<section data-tb="Kế hoạch sản xuất">
+  <div class="head">
+    <p class="kicker rise">Kế hoạch · lệnh sản xuất</p>
+    <h2 class="rise" style="--d:.15s">Kế hoạch và thực tế — hai dòng song song</h2>
+  </div>
+  <span class="status st-live rise" style="--d:.3s">Đang chạy</span>
+  <div class="screen rise" style="left:96px;top:280px;width:980px;--d:.4s">
+    <div class="chrome"><i></i><i></i><i></i><span>VCI MES / Kế hoạch sản xuất / Nhịp TC3-TC4</span><em>Giao diện minh hoạ</em></div>
+    <div class="body">
+      <div class="ttl">Gantt đốt vòm <small>Cắt → Lắp → Hàn → Tổ hợp → Sơn</small></div>
+      <div class="gantt" id="gantt"></div>
+      <div class="glegend" id="glegend"></div>
+    </div>
+  </div>
+  <ul class="points" style="top:280px">
+    <li class="rise" style="--d:.8s"><b>01</b>Kế hoạch <strong>tổng thể → chi tiết → lệnh</strong>, bám ngày lắp dựng ngoài công trường.</li>
+    <li class="rise" style="--d:1s"><b>02</b>Thực tế <strong>không bị ép theo ngày kế hoạch</strong> — chạy dòng riêng, lệch là thấy ngay.</li>
+    <li class="rise" style="--d:1.2s"><b>03</b>Xem theo <strong>một dự án, nhiều dự án hoặc toàn công ty</strong>.</li>
+  </ul>
+  <aside class="notes">Tên đốt và ngày bắt đầu cắt lấy từ kế hoạch thật nhịp TC3-TC4; các công đoạn sau là minh hoạ.</aside>
+</section>
+
+<!-- ============ 09 · TIẾN ĐỘ TÔ TRÊN BẢN VẼ ============ -->
+<section data-tb="Tiến độ trên bản vẽ" id="progSlide">
+  <div class="head">
+    <p class="kicker rise">Theo dõi tiến độ · 11 công đoạn</p>
+    <h2 class="rise" style="--d:.15s">Bản vẽ tự đổi màu theo xưởng</h2>
+    <p class="lead rise" style="--d:.3s">Tổ trưởng chạm vào cấu kiện trên bản vẽ để báo công đoạn vừa xong. Ban điều hành nhìn một màu là biết nhịp nào đang chậm, không cần gọi điện hỏi.</p>
+  </div>
+  <span class="status st-pilot rise" style="--d:.3s">Chạy thử · TC1-TC2</span>
+  <svg class="prog-art" id="progArt" viewBox="0 0 1100 420" aria-hidden="true"></svg>
+  <div class="legend" id="legend"></div>
+  <div class="panel">
+    <div class="big"><span id="pct">0</span><sup>%</sup></div>
+    <p class="big-label">Tiến độ toàn nhịp</p>
+    <div class="bars" id="bars"></div>
+  </div>
+  <p class="note">% tiến độ = Σ công đoạn đã đạt ÷ (11 × số vị trí). Hình minh hoạ cơ chế — bản demo chạy dữ liệu thật cầu Trần Hưng Đạo.</p>
+  <aside class="notes">11 công đoạn là danh mục thật của xưởng. Tỷ lệ giá trị từng công đoạn dùng để quy đổi sang sản lượng tấn.</aside>
+</section>
+
+<!-- ============ 10 · KẾ HOẠCH NGUỒN LỰC ============ -->
+<section data-tb="Kế hoạch nguồn lực">
+  <div class="head">
+    <p class="kicker rise">Nhân sự · máy · sản lượng</p>
+    <h2 class="rise" style="--d:.15s">Thấy tuần quá tải trước khi nó đến</h2>
+  </div>
+  <span class="status st-live rise" style="--d:.3s">Đang chạy</span>
+  <div class="screen rise" style="left:96px;top:280px;width:980px;--d:.4s">
+    <div class="chrome"><i></i><i></i><i></i><span>VCI MES / Kế hoạch nguồn lực / Toàn công ty</span><em>Giao diện minh hoạ</em></div>
+    <div class="body">
+      <div class="ttl">Tải tổ sản xuất theo tuần <small>% năng lực · người × ngày</small></div>
+      <table class="heat" id="heat"></table>
+      <div class="hlegend"><span><i style="background:#c7d4e3"></i>&lt; 70%</span><span><i style="background:#4a7fb5"></i>70–100%</span><span><i style="background:#ff6b1a"></i>&gt; 100% quá tải</span></div>
+    </div>
+  </div>
+  <ul class="points" style="top:280px">
+    <li class="rise" style="--d:.8s"><b>01</b>Khai <strong>tổ, máy, vật tư</strong> ngay trên công việc của kế hoạch.</li>
+    <li class="rise" style="--d:1s"><b>02</b>Tải <strong>người × ngày, máy × ngày</strong> tự cộng từ Gantt — không lập bảng riêng.</li>
+    <li class="rise" style="--d:1.2s"><b>03</b>Điều tổ <strong>trước khi trễ</strong>, xem toàn công ty hoặc từng dự án.</li>
+  </ul>
+  <aside class="notes">Màn 3 tab: Nhân sự · Máy · Sản lượng. Ô cam là tuần quá tải — câu hỏi điều phối bắt đầu từ đây.</aside>
+</section>
+
+<!-- ============ 11 · BÁO CÁO & ĐIỀU HÀNH ============ -->
+<section data-tb="Báo cáo &amp; điều hành">
+  <div class="head">
+    <p class="kicker rise">Báo cáo sản lượng · giờ công · bảng điều hành</p>
+    <h2 class="rise" style="--d:.15s">Số liệu từ chính thao tác của xưởng</h2>
+  </div>
+  <span class="status st-live rise" style="--d:.3s">Đang chạy</span>
+  <div class="screen rise" style="left:96px;top:280px;width:980px;--d:.4s">
+    <div class="chrome"><i></i><i></i><i></i><span>VCI MES / Bảng điều hành / Tháng 10</span><em>Số liệu minh hoạ</em></div>
+    <div class="body">
+      <div class="kpis">
+        <div class="kpi"><small>Sản lượng quy đổi</small><b>412 t</b><em>▲ 8% so KH</em></div>
+        <div class="kpi"><small>Giờ công</small><b>18.640</b><em>giờ</em></div>
+        <div class="kpi"><small>Giờ công / tấn</small><b>45,2</b><em class="dn">▲ 3,1 vượt định mức</em></div>
+        <div class="kpi"><small>Đốt đúng nhịp lắp</small><b>92%</b><em>23 / 25 đốt</em></div>
+      </div>
+      <div class="chart">
+        <div class="ct">Sản lượng theo tuần (tấn) <span><i style="background:#cbd5e1"></i>Kế hoạch</span><span><i style="background:#ff6b1a"></i>Thực tế</span></div>
+        <svg id="repChart" viewBox="0 0 920 230" width="100%"></svg>
+      </div>
+    </div>
+  </div>
+  <ul class="points" style="top:280px">
+    <li class="rise" style="--d:.8s"><b>01</b>Sản lượng <strong>quy đổi tấn theo tỷ lệ công đoạn</strong> — không chờ xong cả đốt.</li>
+    <li class="rise" style="--d:1s"><b>02</b>Giờ công <strong>theo dự án, theo tổ</strong> — lấy từ báo công, không chấm tay lại.</li>
+    <li class="rise" style="--d:1.2s"><b>03</b>Lãnh đạo xem <strong>một màn hình</strong>, không chờ báo cáo tuần.</li>
+  </ul>
+  <aside class="notes">Mọi con số trên màn này là minh hoạ. Demo thật dùng dữ liệu báo công của xưởng.</aside>
+</section>
+
+<!-- ============ 12 · HAI DÒNG VẬT TƯ ============ -->
+<section data-tb="Hai dòng vật tư">
+  <div class="head">
+    <p class="kicker rise">Kho · truy xuất mẻ thép</p>
+    <h2 class="rise" style="--d:.15s">Một kho, hai người trả tiền</h2>
+  </div>
+  <span class="status st-dev rise" style="--d:.3s">Đang phát triển</span>
+  <svg class="flows" viewBox="0 0 1408 440" aria-hidden="true">
+    <!-- dòng vật tư chính -->
+    <path class="pathm draw" style="--len:400;--d:.5s" d="M290,60 C350,60 360,120 420,120"/>
+    <path class="pathm draw dash" style="--len:400;--d:.6s" d="M290,180 C350,180 360,120 420,120"/>
+    <path class="pathm draw" style="--len:300;--d:.9s" d="M690,120 C740,120 740,200 790,200"/>
+    <path class="patha draw" style="--len:300;--d:.9s" d="M690,330 C740,330 740,240 790,240"/>
+    <path class="patha draw" style="--len:200;--d:.6s" d="M290,330 H420"/>
+    <path class="pathm draw" style="--len:400;--d:1.3s" d="M1010,200 C1070,200 1070,90 1130,90"/>
+    <path class="patha draw" style="--len:400;--d:1.3s" d="M1010,240 C1070,240 1070,340 1130,340"/>
+    <g class="rise" style="--d:.2s">
+      <rect class="bx" x="0" y="25" width="290" height="70" stroke="var(--paint)"/><text class="t1" x="20" y="57">Chủ đầu tư giao thẳng</text><text class="t2" x="20" y="80">đơn giá = 0</text>
+      <rect class="bx" x="0" y="145" width="290" height="70" stroke="var(--paint)" stroke-dasharray="6 5"/><text class="t1" x="20" y="177">Xưởng mua hộ (uỷ quyền)</text><text class="t2" x="20" y="200">chi hộ, ngoài giá vốn</text>
+      <rect class="bx" x="0" y="295" width="290" height="70" stroke="var(--steel)"/><text class="t1" x="20" y="327">Đơn mua của xưởng</text><text class="t2" x="20" y="350">giá mua thực tế</text>
+    </g>
+    <g class="rise" style="--d:.7s">
+      <rect class="bx" x="420" y="80" width="270" height="80" stroke="var(--paint)"/><text class="t1" x="440" y="114">Vật tư chính</text><text class="t2" x="440" y="140">thép tấm, thép hình, sơn</text>
+      <rect class="bx" x="420" y="290" width="270" height="80" stroke="var(--steel)"/><text class="t1" x="440" y="324">Vật tư phụ</text><text class="t2" x="440" y="350">que hàn, khí, đá cắt</text>
+    </g>
+    <g class="rise" style="--d:1.1s">
+      <rect class="bx" x="790" y="165" width="220" height="110" stroke="var(--line)"/><text class="t1" x="810" y="205">Kho → Xưởng</text><text class="t2" x="810" y="231">trừ kho theo lệnh</text><text class="t2" x="810" y="255">ghi số mẻ trên phiếu</text>
+    </g>
+    <g class="rise" style="--d:1.5s">
+      <rect class="bx" x="1130" y="45" width="278" height="90" stroke="var(--paint)"/><text class="t1" x="1150" y="81">Quyết toán với CĐT</text><text class="t2" x="1150" y="107">khối lượng theo từng mẻ</text>
+      <rect class="bx" x="1130" y="295" width="278" height="90" stroke="var(--steel)"/><text class="t1" x="1150" y="331">Giá vốn chế tạo</text><text class="t2" x="1150" y="357">giờ công · giờ máy · VT phụ</text>
+    </g>
+  </svg>
+  <p class="punch rise" style="--d:1.9s">Nhập kho thiếu chứng chỉ mẻ = <span>mất hồ sơ nghiệm thu.</span></p>
+  <aside class="notes">Nói rõ: tách chủ sở hữu vật tư và truy theo mẻ là phần đang phát triển. Đây là khác biệt mà ERP chuẩn không có.</aside>
+</section>
+
+<!-- ============ 13 · AI TRONG XƯỞNG ============ -->
+<section data-tb="AI trong xưởng">
+  <div class="head">
+    <p class="kicker rise">Bước tiếp theo</p>
+    <h2 class="rise" style="--d:.15s">Hỏi xưởng bằng tiếng Việt</h2>
+  </div>
+  <span class="status st-vision rise" style="--d:.3s">Định hướng</span>
+  <div class="screen chat rise" style="left:96px;top:280px;--d:.4s">
+    <div class="chrome"><i></i><i></i><i></i><span>VCI MES · Trợ lý</span><em>Minh hoạ</em></div>
+    <div class="body">
+      <div class="msg u">Nhịp TC3-TC4 tuần này chậm ở đâu?</div>
+      <div class="msg a">3 đốt vòm đang chậm ở <b>Hàn block</b>, chậm nhất là <b>N3AR-7 (5 ngày)</b>. Tổ hàn 2 đang tải 128%. Có thể điều 2 thợ từ Tổ hàn 3 sang trong tuần 44.<small>Nguồn: báo công · kế hoạch nguồn lực · cập nhật 07:30</small></div>
+      <div class="msg u">Lập giúp báo cáo tuần gửi chủ đầu tư.</div>
+      <div class="msg a">Đã soạn bản nháp: sản lượng quy đổi, đốt đã nghiệm thu, đốt dự kiến giao tuần sau. <b>Xem &amp; duyệt →</b></div>
+    </div>
+  </div>
+  <div class="ai-cards">
+    <div class="ai-card rise" style="--d:.8s"><h3>Hỏi đáp tiến độ</h3><p>Hỏi bằng câu thường, trả lời từ dữ liệu báo công và kế hoạch — kèm nguồn.</p></div>
+    <div class="ai-card rise" style="--d:1s"><h3>Ảnh hiện trường tự gắn cấu kiện</h3><p>Chụp ảnh tại xưởng, hệ thống gợi ý đốt / cấu kiện và công đoạn tương ứng.</p></div>
+    <div class="ai-card rise" style="--d:1.2s"><h3>Cảnh báo sớm</h3><p>Từ định mức và tốc độ thực tế, báo trước đốt nào có nguy cơ trễ nhịp lắp dựng.</p></div>
+  </div>
+  <aside class="notes">Đây là định hướng, chưa phải tính năng đang chạy. Nền tảng là dữ liệu sạch từ các màn trước.</aside>
+</section>
+
+<!-- ============ 14 · DỰ ÁN THỰC TẾ ============ -->
+<section data-tb="Dự án thực tế">
+  <div class="head">
+    <p class="kicker rise">Hạ Long EPC · Công ty CP Công nghiệp Xanh Hạ Long EPC</p>
+    <h2 class="rise" style="--d:.15s">Bài toán thật, quy mô thật</h2>
+  </div>
+  <div class="cases">
+    <div class="case rise" style="--d:.3s">
+      <div class="tg">Cầu vòm thép</div>
+      <h3>Cầu Trần Hưng Đạo</h3>
+      <div class="nums">
+        <div><b data-count="53">0</b><span>đốt dầm &amp; vòm</span></div>
+        <div><b><i class="cnt" data-count="3913">0</i><small>t</small></b><span>thép · 2 nhịp</span></div>
+        <div><b data-count="11">0</b><span>công đoạn theo dõi</span></div>
+      </div>
+      <p>Nhịp <strong>TC1-TC2</strong> và <strong>TC3-TC4</strong> chế tạo tại Hạ Long EPC; nhịp <strong>TC4-TC5</strong> phối hợp với nhà máy MTSC — cùng bám một tiến độ lắp dựng.</p>
+    </div>
+    <div class="case rise" style="--d:.5s">
+      <div class="tg">Cầu dẫn</div>
+      <h3>Cầu Tứ Liên</h3>
+      <div class="nums" style="grid-template-columns:1fr 1fr">
+        <div><b data-count="66">0</b><span>block cầu dẫn</span></div>
+        <div><b data-count="3">0</b><span>nhà máy chế tạo</span></div>
+      </div>
+      <div class="split"><div style="flex:20;background:var(--paint)">HL EPC · 20</div><div style="flex:23;background:#ffb380">Hestus · 23</div><div style="flex:23;background:#c7d4e3">Rồng Việt · 23</div></div>
+      <p>Mỗi block qua <strong>cắt → lắp panel → hàn → tổ hợp hộp → tổ hợp thử</strong>, chia cho ba nhà máy.</p>
+    </div>
+  </div>
+  <p class="case-foot rise" style="--d:.9s">Nhiều nhịp, nhiều nhà máy — <span>một tiến độ lắp dựng.</span></p>
+  <aside class="notes">Số đốt và khối lượng lấy từ bảng tiến độ tổng thể THĐ (Sumary) và bảng phân chia block Tứ Liên rev.2.</aside>
+</section>
+
+<!-- ============ 15 · LỘ TRÌNH TRIỂN KHAI ============ -->
+<section data-tb="Lộ trình triển khai">
+  <div class="head">
+    <p class="kicker rise">Triển khai</p>
+    <h2 class="rise" style="--d:.15s">Dùng được ngay sau từng giai đoạn</h2>
+  </div>
+  <span class="status st-pilot rise" style="--d:.3s">Thời lượng dự kiến · chốt sau khảo sát</span>
+  <div class="phases">
+    <div class="phase rise" style="--d:.4s"><div class="barw"></div><div class="wk">GĐ1 · ~4 TUẦN</div><h3>Khảo sát &amp; dữ liệu nền</h3>
+      <ul><li>Quy trình, công đoạn, tổ, máy</li><li>Nạp BOM dự án đầu tiên</li></ul></div>
+    <div class="phase rise" style="--d:.6s"><div class="barw"></div><div class="wk">GĐ2 · ~6–8 TUẦN</div><h3>Kế hoạch &amp; xưởng</h3>
+      <ul><li>Kế hoạch sản xuất, kế hoạch nguồn lực</li><li>Báo công trên máy tính bảng</li><li>Tiến độ tô màu trên bản vẽ</li></ul></div>
+    <div class="phase rise" style="--d:.8s"><div class="barw"></div><div class="wk">GĐ3 · ~8 TUẦN</div><h3>Kho &amp; điều hành</h3>
+      <ul><li>Kho hai dòng vật tư, truy mẻ thép</li><li>Báo cáo sản lượng, giờ công</li><li>Bảng điều hành cho lãnh đạo</li></ul></div>
+  </div>
+  <div class="along rise" style="--d:1.1s">
+    <span><b>SONG SONG</b>Đào tạo theo vai</span>
+    <span>Chạy cùng Excel đến khi số liệu khớp</span>
+    <span>Nghiệm thu từng giai đoạn</span>
+  </div>
+  <aside class="notes">Thời lượng là dự kiến, chốt sau khảo sát. Điểm bán: mỗi giai đoạn kết thúc là xưởng dùng được ngay.</aside>
+</section>
+
+<!-- ============ 16 · KẾT ============ -->
+<section data-tb="Liên hệ">
+  <svg class="end-art" id="endArt" viewBox="0 0 1600 520" aria-hidden="true"></svg>
+  <div class="end-text">
+    <p class="kicker rise">Bước tiếp theo</p>
+    <h2 class="rise" style="--d:.15s">Bắt đầu từ<br><em>một nhịp cầu.</em></h2>
+    <p class="sub rise" style="--d:.4s">Demo <strong>60 phút</strong> trên bản vẽ và kế hoạch của <strong>chính dự án anh/chị</strong>.</p>
+  </div>
+  <div class="contact rise" style="--d:.6s">
+    <img src="../_CHUNG/ASSETS/logo-vci-white.png" alt="VCI">
+    <h3>Công ty Cổ phần<br>Công nghệ số VCI</h3>
+    <p>Tầng 12A, toà A3 Ecolife Capitol<br>58 Tố Hữu, P. Đại Mỗ, Hà Nội</p>
+    <p><b>Tel</b> 0204.386.3886</p>
+    <div class="tags"><span>60+ nhân sự</span><span>BIM / CIM</span><span>Chuyển đổi số xây dựng</span><span>Nhà máy · sản xuất</span></div>
+  </div>
+  <aside class="notes">Chốt bằng lời mời demo trên dữ liệu của khách. Để lại liên hệ.</aside>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+};
+
+// Khung bản vẽ + khung tên cho mọi slide; số tờ = thứ tự slide
+document.querySelectorAll(".slides > section").forEach((s, i) => {
+  const no = "BV-" + String(i + 1).padStart(2, "0");
+  s.insertAdjacentHTML("afterbegin", '<div class="sheet"></div>');
+  s.insertAdjacentHTML("beforeend",
+    `<div class="title-block"><div>DỰ ÁN<b>VCI MES</b></div><div>NỘI DUNG<b>${s.dataset.tb}</b></div>` +
+    `<div>LẬP<b>VCI · 11/2026</b></div><div class="no">TỜ<b>${no}</b></div></div>`);
+});
+
+// ---------- Cầu vòm vẽ bằng nét (bìa + trang kết) ----------
+function drawBridge(svg, withSpark) {
+  const L = 260, R = 1520, deck = 330, rise = 250;
+  const archY = x => { const t = (x - L) / (R - L); return deck - 4 * rise * t * (1 - t); };
+  const line = { stroke: "var(--line)", fill: "none", "stroke-width": 2, class: "draw" };
+  const arch = (off, d) => el("path", { ...line, d: `M${L},${deck} Q${(L + R) / 2},${deck - 2 * rise - off} ${R},${deck}`, style: `--len:1700;--d:${d}s` }, svg);
+  arch(0, 0); arch(-36, .15);
+  el("path", { ...line, d: `M60,${deck} H1580`, style: "--len:1520;--d:.2s" }, svg);
+  el("path", { ...line, d: `M60,${deck + 26} H1580`, style: "--len:1520;--d:.3s" }, svg);
+  for (let x = L + 70, i = 0; x < R - 40; x += 70, i++)
+    el("path", { ...line, "stroke-width": 1.2, d: `M${x},${deck} V${archY(x) + 18}`, style: `--len:260;--dur:.6s;--d:${.9 + i * .05}s` }, svg);
+  [L, R].forEach((x, i) => el("path", { ...line, d: `M${x - 22},${deck + 26} L${x - 34},500 M${x + 22},${deck + 26} L${x + 34},500`, style: `--len:200;--d:${1 + i * .1}s` }, svg));
+  if (!withSpark) return;
+  const dim = el("g", { class: "rise", style: "--d:2.2s" }, svg);
+  el("path", { d: `M${L},470 H${R} M${L},460 V480 M${R},460 V480`, stroke: "var(--line-dim)", "stroke-width": 1 }, dim);
+  el("text", { x: (L + R) / 2 - 90, y: 462, class: "dim-label" }, dim).textContent = "NHỊP VÒM · ĐỐT · CẤU KIỆN";
+  const spark = el("circle", { r: 5, class: "spark" }, svg);
+  let t0 = null;
+  (function run(ts) {
+    if (!t0) t0 = ts;
+    const t = ((ts - t0) / 5200) % 1, x = L + (R - L) * t;
+    spark.setAttribute("cx", x); spark.setAttribute("cy", archY(x));
+    requestAnimationFrame(run);
+  })(performance.now());
+}
+drawBridge(document.getElementById("coverArt"), true);
+drawBridge(document.getElementById("endArt"), false);
+
+// ---------- 11 công đoạn của xưởng ----------
+const STAGES = ["Cắt – Hạ liệu", "Gá lắp panel", "Hàn panel", "Gá lắp block", "Hàn block",
+  "Tổ hợp thử", "Làm sạch", "Sơn lớp 1", "Sơn lớp 2", "Sơn lớp 3", "Sơn lớp 4"];
+const stageColor = s => {
+  if (s === 0) return "rgba(207,225,245,.04)";
+  // chế tạo: xanh thép đậm dần · làm sạch: xám sáng · sơn: cam đậm dần
+  if (s <= 6) return `hsl(208 ${40 + s * 6}% ${30 + s * 6}%)`;
+  if (s === 7) return "hsl(205 15% 78%)";
+  return `hsl(${30 - (s - 8) * 6} 95% ${62 - (s - 8) * 5}%)`;
+};
+
+// ---------- Gantt đốt vòm (tên + ngày cắt: kế hoạch thật TC3-TC4) ----------
+(function gantt() {
+  const box = document.getElementById("gantt");
+  const day0 = Date.UTC(2026, 6, 1), span = 123; // 01/07 → 31/10
+  const off = s => (Date.UTC(2026, +s.slice(3, 5) - 1, +s.slice(0, 2)) - day0) / 864e5;
+  // [mã, tên, ngày cắt, ngày cắt, ngày lắp, ngày hàn, ngày tổ hợp, ngày sơn, trễ thực tế]
+  const rows = [
+    ["N3AR-8", "Đốt vòm số 8", "03/07", 3, 29, 14, 10, 12, 0],
+    ["N3AR-3", "Đốt vòm số 3", "08/07", 5, 25, 16, 10, 12, 2],
+    ["N3AR-7", "Đốt vòm số 7", "13/07", 5, 23, 16, 10, 12, 5],
+    ["N3AR-4", "Đốt vòm số 4", "18/07", 2, 26, 12, 9, 12, 0],
+    ["N3AR-6", "Đốt vòm số 6", "23/07", 2, 25, 12, 9, 12, 3],
+    ["N3AR-5", "Đốt vòm số 5", "28/07", 2, 20, 12, 9, 12, 0],
+  ];
+  const groups = [["Cắt", "#94a3b8"], ["Lắp", "#3b6ea5"], ["Hàn", "#1d4ed8"], ["Tổ hợp", "#60a5fa"], ["Sơn", "#ff6b1a"]];
+  const today = off("15/09");
+  let html = '<div class="hdr"><span>Đốt</span><div class="months">' +
+    ["T7", "T8", "T9", "T10"].map((m, i) => `<span style="left:${[0, 31, 62, 92][i] / span * 100}%">${m}/2026</span>`).join("") + "</div></div>";
+  rows.forEach(r => {
+    let t = off(r[2]), segs = "";
+    r.slice(3, 8).forEach((d, k) => {
+      segs += `<div class="seg" style="left:${t / span * 100}%;width:${d / span * 100}%;background:${groups[k][1]}"></div>`;
+      t += d;
+    });
+    // thực tế: chạy tới hôm nay, trễ so kế hoạch thì tô đỏ
+    const a0 = off(r[2]) + (r[8] ? 1 : 0), a1 = Math.min(today, t) - r[8];
+    segs += `<div class="act${r[8] ? " late" : ""}" style="left:${a0 / span * 100}%;width:${Math.max(0, a1 - a0) / span * 100}%"></div>`;
+    html += `<div class="row"><div class="nm">${r[0]}<small>${r[1]}</small></div><div class="lane">${segs}</div></div>`;
+  });
+  box.innerHTML = html;
+  box.querySelectorAll(".lane").forEach(l => l.insertAdjacentHTML("beforeend", `<div class="today" style="left:${today / span * 100}%"></div>`));
+  box.querySelector(".months").insertAdjacentHTML("beforeend", `<div class="today" style="left:${today / span * 100}%"></div>`);
+  document.getElementById("glegend").innerHTML = groups.map(g => `<span><i style="background:${g[1]}"></i>${g[0]}</span>`).join("") +
+    '<span><i style="background:#111827"></i>Thực tế</span><span><i style="background:#dc2626"></i>Thực tế trễ</span>';
+})();
+
+// ---------- Bảng tải tổ × tuần ----------
+(function heat() {
+  const crews = ["Tổ cắt 1", "Tổ cắt 2", "Tổ gá lắp", "Tổ hàn 1", "Tổ hàn 2", "Tổ hàn 3", "Tổ tổ hợp", "Tổ sơn"];
+  const weeks = Array.from({ length: 12 }, (_, i) => "T" + (38 + i));
+  // tải giả lập có đỉnh lệch nhau giữa các tổ
+  const load = (c, w) => Math.round(48 + 48 * Math.sin((w + c * 1.7) / 2.2) ** 2 + (c === 4 && w > 3 && w < 8 ? 32 : 0) + (c === 1 && w > 7 && w < 10 ? 22 : 0));
+  const color = v => v > 100 ? "#ff6b1a" : v >= 70 ? "#4a7fb5" : "#c7d4e3";
+  let html = "<tr><th></th>" + weeks.map(w => `<th>${w}</th>`).join("") + "</tr>";
+  crews.forEach((c, ci) => {
+    html += `<tr><td>${c}</td>` + weeks.map((_, wi) => {
+      const v = load(ci, wi);
+      return `<td style="background:${color(v)};color:${v < 70 ? "#334155" : "#fff"}">${v}</td>`;
+    }).join("") + "</tr>";
+  });
+  document.getElementById("heat").innerHTML = html;
+})();
+
+// ---------- Biểu đồ sản lượng tuần ----------
+(function chart() {
+  const svg = document.getElementById("repChart");
+  const plan = [82, 90, 95, 98, 104, 100, 96, 110], act = [78, 92, 88, 101, 109, 97, 103, 112];
+  const H = 190, max = 120, bw = 38;
+  [0, 40, 80, 120].forEach(v => {
+    const y = H - v / max * 170;
+    el("line", { x1: 40, x2: 910, y1: y, y2: y, stroke: "#eef0f3" }, svg);
+    el("text", { x: 4, y: y + 4 }, svg).textContent = v;
+  });
+  plan.forEach((p, i) => {
+    const x = 70 + i * 106;
+    el("rect", { x, y: H - p / max * 170, width: bw, height: p / max * 170, fill: "#cbd5e1", rx: 2 }, svg);
+    el("rect", { x: x + bw + 4, y: H - act[i] / max * 170, width: bw, height: act[i] / max * 170, fill: "#ff6b1a", rx: 2 }, svg);
+    el("text", { x: x + 18, y: H + 22 }, svg).textContent = "T" + (37 + i);
+  });
+})();
+
+// ---------- Tiến độ tô màu trên bản vẽ ----------
+const prog = (function () {
+  const svg = document.getElementById("progArt");
+  const L = 80, R = 1020, deck = 300, rise = 210;
+  const archY = x => { const t = (x - L) / (R - L); return deck - 4 * rise * t * (1 - t); };
+  const parts = [];
+  const n = 14, w = (R - L) / n;
+  for (let i = 0; i < n; i++)
+    parts.push({ node: el("rect", { class: "seg", x: L + i * w + 2, y: deck, width: w - 4, height: 34, rx: 2 }, svg), attr: "fill" });
+  const m = 12;
+  for (let i = 0; i < m; i++) {
+    const x1 = L + (R - L) * i / m + 3, x2 = L + (R - L) * (i + 1) / m - 3;
+    const xm = (x1 + x2) / 2;
+    const cy = 2 * archY(xm) - (archY(x1) + archY(x2)) / 2;
+    parts.push({ node: el("path", { class: "arch-seg", d: `M${x1},${archY(x1)} Q${xm},${cy} ${x2},${archY(x2)}` }, svg), attr: "stroke" });
+  }
+  el("path", { d: `M${L},${deck} Q${(L + R) / 2},${deck - 2 * rise - 18} ${R},${deck}`, fill: "none", stroke: "var(--line-dim)", "stroke-width": 1 }, svg);
+  for (let x = L + 60; x < R - 30; x += 60)
+    el("path", { d: `M${x},${deck} V${archY(x) + 9}`, stroke: "var(--line-dim)", "stroke-width": 1 }, svg);
+  [L, R].forEach(x => el("path", { d: `M${x - 16},${deck + 34} L${x - 26},410 M${x + 16},${deck + 34} L${x + 26},410`, stroke: "var(--line-dim)", "stroke-width": 1.5, fill: "none" }, svg));
+
+  const legend = document.getElementById("legend"), bars = document.getElementById("bars");
+  STAGES.forEach((s, i) => {
+    legend.insertAdjacentHTML("beforeend", `<div><i style="background:${stageColor(i + 1)}"></i>${String(i + 1).padStart(2, "0")} ${s.replace("Sơn lớp", "Sơn")}</div>`);
+    bars.insertAdjacentHTML("beforeend", `<div><span>${s}</span><s><u></u></s><b>0</b></div>`);
+  });
+  const barRows = [...bars.children];
+
+  let state = [], timer = null;
+  const paint = () => {
+    parts.forEach((p, i) => p.node.style[p.attr] = stageColor(state[i]));
+    const total = state.reduce((a, b) => a + b, 0);
+    document.getElementById("pct").textContent = Math.round(total / (11 * parts.length) * 100);
+    barRows.forEach((r, k) => {
+      const c = state.filter(s => s >= k + 1).length;
+      r.querySelector("u").style.width = (c / parts.length * 100) + "%";
+      r.querySelector("b").textContent = c;
+    });
+  };
+  // mục tiêu: hai đầu nhịp đi trước, giữa nhịp đi sau — như xưởng thật
+  const target = parts.map((_, i) => {
+    const pos = i < n ? i / (n - 1) : (i - n) / (m - 1);
+    const edge = Math.abs(pos - .5) * 2;
+    return Math.min(11, Math.round(3 + edge * 7 + (i % 3)));
+  });
+  const stop = () => { clearInterval(timer); timer = null; };
+  const start = () => {
+    stop();
+    state = parts.map(() => 0); paint();
+    timer = setInterval(() => {
+      const open = state.map((s, i) => s < target[i] ? i : -1).filter(i => i >= 0);
+      if (!open.length) return stop();
+      const i = open[Math.floor(Math.random() * open.length)];
+      state[i]++;
+      parts[i].node.classList.add("flash");
+      setTimeout(() => parts[i].node.classList.remove("flash"), 260);
+      paint();
+    }, 70);
+  };
+  state = parts.map(() => 0); paint();
+  return { start, stop };
+})();
+
+// ---------- Đếm số trên slide dự án ----------
+function countUp(slide) {
+  slide.querySelectorAll("[data-count]").forEach(n => {
+    const to = +n.dataset.count, t0 = performance.now();
+    (function step(ts) {
+      const k = Math.min(1, (ts - t0) / 1400), v = Math.round(to * (1 - (1 - k) ** 3));
+      n.textContent = v.toLocaleString("vi-VN");
+      if (k < 1) requestAnimationFrame(step);
+    })(t0);
+  });
+}
+
+function onEnter(s) {
+  if (s.id === "progSlide") setTimeout(prog.start, 900); else prog.stop();
+  if (s.querySelector("[data-count]")) setTimeout(() => countUp(s), 400);
+}
+Reveal.initialize({ width: 1600, height: 900, margin: 0, hash: true, controls: true, progress: true, center: false,
+  transition: "fade", backgroundTransition: "none", plugins: [RevealNotes] });
+Reveal.on("slidechanged", e => onEnter(e.currentSlide));
+Reveal.on("ready", e => onEnter(e.currentSlide));
+</script>
+</body>
+</html>

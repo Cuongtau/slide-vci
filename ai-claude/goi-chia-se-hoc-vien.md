@@ -64,7 +64,7 @@ Trước khi gửi, tự hỏi: Ai đọc? Mục đích? Dựa vào tài liệu 
 ## 6. Tài liệu kèm theo
 
 - Slide buổi học: `claude-v2.html` (bản PDF sẽ gửi kèm)
-- File thực hành (dữ liệu giả lập, an toàn để tập): thư mục `demo-v2/` — 8 file: yêu cầu thô, công văn có lỗi, hồ sơ mời thầu, bảng vật tư, bảng tiến độ thi công, ghi chép báo cáo tháng, slide thô, ghi chép an toàn lao động
-- Cẩm nang tự thực hành **12 bài** (Word 3 · Excel 2 file × 3 · PowerPoint 3): `demo-v2/HUONG-DAN-DEMO-V2.md` — mỗi bài có sẵn câu lệnh nguyên văn, đáp án để đối chiếu và phần "cần kiểm gì"
+- File thực hành (dữ liệu giả lập, an toàn để tập): thư mục `DEMO-V2/` — 8 file: yêu cầu thô, công văn có lỗi, hồ sơ mời thầu, bảng vật tư, bảng tiến độ thi công, ghi chép báo cáo tháng, slide thô, ghi chép an toàn lao động
+- Cẩm nang tự thực hành **12 bài** (Word 3 · Excel 2 file × 3 · PowerPoint 3): `DEMO-V2/HUONG-DAN-DEMO-V2.md` — mỗi bài có sẵn câu lệnh nguyên văn, đáp án để đối chiếu và phần "cần kiểm gì"
 
 *Thắc mắc khi áp dụng: liên hệ Mr. Cuong Bui — PMO, VCI.*

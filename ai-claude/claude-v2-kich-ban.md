@@ -1,6 +1,6 @@
 # KỊCH BẢN NÓI 60 PHÚT — KHÓA "CLAUDE & AI TRONG CÔNG VIỆC" (V2)
 
-> **Diễn giả:** Mr. Cuong Bui — PMO, VCI · **Deck:** 17 slide theo `claude-v2.html` (slide 1 là **trang điểm danh QR**, chiếu trước giờ G) · **Cẩm nang demo:** `demo-v2/HUONG-DAN-DEMO-V2.md`
+> **Diễn giả:** Mr. Cuong Bui — PMO, VCI · **Deck:** 17 slide theo `claude-v2.html` (slide 1 là **trang điểm danh QR**, chiếu trước giờ G) · **Cẩm nang demo:** `DEMO-V2/HUONG-DAN-DEMO-V2.md`
 >
 > **Phân bổ 60′:** Mở đầu (S2–4) 4′ · AI là gì & đã đi tới đâu (S5–6) 5′ · **Rủi ro khi dùng AI (S7) 3′** · Cách hỏi · chọn công cụ · Claude · **thử ngay tại chỗ (S8–14) 11′** · **DEMO (S15–16) 20′** (phút 23–43: Word 9′ · Excel 11′) · **khối mở rộng tuỳ chọn 7′** (phút 43–50) · **Q&A & lời kết (S17) 10′** (phút 50–60)
 >
@@ -239,7 +239,7 @@ Anh chị em thấy chưa — cái bảng này bình thường mình phải ng�
 
 # PHẦN DEMO — 20 PHÚT + 7 PHÚT MỞ RỘNG (trái tim buổi học)
 
-> **Chuẩn bị chung (đã làm trước giờ G — theo checklist cuối cẩm nang):** 8 file demo trong thư mục `demo-v2/` để sẵn trên Desktop (2 file cho Word phần A–B + hồ sơ thầu · 2 file Excel: vật tư + tiến độ · 3 file cho PowerPoint · 1 file an toàn lao động); claude.ai đăng nhập sẵn, còn quota, bật Phân tích dữ liệu; các file Office ĐÓNG trước khi đính kèm; thư mục `du-phong/` có video + ảnh từng bước, lưu offline.
+> **Chuẩn bị chung (đã làm trước giờ G — theo checklist cuối cẩm nang):** 8 file demo trong thư mục `DEMO-V2/` để sẵn trên Desktop (2 file cho Word phần A–B + hồ sơ thầu · 2 file Excel: vật tư + tiến độ · 3 file cho PowerPoint · 1 file an toàn lao động); claude.ai đăng nhập sẵn, còn quota, bật Phân tích dữ liệu; các file Office ĐÓNG trước khi đính kèm; thư mục `du-phong/` có video + ảnh từng bước, lưu offline.
 >
 > **Dự phòng mất mạng (áp dụng cho cả 2 demo):** nếu claude.ai chậm/mất mạng ngay demo đầu → chuyển hẳn sang mở video quay sẵn (`du-phong/demo-word.mp4`, `demo-excel.mp4`, `demo-ppt.mp4`) và thuyết minh trên video, không vừa chờ mạng vừa nói. Nếu chỉ nghẽn giữa chừng → dùng bộ ảnh chụp từng bước (`du-phong/word-01..04.png`, `excel-01..04.png`, `ppt-01..03.png`). Lời dẫn không đổi — chỉ đổi nguồn hình.
 >
@@ -371,8 +371,8 @@ Người ký, người gửi, người dùng kết quả — tức là chúng ta
 
 **Nội dung & thiết bị:**
 - [ ] Mở deck ở **slide 1 (điểm danh QR)** từ lúc mở phòng; thử quét bằng chính điện thoại của mình xem link còn sống không
-- [ ] Chạy thử 4 ví dụ sẽ trình diễn (Word viết + kiểm lỗi · Excel liệt kê + báo cáo) một lượt trên đúng máy giảng, cộng 1 ví dụ dự phòng cho khối mở rộng; các ví dụ còn lại trong cẩm nang chỉ cần đọc qua để trả lời khi khán giả hỏi, đối chiếu đáp án trong `demo-v2/HUONG-DAN-DEMO-V2.md` (riêng Word ② có bảng đáp án 8 lỗi)
-- [ ] 8 file demo trong `demo-v2/` copy ra Desktop; file Office đóng hết trước giờ demo
+- [ ] Chạy thử 4 ví dụ sẽ trình diễn (Word viết + kiểm lỗi · Excel liệt kê + báo cáo) một lượt trên đúng máy giảng, cộng 1 ví dụ dự phòng cho khối mở rộng; các ví dụ còn lại trong cẩm nang chỉ cần đọc qua để trả lời khi khán giả hỏi, đối chiếu đáp án trong `DEMO-V2/HUONG-DAN-DEMO-V2.md` (riêng Word ② có bảng đáp án 8 lỗi)
+- [ ] 8 file demo trong `DEMO-V2/` copy ra Desktop; file Office đóng hết trước giờ demo
 - [ ] claude.ai đăng nhập sẵn, còn quota, đã bật Phân tích dữ liệu; xóa các chat cũ lộn xộn khỏi sidebar
 - [ ] Thư mục `du-phong/` đủ 3 video + bộ ảnh từng bước, lưu OFFLINE; mở thử 1 video kiểm tra codec
 - [ ] Máy chiếu: font đủ to, thử độ đọc được của chat Claude từ cuối phòng

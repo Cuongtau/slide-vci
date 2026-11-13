@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>V-MES — Giải pháp quản lý sản xuất</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<style>
+:root{--navy:#0F172A;--navy2:#1E293B;--text:#0F172A;--muted:#475569;--line:#E2E8F0;--bg:#F8FAFC;--blue:#0369A1;--blue-soft:#E0F2FE;--orange:#EA580C;--font:"Roboto",system-ui,sans-serif}
+html,body,.reveal-viewport{background:var(--bg)}
+.reveal{font-family:var(--font);color:var(--text);font-size:26px}
+.reveal .slides{text-align:left}
+.reveal .slides section{height:100%;padding:0;background:var(--bg)}
+.reveal .slides section.dark{background:var(--navy)}
+.reveal .slides section.split{background:#fff}
+.reveal .controls{color:var(--blue)}.reveal .progress{color:var(--orange)}
+.reveal h1,.reveal h2,.reveal h3{font-family:var(--font);color:var(--text);margin:0;text-transform:none;letter-spacing:-.015em}
+.reveal p{margin:0}
+.ic{display:inline-flex;width:30px;height:30px;color:var(--blue);stroke-width:1.75}
+.tag{font-size:18px;font-weight:700;color:var(--blue);letter-spacing:.02em}.tag.lt{color:#7DD3FC}
+.hd{position:absolute;left:72px;right:200px;top:44px}
+.hd h2{font-size:46px;line-height:1.2;font-weight:800;margin-top:6px}
+.logo-top{position:absolute;right:72px;top:46px;height:34px;margin:0}
+.ft{position:absolute;left:72px;right:190px;bottom:20px;height:30px;display:flex;align-items:center;justify-content:space-between;font-size:15px;color:var(--muted)}
+.trk{display:flex;gap:6px;align-items:center}.trk i{width:30px;height:5px;border-radius:3px;background:var(--line)}.trk i.on{background:var(--blue)}.trk b{margin-left:10px;font-weight:600}
+
+.logo-w{position:absolute;left:96px;top:56px;height:44px;margin:0}
+.cover{position:absolute;left:96px;top:140px}
+.reveal .cover h1{font-size:128px;font-weight:800;line-height:1.1;color:#fff;margin-top:6px}
+.cover .sub{font-size:36px;font-weight:400;color:#CBD5E1}
+.logo-b{height:60px;margin:14px 0;display:block}.cover .co{font-size:34px;font-weight:700;color:#fff}.cover .ad{font-size:23px;line-height:1.5;color:#CBD5E1;margin-top:8px}
+.toc{position:absolute;left:72px;right:72px;top:210px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.toc>div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:36px 32px;min-height:330px}
+.toc span{display:flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:14px;background:var(--navy);color:#fff;font-size:30px;font-weight:800}
+.reveal .toc h3{font-size:36px;font-weight:800;margin:28px 0 12px}.toc p{font-size:25px;line-height:1.5;color:var(--muted)}
+.cards{position:absolute;left:72px;right:72px;top:220px;display:grid;gap:20px}
+.c5{grid-template-columns:repeat(5,1fr)}.c4{grid-template-columns:repeat(4,1fr)}.c3{grid-template-columns:repeat(3,1fr)}
+.cards>div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:32px 26px;min-height:320px}
+.cards .ic{width:52px;height:52px;padding:12px;box-sizing:border-box;border-radius:12px;background:var(--blue-soft)}
+.cards .no{display:block;margin-top:22px;font-size:20px;font-weight:700;color:var(--orange)}
+.reveal .cards h3{font-size:31px;line-height:1.2;font-weight:800;margin:22px 0 12px}.cards .no+h3{margin-top:4px}.cards p{font-size:24px;line-height:1.5;color:var(--muted)}
+.flow{position:absolute;left:72px;right:72px;top:210px;display:grid;grid-template-columns:repeat(6,1fr);gap:30px}
+.st{position:relative;background:var(--navy);border-radius:14px;padding:28px 20px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box}
+.st .ic{width:42px;height:42px;color:#7DD3FC}.st b{font-size:27px;line-height:1.25;font-weight:700;color:#fff}
+.st:not(:last-child)::after{content:"";position:absolute;right:-24px;top:50%;margin-top:-9px;border-left:16px solid var(--orange);border-top:9px solid transparent;border-bottom:9px solid transparent}
+.lanes{position:absolute;left:72px;right:72px;top:470px;display:grid;gap:16px}
+.lanes>div{display:flex;align-items:center;gap:18px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 28px;font-size:26px;color:var(--muted)}
+.lanes b{width:150px;color:var(--text);font-weight:800}
+.side{position:absolute;left:0;top:0;bottom:0;width:560px;background:var(--navy);padding:80px 64px;box-sizing:border-box}
+.side .n{display:block;font-size:170px;font-weight:800;line-height:1;color:#334155}
+.reveal .side h2{font-size:54px;line-height:1.2;font-weight:800;color:#fff;margin-top:12px}.side .tag{margin-top:150px}
+.rq-wrap{position:absolute;left:640px;right:72px;top:90px}
+.rqs{display:grid;gap:18px;margin-top:22px}
+.rq{display:flex;align-items:center;gap:24px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:26px 28px}
+.rqs.n3 .rq{padding:42px 30px}
+.rq .ic{flex:none;width:60px;height:60px;padding:14px;box-sizing:border-box;border-radius:14px;background:var(--blue-soft)}
+.reveal .rq h3{font-size:32px;font-weight:800}.rq p{font-size:24px;color:var(--muted);margin-top:4px}
+.plan{position:absolute;left:72px;top:190px;width:420px;margin:0;padding:0;list-style:none}
+.plan li{display:flex;gap:16px;padding:22px 0;border-top:1px solid var(--line)}
+.plan .no{flex:none;width:46px;height:46px;border-radius:10px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700}
+.reveal .plan h3{font-size:29px;line-height:1.2;font-weight:800}.plan p{font-size:22px;line-height:1.45;color:var(--muted);margin-top:6px}
+.frame{position:absolute;left:530px;right:72px;top:180px;height:640px;margin:0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 50px rgba(15,23,42,.1)}
+.bar{height:38px;background:#F1F5F9;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:7px;padding:0 16px}
+.bar span{width:11px;height:11px;border-radius:50%;background:#CBD5E1}.bar em{font-style:normal;font-size:14px;color:var(--muted);margin-left:10px}
+.view{height:602px;display:flex;align-items:center;justify-content:center}
+.view img{max-width:100%;max-height:602px;margin:0}.wait{display:none}
+.view.missing img{display:none}
+.view.missing .wait{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;color:var(--muted)}
+.wait .ic{width:56px;height:56px;color:#94A3B8}.wait b{font-size:32px;color:var(--text)}.wait p{font-size:22px}.wait code{font:500 17px ui-monospace,Consolas,monospace;background:#F1F5F9;padding:5px 10px;border-radius:6px;margin-top:8px}
+.lead{position:absolute;left:72px;top:190px;font-size:29px;color:var(--muted)}
+.chain{position:absolute;left:72px;right:72px;top:260px;display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.chain>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 18px;min-height:150px;box-sizing:border-box;font-size:25px;line-height:1.3;font-weight:700}
+.chain span{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;font-size:19px;margin-bottom:14px}
+.chain>div:nth-child(n+8) span{background:var(--orange)}
+.nums{position:absolute;left:72px;right:72px;top:220px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.nums>div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:36px}
+.nums b{display:block;font-size:112px;font-weight:800;line-height:1.1;color:var(--navy);letter-spacing:-.03em}.nums span{font-size:26px;color:var(--muted)}
+.note{position:absolute;left:72px;right:72px;top:530px;font-size:30px;font-weight:600;color:var(--text);border-left:5px solid var(--orange);padding-left:22px;line-height:1.4}
+.note.big{top:520px;font-size:36px}
+.cases{position:absolute;left:72px;right:72px;top:210px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.cases>div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:36px}.reveal .cases h3{font-size:38px;font-weight:800;margin-bottom:22px}
+.nums.s{position:static;grid-template-columns:1fr 1fr}.nums.s>div{border:0;padding:0;background:none}.nums.s b{font-size:96px}
+.concl{position:absolute;left:72px;right:72px;top:220px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.concl>div{background:var(--navy);border-radius:16px;padding:40px 34px}.concl .ic{width:54px;height:54px;color:#7DD3FC}.reveal .concl h3{color:#fff;font-size:36px;font-weight:800;margin-top:22px}
+
+.reveal .cover h1{font-size:92px}
+.mtoc{position:absolute;left:72px;right:72px;top:190px}
+.mtoc>div{display:flex;gap:40px;padding:30px 0;border-top:1px solid var(--line)}
+.mtoc b{font-size:76px;line-height:1;font-weight:800;color:#94A3B8;width:120px;flex:none}
+.reveal .mtoc h3{font-size:36px;font-weight:800;margin-bottom:8px}.mtoc p{font-size:25px;line-height:1.6;color:var(--muted)}
+.hex{clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;font-weight:700;font-size:25px;line-height:1.25}
+.ring6{position:absolute;left:0;right:0;top:165px;height:680px}
+.ring6 .hex{position:absolute;width:290px;height:220px;background:var(--navy)}
+.ring6 .hex:nth-child(odd){background:var(--orange)}
+.p0{left:655px;top:0}.p1{left:900px;top:130px}.p2{left:900px;top:380px}.p3{left:655px;top:440px;top:470px}.p4{left:410px;top:380px}.p5{left:410px;top:130px}
+.ctr{position:absolute;left:720px;top:265px;width:160px;height:160px;border-radius:50%;background:var(--blue-soft);display:flex;align-items:center;justify-content:center}.ctr .ic{width:76px;height:76px}
+.goals{position:absolute;left:72px;right:72px;top:190px;display:grid;gap:20px}
+.goals>div{display:flex;align-items:center;gap:28px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:30px 36px}
+.goals .ic{width:62px;height:62px;flex:none}.chev{width:90px;height:90px;flex:none;background:var(--blue);clip-path:polygon(0 0,62% 0,100% 50%,62% 100%,0 100%)}
+.reveal .goals h3{font-size:33px;font-weight:800;margin-bottom:6px}.goals p{font-size:24px;line-height:1.45;color:var(--muted)}
+.lanes2{position:absolute;left:72px;right:72px;top:180px;display:grid;gap:20px}
+.lane{border-radius:18px;padding:28px 32px;display:flex;align-items:center;gap:26px;min-height:170px;box-sizing:border-box}
+.lane.a{background:#E0F2FE}.lane.b{background:#FFEDD5}.lane.c{background:#E2E8F0}
+.lane>b{width:130px;flex:none;font-size:32px;font-weight:800}.lane>div{flex:1;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.lane span{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;background:#fff;border-radius:12px;padding:16px 10px;font-size:24px;font-weight:700}
+.lane em{font-style:normal;font-size:32px;font-weight:800;color:var(--orange)}
+.hexwrap{position:absolute;left:0;right:0;top:170px;height:650px}
+.hexwrap .hex{position:absolute;width:390px;height:300px;background:var(--navy);font-size:29px}
+.hexwrap .h0{left:430px;top:170px;background:var(--orange)}.hexwrap .h1{left:760px;top:0}.hexwrap .h2{left:760px;top:330px}
+.hexlabel{position:absolute;left:72px;top:230px;font-size:64px;line-height:1.15;font-weight:800;color:var(--navy)}
+.radial{position:absolute;left:72px;right:72px;top:190px;display:flex;align-items:center;gap:80px}
+.ring{width:420px;height:420px;flex:none;border-radius:50%;border:14px solid var(--orange);outline:3px dashed var(--navy);outline-offset:-30px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:48px;line-height:1.2;font-weight:800;color:var(--blue)}
+.rds{flex:1;display:grid;gap:34px}.rd{display:flex;align-items:center;gap:24px;border:2px dashed #94A3B8;border-radius:60px;padding:20px 34px;background:#fff}
+.rd .ic{width:58px;height:58px;padding:13px;box-sizing:border-box;border-radius:50%;background:var(--blue-soft);flex:none}.rd b{font-size:33px;font-weight:700}
+.quad{position:absolute;left:72px;right:72px;top:220px;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.quad>div{position:relative;width:calc(100% + 40px);aspect-ratio:1;border-radius:50%;margin-left:-20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:50px;box-sizing:border-box;color:#fff}
+.quad>div:nth-child(1){background:#EA580C}.quad>div:nth-child(2){background:#0369A1}.quad>div:nth-child(3){background:#0F172A}
+.quad>div{opacity:.97;height:470px;aspect-ratio:auto}.quad b{font-size:60px;font-weight:800}.quad .ic{width:52px;height:52px;color:#fff;margin:6px 0}.reveal .quad h3{color:#fff;font-size:33px;line-height:1.2;font-weight:800}
+.steps4{position:absolute;left:72px;right:72px;top:190px;height:600px}
+.steps4>div{position:absolute;left:calc(var(--i)*480px);bottom:calc(var(--i)*170px);width:440px;background:#fff;border:1px solid var(--line);border-left:8px solid var(--orange);border-radius:14px;padding:26px 30px}
+.steps4 b{font-size:42px;font-weight:800;color:var(--orange);margin-right:14px}.steps4 .ic{width:40px;height:40px}.reveal .steps4 h3{font-size:32px;line-height:1.2;font-weight:800;margin-top:10px}
+.pills{position:absolute;left:280px;right:280px;top:230px;display:grid;gap:34px}
+.pills>div{display:flex;align-items:center;gap:26px;background:var(--navy);color:#fff;border-radius:60px;padding:30px 44px;font-size:36px;font-weight:700;border-right:12px solid var(--orange)}
+.pills .ic{width:48px;height:48px;color:#7DD3FC}
+.sum{position:absolute;left:72px;right:72px;top:170px;font-size:29px;line-height:1.5}
+.sumtag{position:absolute;left:72px;top:315px;font-size:24px}
+.sum~.cases{top:360px}
+
+:root{--navy:#0A8F5B;--navy2:#12A866;--text:#0F2F24;--muted:#47645A;--line:#CFEBDB;--bg:#FFFFFF;--blue:#0E9F4F;--blue-soft:#E4F9EC;--orange:#E8343C;--green:#16A34A}
+.tag.lt{color:#fff}
+.st .ic{color:#8BE8AC}
+.dark .cover{left:96px;top:150px;width:640px}
+.reveal .dark .cover h1{margin-bottom:20px}
+.cphoto{position:absolute;right:0;top:0;width:1000px;height:900px;margin:0;object-fit:cover}
+.cpanel{position:absolute;left:0;top:0;width:900px;height:900px;background:var(--navy);clip-path:polygon(0 0,100% 0,72% 100%,0 100%)}
+.cstripe{position:absolute;left:0;top:0;width:930px;height:900px;background:var(--orange);clip-path:polygon(97% 0,100% 0,72.5% 100%,69.5% 100%);}
+.logo-w{z-index:2}.reveal .slides section.dark .cover{z-index:2}
+.dark .cover .ad{width:540px}
+.ring6 .hex:nth-child(odd){background:var(--green)}
+.hexwrap .h0{background:var(--green)}
+.ctr{left:690px;top:235px;width:220px;height:220px;overflow:hidden;box-shadow:0 0 0 6px #fff}.ctr img{width:220px;height:220px;object-fit:cover;object-position:50% 40%;margin:0}
+.gi{width:72px;height:72px;object-fit:contain;margin:0;flex:none}
+.chev{background:var(--green)}
+.lane.a{background:#E4F9EC}.lane.b{background:#DBF7EF}.lane.c{background:#F0FBF4}
+.lane em{color:var(--green)}
+.ring{border-color:var(--green);outline-color:var(--navy);color:var(--navy)}
+.quad>div:nth-child(1){background:#16A34A}.quad>div:nth-child(2){background:#0A8F5B}.quad>div:nth-child(3){background:#0F766E}
+.steps4>div{border-left-color:var(--green)}.steps4 b{color:var(--green)}
+.pills>div{border-right-color:var(--green)}.pills .ic{color:#8BE8AC}
+.chain>div:nth-child(n+8) span{background:var(--green)}
+.plan .no{background:var(--green)}
+.art{position:absolute;margin:0;object-fit:cover;border-radius:14px}
+.astrip{left:72px;top:625px;width:1456px;height:200px}
+.cards>div,.toc>div,.chain>div,.nums>div,.cases>div,.goals>div{box-shadow:0 8px 24px rgba(14,159,79,.08)}
+.frame{border-color:var(--line)}.plan li{border-top-color:var(--line)}
+.al{left:72px;top:585px;width:420px;height:235px}
+.mtoc{right:600px}.atoc{right:60px;top:230px;width:500px;height:360px}
+.ahex{left:90px;top:565px;width:300px;height:255px}
+.radial{right:400px;gap:50px}.ring{width:380px;height:380px}.rd b{font-size:28px}
+.arad{right:50px;top:250px;width:340px;height:400px}
+.awide{object-position:50% 25%;left:72px;right:72px;top:500px;width:1456px;height:320px;object-fit:cover;border-radius:16px}
+.astep{left:90px;top:170px;width:360px;height:360px}
+.pills{left:500px;right:100px}.pills>div{font-size:32px}
+.apill{left:72px;top:190px;width:390px;height:560px}
+.asum{left:72px;top:640px;width:1456px;height:185px}
+.nums.s>div{box-shadow:none}
+
+/*anim*/
+.logo-top{height:38px;top:44px}
+.logo-w{height:92px;top:50px}
+.dark .cover.hero{top:340px;width:680px}
+.reveal .cover.hero h1{font-size:58px;line-height:1.04;letter-spacing:-.025em;margin:0}
+.hero .rule{display:block;width:320px;height:6px;border-radius:3px;background:var(--orange);margin:34px 0 26px}
+.cover.hero .sub{display:inline-flex;align-items:center;gap:10px;font-size:18px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#E7FBEF;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:9px 20px 9px 14px}
+.cover.hero .sub .ic{width:20px;height:20px;color:#8BE8AC}
+.byline{position:absolute;left:96px;top:806px;margin:0;font-size:18px;color:#BFEFD3;z-index:2}
+.present .byline{animation:fadein 1s ease 1.1s both}
+:root{--ease:cubic-bezier(.22,1,.36,1)}
+@keyframes up{from{opacity:0;translate:0 40px}to{opacity:1;translate:0 0}}
+@keyframes left{from{opacity:0;translate:-56px 0}to{opacity:1;translate:0 0}}
+@keyframes right{from{opacity:0;translate:80px 0;scale:.97}to{opacity:1;translate:0 0;scale:1}}
+@keyframes pop{0%{opacity:0;scale:.5}65%{opacity:1;scale:1.08}100%{opacity:1;scale:1}}
+@keyframes wipe{from{clip-path:inset(0 100% 0 0 round 14px);scale:1.08}to{clip-path:inset(0 0 0 0 round 14px);scale:1}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes drift{from{scale:1.16}to{scale:1.02}}
+@keyframes slidein{from{translate:-100% 0}to{translate:0 0}}
+@keyframes grow{from{scale:0 1}to{scale:1 1}}
+@keyframes sweep{from{translate:-120% 0}to{translate:220% 0}}
+
+.present .hd .tag{animation:left .7s var(--ease) both}
+.present .hd h2{animation:up .8s var(--ease) .08s both}
+.present .lead,.present .sum,.present .note,.present .sumtag{animation:up .8s var(--ease) .2s both}
+.present :is(.cards,.toc,.mtoc,.goals,.quad,.steps4,.pills,.nums,.cases,.chain,.concl,.rqs,.hexwrap,.ring6,.rds,.mtoc2)>*{animation:up .8s var(--ease) both;animation-delay:calc(.22s + var(--n,0) * .09s)}
+.present .ring,.present .ctr{animation:pop .9s var(--ease) .15s both}
+.present .logo-top{animation:fadein .8s ease .3s both}
+.present .trk i.on{transform-origin:left;animation:grow .6s var(--ease) both;animation-delay:calc(.3s + var(--n,0) * .06s)}
+
+/* trang phương án / giải pháp */
+.present .plan li{animation:left .8s var(--ease) both;animation-delay:calc(.25s + var(--n,0) * .14s)}
+.present .plan .no{animation:pop .7s var(--ease) both;animation-delay:calc(.4s + var(--n,0) * .14s)}
+.present .frame{animation:right 1s var(--ease) .18s both}
+.frame{isolation:isolate}
+.frame::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);translate:-120% 0}
+.present .frame::after{animation:sweep 1.3s ease-in-out 1s both}
+.present .art{animation:wipe 1.2s var(--ease) .35s both}
+
+/* bìa + liên hệ */
+.dark{overflow:hidden}
+.present .cphoto{animation:fadein 1.2s ease both,drift 14s ease-out both}
+.present .cpanel{animation:slidein 1s var(--ease) both}
+.present .cstripe{animation:slidein 1.1s var(--ease) .1s both}
+.present .logo-w{animation:up .9s var(--ease) .45s both}
+.present .cover>*{animation:up .9s var(--ease) both;animation-delay:calc(.5s + var(--n,0) * .12s)}
+
+.mtoc2{position:absolute;left:72px;top:178px;width:1000px;display:grid;gap:14px}
+.mtoc2 .sec{display:flex;gap:28px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 30px;box-shadow:0 8px 24px rgba(14,159,79,.08)}
+.mtoc2 b{flex:none;width:64px;height:64px;border-radius:14px;background:var(--navy);color:#fff;font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.reveal .mtoc2 h3{font-size:31px;line-height:64px;font-weight:800}
+.sub2{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:6px}
+.sub2 li{display:flex;align-items:center;gap:14px;font-size:23px;line-height:1.35;color:var(--muted)}
+.sub2 i{font-style:normal;flex:none;width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:var(--navy);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.atoc{right:72px;top:178px;width:420px;height:640px}
+.present .sub2 li{animation:left .7s var(--ease) both;animation-delay:calc(.45s + var(--n,0) * .07s)}
+
+
+.pf{position:absolute;inset:0;pointer-events:none}
+.pf-band{position:absolute;border-radius:20px;background:var(--bt);border:1px solid var(--bb)}
+.pf-band span{position:absolute;left:18px;top:-15px;padding:4px 14px;border-radius:999px;background:#fff;border:1px solid var(--bb);color:var(--bc);font-size:16px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.t-src{--bt:#EEF7F4;--bb:#C9E8DD;--bc:#0F766E}
+.t-plan{--bt:#E9F9EF;--bb:#BFEBCF;--bc:#0A8F5B}
+.t-exec{--bt:#FFF1F1;--bb:#F8C9CB;--bc:#D92D35}
+.t-rep{--bt:#EEF6FF;--bb:#CFE1F7;--bc:#1E4A8A}
+.t-wh{--bt:#F3F8EC;--bb:#D6E8BF;--bc:#4D7C0F}
+.pf-svg{position:absolute;left:0;top:0;width:1600px;height:900px;overflow:visible}
+.pf-e{fill:none;stroke:#16A34A;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1}
+.pf-h{fill:#16A34A}
+.pf-f{fill:none;stroke:#DCFCE7;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1 17;opacity:0}
+.pf-spark{position:absolute;left:0;top:0;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:#16A34A;box-shadow:0 0 0 3px rgba(22,163,74,.22),0 0 14px 3px rgba(22,163,74,.5);offset-rotate:0deg;opacity:0}
+.pf-n{position:absolute;width:196px;height:150px;box-sizing:border-box;background:#fff;border:1px solid var(--bb);border-radius:16px;padding:15px 15px 13px;box-shadow:0 10px 26px rgba(15,47,36,.08);display:flex;flex-direction:column;gap:6px}
+.pf-n::after{content:'';position:absolute;left:15px;right:15px;bottom:-1px;height:3px;border-radius:3px 3px 0 0;background:var(--bc);transform-origin:left;scale:0 1}
+.pf-ic{flex:none;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:var(--bc);margin-bottom:2px;box-shadow:0 6px 14px -4px var(--bc)}
+.pf-ic .ic{width:22px;height:22px;color:#fff}
+.pf-n b{font-size:18px;line-height:1.2;font-weight:800;color:var(--text);white-space:nowrap}
+.pf-n small{font-size:13.5px;line-height:1.3;color:var(--muted)}
+.pf-n.t-exec{border:2px solid #E8343C;box-shadow:0 14px 34px rgba(232,52,60,.18)}
+.pf-hub{position:absolute;box-sizing:border-box;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--text)}
+.pf-hub::before{content:'';position:absolute;inset:0;border-radius:50%;border:2px dashed #94A3B8}
+.pf-hub .ic{width:28px;height:28px;color:#475569}.pf-hub b{font-size:16px;font-weight:800}
+.pf-hubcap{position:absolute;width:200px;text-align:center;font-size:15px;color:var(--muted)}
+.pf-cap{position:absolute;width:260px;text-align:center;font-size:16px;font-weight:700;color:#0A8F5B}
+.present .pf-band{animation:fadein .6s ease both,up .7s var(--ease) both;animation-delay:var(--d),var(--d)}
+.present .pf-n,.present .pf-hub{animation:card .8s var(--ease) both;animation-delay:var(--d)}
+.present .pf-n .pf-ic{animation:icon .7s var(--ease) both;animation-delay:calc(var(--d) + .18s)}
+.present .pf-n :is(b,small){animation:txt .6s var(--ease) both;animation-delay:calc(var(--d) + .26s)}
+.present .pf-n::after{animation:bar .7s var(--ease) both;animation-delay:calc(var(--d) + .35s)}
+.present .pf-cap,.present .pf-hubcap{animation:txt .6s var(--ease) both;animation-delay:var(--d)}
+
+.present .pf-e{animation:draw var(--t) cubic-bezier(.4,0,.6,1) both;animation-delay:var(--d)}
+.present .pf-f{animation:fadein .6s ease forwards,flow 1.4s linear infinite;animation-delay:calc(var(--d) + .3s),calc(var(--d) + .3s)}
+.present .pf-h{transform-box:fill-box;transform-origin:center;animation:head .35s var(--ease) both;animation-delay:var(--d)}
+.present .pf-spark{animation:spark var(--t) cubic-bezier(.4,0,.6,1) both;animation-delay:var(--d)}
+.present .pf-n.t-exec{animation:card .8s var(--ease) both,ring 1.6s ease-out 2 both;animation-delay:var(--d),calc(var(--d) + .5s)}
+.present .pf-hub::before{animation:spin 16s linear infinite;animation-delay:calc(var(--d) + .8s)}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes flow{to{stroke-dashoffset:-18}}
+@keyframes spark{0%{offset-distance:0%;opacity:0}8%{opacity:1}92%{opacity:1}100%{offset-distance:100%;opacity:0}}
+@keyframes head{from{opacity:0;scale:0}to{opacity:1;scale:1}}
+@keyframes card{0%{opacity:0;translate:0 22px;scale:.92;filter:blur(4px)}100%{opacity:1;translate:0 0;scale:1;filter:blur(0)}}
+@keyframes icon{0%{opacity:0;scale:.3;rotate:-25deg}70%{opacity:1;scale:1.12;rotate:4deg}100%{opacity:1;scale:1;rotate:0deg}}
+@keyframes txt{from{opacity:0;translate:0 8px}to{opacity:1;translate:0 0}}
+@keyframes bar{from{scale:0 1}to{scale:1 1}}
+@keyframes spin{to{rotate:360deg}}
+@media (prefers-reduced-motion:reduce){.present .pf-f,.present .pf-hub::before{animation:none!important}.present .pf-f{opacity:1}.pf-spark{display:none}}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(232,52,60,.45),0 14px 34px rgba(232,52,60,.18)}100%{box-shadow:0 0 0 22px rgba(232,52,60,0),0 14px 34px rgba(232,52,60,.18)}}
+
+@media (prefers-reduced-motion:reduce){.reveal .slides *,.reveal .slides *::after{animation:none!important}}
+/*/anim*/
+/*g3*/
+.g5{position:absolute;left:72px;right:72px;top:152px;display:grid;gap:12px}
+.g5-r{position:relative;display:flex;align-items:stretch;height:122px;background:#fff;border:1px solid var(--line);border-radius:18px;
+  box-shadow:0 8px 24px rgba(15,23,42,.06);overflow:hidden}
+.g5-r::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--c);opacity:.18}
+.g5-hd{flex:none;position:relative;display:flex;align-items:center;gap:18px;width:220px;padding-left:26px;box-sizing:border-box;
+  background:linear-gradient(120deg,var(--c),color-mix(in srgb,var(--c) 70%,#000));clip-path:polygon(0 0,84% 0,100% 50%,84% 100%,0 100%)}
+.g5-hd b{font-size:40px;line-height:1;font-weight:800;color:rgba(255,255,255,.55)}
+.g5-ic{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:50%;background:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.g5-ic .ic{width:32px;height:32px;color:var(--c);stroke-width:2.2}
+.g5-tx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;padding:0 32px 0 18px}
+.reveal .g5 h3{margin:0 0 8px;font-size:20px;line-height:1.2;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--c)}
+.g5 ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.g5 li{position:relative;padding-left:22px;font-size:16.5px;line-height:1.4;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g5 li::before{content:'';position:absolute;left:2px;top:.38em;width:11px;height:11px;border-radius:4px;background:var(--c);opacity:.85;transform:rotate(45deg) scale(.8)}
+.g5-wm{position:absolute;right:46px;top:50%;translate:0 -50%;display:flex;pointer-events:none}
+.g5-wm .ic{width:96px;height:96px;color:var(--c);opacity:.12;stroke-width:1.6}
+.present .g5-wm{animation:g5wm .9s var(--ease) both;animation-delay:calc(.8s + var(--i) * .14s)}
+@keyframes g5wm{from{opacity:0;scale:.6;rotate:-12deg}to{opacity:1;scale:1;rotate:0deg}}
+/* hiệu ứng: thẻ trượt vào → đầu mũi tên quét màu → icon bật lên rồi nhấp nhô nhẹ → tiêu đề, từng ý hiện dần */
+@keyframes g5wipe{from{clip-path:polygon(0 0,0 0,0 50%,0 100%,0 100%)}to{clip-path:polygon(0 0,84% 0,100% 50%,84% 100%,0 100%)}}
+@keyframes g5float{0%,100%{translate:0 0}50%{translate:0 -4px}}
+.present .g5-r{animation:left .7s var(--ease) both;animation-delay:calc(.15s + var(--i) * .14s)}
+.present .g5-hd{animation:g5wipe .7s var(--ease) both;animation-delay:calc(.3s + var(--i) * .14s)}
+.present .g5-ic{animation:pop .6s var(--ease) both,g5float 3.2s ease-in-out infinite;animation-delay:calc(.6s + var(--i) * .14s),calc(1.4s + var(--i) * .3s)}
+.present .g5 h3{animation:txt .5s var(--ease) both;animation-delay:calc(.55s + var(--i) * .14s)}
+.present .g5 li{animation:txt .5s var(--ease) both;animation-delay:calc(.7s + var(--i) * .14s + var(--j) * .12s)}
+.g5-r{transition:transform .25s,box-shadow .25s}
+.g5-r:hover{transform:translateX(6px);box-shadow:0 12px 30px rgba(15,23,42,.1)}
+@media (prefers-reduced-motion:reduce){.present .g5-ic{animation:none}}
+/*/g3*/
+/*pb*/
+.pd{position:absolute;width:330px;box-sizing:border-box}
+.pd.l{left:64px;text-align:right;padding-right:18px;border-right:3px solid var(--green)}
+.pd.r{left:1206px;padding-left:18px;border-left:3px solid var(--green)}
+.pd.t0{top:40px}.pd.t1{top:258px}.pd.t2{top:496px}
+.pd b{display:block;margin-bottom:6px;font-size:21px;font-weight:800;color:var(--navy)}
+.pd.o b{color:var(--green)}
+.pd ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.pd li{font-size:19px;line-height:1.45;font-weight:500;color:#334155}
+/*/pb*/
+/*zm*/
+.plan{left:72px;right:72px;top:150px;width:auto;display:flex;gap:20px}
+.plan li{flex:1;align-items:center;gap:14px;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.plan li:first-child{border-top:1px solid var(--line)}
+.plan .no{width:40px;height:40px;font-size:16px}
+.reveal .plan h3{font-size:20px;line-height:1.25}
+.plan p{display:inline;margin:0;font-size:16px}.plan p+p::before{content:" · "}
+.plan:has(+ .frame) ~ .al{display:none}
+.frame{left:72px;right:72px;top:244px;height:auto;display:flex;flex-direction:column}
+.view{height:560px;background:#F8FAFC}
+.view img{display:block;width:auto;max-width:100%;max-height:560px;cursor:zoom-in}
+.view .zm-hint{position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(15,23,42,.72);color:#fff;font-size:14px;pointer-events:none;opacity:0;transition:opacity .2s}
+.view:hover .zm-hint{opacity:1}.view.missing .zm-hint{display:none}
+.zm{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:2vh 2vw;background:rgba(15,23,42,.88);cursor:zoom-out}
+.zm.on{display:flex}
+.zm img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+/*/zm*/
+/*p7*/
+.p7 .plan{right:auto;top:262px;width:440px;flex-direction:column;gap:18px}
+.p7 .plan li{flex:none;align-items:flex-start;padding:22px 22px 20px}
+.reveal .p7 .plan h3{font-size:22px;margin-bottom:10px}
+.p7 .plan p{display:block;position:relative;margin:6px 0 0;padding-left:18px;font-size:17px;line-height:1.45;color:var(--muted)}
+.p7 .plan p+p::before{content:none}
+.p7 .plan p::after{content:'';position:absolute;left:2px;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--green)}
+.p7 .frame{left:536px;top:262px}
+.p7 .view{height:auto;min-height:0}
+.p7 .view img{width:100%;max-height:none}
+.p7 .al{display:none}
+/*/p7*/
+/*pgv2*/
+.pgv2 .frame{top:300px;right:auto;width:716px}
+.pgv2 .frame.pa{left:72px}
+.pgv2 .frame.pb{left:812px}
+.pgv2 .view{height:auto;min-height:0}
+.pgv2 .view img{width:100%;max-height:none}
+.pgv2 figcaption{padding:14px 18px;font-size:18px;font-weight:700;color:var(--text);border-top:1px solid var(--line);background:#fff}
+.pgv2 .frame.pb{animation-delay:.35s}
+.pb15 .plan p{display:inline-flex;align-items:center;margin:4px 26px 0 0;font-size:16.5px;color:var(--muted)}
+.pb15 .plan p::before,.pb15 .plan p+p::before{content:'';flex:none;width:7px;height:7px;margin-right:9px;border-radius:50%;background:var(--green)}
+/*/pgv2*/
+/*nl2*/
+.view.nl2{position:relative;background:#fff}
+.nl2-b{position:absolute;inset:0;display:flex;align-items:flex-start;background:#fff;transition:opacity .5s}
+.nl2-b img{width:100%;height:auto}
+.nl2-tab{position:absolute;right:14px;top:12px;z-index:3;display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(15,23,42,.08);backdrop-filter:blur(4px)}
+.nl2-tab b{padding:6px 14px;border-radius:999px;font-size:14px;font-weight:700;color:#475569;transition:background .3s,color .3s}
+.nl2 .t1{background:var(--green);color:#fff}
+.nl2:has(.nl2-b.visible) .t1{background:transparent;color:#475569}
+.nl2:has(.nl2-b.visible) .t2{background:var(--green);color:#fff}
+/*/nl2*/
+/*tt*/
+.pb15.pgv2 .frame{top:262px}
+/*/tt*/
+.cases>div:only-child{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between}.reveal .cases>div:only-child h3{margin:0}.cases>div:only-child .nums{gap:80px}
+/*dp3*/
+.dp3{position:absolute;left:72px;right:72px;top:330px;display:flex;align-items:stretch;gap:20px}
+.dp3-c{position:relative;flex:1;box-sizing:border-box;padding:40px 36px 36px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 30px rgba(14,159,79,.07);overflow:hidden}
+.dp3-c::before{content:'';position:absolute;left:0;top:0;right:0;height:5px;background:var(--green)}
+.dp3-no{position:absolute;right:32px;top:26px;font-size:64px;line-height:1;font-weight:800;color:#E4F9EC}
+.dp3-ic{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:16px;background:#E4F9EC}
+.dp3-ic .ic{width:34px;height:34px;color:#0A8F5B}
+.reveal .dp3 h3{min-height:2.5em;margin:30px 0 12px;font-size:28px;line-height:1.25;font-weight:800;color:var(--text)}
+.reveal .dp3 p{margin:0;font-size:21px;line-height:1.5;color:var(--muted)}
+.dp3-ar{flex:none;align-self:center;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--green)}
+.dp3-ar .ic{width:24px;height:24px;color:#fff}
+.present .dp3-c{animation:up .8s var(--ease) both;animation-delay:calc(.2s + var(--i) * .18s)}
+.present .dp3-ar{animation:pop .6s var(--ease) both;animation-delay:calc(.35s + var(--i) * .18s)}
+/* trang 9: giữ ảnh hiện trường bên phải, cùng chiều cao thẻ */
+.dp3.has-img{gap:16px}
+.dp3.has-img .dp3-c{padding:36px 28px 32px}
+.dp3.has-img .dp3-no{right:22px;font-size:54px}
+.reveal .dp3.has-img h3{font-size:25px}
+.reveal .dp3.has-img p{font-size:19px}
+.dp3-img{flex:none;width:330px;align-self:stretch;margin:0 0 0 8px;object-fit:cover;border-radius:20px;box-shadow:0 10px 30px rgba(14,159,79,.1)}
+.present .dp3-img{animation:right 1s var(--ease) .5s both}
+/*/dp3*/
+/*hd2*/
+.hd2{position:absolute;inset:0;pointer-events:none}
+.hd2-svg{position:absolute;left:0;top:0;overflow:visible}
+.hd2-ln{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:200;stroke-dashoffset:0}
+.hd2-ring{position:absolute;box-sizing:border-box;border-radius:50%;border:16px solid var(--green);display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle,#fff 55%,#F2FBF5 100%);box-shadow:0 18px 50px rgba(14,159,79,.16)}
+.hd2-dash{position:absolute;inset:14px;border-radius:50%;border:3px dashed #0F766E;opacity:.7}
+.hd2-ring b{position:relative;text-align:center;font-size:34px;line-height:1.25;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:#0F766E}
+.hd2-dot{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--c);box-shadow:0 0 0 5px #fff,0 4px 10px rgba(0,0,0,.15)}
+.hd2-n{position:absolute;display:flex;align-items:center;height:100px}
+.hd2-ic{position:relative;z-index:1;flex:none;display:flex;align-items:center;justify-content:center;width:100px;height:100px;border-radius:50%;
+  background:var(--c);box-shadow:0 0 0 7px color-mix(in srgb,var(--c) 22%,#fff),0 10px 24px color-mix(in srgb,var(--c) 40%,transparent)}
+.hd2-ic .ic{width:48px;height:48px;color:#fff;stroke-width:2}
+.hd2-pill{margin-left:-26px;padding:14px 30px 14px 46px;min-width:330px;box-sizing:border-box;border:2px dashed color-mix(in srgb,var(--c) 70%,#334155);
+  border-left:none;border-radius:0 40px 40px 0;background:#fff;display:flex;flex-direction:column;gap:3px}
+.hd2-pill b{font-size:24px;line-height:1.25;font-weight:800;color:var(--text)}
+.hd2-pill span{font-size:17px;color:var(--muted)}
+.hd2-img{position:absolute;left:1250px;top:290px;width:278px;height:450px;object-fit:cover;border-radius:22px;box-shadow:0 14px 36px rgba(14,159,79,.16)}
+@keyframes hd2spin{to{rotate:360deg}}
+@keyframes hd2draw{0%{stroke-dashoffset:200;opacity:0}15%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
+.present .hd2-ring{animation:pop .9s var(--ease) .15s both}
+.present .hd2-dash{animation:hd2spin 40s linear infinite}
+.present .hd2-dot{animation:pop .5s var(--ease) both;animation-delay:calc(.7s + var(--i) * .25s)}
+.present .hd2-ln{animation:hd2draw .6s var(--ease) both;animation-delay:calc(.85s + var(--i) * .25s)}
+.present .hd2-ic{animation:pop .6s var(--ease) both;animation-delay:calc(1.2s + var(--i) * .25s)}
+.present .hd2-pill{animation:left .7s var(--ease) both;animation-delay:calc(1.35s + var(--i) * .25s)}
+.present .hd2-img{animation:right 1s var(--ease) .4s both}
+@media (prefers-reduced-motion:reduce){.present .hd2-dash{animation:none}}
+/*/hd2*/
+/*d4*/
+.d4{position:absolute;inset:0;pointer-events:none}
+.d4-bg{position:absolute;left:470px;top:190px;width:660px;height:660px;border-radius:50%;
+  background:radial-gradient(circle,#F7B7A3 1.6px,transparent 2px) 0 0/16px 16px;opacity:.55;
+  -webkit-mask:radial-gradient(circle,#000 62%,transparent 71%);mask:radial-gradient(circle,#000 62%,transparent 71%)}
+.d4-c{position:absolute;width:290px;height:290px;border-radius:50%;background:var(--c);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  text-align:center;box-shadow:0 14px 34px rgba(15,23,42,.14)}
+.d4-c b{font-size:23px;line-height:1.3;font-weight:800;color:#1E293B}
+.d4-ic{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.55)}
+.d4-ic .ic{width:36px;height:36px;color:#1E293B;stroke-width:2}
+.d4-no{position:absolute;z-index:5;display:flex;align-items:center;justify-content:center;width:76px;height:76px;border-radius:50%;background:var(--c);
+  box-shadow:0 0 0 6px #fff;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:44px;font-weight:700;color:#fff;
+  text-shadow:0 2px 0 rgba(15,23,42,.55)}
+.d4-c:nth-of-type(1){z-index:1}.d4-c:nth-of-type(2){z-index:2}.d4-c:nth-of-type(3){z-index:4}.d4-c:nth-of-type(4){z-index:3}
+@keyframes d4spin{to{rotate:360deg}}
+@keyframes d4float{0%,100%{translate:0 0}50%{translate:0 -5px}}
+.present .d4-bg{animation:pop 1s var(--ease) .1s both,d4spin 60s linear 1.1s infinite}
+.present .d4-c{animation:pop .7s var(--ease) both;animation-delay:calc(.3s + var(--i) * .2s)}
+.present .d4-no{animation:pop .5s var(--ease) both;animation-delay:calc(.75s + var(--i) * .2s)}
+.present .d4-ic{animation:d4float 3.4s ease-in-out infinite;animation-delay:calc(1.4s + var(--i) * .35s)}
+@media (prefers-reduced-motion:reduce){.present .d4-bg,.present .d4-ic{animation:none}}
+/*/d4*/
+/*sl*/
+.sl{position:absolute;inset:0;pointer-events:none}
+.sl-svg{position:absolute;left:0;top:0;overflow:visible}
+.sl-ln{fill:none;stroke:#1E293B;stroke-width:3;stroke-dasharray:1500;stroke-dashoffset:0}
+.sl-end{fill:#1E293B}
+.sl-ar{fill:none;stroke:#1E293B;stroke-width:2.5;stroke-dasharray:60;stroke-dashoffset:0}
+.sl-n{position:absolute;display:flex;align-items:center;justify-content:center;width:80px;height:80px;border-radius:50%;background:var(--c);
+  box-shadow:0 0 0 6px #fff,0 10px 24px color-mix(in srgb,var(--c) 45%,transparent)}
+.sl-n .ic{width:38px;height:38px;color:#fff;stroke-width:2}
+.sl-b{position:absolute;width:300px;height:222px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center}
+.reveal .sl-b h3{margin:0 0 12px;font-size:23px;line-height:1.25;font-weight:800;color:var(--text)}
+.sl-b h3 em{font-style:normal;color:var(--c)}
+.sl-pod{position:relative;display:flex;flex-direction:column;align-items:center}
+.sl-ic{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:72px;height:72px;margin-bottom:-12px;border-radius:20px;
+  background:linear-gradient(140deg,color-mix(in srgb,var(--c) 55%,#fff),var(--c));box-shadow:0 10px 20px color-mix(in srgb,var(--c) 40%,transparent)}
+.sl-ic .ic{width:40px;height:40px;color:#fff;stroke-width:1.9}
+.sl-im{position:relative;z-index:1;display:block;height:128px;width:auto;max-width:250px;margin:0 0 -14px}
+.sl-disc{width:170px;height:34px;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,#F6C987 55%,#E8B06A 100%);
+  box-shadow:0 8px 0 #8A8A5C,0 16px 18px rgba(15,23,42,.18)}
+@keyframes sldraw{from{stroke-dashoffset:1500}to{stroke-dashoffset:0}}
+@keyframes slar{0%{stroke-dashoffset:60;opacity:0}20%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
+@keyframes slfloat{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.present .sl-ln{animation:sldraw 1.6s var(--ease) .15s both}
+.present .sl-end{animation:pop .4s var(--ease) 1.6s both}
+.present .sl-n{animation:pop .55s var(--ease) both;animation-delay:calc(.35s + var(--i) * .35s)}
+.present .sl-ar{animation:slar .5s var(--ease) both;animation-delay:calc(.6s + var(--i) * .35s)}
+.present .sl-b{animation:up .7s var(--ease) both;animation-delay:calc(.75s + var(--i) * .35s)}
+.present .sl-im{animation:slfloat 3.2s ease-in-out infinite;animation-delay:calc(2s + var(--i) * .4s)}
+@media (prefers-reduced-motion:reduce){.present .sl-im{animation:none}}
+/*/sl*/
+/*tx*/
+.tx{position:absolute;inset:0;pointer-events:none}
+.tx-arc{position:absolute;left:46px;top:206px;width:560px;height:560px;border-radius:50%;
+  background:conic-gradient(from 250deg,#F59E0B 0 70deg,transparent 70deg 360deg);
+  -webkit-mask:radial-gradient(circle,transparent 63%,#000 63.5%);mask:radial-gradient(circle,transparent 63%,#000 63.5%)}
+.tx-ph{position:absolute;left:96px;top:256px;width:460px;height:460px;border-radius:50%;padding:16px;box-sizing:border-box;
+  background:linear-gradient(140deg,#16A34A,#0A8F5B 60%,#0F766E);box-shadow:0 24px 50px rgba(14,159,79,.22)}
+.tx-ph img{display:block;width:100%;height:100%;margin:0;border-radius:50%;object-fit:cover;border:8px solid #fff;box-sizing:border-box}
+.tx-list{position:absolute;left:690px;right:72px;top:220px;display:grid;gap:34px}
+.tx-r{position:relative;display:flex;align-items:center;height:96px}
+.tx-ck{position:relative;z-index:2;flex:none;display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;
+  background:#0A8F5B;box-shadow:0 0 0 9px #F59E0B,0 0 0 15px #fff,0 10px 24px rgba(15,23,42,.18)}
+.tx-ck .ic{width:46px;height:46px;color:#fff;stroke-width:3}
+.tx-bar{position:relative;flex:1;margin-left:-40px;height:76px;display:flex;align-items:center;padding-left:72px;border-radius:0 22px 22px 0;
+  background:linear-gradient(90deg,#0A8F5B,#16A34A);box-shadow:0 10px 24px rgba(14,159,79,.18)}
+.tx-back{position:absolute;z-index:0;left:78px;right:-10px;top:-2px;height:76px;border-radius:0 22px 22px 0;background:#F59E0B}
+.tx-bar{z-index:1}
+.tx-bar span{font-size:25px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#fff}
+@keyframes txarc{from{rotate:-90deg;opacity:0}to{rotate:0deg;opacity:1}}
+.present .tx-arc{animation:txarc 1.1s var(--ease) .2s both}
+.present .tx-ph{animation:pop .9s var(--ease) .1s both}
+.present .tx-back{animation:left .7s var(--ease) both;animation-delay:calc(.4s + var(--i) * .16s)}
+.present .tx-bar{animation:left .7s var(--ease) both;animation-delay:calc(.45s + var(--i) * .16s)}
+.present .tx-ck{animation:pop .6s var(--ease) both;animation-delay:calc(.35s + var(--i) * .16s)}
+/*/tx*/
+/*tk*/
+.reveal .tk-lead{position:absolute;left:72px;right:72px;top:168px;margin:0;font-size:26px;line-height:1.5;color:var(--text)}
+.tk-lead b{color:var(--green);font-weight:800}
+.tk-vs{position:absolute;left:72px;right:72px;top:296px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.tk-v{box-sizing:border-box;padding:30px 28px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(14,159,79,.07)}
+.tk-ic{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:var(--green)}
+.tk-ic .ic{width:30px;height:30px;color:#fff}
+.reveal .tk-v h3{margin:22px 0 8px;font-size:25px;line-height:1.25;font-weight:800;color:var(--text)}
+.reveal .tk-v p{margin:0;font-size:19px;line-height:1.5;color:var(--muted)}
+.reveal .tk-tag{position:absolute;left:72px;top:590px;margin:0;font-size:22px;font-weight:700;color:var(--green)}
+.tk-ps{position:absolute;left:72px;right:72px;top:636px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.tk-p{display:flex;align-items:center;gap:22px;box-sizing:border-box;padding:28px 32px;background:#F2FBF5;border:1px solid #CDEFD9;border-radius:18px}
+.tk-pic{flex:none;display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:#fff}
+.tk-pic .ic{width:30px;height:30px;color:#0A8F5B}
+.reveal .tk-p h3{flex:1;margin:0;font-size:26px;line-height:1.25;font-weight:800;color:var(--text)}
+.tk-n{display:flex;flex-direction:column;align-items:flex-end;min-width:110px}
+.tk-n b{font-size:40px;line-height:1.1;font-weight:800;color:#0A8F5B}
+.tk-n span{font-size:17px;color:var(--muted)}
+.present .tk-lead,.present .tk-tag{animation:up .8s var(--ease) .15s both}
+.present .tk-v{animation:up .8s var(--ease) both;animation-delay:calc(.25s + var(--i) * .12s)}
+.present .tk-p{animation:up .8s var(--ease) both;animation-delay:calc(.75s + var(--i) * .15s)}
+/*/tk*/
+/*tk2*/
+.tk2 .tk2-pic{position:absolute;left:72px;top:170px;width:600px;height:650px;border-radius:24px;overflow:hidden;box-shadow:0 24px 50px rgba(15,23,42,.18)}
+.tk2 .tk2-pic img{width:100%;height:100%;object-fit:cover;margin:0}
+.tk2 .tk2-sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,78,59,.15) 0%,rgba(6,78,59,.55) 40%,rgba(6,60,48,.94) 100%)}
+.reveal .tk2 .tk2-cap{position:absolute;left:40px;top:250px;margin:0;font-size:28px;font-weight:800;color:#fff;letter-spacing:.01em}
+.tk2 .tk2-st{position:absolute;left:40px;right:40px;top:310px;margin:0;padding:0;list-style:none;display:grid;gap:14px}
+.tk2 .tk2-st li{display:flex;align-items:center;gap:16px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(6px)}
+.tk2 .tk2-st li span{display:grid;place-items:center;width:46px;height:46px;border-radius:12px;background:#fff;color:var(--green)}
+.tk2 .tk2-st li span .ic{width:24px;height:24px}
+.tk2 .tk2-st em{font-style:normal;font-size:16px;font-weight:800;color:#F5A524}
+.tk2 .tk2-st b{font-size:22px;font-weight:700;color:#fff}
+.tk2 .tk2-st li:last-child{background:rgba(245,165,36,.22);border-color:rgba(245,165,36,.5)}
+.tk2 .tk2-r{position:absolute;left:730px;right:72px;top:170px;height:650px;display:flex;flex-direction:column;justify-content:center;gap:56px}
+.reveal .tk2 .tk2-lead{margin:0;padding-left:26px;border-left:5px solid var(--green);font-size:26px;line-height:1.66;color:#334155}
+.tk2 .tk2-lead b{color:var(--green);font-weight:800}
+.tk2 .tk2-bn{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.tk2 .tk2-bn span{display:flex;align-items:center;gap:12px;padding:24px 22px;border-radius:18px;background:#F0FDF4;border:1px solid #BBF7D0;font-size:23px;font-weight:700;color:#14532D}
+.tk2 .tk2-bn .ic{flex:none;width:52px;height:52px;padding:12px;box-sizing:border-box;border-radius:14px;background:var(--green);color:#fff}
+.tk2 .tk2-cta{display:flex;gap:22px;padding:26px 28px;border-radius:20px;background:linear-gradient(120deg,#0A8F5B,#0B5E4D);box-shadow:0 20px 40px rgba(10,143,91,.28)}
+.tk2 .tk2-ci{flex:none;display:grid;place-items:center;width:60px;height:60px;border-radius:16px;background:#fff;color:var(--green)}
+.tk2 .tk2-ci .ic{width:32px;height:32px}
+.reveal .tk2 .tk2-cta p{margin:0 0 12px;font-size:19px;line-height:1.55;color:#ECFDF5}
+.reveal .tk2 .tk2-cta p b{color:#FDE68A;font-weight:800}
+.tk2 .tk2-cta strong{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:#F5A524;color:#fff;font-size:18px;font-weight:800}
+.tk2 .tk2-cta strong .ic{width:18px;height:18px}
+.present.tk2 .tk2-pic{animation:left .9s var(--ease) .1s both}
+.present.tk2 .tk2-pic img{animation:drift 12s ease-out both}
+.present.tk2 .tk2-cap{animation:up .7s var(--ease) .4s both}
+.present.tk2 .tk2-st li{animation:left .6s var(--ease) both;animation-delay:calc(.55s + var(--i)*.15s)}
+.present.tk2 .tk2-lead{animation:up .8s var(--ease) .3s both}
+.present.tk2 .tk2-bn span{animation:pop .6s var(--ease) both;animation-delay:calc(.8s + var(--i)*.12s)}
+.present.tk2 .tk2-cta{animation:up .8s var(--ease) 1.3s both}
+/*/tk2*/
+/*fit*/
+.reveal .slides{position:absolute!important;inset:0!important;margin:auto!important;width:1600px!important;height:900px!important;transform:none!important}
+.view img{image-rendering:auto}
+@keyframes sweep{from{translate:-120% 0}to{translate:280% 0}}
+/*/fit*/
+/*mob*/
+.mob .mph{position:absolute;padding:8px;border-radius:40px;background:#111827;box-shadow:0 0 0 2px #374151 inset,0 26px 50px rgba(15,23,42,.26)}
+.mob .mph img{display:block;width:100%;height:auto;margin:0;border-radius:32px}
+.mob .mb-svg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+.mobA .mb-sub{position:absolute;left:72px;top:150px;display:flex;align-items:center;gap:14px}
+.mobA .mb-sub .no{display:grid;place-items:center;height:40px;padding:0 10px;border-radius:10px;background:var(--green);color:#fff;font-weight:800;font-size:18px}
+.reveal .mobA .mb-sub h3{margin:0;font-size:26px;font-weight:800;color:var(--text)}
+.reveal .mobA .mb-sub p{margin:0 0 0 6px;padding-left:16px;border-left:2px solid #CBD5E1;font-size:19px;color:var(--muted)}
+.mobA .mb-band{position:absolute;left:72px;right:72px;top:330px;height:330px;border-radius:36px;background:linear-gradient(180deg,#ECFDF5,#F0FDF4 60%,rgba(240,253,244,0))}
+.mobA .mb-step{position:absolute}
+.mobA .mb-step .mph{position:relative}
+.mobA .mb-scan{position:absolute;inset:8px;border-radius:32px;overflow:hidden;pointer-events:none}
+.mobA .mb-scan i{position:absolute;left:22%;width:56%;top:27%;height:3px;border-radius:2px;background:linear-gradient(90deg,transparent,#4ADE80,transparent);box-shadow:0 0 14px 3px rgba(74,222,128,.75);animation:mblaser 1.8s ease-in-out infinite alternate}
+@keyframes mblaser{from{top:26%}to{top:48%}}
+.mobA .mb-cap{display:flex;align-items:flex-start;gap:10px;margin-top:16px}
+.mobA .mb-cap>b{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;font-size:16px}
+.reveal .mobA .mb-cap h4{margin:2px 0 2px;font-size:20px;font-weight:800;color:var(--text);text-transform:none}
+.reveal .mobA .mb-cap p{margin:0;font-size:15.5px;line-height:1.35;color:var(--muted)}
+.mobA .mb-go{position:absolute;z-index:2;display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:#fff;color:var(--green);box-shadow:0 0 0 6px rgba(10,143,91,.10),0 12px 26px rgba(15,23,42,.16)}
+.mobA .mb-go .ic{width:32px;height:32px;stroke-width:3}
+@keyframes mbgo{0%,70%,100%{background:#fff;color:var(--green);translate:0 0}80%,90%{background:var(--green);color:#fff;translate:6px 0}}
+@keyframes mbfade{from{opacity:0}to{opacity:1}}
+@keyframes mbflow{from{stroke-dashoffset:0}to{stroke-dashoffset:-28}}
+@keyframes mbact{0%,22%,100%{box-shadow:0 0 0 2px #374151 inset,0 26px 50px rgba(15,23,42,.26);translate:0 0}
+  6%,16%{box-shadow:0 0 0 2px #374151 inset,0 0 0 7px rgba(10,143,91,.35),0 34px 60px rgba(10,143,91,.3);translate:0 -10px}}
+.present.mobA .mb-sub{animation:left .7s var(--ease) .1s both}
+.present.mobA .mb-band{animation:fadein .8s ease .2s both}
+.present.mobA .mb-step{animation:up .8s var(--ease) both;animation-delay:calc(.35s + var(--i)*.45s)}
+.present.mobA .mb-step .mph{animation:mbact 8s ease-in-out infinite;animation-delay:calc(2.6s + var(--i)*2s)}
+.present.mobA .mb-go{animation:pop .55s var(--ease) both,mbgo 8s ease-in-out infinite;animation-delay:calc(.75s + var(--i)*.45s),calc(3.4s + var(--i)*2s)}
+.mobB .mb-glow{position:absolute;left:660px;top:150px;width:880px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(10,143,91,.16),rgba(10,143,91,0) 68%)}
+.mobB .f2{left:935px;top:172px;width:280px;z-index:3}
+.mobB .f1{left:712px;top:236px;width:236px;rotate:-9deg;z-index:2}
+.mobB .f3{left:1202px;top:236px;width:236px;rotate:9deg;z-index:2}
+.mobB .mb-card{position:absolute;z-index:4;display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:18px;background:rgba(255,255,255,.96);box-shadow:0 18px 40px rgba(15,23,42,.18)}
+.mobB .mb-card em{display:flex;flex-direction:column;font-style:normal;font-size:18px;font-weight:800;color:#0F172A}
+.mobB .mb-card small{font-size:14px;font-weight:600;color:#DC2626}
+.mobB .mb-card .ic{width:40px;height:40px;padding:8px;box-sizing:border-box;border-radius:12px;background:#ECFDF5;color:var(--green)}
+.mobB .mb-ring{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:conic-gradient(var(--green) 0 66.9%,#E2E8F0 0)}
+.mobB .mb-ring b{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;font-size:13px;color:#0F172A}
+.mobB .c1{left:640px;top:650px}
+.mobB .c2{left:1300px;top:180px}
+.mobB .c3{left:1330px;top:700px}
+.mobB .mb-dot{position:absolute;border-radius:50%}
+.mobB .d1{left:690px;top:200px;width:18px;height:18px;background:#F5A524}
+.mobB .d2{left:1490px;top:420px;width:14px;height:14px;background:var(--green)}
+.mobB .d3{left:880px;top:820px;width:10px;height:10px;background:#E8343C}
+@keyframes mbfan1{from{opacity:0;translate:223px 30px;rotate:0deg}to{opacity:1;translate:0 0;rotate:-9deg}}
+@keyframes mbfan3{from{opacity:0;translate:-267px 30px;rotate:0deg}to{opacity:1;translate:0 0;rotate:9deg}}
+@keyframes mbbob{50%{translate:0 -8px}}
+.present.mobB .mb-glow{animation:fadein 1s ease .1s both}
+.present.mobB .f2{animation:up .8s var(--ease) .2s both}
+.present.mobB .f1{animation:mbfan1 .9s var(--ease) .8s both}
+.present.mobB .f3{animation:mbfan3 .9s var(--ease) .8s both}
+.present.mobB .mb-card{animation:pop .6s var(--ease) both,mbbob 4s ease-in-out infinite}
+.present.mobB .c1{animation-delay:1.5s,2.4s}.present.mobB .c2{animation-delay:1.7s,3s}.present.mobB .c3{animation-delay:1.9s,3.6s}
+.present.mobB .mb-dot{animation:pop .5s var(--ease) 2s both}
+/*/mob*/
+/*endp*/
+.reveal .slides section.endp{background:#fff}
+.endp .ep-bg{position:absolute;left:0;top:0;margin:0}
+.endp .ep-g{transform-box:fill-box;transform-origin:50% 100%;scale:.68}
+.endp .ep-t.s1,.endp .ep-t.s3{display:none}.endp .ep-t.s5{scale:.65;left:1250px;top:0}.endp .ep-t.s2{scale:.6}
+.endp .ep-art{position:absolute;left:0;top:0;margin:0;overflow:visible;filter:drop-shadow(-10px 16px 14px rgba(0,0,0,.25))}
+.endp .ep-iso .ep-t.s4{display:none}
+@keyframes epgin{from{opacity:0;translate:0 26px}to{opacity:1;translate:0 0}}
+.present.endp .ep-g{animation:epgin .8s var(--ease) both,epfloat 5s ease-in-out infinite;animation-delay:calc(.8s + var(--i)*.2s),calc(2s + var(--i)*.6s)}
+.endp .ep-iso{position:absolute;left:0;top:0;width:1600px;height:900px;pointer-events:none}
+.endp .ep-iso>*{position:absolute;transform:rotateX(60deg) rotateZ(-45deg);transform-origin:center}
+.endp .ep-iso>.ep-grp{left:660px;top:-15px;width:760px;display:flex;flex-direction:column;gap:28px}
+.endp .ep-row{display:flex;align-items:flex-end;justify-content:center;gap:16px}
+.endp .ep-tab{flex:none;width:300px;padding:7px;border-radius:16px;background:#111827;box-sizing:border-box;box-shadow:-10px 10px 0 #0A3F36,-30px 40px 50px rgba(0,0,0,.35)}
+.endp .ep-tab img{display:block;width:100%;height:auto;margin:0;border-radius:9px}
+.endp .ep-scr{position:relative;box-sizing:border-box;width:100%;padding:8px;border-radius:18px;background:#E8F5EF;
+  box-shadow:-14px 14px 0 #0A3F36,-40px 50px 70px rgba(0,0,0,.35)}
+.endp .ep-scr img{display:block;width:100%;height:auto;margin:0;border-radius:10px}
+.endp .ep-ph{position:relative;flex:none;width:100px;padding:5px;box-sizing:border-box;border-radius:18px;background:#111827;box-shadow:-12px 12px 0 #0A3F36,-36px 46px 60px rgba(0,0,0,.35)}
+.endp .ep-ph img{display:block;width:100%;height:auto;margin:0;border-radius:13px}
+.endp .q2{left:880px;top:345px;width:160px;rotate:4deg;z-index:2}
+.endp .ep-t{display:block;border-radius:16px}
+.endp .s1,.endp .s2,.endp .s3,.endp .s4,.endp .s5{background:linear-gradient(135deg,#3FD49A,#1BA673);box-shadow:-9px 9px 0 #0E6E4F,-20px 26px 30px rgba(0,0,0,.25)}
+.endp .s1{left:640px;top:60px;width:90px;height:90px}
+.endp .s2{left:690px;top:400px;width:70px;height:70px;opacity:.9}
+.endp .s3{left:1430px;top:60px;width:80px;height:80px}
+.endp .s4{left:1440px;top:470px;width:110px;height:60px;background:linear-gradient(135deg,#F8C35B,#F59E0B);box-shadow:-9px 9px 0 #B45309,-20px 26px 30px rgba(0,0,0,.25)}
+.endp .s5{left:1060px;top:-10px;width:70px;height:70px}
+.endp .o1,.endp .o2,.endp .o3,.endp .o4{border:2px solid rgba(255,255,255,.16)}
+.endp .o1{left:640px;top:110px;width:110px;height:110px}
+.endp .o2{left:760px;top:170px;width:80px;height:80px}
+.endp .o3{left:1440px;top:420px;width:120px;height:120px}
+.endp .o4{left:560px;top:260px;width:70px;height:70px}
+.endp .ep-ring{position:absolute;border-radius:50%;box-sizing:border-box}
+.endp .r1{left:120px;top:330px;width:62px;height:62px;border:10px solid #fff}
+.endp .ep-dash{position:absolute;height:12px;border-radius:6px;background:#fff;transform:rotate(36deg);transform-origin:left center}
+.endp .d1{left:212px;top:372px;width:34px}.endp .d2{left:262px;top:408px;width:52px}.endp .d3{left:338px;top:462px;width:90px;display:none}
+.endp .ep-bar{position:absolute;height:20px;border-radius:10px;transform:rotate(-31.5deg);transform-origin:left center}
+.endp .b1{left:1150px;top:672px;width:250px;background:#F5A524;transform:rotate(-31.5deg)}
+.endp .r2{left:1180px;top:745px;width:120px;height:120px;border:16px solid #F5A524}
+.endp .b2{left:1286px;top:770px;width:150px;height:6px;border-radius:3px;background:#C9C59A}
+.endp .ep-logo{position:absolute;left:96px;top:64px;height:84px;margin:0}
+.endp .ep-thx{position:absolute;left:100px;top:190px;font-size:26px;font-weight:600;color:#D1FAE5}
+.endp .ep-tt{position:absolute;left:96px;top:590px}
+.reveal .endp .ep-tt p{margin:0;font-size:32px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#334155}
+.reveal .endp .ep-tt h2{margin:2px 0 0;font-size:60px;line-height:1.1;white-space:nowrap;font-weight:800;text-transform:uppercase;color:#0A8F5B}
+.endp .ep-co{position:absolute;left:96px;bottom:40px}
+.endp .ep-rule{display:block;width:90px;height:5px;margin:0 0 14px;border-radius:3px;background:#0A8F5B}
+.reveal .endp .ep-name{margin:0 0 8px;font-size:26px;font-weight:800;color:#0A8F5B}
+.endp .ep-row{display:flex;gap:48px;font-size:19px;color:#334155}
+.endp .ep-row span{display:inline-flex;align-items:center;gap:8px}
+.endp .ep-row .ic{width:22px;height:22px;color:#0A8F5B}
+@keyframes epfloat{50%{translate:0 -10px}}
+.present.endp .ep-bg{animation:fadein .9s ease both}
+.present.endp .ep-scr{animation:fadein 1s ease .3s both}
+.present.endp .ep-tab{animation:fadein .9s ease .6s both}.present.endp .ep-ph{animation:fadein .9s ease both;animation-delay:calc(.8s + var(--k)*.18s)}
+.present.endp .ep-t{animation:fadein .8s ease-out .5s both}
+.present.endp .s3,.present.endp .s5{animation-delay:.7s,2s}
+.present.endp .ep-logo{animation:up .8s var(--ease) .2s both}
+.present.endp .ep-thx{animation:left .8s var(--ease) .4s both}
+.present.endp .ep-tt>*{animation:left .8s var(--ease) both}
+.present.endp .ep-tt p{animation-delay:.6s}.present.endp .ep-tt h2{animation-delay:.75s}
+.present.endp .ep-ring,.present.endp .ep-dash,.present.endp .ep-bar{animation:pop .7s var(--ease) 1s both}
+.present.endp .ep-co{animation:up .8s var(--ease) 1.1s both}
+@media (prefers-reduced-motion:reduce){.present.endp *{animation:none!important}}
+/*/endp*/
+/*fix*/
+.po2 .frame.f1{top:262px;bottom:auto}
+.po2 .frame.f2{top:560px;bottom:auto}
+.tx6 .tx-list{top:345px}
+.p7.nc2 .view img{width:auto;max-height:540px;margin:0 auto}
+/*/fix*/
+/*khung*/
+.ring6 .hex span{display:flex;flex-direction:column;align-items:center;gap:4px}
+.ring6 .hex .hn{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#fff;color:var(--green);font-style:normal;font-size:19px;font-weight:800}
+.g5.g6{gap:8px;top:146px}
+.g5.g6 .g5-r{height:104px;min-height:0;overflow:hidden}
+.g5.g6 .g5-hd{height:100%;min-height:0}
+.g5.g6 .g5-wm .ic{width:72px;height:72px}
+.g5.g6 h3{margin-bottom:6px}
+.g5.g6 li{font-size:16px}
+.hd .now{position:absolute;left:0;top:118px;margin:0;white-space:nowrap;font-size:20px;color:var(--muted)}
+.hd .now b{display:inline-block;margin-right:10px;padding:2px 12px;border-radius:999px;background:#FEF2F2;color:#DC2626;font-size:15px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;vertical-align:2px}
+.r2c .hex{width:270px;height:200px;font-size:23px}
+.r2c .ctr{left:690px;top:215px}
+.r2c .pd.t0{top:80px}.r2c .pd.t1{top:295px}.r2c .pd.t2{top:510px}
+.r2c .pd{width:372px}.r2c .pd.l{left:30px}
+.r2c .pd li{font-size:23px;line-height:40px;font-weight:600;color:#334155}
+/*/khung*/
+</style></head><body>
+<div class="reveal"><div class="slides">
+<section class="dark" data-sec="0"><img class="cphoto" src="ANH-HALONG/a23.jpg" alt=""><div class="cpanel"></div><div class="cstripe"></div>
+<img class="logo-w" src="LOGO/v-mes-white.png" alt="V-MES">
+<div class="cover hero"><h1>Giải pháp quản lý<br>sản xuất</h1><span class="rule"></span></div><p class="byline">Một sản phẩm của Công ty Cổ phần Công nghệ số VCI</p><aside class="notes">Chào anh chị. Hôm nay em không kể về phần mềm trước, em hỏi một câu: sáng nay nếu sếp hỏi "dự án đang ở đâu, xưởng làm được bao nhiêu tấn", mình mất bao lâu để trả lời? V-MES sinh ra để câu đó trả lời được trong một phút.</aside></section>
+<section class="" data-sec="0"><header class="hd"><p class="tag">Nội dung</p><h2>Mục lục</h2></header><div class="mtoc2"><div class="sec"><b>I</b><div><h3>Đặt vấn đề</h3><ol class="sub2"><li><i>1</i>Khó khăn của doanh nghiệp sản xuất</li><li><i>2</i>Mục tiêu hệ thống V-MES</li></ol></div></div><div class="sec"><b>II</b><div><h3>Giải pháp V-MES</h3><ol class="sub2"><li><i>1</i>Khai báo sản phẩm</li><li><i>2</i>Lập kế hoạch</li><li><i>3</i>Giao việc và tiến độ</li><li><i>4</i>Năng lực nhà máy</li><li><i>5</i>Vật tư và sản lượng tại xưởng</li><li><i>6</i>Báo cáo cho lãnh đạo</li></ol></div></div><div class="sec"><b>III</b><div><h3>Tổng kết</h3></div></div></div><img class="art atoc" src="ANH-HALONG/a05.jpg" alt=""><aside class="notes">Bài gồm ba phần: những khó khăn xưởng đang gặp, cách V-MES giải từng bài toán từ kế hoạch tới báo cáo, và phần tổng kết. Phần hai em đi đúng theo dòng chảy sản xuất của nhà máy.</aside></section>
+<section class="" data-sec="0"><header class="hd"><p class="tag">I. Đặt vấn đề</p><h2>1. Khó khăn của doanh nghiệp sản xuất</h2></header><div class="ring6 r2c"><div class="hex" style="left:410px;top:0px"><span><i class="hn">1</i>Bóc khối lượng<br>thủ công</span></div><div class="hex" style="left:410px;top:215px"><span><i class="hn">2</i>Kế hoạch<br>mất nhiều ngày</span></div><div class="hex" style="left:410px;top:430px"><span><i class="hn">3</i>Hỏi tiến độ<br>phải gọi điện</span></div><div class="hex" style="left:920px;top:0px"><span><i class="hn">4</i>Nhận đơn<br>theo cảm giác</span></div><div class="hex" style="left:920px;top:215px"><span><i class="hn">5</i>Vật tư, sản lượng<br>lệch nhau</span></div><div class="hex" style="left:920px;top:430px"><span><i class="hn">6</i>Số liệu<br>đến muộn</span></div><div class="ctr"><img src="ANH-HALONG/a21.jpg" alt=""></div><div class="pd l t0 o"><ul><li>Đổi thiết kế là bóc lại từ đầu</li></ul></div><div class="pd l t1"><ul><li>Rải rác nhiều file Excel</li></ul></div><div class="pd l t2 o"><ul><li>Biết trễ khi đã trễ</li></ul></div><div class="pd r t0"><ul><li>Không rõ xưởng còn trống</li></ul></div><div class="pd r t1 o"><ul><li>Tổ chờ vật tư, báo số qua Zalo</li></ul></div><div class="pd r t2"><ul><li>Cuối tháng mới có báo cáo</li></ul></div></div><aside class="notes">Sáu chuyện này xưởng nào cũng gặp: bóc khối lượng thủ công, kế hoạch mất nhiều ngày, hỏi tiến độ phải gọi điện, nhận đơn theo cảm giác, vật tư và sản lượng lệch nhau, số liệu đến muộn. Anh chị thấy chỗ nào đau nhất? Mỗi nỗi đau ở đây có một phần giải pháp cùng số ở phía sau.</aside></section>
+<section class="" data-sec="0"><header class="hd"><p class="tag">I. Đặt vấn đề</p><h2>2. Mục tiêu hệ thống V-MES: giải cả 6 khó khăn</h2></header><div class="g5 g6"><div class="g5-r" style="--i:0;--c:#F59E0B"><div class="g5-hd"><b>01</b><span class="g5-ic"><i data-lucide="boxes" class="ic"></i></span></div><div class="g5-tx"><h3>Lấy khối lượng thẳng từ BIM</h3><ul><li style="--j:0">Nạp mô hình BIM, BOM tự tách theo cấu kiện</li><li style="--j:1">Đổi thiết kế thì cập nhật phiên bản, không bóc lại</li></ul></div><span class="g5-wm"><i data-lucide="boxes" class="ic"></i></span></div><div class="g5-r" style="--i:1;--c:#16A34A"><div class="g5-hd"><b>02</b><span class="g5-ic"><i data-lucide="calendar-range" class="ic"></i></span></div><div class="g5-tx"><h3>Lập kế hoạch nhanh, sửa dễ</h3><ul><li style="--j:0">Kế hoạch lấy số từ đơn hàng và BOM</li><li style="--j:1">Hỗ trợ lập tự động, ban hành theo phiên bản</li></ul></div><span class="g5-wm"><i data-lucide="calendar-range" class="ic"></i></span></div><div class="g5-r" style="--i:2;--c:#2563EB"><div class="g5-hd"><b>03</b><span class="g5-ic"><i data-lucide="chart-gantt" class="ic"></i></span></div><div class="g5-tx"><h3>Thấy tiến độ không cần gọi điện</h3><ul><li style="--j:0">Kế hoạch và thực tế trên cùng một Gantt</li><li style="--j:1">Việc chậm hiện ra ngay để xử lý sớm</li></ul></div><span class="g5-wm"><i data-lucide="chart-gantt" class="ic"></i></span></div><div class="g5-r" style="--i:3;--c:#0D9488"><div class="g5-hd"><b>04</b><span class="g5-ic"><i data-lucide="users" class="ic"></i></span></div><div class="g5-tx"><h3>Biết xưởng còn kham được bao nhiêu</h3><ul><li style="--j:0">Thấy tải từng tổ, từng máy theo tháng</li><li style="--j:1">Biết dư, thiếu người trước khi nhận đơn</li></ul></div><span class="g5-wm"><i data-lucide="users" class="ic"></i></span></div><div class="g5-r" style="--i:4;--c:#E8343C"><div class="g5-hd"><b>05</b><span class="g5-ic"><i data-lucide="package-check" class="ic"></i></span></div><div class="g5-tx"><h3>Vật tư và sản lượng khớp nhau</h3><ul><li style="--j:0">Cấp vật tư theo kế hoạch, biết tồn tại xưởng</li><li style="--j:1">Tổ báo bằng điện thoại, quét QR, tra được ai làm</li></ul></div><span class="g5-wm"><i data-lucide="package-check" class="ic"></i></span></div><div class="g5-r" style="--i:5;--c:#7C3AED"><div class="g5-hd"><b>06</b><span class="g5-ic"><i data-lucide="layout-dashboard" class="ic"></i></span></div><div class="g5-tx"><h3>Số liệu có ngay mỗi ngày</h3><ul><li style="--j:0">Bảng điều hành cho toàn nhà máy và từng dự án</li><li style="--j:1">Báo cáo theo tháng, quý, tách nhà máy và thầu phụ</li></ul></div><span class="g5-wm"><i data-lucide="layout-dashboard" class="ic"></i></span></div></div><aside class="notes">Từ sáu khó khăn đó, V-MES đặt mục tiêu giải từng cái một, số thứ tự khớp với trang trước. Mỗi dòng ở đây có màn hình thật ở phần II, em không hứa thứ chưa làm được.</aside></section>
+<section class="" data-sec="0"><header class="hd"><p class="tag">II. Giải pháp V-MES</p><h2>Tổng quan: số liệu chạy một mạch từ đơn hàng tới báo cáo</h2></header><div class="pf"><div class="pf-band t-src" style="left:34px;top:172px;width:224px;height:348px;--d:0.15s"><span>Đầu vào</span></div><div class="pf-band t-plan" style="left:296px;top:172px;width:486px;height:348px;--d:0.6s"><span>Kế hoạch</span></div><div class="pf-band t-exec" style="left:1080px;top:172px;width:224px;height:348px;--d:2.9s"><span>Thực thi</span></div><div class="pf-band t-rep" style="left:1342px;top:172px;width:224px;height:348px;--d:3.4s"><span>Báo cáo</span></div><div class="pf-band t-wh" style="left:819px;top:584px;width:747px;height:210px;--d:1.75s"><span>Kho vật tư tại nhà máy</span></div><svg class="pf-svg" viewBox="0 0 1600 900" aria-hidden="true"><path class="pf-e" pathLength="1" d="M244.0 265.0 L276.8 265.0 L276.8 351.0 L309.6 351.0" style="--d:0.65s;--t:0.28s"/><path class="pf-f" d="M244.0 265.0 L276.8 265.0 L276.8 351.0 L309.6 351.0" style="--d:0.93s"/><path class="pf-h" d="M309.6 351.0 L295.2 342.0 L295.2 360.0Z" style="--d:0.88s"/><path class="pf-e" pathLength="1" d="M244.0 437.0 L276.8 437.0 L276.8 351.0 L309.6 351.0" style="--d:0.7s;--t:0.28s"/><path class="pf-f" d="M244.0 437.0 L276.8 437.0 L276.8 351.0 L309.6 351.0" style="--d:0.98s"/><path class="pf-h" d="M309.6 351.0 L295.2 342.0 L295.2 360.0Z" style="--d:0.93s"/><path class="pf-e" pathLength="1" d="M505.6 351.0 L571.2 351.0" style="--d:1.2s;--t:0.28s"/><path class="pf-f" d="M505.6 351.0 L571.2 351.0" style="--d:1.48s"/><path class="pf-h" d="M571.2 351.0 L556.8 342.0 L556.8 360.0Z" style="--d:1.43s"/><path class="pf-e" pathLength="1" d="M669.2 426.0 L669.2 633.0" style="--d:1.65s;--t:0.28s"/><path class="pf-f" d="M669.2 426.0 L669.2 633.0" style="--d:1.93s"/><path class="pf-h" d="M669.2 633.0 L660.2 618.6 L678.2 618.6Z" style="--d:1.88s"/><path class="pf-e" pathLength="1" d="M727.2 691.0 L832.8 691.0" style="--d:2.0s;--t:0.28s"/><path class="pf-f" d="M727.2 691.0 L832.8 691.0" style="--d:2.28s"/><path class="pf-h" d="M832.8 691.0 L818.4 682.0 L818.4 700.0Z" style="--d:2.23s"/><path class="pf-e" pathLength="1" d="M1028.8 691.0 L1094.4 691.0" style="--d:2.3s;--t:0.28s"/><path class="pf-f" d="M1028.8 691.0 L1094.4 691.0" style="--d:2.58s"/><path class="pf-h" d="M1094.4 691.0 L1080.0 682.0 L1080.0 700.0Z" style="--d:2.53s"/><path class="pf-e" pathLength="1" d="M1290.4 691.0 L1356.0 691.0" style="--d:2.6s;--t:0.28s"/><path class="pf-f" d="M1290.4 691.0 L1356.0 691.0" style="--d:2.88s"/><path class="pf-h" d="M1356.0 691.0 L1341.6 682.0 L1341.6 700.0Z" style="--d:2.83s"/><path class="pf-e" pathLength="1" d="M1454.0 616.0 L1454.0 560.0 L1192.4 560.0 L1192.4 426.0" style="--d:2.95s;--t:0.56s"/><path class="pf-f" d="M1454.0 616.0 L1454.0 560.0 L1192.4 560.0 L1192.4 426.0" style="--d:3.51s"/><path class="pf-h" d="M1192.4 426.0 L1183.4 440.4 L1201.4 440.4Z" style="--d:3.46s"/><path class="pf-e" pathLength="1" d="M767.2 351.0 L1094.4 351.0" style="--d:2.6s;--t:0.41s"/><path class="pf-f" d="M767.2 351.0 L1094.4 351.0" style="--d:3.01s"/><path class="pf-h" d="M1094.4 351.0 L1080.0 342.0 L1080.0 360.0Z" style="--d:2.96s"/><path class="pf-e" pathLength="1" d="M1290.4 351.0 L1356.0 351.0" style="--d:3.6s;--t:0.28s"/><path class="pf-f" d="M1290.4 351.0 L1356.0 351.0" style="--d:3.88s"/><path class="pf-h" d="M1356.0 351.0 L1341.6 342.0 L1341.6 360.0Z" style="--d:3.83s"/></svg><i class="pf-spark" style="offset-path:path('M244.0 265.0 L276.8 265.0 L276.8 351.0 L309.6 351.0');--d:0.65s;--t:0.28s"></i><i class="pf-spark" style="offset-path:path('M244.0 437.0 L276.8 437.0 L276.8 351.0 L309.6 351.0');--d:0.7s;--t:0.28s"></i><i class="pf-spark" style="offset-path:path('M505.6 351.0 L571.2 351.0');--d:1.2s;--t:0.28s"></i><i class="pf-spark" style="offset-path:path('M669.2 426.0 L669.2 633.0');--d:1.65s;--t:0.28s"></i><i class="pf-spark" style="offset-path:path('M727.2 691.0 L832.8 691.0');--d:2.0s;--t:0.28s"></i><i class="pf-spark" style="offset-path:path('M1028.8 691.0 L1094.4 691.0');--d:2.3s;--t:0.28s"></i><i class="pf-spark" style="offset-path:path('M1290.4 691.0 L1356.0 691.0');--d:2.6s;--t:0.28s"></i><i class="pf-spark" style="offset-path:path('M1454.0 616.0 L1454.0 560.0 L1192.4 560.0 L1192.4 426.0');--d:2.95s;--t:0.56s"></i><i class="pf-spark" style="offset-path:path('M767.2 351.0 L1094.4 351.0');--d:2.6s;--t:0.41s"></i><i class="pf-spark" style="offset-path:path('M1290.4 351.0 L1356.0 351.0');--d:3.6s;--t:0.28s"></i><div class="pf-hub" style="left:611px;top:633px;width:116px;height:116px;--d:1.9s"><i data-lucide="warehouse" class="ic"></i><b>Kho hàng</b></div><p class="pf-hubcap" style="left:569px;top:759px;--d:2.00s">Kho công ty</p><div class="pf-n t-src" style="left:48px;top:190px;--d:0.35s"><span class="pf-ic"><i data-lucide="clipboard-list" class="ic"></i></span><b>Đơn đặt hàng</b><small>Đơn hàng theo dự án</small></div><div class="pf-n t-src" style="left:48px;top:362px;--d:0.45s"><span class="pf-ic"><i data-lucide="boxes" class="ic"></i></span><b>Quản lý BIM BOM</b><small>BOM cấu kiện từ BIM</small></div><div class="pf-n t-plan" style="left:310px;top:276px;--d:0.95s"><span class="pf-ic"><i data-lucide="calendar-range" class="ic"></i></span><b>Kế hoạch sản xuất</b><small>Tiến độ LOT, đốt, cấu kiện</small></div><div class="pf-n t-plan" style="left:571px;top:276px;--d:1.4s"><span class="pf-ic"><i data-lucide="hard-hat" class="ic"></i></span><b>Kế hoạch nguồn lực</b><small>Tổ, máy, vật tư theo kỳ</small></div><div class="pf-n t-wh" style="left:833px;top:616px;--d:2.15s"><span class="pf-ic"><i data-lucide="package-plus" class="ic"></i></span><b>Yêu cầu cấp vật tư</b><small>Đề nghị kho công ty cấp</small></div><div class="pf-n t-wh" style="left:1094px;top:616px;--d:2.45s"><span class="pf-ic"><i data-lucide="download" class="ic"></i></span><b>Nhập kho vật tư</b><small>Vật tư về kho nhà máy</small></div><div class="pf-n t-wh" style="left:1356px;top:616px;--d:2.75s"><span class="pf-ic"><i data-lucide="truck" class="ic"></i></span><b>Xuất vật tư sản xuất</b><small>Cấp vật tư cho tổ</small></div><div class="pf-n t-exec" style="left:1094px;top:276px;--d:3.35s"><span class="pf-ic"><i data-lucide="kanban" class="ic"></i></span><b>Phiếu giao việc</b><small>Giao việc, báo sản lượng</small></div><div class="pf-n t-rep" style="left:1356px;top:276px;--d:3.8s"><span class="pf-ic"><i data-lucide="chart-column" class="ic"></i></span><b>Báo cáo sản xuất</b><small>Sản lượng theo tháng</small></div><p class="pf-cap" style="left:801px;top:317px;--d:2.75s">Giao việc theo kế hoạch</p><p class="pf-cap" style="left:1193px;top:528px;--d:3.3s">Vật tư đã cấp về tổ</p></div><aside class="notes">Đây là toàn cảnh: đơn hàng và BIM đi vào kế hoạch, kế hoạch sinh ra phiếu giao việc cho tổ, kho cấp vật tư theo đúng kế hoạch, tổ báo sản lượng, lãnh đạo xem báo cáo. Số liệu chỉ nhập một lần ở đầu, các khâu sau dùng lại.</aside></section>
+<section class="" data-sec="1"><header class="hd"><p class="tag">II. Giải pháp V-MES</p><h2>1. Khai báo sản phẩm</h2><p class="now"><b>Hiện nay</b>Đổi thiết kế là bóc lại BOM bằng tay</p></header><div class="hexwrap"><div class="hex h0">Khai báo công đoạn,<br>quy trình sản xuất</div><div class="hex h1">Khai báo, phân loại<br>vật tư hàng hóa</div><div class="hex h2">Định mức BOM<br>từ mô hình BIM</div><div class="hexlabel">Khai báo<br>sản phẩm</div></div><img class="art ahex" src="ANH-HALONG/a16.jpg" alt=""><aside class="notes">Bài toán đầu tiên: dạy cho hệ thống biết sản phẩm của mình làm thế nào. Khai quy trình, công đoạn, danh mục vật tư và định mức BOM. Làm một lần, dùng cho cả dự án.</aside></section>
+<section class="p7" data-sec="1"><header class="hd"><p class="tag">II.1 Khai báo sản phẩm · Giải pháp</p><h2>Khai quy trình một lần cho mỗi dự án</h2></header><ul class="plan"><li><span class="no">#1</span><div><h3>Khai báo công đoạn, quy trình sản xuất</h3><p>Lập quy trình sản xuất chi tiết cho từng dự án</p><p>Khai báo các công đoạn thực hiện trong quy trình</p><p>Khai báo định mức giờ làm/ngày</p></div></li><li><span class="no">#2</span><div><h3>Khai báo, phân loại vật tư hàng hóa</h3><p>Danh mục vật tư, loại, nhóm, đơn vị tính</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Quy trình sản xuất</em></div><div class="view"><img src="SHOTS/quy-trinh.png" alt="Màn hình Quy trình sản xuất" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Quy trình sản xuất</b><p>Một quy trình đã khai đủ công đoạn</p><code>shots/quy-trinh.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a10.jpg" alt=""><aside class="notes">Mỗi dự án có quy trình riêng: Cắt, Gá, Hàn, Tổ hợp, Sơn, Đóng kiện. Trọng số và định mức giờ công khai ở đây, sau này kế hoạch và sản lượng quy đổi đều đọc từ đây.</aside></section>
+<section class="p7" data-sec="1"><header class="hd"><p class="tag">II.1 Khai báo sản phẩm · Giải pháp</p><h2>BOM theo dự án, có phiên bản</h2></header><ul class="plan"><li><span class="no">#3</span><div><h3>Định mức BOM theo dự án</h3><p>Khai báo BOM chi tiết theo từng dự án</p><p>Lưu phiên bản BOM khi thiết kế thay đổi</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Quản lý BIM BOM</em></div><div class="view"><img src="SHOTS/bom.png" alt="Màn hình Quản lý BIM BOM" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Quản lý BIM BOM</b><p>BOM của một dự án</p><code>shots/bom.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a18.jpg" alt=""><aside class="notes">BOM theo dự án và có phiên bản. Khi thiết kế đổi, mình có BOM mới mà vẫn giữ bản cũ để đối chiếu, không ai phải sửa tay trên Excel.</aside></section>
+<section class="p7" data-sec="1"><header class="hd"><p class="tag">II.1 Khai báo sản phẩm · Giải pháp</p><h2>BOM lấy thẳng từ mô hình BIM</h2></header><ul class="plan"><li><span class="no">#3</span><div><h3>Import BIM, ghép BOM với kế hoạch</h3><p>Nạp file IFC, xem mô hình 3D ngay trên hệ thống</p><p>Tách cấu kiện, khối lượng thành BOM</p><p>Gán cấu kiện BOM vào từng công việc kế hoạch</p><p>Tô màu mô hình theo cấu kiện đã gán</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Gán cấu kiện</em></div><div class="view"><img src="SHOTS/bim-gan.png" alt="Màn hình Gán cấu kiện BIM" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Gán cấu kiện BIM</b><code>shots/bim-gan.png</code></div></div></figure><aside class="notes">Đây là chỗ khác biệt: nạp thẳng file IFC, hệ thống tách cấu kiện và khối lượng thành BOM. Kéo cấu kiện vào từng việc trong kế hoạch, mô hình tô màu theo phần đã gán. Không còn bóc khối lượng bằng tay.</aside></section>
+<section class="" data-sec="2"><header class="hd"><p class="tag">II. Giải pháp V-MES</p><h2>2. Lập kế hoạch</h2><p class="now"><b>Hiện nay</b>Kế hoạch nằm rải rác nhiều file Excel</p></header><div class="hd2"><div class="hd2-ring" style="left:140px;top:325px;width:380px;height:380px"><span class="hd2-dash"></span><b>Lập kế hoạch<br>sản xuất</b></div><svg class="hd2-svg" viewBox="0 0 1600 900" width="1600" height="900"><path class="hd2-ln" style="--i:0" d="M491 379 L609 326" stroke="#14B8A6" marker-end="url(#hd2a0)"/><marker id="hd2a0" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#14B8A6"/></marker><path class="hd2-ln" style="--i:1" d="M542 515 L653 515" stroke="#F59E0B" marker-end="url(#hd2a1)"/><marker id="hd2a1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#F59E0B"/></marker><path class="hd2-ln" style="--i:2" d="M491 651 L609 704" stroke="#A855F7" marker-end="url(#hd2a2)"/><marker id="hd2a2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#A855F7"/></marker></svg><span class="hd2-dot" style="--i:0;--c:#14B8A6;left:458px;top:375px"></span><span class="hd2-dot" style="--i:1;--c:#F59E0B;left:507px;top:502px"></span><span class="hd2-dot" style="--i:2;--c:#A855F7;left:458px;top:629px"></span><div class="hd2-n" style="--i:0;--c:#14B8A6;left:615px;top:250px"><span class="hd2-ic"><i data-lucide="shopping-cart" class="ic"></i></span><div class="hd2-pill"><b>Đơn đặt hàng</b><span>Quản lý đơn hàng theo dự án</span></div></div><div class="hd2-n" style="--i:1;--c:#F59E0B;left:665px;top:465px"><span class="hd2-ic"><i data-lucide="package-search" class="ic"></i></span><div class="hd2-pill"><b>Nhu cầu vật tư</b><span>Tính từ BOM theo kế hoạch</span></div></div><div class="hd2-n" style="--i:2;--c:#A855F7;left:615px;top:680px"><span class="hd2-ic"><i data-lucide="calendar-range" class="ic"></i></span><div class="hd2-pill"><b>Kế hoạch sản xuất tổng thể</b><span>Lập theo lô, lấy khối lượng từ BOM</span></div></div><img class="hd2-img" src="ANH-HALONG/a09.jpg" alt=""></div><aside class="notes">Bài toán hai: từ đơn hàng ra kế hoạch. Đơn hàng theo dự án, nhu cầu vật tư tính từ BOM, rồi lập kế hoạch tổng thể.</aside></section>
+<section class="p7 po2" data-sec="2"><header class="hd"><p class="tag">II.2 Lập kế hoạch · Giải pháp</p><h2>Đơn hàng quản lý theo dự án, hợp đồng</h2></header><ul class="plan"><li><span class="no">#1</span><div><h3>Quản lý đơn đặt hàng</h3><p>Đơn hàng theo dự án, khách hàng, hợp đồng</p><p>Giá trị, khối lượng hợp đồng, hạn hoàn thành</p><p>Theo dõi trạng thái: duyệt, lập kế hoạch, sản xuất, hoàn thành</p></div></li></ul><figure class="frame f1"><div class="bar"><span></span><span></span><span></span><em>V-MES / Đơn đặt hàng</em></div><div class="view"><img src="SHOTS/don-hang.png" alt="Danh sách đơn đặt hàng"></div></figure><figure class="frame f2"><div class="bar"><span></span><span></span><span></span><em>V-MES / Chi tiết đơn hàng</em></div><div class="view"><img src="SHOTS/don-hang-chi-tiet.png" alt="Chi tiết đơn đặt hàng"></div></figure><aside class="notes">Đơn hàng gắn với dự án, khách hàng, hợp đồng, có giá trị và khối lượng hợp đồng. Trạng thái chạy từ duyệt, lập kế hoạch, sản xuất tới hoàn thành, nhìn là biết đơn nào đang ở đâu.</aside></section>
+<section class="p7 nc2" data-sec="2"><header class="hd"><p class="tag">II.2 Lập kế hoạch · Giải pháp</p><h2>Nhu cầu vật tư tính từ kế hoạch và BOM</h2></header><ul class="plan"><li><span class="no">#2</span><div><h3>Nhu cầu vật tư từ kế hoạch</h3><p>Chọn kế hoạch sản xuất, hệ thống lấy vật tư theo BOM</p><p>Hiện số lượng còn lại cần cấp của từng vật tư</p><p>Chọn dòng cần cấp, tạo yêu cầu gửi kho</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Chọn kế hoạch sản xuất</em></div><div class="view"><img src="SHOTS/nhu-cau-vat-tu.png" alt="Màn hình Yêu cầu cấp vật tư" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Yêu cầu cấp vật tư</b><code>shots/nhu-cau-vat-tu.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a07.jpg" alt=""><aside class="notes">Thủ kho không phải đoán cần cấp gì. Chọn kế hoạch sản xuất, hệ thống liệt kê vật tư theo BOM kèm số còn lại cần cấp, tick dòng cần rồi tạo yêu cầu.</aside></section>
+<section class="p7" data-sec="2"><header class="hd"><p class="tag">II.2 Lập kế hoạch · Giải pháp</p><h2>Kế hoạch tổng thể có hỗ trợ lập tự động</h2></header><ul class="plan"><li><span class="no">#3</span><div><h3>Kế hoạch sản xuất tổng thể</h3><p>Lập theo kỳ</p><p>Lập kế hoạch chi tiết</p><p>Hỗ trợ lập kế hoạch tự động</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Kế hoạch sản xuất</em></div><div class="view"><img src="SHOTS/ke-hoach-tong-the.png" alt="Màn hình Kế hoạch sản xuất" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Kế hoạch sản xuất</b><p>Chế độ Tổng thể</p><code>shots/ke-hoach-tong-the.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a01.jpg" alt=""><aside class="notes">Kế hoạch tổng thể lập theo kỳ, theo lô, đốt, cấu kiện. Có chế độ lập tự động gợi ý lịch theo năng lực, người lập chỉ cần chỉnh lại.</aside></section>
+<section class="" data-sec="3"><header class="hd"><p class="tag">II. Giải pháp V-MES</p><h2>3. Giao việc và tiến độ</h2><p class="now"><b>Hiện nay</b>Hỏi tiến độ phải gọi từng tổ</p></header><div class="d4"><span class="d4-bg"></span><span class="d4-no" style="--i:0;--c:#FDBA5C;left:762px;top:147px">1</span><div class="d4-c" style="--i:0;--c:#FDBA5C;left:655px;top:185px"><b>Kiểm soát kế hoạch<br>sản xuất chi tiết</b><span class="d4-ic"><i data-lucide="clipboard-check" class="ic"></i></span></div><span class="d4-no" style="--i:1;--c:#C9DC5C;left:1083px;top:354px">2</span><div class="d4-c" style="--i:1;--c:#C9DC5C;left:865px;top:340px"><b>Quản lý phiếu<br>giao việc</b><span class="d4-ic"><i data-lucide="scroll-text" class="ic"></i></span></div><span class="d4-no" style="--i:2;--c:#6FA9B1;left:948px;top:730px">3</span><div class="d4-c" style="--i:2;--c:#6FA9B1;left:730px;top:530px"><b>Báo cáo thực hiện<br>theo cấu kiện</b><span class="d4-ic"><i data-lucide="camera" class="ic"></i></span></div><span class="d4-no" style="--i:3;--c:#C4D3CA;left:476px;top:580px">4</span><div class="d4-c" style="--i:3;--c:#C4D3CA;left:480px;top:380px"><b>Theo dõi tiến độ<br>sản xuất</b><span class="d4-ic"><i data-lucide="chart-gantt" class="ic"></i></span></div></div><aside class="notes">Bài toán ba: điều phối hằng ngày. Kế hoạch chi tiết, giao việc cho tổ, tổ báo cáo thực hiện, và theo dõi tiến độ. Bốn việc này nối liền nhau.</aside></section>
+<section class="p7" data-sec="3"><header class="hd"><p class="tag">II.3 Giao việc và tiến độ · Giải pháp</p><h2>Kế hoạch chi tiết đến từng nhóm cấu kiện</h2></header><ul class="plan"><li><span class="no">#1</span><div><h3>Kiểm soát kế hoạch sản xuất chi tiết</h3><p>Lập việc theo nhóm cấu kiện</p><p>Xem chi tiết từng công đoạn, từng đầu việc của tổ</p><p>Cho phép điều chỉnh kế hoạch trước đó</p><p>Ban hành phiên bản kế hoạch mới</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Kế hoạch chi tiết</em></div><div class="view"><img src="SHOTS/ke-hoach-chi-tiet.png" alt="Màn hình Kế hoạch chi tiết" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Kế hoạch chi tiết</b><p>Chế độ Chi tiết</p><code>shots/ke-hoach-chi-tiet.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a02.jpg" alt=""><aside class="notes">Kế hoạch chi tiết xuống tới nhóm cấu kiện và từng công đoạn. Khi cần đổi, mình ban hành phiên bản mới, lịch sử các bản cũ vẫn còn.</aside></section>
+<section class="pb15" data-sec="3"><header class="hd"><p class="tag">II.3 Giao việc và tiến độ · Giải pháp</p><h2>Giao việc cho tổ ngay từ kế hoạch</h2></header><ul class="plan"><li><span class="no">#2</span><div><h3>Quản lý phiếu giao việc</h3><p>Theo dõi công việc từ kế hoạch</p><p>Phân công việc theo tổ, theo người cụ thể</p><p>Theo dõi trên bảng Kanban</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Bảng tải việc</em></div><div class="view"><img src="SHOTS/kanban.png" alt="Màn hình Bảng tải việc" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Bảng tải việc</b><p>Bảng Kanban đủ các cột trạng thái</p><code>shots/kanban.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a11.jpg" alt=""><aside class="notes">Phiếu giao việc sinh ra thẳng từ kế hoạch, giao cho tổ hoặc từng người. Bảng Kanban cho thấy việc nào chưa làm, đang làm, xong; tổ nào đang ôm nhiều việc.</aside></section>
+<section class="pgv2" data-sec="3"><header class="hd"><p class="tag">II.3 Giao việc và tiến độ · Giải pháp</p><h2>Báo cáo theo cấu kiện, kèm ảnh, video</h2></header><ul class="plan"><li><span class="no">#3</span><div><h3>Báo cáo thực hiện theo cấu kiện</h3><p>Xem chi tiết phiếu: cấu kiện, kế hoạch, thực tế, người phụ trách</p><p>Báo cáo thực hiện theo từng cấu kiện, kèm ảnh, video</p></div></li></ul><figure class="frame pa"><div class="bar"><span></span><span></span><span></span><em>V-MES / Chi tiết phiếu giao việc</em></div><div class="view"><img src="SHOTS/pgv-chi-tiet.png" alt="Chi tiết phiếu giao việc" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Chi tiết phiếu giao việc</b><code>shots/pgv-chi-tiet.png</code></div></div><figcaption>Chi tiết phiếu giao việc</figcaption></figure><figure class="frame pb"><div class="bar"><span></span><span></span><span></span><em>V-MES / Báo cáo thực hiện</em></div><div class="view"><img src="SHOTS/pgv-thuc-hien.png" alt="Báo cáo thực hiện" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Báo cáo thực hiện</b><code>shots/pgv-thuc-hien.png</code></div></div><figcaption>Báo cáo thực hiện</figcaption></figure><aside class="notes">Mỗi phiếu có cấu kiện, kế hoạch, thực tế, người phụ trách. Tổ báo theo từng cấu kiện, kèm ảnh, video, nên khi nghiệm thu không phải đi tìm bằng chứng.</aside></section>
+<section class="" data-sec="3"><header class="hd"><p class="tag">II.3 Giao việc và tiến độ · Giải pháp</p><h2>Kế hoạch và thực tế trên cùng một Gantt</h2></header><ul class="plan"><li><span class="no">#4</span><div><h3>Theo dõi tiến độ sản xuất</h3><p>Xem tổng thể trên Gantt</p><p>So sánh kế hoạch với thực tế</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Tiến độ</em></div><div class="view"><img src="SHOTS/tien-do.png" alt="Màn hình Tiến độ" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Tiến độ</b><p>Gantt có cả kế hoạch và thực tế</p><code>shots/tien-do.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a14.jpg" alt=""><aside class="notes">Kế hoạch và thực tế nằm trên cùng một Gantt. Việc nào trễ hiện ra ngay, không phải chờ cuối tuần tổng hợp mới biết.</aside></section>
+<section class="" data-sec="4"><header class="hd"><p class="tag">II. Giải pháp V-MES</p><h2>4. Năng lực nhà máy</h2><p class="now"><b>Hiện nay</b>Không biết xưởng còn trống bao nhiêu</p></header><div class="sl"><svg class="sl-svg" viewBox="0 0 1600 900" width="1600" height="900"><marker id="slA" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1E293B"/></marker><path class="sl-ln" d="M110 705 L1490 280"/><circle class="sl-end" cx="1490" cy="280" r="7"/><path class="sl-ar" style="--i:0" d="M276 610 L276 574" marker-end="url(#slA)"/><path class="sl-ar" style="--i:1" d="M634 588 L634 624" marker-end="url(#slA)"/><path class="sl-ar" style="--i:2" d="M966 398 L966 362" marker-end="url(#slA)"/><path class="sl-ar" style="--i:3" d="M1324 375 L1324 411" marker-end="url(#slA)"/></svg><span class="sl-n" style="--i:0;--c:#F2C35B;left:236px;top:614px"><i data-lucide="settings" class="ic"></i></span><div class="sl-b up" style="--i:0;--c:#F2C35B;left:126px;top:352px"><h3><em>1.</em> Khai báo máy móc<br>thiết bị</h3><div class="sl-pod"><img class="sl-im" src="SHOTS/sl-1.svg" alt=""><span class="sl-disc"></span></div></div><span class="sl-n" style="--i:1;--c:#E8553D;left:594px;top:504px"><i data-lucide="network" class="ic"></i></span><div class="sl-b down" style="--i:1;--c:#E8553D;left:484px;top:624px"><h3><em>2.</em> Khai báo<br>công suất máy</h3><div class="sl-pod"><img class="sl-im" src="SHOTS/sl-2.svg" alt=""><span class="sl-disc"></span></div></div><span class="sl-n" style="--i:2;--c:#8A8A5C;left:926px;top:402px"><i data-lucide="clipboard-check" class="ic"></i></span><div class="sl-b up" style="--i:2;--c:#8A8A5C;left:816px;top:140px"><h3><em>3.</em> Khai báo năng lực<br>sản xuất</h3><div class="sl-pod"><img class="sl-im" src="SHOTS/sl-3.svg" alt=""><span class="sl-disc"></span></div></div><span class="sl-n" style="--i:3;--c:#F08A6B;left:1284px;top:291px"><i data-lucide="scan-eye" class="ic"></i></span><div class="sl-b down" style="--i:3;--c:#F08A6B;left:1174px;top:411px"><h3><em>4.</em> Tỷ trọng<br>công đoạn</h3><div class="sl-pod"><img class="sl-im" src="SHOTS/sl-4.svg" alt=""><span class="sl-disc"></span></div></div></div><aside class="notes">Bài toán bốn: xưởng còn kham được bao nhiêu. Muốn biết thì phải khai máy, công suất máy, năng lực tổ và cách quy đổi sản lượng.</aside></section>
+<section class="" data-sec="4"><header class="hd"><p class="tag">II.4 Năng lực nhà máy · Giải pháp</p><h2>Biết xưởng có máy gì, công suất bao nhiêu</h2></header><ul class="plan"><li><span class="no">#1·2</span><div><h3>Máy móc, thiết bị và công suất</h3><p>Danh mục máy, số lượng, công đoạn sử dụng</p><p>Công suất (tấn/giờ), hiệu suất từng máy</p><p>Danh mục tổ sản xuất</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Máy &amp; Thiết bị</em></div><div class="view"><img src="SHOTS/may-thiet-bi.png" alt="Màn hình Máy &amp; Thiết bị" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Máy &amp; Thiết bị</b><p>Danh sách máy</p><code>shots/may-thiet-bi.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a08.jpg" alt=""><aside class="notes">Danh mục máy kèm số lượng, công đoạn sử dụng, công suất tấn trên giờ và hiệu suất. Cùng với danh mục tổ, đây là nền để tính năng lực.</aside></section>
+<section class="p7" data-sec="4"><header class="hd"><p class="tag">II.4 Năng lực nhà máy · Giải pháp</p><h2>Thấy dư, thiếu nhân lực theo từng tháng</h2></header><ul class="plan"><li><span class="no">#3</span><div><h3>Khai báo năng lực sản xuất</h3><p>Kế hoạch nhân lực theo công đoạn, theo tháng</p><p>So sánh với nhân lực hiện có: dư / thiếu</p><p>Kế hoạch sản lượng quy đổi theo công đoạn</p><p>Xem toàn nhà máy hoặc từng dự án</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Kế hoạch nhân lực · sản lượng</em></div><div class="view nl2"><img src="SHOTS/nhan-luc.png" alt="Kế hoạch nhân lực"><div class="fragment nl2-b"><img src="SHOTS/san-luong.png" alt="Kế hoạch sản lượng"></div><span class="nl2-tab"><b class="t1">Nhân lực</b><b class="t2">Sản lượng</b></span></div></figure><img class="art al" src="ANH-HALONG/a03.jpg" alt=""><aside class="notes">Kế hoạch nhân lực theo công đoạn, theo tháng, đặt cạnh nhân lực hiện có nên thấy ngay dư hay thiếu. Xem được toàn nhà máy hoặc từng dự án, trước khi nhận thêm đơn mới.</aside></section>
+<section class="p7" data-sec="4"><header class="hd"><p class="tag">II.4 Năng lực nhà máy · Giải pháp</p><h2>Quy đổi sản lượng về cùng một thước đo</h2></header><ul class="plan"><li><span class="no">#4</span><div><h3>Tỷ trọng công đoạn</h3><p>Tỷ trọng từng công đoạn khi quy đổi</p><p>Lấy từ trọng số trong quy trình</p><p>Khai riêng cho từng dự án</p><p>Cảnh báo khi tổng chưa đủ 100%</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Tỷ trọng công đoạn</em></div><div class="view"><img src="SHOTS/he-so-phan-bo.png" alt="Tỷ trọng công đoạn"></div></figure><aside class="notes">Cắt một tấn với sơn một tấn không cùng công sức. Tỷ trọng công đoạn giúp quy đổi sản lượng về một thước đo chung, khai riêng cho từng dự án, cảnh báo nếu tổng chưa đủ 100%.</aside></section>
+<section class="" data-sec="5"><header class="hd"><p class="tag">II. Giải pháp V-MES</p><h2>5. Vật tư và sản lượng tại xưởng</h2><p class="now"><b>Hiện nay</b>Thiếu vật tư thì tổ chờ, sản lượng báo qua Zalo</p></header><div class="tx"><span class="tx-arc"></span><div class="tx-ph"><img src="ANH-HALONG/a21.jpg" alt=""></div><div class="tx-list"><div class="tx-r" style="--i:0"><span class="tx-ck"><i data-lucide="check" class="ic"></i></span><span class="tx-back"></span><div class="tx-bar"><span>Theo dõi vật tư sản xuất</span></div></div><div class="tx-r" style="--i:1"><span class="tx-ck"><i data-lucide="check" class="ic"></i></span><span class="tx-back"></span><div class="tx-bar"><span>Báo sản lượng, giờ công</span></div></div><div class="tx-r" style="--i:2"><span class="tx-ck"><i data-lucide="check" class="ic"></i></span><span class="tx-back"></span><div class="tx-bar"><span>Quản lý tồn kho tại xưởng</span></div></div><div class="tx-r" style="--i:3"><span class="tx-ck"><i data-lucide="check" class="ic"></i></span><span class="tx-back"></span><div class="tx-bar"><span>Giải pháp trên điện thoại</span></div></div></div></div><aside class="notes">Bài toán năm: thực thi tại xưởng. Vật tư, báo sản lượng, tồn kho, và điện thoại cho tổ trưởng.</aside></section>
+<section class="pgv2 pb15" data-sec="5"><header class="hd"><p class="tag">II.5 Vật tư và sản lượng tại xưởng · Giải pháp</p><h2>Cấp vật tư theo kế hoạch, theo dõi tới kho</h2></header><ul class="plan"><li><span class="no">#1</span><div><h3>Theo dõi vật tư sản xuất</h3><p>Yêu cầu cấp vật tư lấy thẳng từ kế hoạch</p><p>Xuất vật tư cho sản xuất</p><p>Nhập kho vật tư, theo dõi trạng thái duyệt</p></div></li></ul><figure class="frame pa"><div class="bar"><span></span><span></span><span></span><em>V-MES / Yêu cầu cấp vật tư</em></div><div class="view"><img src="SHOTS/yeu-cau-vat-tu.png" alt="Yêu cầu cấp vật tư" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Yêu cầu cấp vật tư</b><code>shots/yeu-cau-vat-tu.png</code></div></div><figcaption>Yêu cầu cấp vật tư</figcaption></figure><figure class="frame pb"><div class="bar"><span></span><span></span><span></span><em>V-MES / Chi tiết phiếu nhập kho</em></div><div class="view"><img src="SHOTS/nhap-kho-chi-tiet.png" alt="Chi tiết phiếu nhập kho" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Chi tiết phiếu nhập kho</b><code>shots/nhap-kho-chi-tiet.png</code></div></div><figcaption>Chi tiết phiếu nhập kho</figcaption></figure><aside class="notes">Yêu cầu cấp vật tư lấy thẳng từ kế hoạch, kho xuất cho tổ, nhập kho có luồng duyệt. Vật tư đi đúng theo kế hoạch, thiếu thừa nhìn thấy trước.</aside></section>
+<section class="" data-sec="5"><header class="hd"><p class="tag">II.5 Vật tư và sản lượng tại xưởng · Giải pháp</p><h2>Mỗi lượt báo ghi rõ người và giờ công</h2></header><ul class="plan"><li><span class="no">#2</span><div><h3>Báo sản lượng, giờ công</h3><p>Báo sản lượng theo công việc</p><p>Khai người và giờ công trong lượt báo</p><p>Đính kèm ảnh, video</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Phiếu giao việc</em></div><div class="view"><img src="SHOTS/phieu-giao-viec.png" alt="Màn hình Phiếu giao việc" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Phiếu giao việc</b><p>Tab lịch sử báo cáo của một phiếu</p><code>shots/phieu-giao-viec.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a29.jpg" alt=""><aside class="notes">Mỗi lượt báo ghi rõ ai báo, lúc nào, bao nhiêu, bao nhiêu giờ công, kèm ảnh. Cuối tháng tính khoán không còn cãi nhau về con số.</aside></section>
+<section class="p7" data-sec="5"><header class="hd"><p class="tag">II.5 Vật tư và sản lượng tại xưởng · Giải pháp</p><h2>Biết tồn kho tại xưởng theo từng vật tư</h2></header><ul class="plan"><li><span class="no">#3</span><div><h3>Quản lý tồn kho tại xưởng</h3><p>Tổng hợp nhập – xuất – tồn theo từng vật tư</p><p>Nhóm theo loại: thép, vật tư hàn, sơn, bu lông…</p><p>Theo dõi tồn đầu kỳ, nhập, xuất trong kỳ</p><p>Xuất báo cáo Excel</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Báo cáo kho NVL</em></div><div class="view"><img src="SHOTS/ton-kho.png" alt="Báo cáo kho NVL"></div></figure><aside class="notes">Tồn kho tại xưởng theo từng vật tư: tồn đầu kỳ, nhập, xuất, tồn cuối, nhóm theo thép, que hàn, sơn, bu lông. Xuất Excel được, không phải kiểm đếm tay.</aside></section>
+<section class="mob mobA" data-sec="5"><header class="hd"><p class="tag">II.5 Vật tư và sản lượng tại xưởng · Giải pháp</p><h2>Tổ trưởng báo sản lượng ngay tại xưởng</h2></header><div class="mb-sub"><span class="no">#4</span><h3>Báo cáo sản xuất trên điện thoại</h3><p>Chỉ 4 bước, ngay trên điện thoại</p></div><span class="mb-band"></span><span class="mb-go" style="--i:0;left:404px;top:437px"><i data-lucide="chevron-right" class="ic"></i></span><span class="mb-go" style="--i:1;left:769px;top:437px"><i data-lucide="chevron-right" class="ic"></i></span><span class="mb-go" style="--i:2;left:1134px;top:437px"><i data-lucide="chevron-right" class="ic"></i></span><div class="mb-step" style="--i:0;left:139px;top:232px;width:226px"><div class="mph"><img src="SHOTS/m-login.png" alt=""></div><div class="mb-cap"><b>1</b><div><h4>Đăng nhập</h4><p>Đăng nhập nhanh tại xưởng</p></div></div></div><div class="mb-step" style="--i:1;left:504px;top:232px;width:226px"><div class="mph"><img src="SHOTS/m-viec.png" alt=""></div><div class="mb-cap"><b>2</b><div><h4>Việc theo tổ</h4><p>Nhận việc giao theo tổ, theo người</p></div></div></div><div class="mb-step" style="--i:2;left:869px;top:232px;width:226px"><div class="mph"><img src="SHOTS/m-qr.png" alt=""><span class="mb-scan"><i></i></span></div><div class="mb-cap"><b>3</b><div><h4>Quét QR cấu kiện</h4><p>Quét tem dán trên cấu kiện</p></div></div></div><div class="mb-step" style="--i:3;left:1234px;top:232px;width:226px"><div class="mph"><img src="SHOTS/m-baocao.png" alt=""></div><div class="mb-cap"><b>4</b><div><h4>Báo cáo sản lượng</h4><p>Nhập sản lượng theo cấu kiện</p></div></div></div><aside class="notes">Đây là phần tổ trưởng dùng hằng ngày, chỉ bốn bước: đăng nhập, mở việc của tổ, quét tem QR trên cấu kiện, nhập sản lượng. Báo ngay tại chỗ, không chờ về văn phòng.</aside></section>
+<section class="p7 mob mobB" data-sec="5"><header class="hd"><p class="tag">II.5 Vật tư và sản lượng tại xưởng · Giải pháp</p><h2>Xem tiến độ dự án ngay trên điện thoại</h2></header><ul class="plan"><li><span class="no">#4</span><div><h3>Theo dõi tiến độ trên điện thoại</h3><p>Tiến độ dự án</p><p>Khối lượng thực tế – kế hoạch – đã báo</p><p>Nhân sự đi làm theo ngày, tuần, tháng</p><p>Biểu đồ luỹ kế kế hoạch – thực tế</p></div></li></ul><span class="mb-glow"></span><div class="mph f1"><img src="SHOTS/m-home.png" alt=""></div><div class="mph f3"><img src="SHOTS/m-viec.png" alt=""></div><div class="mph f2"><img src="SHOTS/m-dash2.png" alt=""></div><span class="mb-card c1"><i data-lucide="gauge" class="ic"></i><em>Tiến độ dự án</em></span><span class="mb-card c2"><i data-lucide="trending-up" class="ic"></i><em>Kế hoạch – thực tế</em></span><span class="mb-card c3"><i data-lucide="users" class="ic"></i><em>Nhân sự đi làm</em></span><span class="mb-dot d1"></span><span class="mb-dot d2"></span><span class="mb-dot d3"></span><aside class="notes">Lãnh đạo mở điện thoại là thấy tiến độ dự án, khối lượng thực tế so với kế hoạch, số người đi làm hôm nay. Không cần gọi ai.</aside></section>
+<section class="tx6" data-sec="6"><header class="hd"><p class="tag">II. Giải pháp V-MES</p><h2>6. Báo cáo cho lãnh đạo</h2><p class="now"><b>Hiện nay</b>Báo cáo cuối tháng mới có</p></header><div class="tx"><span class="tx-arc"></span><div class="tx-ph"><img src="ANH-HALONG/a24.jpg" alt=""></div><div class="tx-list"><div class="tx-r" style="--i:0"><span class="tx-ck"><i data-lucide="check" class="ic"></i></span><span class="tx-back"></span><div class="tx-bar"><span>Bảng điều hành phân tích</span></div></div><div class="tx-r" style="--i:1"><span class="tx-ck"><i data-lucide="check" class="ic"></i></span><span class="tx-back"></span><div class="tx-bar"><span>Theo dõi kết quả sản xuất</span></div></div></div></div><aside class="notes">Bài toán cuối: nhìn lại kết quả. Bảng điều hành cho lãnh đạo, và báo cáo sản lượng theo kỳ.</aside></section>
+<section class="" data-sec="6"><header class="hd"><p class="tag">II.6 Báo cáo cho lãnh đạo · Giải pháp</p><h2>Một màn nắm cả nhà máy và từng dự án</h2></header><ul class="plan"><li><span class="no">#1</span><div><h3>Báo cáo dashboard phân tích</h3><p>Toàn nhà máy hoặc từng dự án</p><p>Sản lượng, kế hoạch – thực tế, nhân sự</p><p>Mô hình BIM theo trạng thái</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Bảng điều hành</em></div><div class="view"><img src="SHOTS/dashboard.png" alt="Màn hình Bảng điều hành" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Bảng điều hành</b><p>Một dự án có số liệu</p><code>shots/dashboard.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a26.jpg" alt=""><aside class="notes">Một màn hình cho cả nhà máy hoặc từng dự án: sản lượng, kế hoạch so với thực tế, nhân sự, và mô hình BIM tô màu theo trạng thái. Đây là câu trả lời cho câu hỏi em đặt ở đầu buổi.</aside></section>
+<section class="" data-sec="6"><header class="hd"><p class="tag">II.6 Báo cáo cho lãnh đạo · Giải pháp</p><h2>Sản lượng tháng, tách nhà máy và thầu phụ</h2></header><ul class="plan"><li><span class="no">#2</span><div><h3>Theo dõi kết quả sản xuất</h3><p>Sản lượng và ngày công theo tháng, quý, năm</p><p>Tách nhà máy và thầu phụ</p></div></li></ul><figure class="frame"><div class="bar"><span></span><span></span><span></span><em>V-MES / Báo cáo sản xuất</em></div><div class="view"><img src="SHOTS/bao-cao-san-xuat.png" alt="Màn hình Báo cáo sản xuất" onerror="this.parentNode.classList.add('missing')"><div class="wait"><i data-lucide="image" class="ic"></i><b>Báo cáo sản xuất</b><p>Kỳ một tháng</p><code>shots/bao-cao-san-xuat.png</code></div></div></figure><img class="art al" src="ANH-HALONG/a22.jpg" alt=""><aside class="notes">Sản lượng và ngày công theo tháng, quý, năm, tách riêng nhà máy và thầu phụ. Số này lấy từ các lượt báo thật, không phải nhập lại.</aside></section>
+<section class="tk2" data-sec="0"><header class="hd"><p class="tag">III. Tổng kết</p><h2>Tổng kết</h2></header><div class="tk2-pic"><img src="ANH-HALONG/a06.jpg" alt=""><span class="tk2-sh"></span><p class="tk2-cap">Quy trình quản lý sản xuất</p><ol class="tk2-st"><li style="--i:0"><span><i data-lucide="calendar-range" class="ic"></i></span><em>01</em><b>Lập kế hoạch</b></li><li style="--i:1"><span><i data-lucide="play-circle" class="ic"></i></span><em>02</em><b>Triển khai</b></li><li style="--i:2"><span><i data-lucide="shield-check" class="ic"></i></span><em>03</em><b>Kiểm soát</b></li><li style="--i:3"><span><i data-lucide="package-check" class="ic"></i></span><em>04</em><b>Hoàn thiện sản phẩm</b></li></ol></div><div class="tk2-r"><p class="tk2-lead">Quy trình quản lý sản xuất được <b>V-MES</b> xây dựng nhằm đảm bảo <b>hiệu quả và chất lượng</b> trong mọi khâu sản xuất, từ lập kế hoạch, triển khai đến kiểm soát và hoàn thiện sản phẩm. Thực hiện đúng các bước trong quy trình sẽ giúp tối ưu hoá nguồn lực, nâng cao năng suất và chất lượng sản phẩm, góp phần vào sự phát triển bền vững của doanh nghiệp.</p><div class="tk2-bn"><span style="--i:0"><i data-lucide="cpu" class="ic"></i>Tối ưu hoá nguồn lực</span><span style="--i:1"><i data-lucide="trending-up" class="ic"></i>Nâng cao năng suất</span><span style="--i:2"><i data-lucide="badge-check" class="ic"></i>Chất lượng sản phẩm</span><span style="--i:3"><i data-lucide="sprout" class="ic"></i>Phát triển bền vững</span></div></div><aside class="notes">Tóm lại: lập kế hoạch từ BIM, giao việc đúng năng lực, kiểm soát vật tư và sản lượng tại xưởng, lãnh đạo nắm tiến độ mỗi ngày. Bước tiếp theo em đề xuất chạy thử trên một dự án của anh chị.</aside></section>
+<section class="dark endp" data-sec="0"><svg class="ep-bg" viewBox="0 0 1600 900" width="1600" height="900"><defs><linearGradient id="epG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0F7F63"/><stop offset=".55" stop-color="#0B5E4D"/><stop offset="1" stop-color="#084A3F"/></linearGradient></defs><path d="M0 0H1600V560L1424 668Q1380 694 1332 680L0 430Z" fill="url(#epG)"/></svg><svg class="ep-art" viewBox="0 0 1600 900" width="1600" height="900"><defs><linearGradient id="epT" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3CC495"/><stop offset="1" stop-color="#22966E"/></linearGradient></defs><g class="ep-g" style="--i:0"><polygon points="600.0,150.0 700.0,200.0 700.0,220.0 600.0,170.0" fill="#176B53"/><polygon points="700.0,200.0 800.0,150.0 800.0,170.0 700.0,220.0" fill="#0F5440"/><polygon points="700.0,100.0 800.0,150.0 700.0,200.0 600.0,150.0" fill="url(#epT)"/><polyline points="600.0,150.0 700.0,100.0 800.0,150.0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><polygon points="645.0,118.5 745.0,168.5 745.0,48.5 645.0,-1.5" fill="rgba(255,255,255,.10)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/><line x1="660.0" y1="32.4" x2="700.0" y2="52.4" stroke="#F5C542" stroke-width="3" stroke-linecap="round"/><line x1="655.0" y1="53.9" x2="725.0" y2="88.9" stroke="rgba(255,255,255,.7)" stroke-width="3" stroke-linecap="round"/><line x1="655.0" y1="77.9" x2="705.0" y2="102.9" stroke="rgba(255,255,255,.5)" stroke-width="3" stroke-linecap="round"/><rect x="655" y="135" width="4.5" height="30" rx="2" fill="#1E293B"/><rect x="661" y="135" width="4.5" height="30" rx="2" fill="#1E293B"/><rect x="651" y="109" width="19" height="30" rx="7" fill="#F1F5F9"/><line x1="666" y1="115" x2="682" y2="93" stroke="#F1F5F9" stroke-width="5" stroke-linecap="round"/><circle cx="660" cy="101" r="7.5" fill="#F2C9A0"/><path d="M652.5 101a7.5 7.5 0 0 1 15 0q-7.5 -4 -15 0z" fill="#1E293B"/></g><g class="ep-g" style="--i:1"><polygon points="1360.0,150.0 1440.0,190.0 1440.0,208.0 1360.0,168.0" fill="#176B53"/><polygon points="1440.0,190.0 1520.0,150.0 1520.0,168.0 1440.0,208.0" fill="#0F5440"/><polygon points="1440.0,110.0 1520.0,150.0 1440.0,190.0 1360.0,150.0" fill="url(#epT)"/><polyline points="1360.0,150.0 1440.0,110.0 1520.0,150.0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><polygon points="1443.0,142.0 1470.0,155.5 1470.0,177.5 1443.0,164.0" fill="#1F9C70"/><polygon points="1470.0,155.5 1497.0,142.0 1497.0,164.0 1470.0,177.5" fill="#177C59"/><polygon points="1470.0,128.5 1497.0,142.0 1470.0,155.5 1443.0,142.0" fill="#3FD49A"/><polyline points="1443.0,142.0 1470.0,128.5 1497.0,142.0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><polygon points="1396.0,124.0 1476.0,164.0 1476.0,84.0 1396.0,44.0" fill="rgba(255,255,255,.10)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/><line x1="1412.0" y1="69.6" x2="1452.0" y2="89.6" stroke="rgba(255,255,255,.75)" stroke-width="3" stroke-linecap="round"/><line x1="1412.0" y1="85.6" x2="1440.0" y2="99.6" stroke="#F5C542" stroke-width="3" stroke-linecap="round"/><rect x="1410" y="140" width="4.5" height="30" rx="2" fill="#1E293B"/><rect x="1416" y="140" width="4.5" height="30" rx="2" fill="#1E293B"/><rect x="1406" y="114" width="19" height="30" rx="7" fill="#7DD3B0"/><line x1="1421" y1="120" x2="1439" y2="112" stroke="#7DD3B0" stroke-width="5" stroke-linecap="round"/><circle cx="1415" cy="106" r="7.5" fill="#F2C9A0"/><path d="M1407.5 106a7.5 7.5 0 0 1 15 0q-7.5 -4 -15 0z" fill="#1E293B"/></g><g class="ep-g" style="--i:2"><polygon points="1430.0,440.0 1490.0,470.0 1490.0,530.0 1430.0,500.0" fill="#178A63"/><polygon points="1490.0,470.0 1550.0,440.0 1550.0,500.0 1490.0,530.0" fill="#0F6B4C"/><polygon points="1490.0,410.0 1550.0,440.0 1490.0,470.0 1430.0,440.0" fill="#35C08F"/><polyline points="1430.0,440.0 1490.0,410.0 1550.0,440.0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><polygon points="1454.0,436.0 1490.0,454.0 1490.0,466.0 1454.0,448.0" fill="#24A877"/><polygon points="1490.0,454.0 1526.0,436.0 1526.0,448.0 1490.0,466.0" fill="#1B8A61"/><polygon points="1490.0,418.0 1526.0,436.0 1490.0,454.0 1454.0,436.0" fill="#5EE0AE"/><polyline points="1454.0,436.0 1490.0,418.0 1526.0,436.0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><polygon points="1470.0,412.0 1478.0,416.0 1478.0,430.0 1470.0,426.0" fill="#9DE3C6"/><polygon points="1478.0,416.0 1486.0,412.0 1486.0,426.0 1478.0,430.0" fill="#7CCDAE"/><polygon points="1478.0,408.0 1486.0,412.0 1478.0,416.0 1470.0,412.0" fill="#E2FBEF"/><polygon points="1496.0,422.0 1504.0,426.0 1504.0,440.0 1496.0,436.0" fill="#9DE3C6"/><polygon points="1504.0,426.0 1512.0,422.0 1512.0,436.0 1504.0,440.0" fill="#7CCDAE"/><polygon points="1504.0,418.0 1512.0,422.0 1504.0,426.0 1496.0,422.0" fill="#E2FBEF"/><polygon points="1482.0,430.0 1490.0,434.0 1490.0,448.0 1482.0,444.0" fill="#9DE3C6"/><polygon points="1490.0,434.0 1498.0,430.0 1498.0,444.0 1490.0,448.0" fill="#7CCDAE"/><polygon points="1490.0,426.0 1498.0,430.0 1490.0,434.0 1482.0,430.0" fill="#E2FBEF"/><line x1="1462" y1="418" x2="1462" y2="368" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/><line x1="1480" y1="418" x2="1480" y2="348" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/><line x1="1510" y1="418" x2="1510" y2="373" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/><line x1="1525" y1="418" x2="1525" y2="356" stroke="rgba(255,255,255,.55)" stroke-width="1.5"/><polygon points="1436.0,466.0 1472.0,484.0 1472.0,496.0 1436.0,478.0" fill="#5EE0AE" opacity=".8"/><polygon points="1436.0,484.0 1472.0,502.0 1472.0,510.0 1436.0,492.0" fill="#5EE0AE" opacity=".55"/></g><g class="ep-g" style="--i:3"><polygon points="364.0,430.0 400.0,448.0 400.0,474.0 364.0,456.0" fill="#1F9C70"/><polygon points="400.0,448.0 436.0,430.0 436.0,456.0 400.0,474.0" fill="#177C59"/><polygon points="400.0,412.0 436.0,430.0 400.0,448.0 364.0,430.0" fill="#3FD49A"/><polyline points="364.0,430.0 400.0,412.0 436.0,430.0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><polygon points="422.0,460.0 458.0,478.0 458.0,504.0 422.0,486.0" fill="#D9891B"/><polygon points="458.0,478.0 494.0,460.0 494.0,486.0 458.0,504.0" fill="#B9700F"/><polygon points="458.0,442.0 494.0,460.0 458.0,478.0 422.0,460.0" fill="#F8C35B"/><polyline points="422.0,460.0 458.0,442.0 494.0,460.0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><polygon points="480.0,490.0 516.0,508.0 516.0,534.0 480.0,516.0" fill="#1F9C70"/><polygon points="516.0,508.0 552.0,490.0 552.0,516.0 516.0,534.0" fill="#177C59"/><polygon points="516.0,472.0 552.0,490.0 516.0,508.0 480.0,490.0" fill="#3FD49A"/><polyline points="480.0,490.0 516.0,472.0 552.0,490.0" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/></g></svg><div class="ep-iso"><span class="ep-t o1"></span><span class="ep-t o2"></span><span class="ep-t o3"></span><span class="ep-t o4"></span><span class="ep-t s1"></span><span class="ep-t s2"></span><span class="ep-t s3"></span><div class="ep-grp"><div class="ep-scr"><img src="SHOTS/dashboard-end.png" alt=""></div><div class="ep-row"><div class="ep-tab"><img src="SHOTS/tab-baocao.png" alt=""></div><div class="ep-ph" style="--k:0"><img src="SHOTS/m-login.png" alt=""></div><div class="ep-ph" style="--k:1"><img src="SHOTS/m-home2.png" alt=""></div><div class="ep-ph" style="--k:2"><img src="SHOTS/m-dash2.png" alt=""></div></div></div><span class="ep-t s4"></span><span class="ep-t s5"></span></div><span class="ep-ring r1"></span><span class="ep-dash d1"></span><span class="ep-dash d2"></span><span class="ep-dash d3"></span><span class="ep-bar b1"></span><span class="ep-ring r2"></span><span class="ep-bar b2"></span><img class="ep-logo" src="LOGO/v-mes-compact-white.png" alt="V-MES"><b class="ep-thx">Cảm ơn quý khách đã theo dõi</b><div class="ep-tt"><p>Giải pháp</p><h2>Quản lý sản xuất</h2></div><div class="ep-co"><span class="ep-rule"></span><p class="ep-name">Công ty Cổ phần Công nghệ số VCI</p><div class="ep-row"><span><i data-lucide="map-pin" class="ic"></i>Tầng 12A, toà A3 Ecolife Capitol, 58 Tố Hữu, P. Đại Mỗ, Hà Nội</span><span><i data-lucide="phone" class="ic"></i>0204.386.3886</span></div></div><aside class="notes">Cảm ơn anh chị đã nghe. Em xin mời anh chị đặt câu hỏi, hoặc em mở phần mềm demo trực tiếp trên dữ liệu thật.</aside></section>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script><script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script>
+/*anim*/
+document.querySelectorAll(".cards,.toc,.mtoc,.goals,.quad,.steps4,.pills,.nums,.cases,.chain,.concl,.rqs,.hexwrap,.ring6,.rds,.plan,.cover,.mtoc2,.sub2").forEach(g=>[...g.children].forEach((c,i)=>c.style.setProperty("--n",i)));
+const fmt=new Intl.NumberFormat("vi-VN");
+function count(sec){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  sec.querySelectorAll(".nums b").forEach(b=>{
+    const end=+(b.dataset.v??=b.textContent.replace(/\./g,""));
+    if(!end)return;
+    const t0=performance.now(),dur=1400;
+    const tick=t=>{const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,4);b.textContent=fmt.format(Math.round(end*e));if(k<1&&sec.classList.contains("present"))requestAnimationFrame(tick);else b.textContent=fmt.format(end)};
+    b.textContent="0";requestAnimationFrame(tick);
+  });
+}
+Reveal.on("ready",e=>{document.querySelectorAll(".trk").forEach(t=>t.querySelectorAll("i").forEach((c,i)=>c.style.setProperty("--n",i)));count(e.currentSlide)});
+Reveal.on("slidechanged",e=>count(e.currentSlide));
+if(matchMedia("(prefers-reduced-motion:reduce)").matches)Reveal.on("ready",()=>Reveal.configure({transition:"none",backgroundTransition:"none"}));
+/*/anim*/
+</script>
+<script>
+
+const names=["II.1 Khai báo sản phẩm","II.2 Lập kế hoạch","II.3 Giao việc và tiến độ","II.4 Năng lực nhà máy","II.5 Vật tư và sản lượng tại xưởng","II.6 Báo cáo cho lãnh đạo"];
+document.querySelectorAll(".slides > section").forEach((s,i)=>{
+  if(s.classList.contains("dark"))return;
+  const sec=+s.dataset.sec,split=s.classList.contains("split");
+  const trk=sec?`<div class="trk">${names.map((_,k)=>`<i class="${k<sec?"on":""}"></i>`).join("")}<b>${names[sec-1]}</b></div>`:"<span>V-MES</span>";
+  s.insertAdjacentHTML("beforeend",`<div class="ft"${split?' style="left:640px"':""}>${trk}<span>${i+1}</span></div>`);
+  if(!split)s.insertAdjacentHTML("beforeend",'<img class="logo-top" src="LOGO/v-mes-compact.png" alt="V-MES">');
+});
+lucide.createIcons();
+/*zm*/(()=>{const z=document.createElement("div");z.className="zm";z.innerHTML="<img alt=\"\">";document.body.appendChild(z);
+const close=()=>z.classList.remove("on");z.onclick=close;
+document.addEventListener("keydown",e=>{if(z.classList.contains("on")&&e.key==="Escape"){e.stopPropagation();e.preventDefault();close()}},true);
+document.querySelectorAll(".frame .view").forEach(v=>{const im=v.querySelector("img");if(!im)return;
+v.insertAdjacentHTML("beforeend","<span class=\"zm-hint\">Bấm để phóng to</span>");
+im.onclick=()=>{z.firstChild.src=im.src;z.classList.add("on")}})})();/*/zm*/
+Reveal.initialize({plugins:[RevealNotes],disableLayout:true,width:1600,height:900,margin:0,hash:true,controls:true,progress:true,center:false,transition:"fade",transitionSpeed:"default",backgroundTransition:"fade"});
+/*fit*/(()=>{const el=document.querySelector(".reveal .slides");
+const fit=()=>{el.style.zoom=Math.min(innerWidth/1600,innerHeight/900)};
+fit();addEventListener("resize",fit);Reveal.on("ready",fit)})();/*/fit*/
+</script></body></html>

@@ -138,16 +138,16 @@
 
 🎬 **KỊCH BẢN DEMO SỐNG (từng bước):**
 1. Chuyển màn hình sang trình duyệt (Alt+Tab) → mở **claude.ai**, đã đăng nhập sẵn.
-2. Bấm nút **đính kèm (kẹp giấy)** → chọn file chuẩn bị sẵn `demo-v1/demo-hopdong.docx` (hợp đồng thuê máy thiết bị thi công ~9 trang, 12 điều + 2 phụ lục, dữ liệu GIẢ LẬP đã ẩn danh — không dùng hồ sơ thật của khách hàng). Nói to từng thao tác: "Mình bấm cái kẹp giấy này, chọn file hợp đồng…"
+2. Bấm nút **đính kèm (kẹp giấy)** → chọn file chuẩn bị sẵn `DEMO-V1/demo-hopdong.docx` (hợp đồng thuê máy thiết bị thi công ~9 trang, 12 điều + 2 phụ lục, dữ liệu GIẢ LẬP đã ẩn danh — không dùng hồ sơ thật của khách hàng). Nói to từng thao tác: "Mình bấm cái kẹp giấy này, chọn file hợp đồng…"
 3. Gõ prompt mẫu **nguyên văn** (gõ chậm, đọc to lên):
    > "Bạn là trợ lý hành chính. Hãy tóm tắt hợp đồng đính kèm thành 1 trang cho lãnh đạo đọc trong 2 phút, gồm: các bên, giá trị, thời hạn, nghĩa vụ chính của mỗi bên, các mốc thanh toán, và 5 điều khoản rủi ro cần lưu ý nhất cho Bên A. Trình bày gạch đầu dòng, tiếng Việt."
 4. Trong lúc Claude chạy (~30–60 giây), quay xuống khán giả: "Anh chị để ý mình nói rõ: ai đọc, dài bao nhiêu, gồm những mục gì — đó chính là Cấp độ 1 lúc nãy."
-5. Kết quả hiện ra → **phóng to màn hình**, chỉ vào phần nghĩa vụ mỗi bên và 5 rủi ro — đối chiếu nhanh với đáp án cài sẵn (đơn giá tự tăng 5%, chấm dứt báo trước 45 ngày, trả sớm vẫn trả tối thiểu 6 tháng, phạt chậm 0,05%/ngày — xem `demo-v1/HUONG-DAN-DEMO.md`). Hỏi trọng tài: "Hết bao nhiêu giây?"
+5. Kết quả hiện ra → **phóng to màn hình**, chỉ vào phần nghĩa vụ mỗi bên và 5 rủi ro — đối chiếu nhanh với đáp án cài sẵn (đơn giá tự tăng 5%, chấm dứt báo trước 45 ngày, trả sớm vẫn trả tối thiểu 6 tháng, phạt chậm 0,05%/ngày — xem `DEMO-V1/HUONG-DAN-DEMO.md`). Hỏi trọng tài: "Hết bao nhiêu giây?"
 6. Demo bồi thêm 1 câu nối tiếp cho thấy tính hội thoại:
    > "Từ 2 điều khoản bất lợi nhất cho Bên A ở trên, soạn giúp tôi email gửi Bên B đề nghị đàm phán lại 2 điều khoản này. Giọng trang trọng, thiện chí nhưng rõ quan điểm, dưới 15 dòng, có đề xuất phương án thay thế cụ thể."
 7. Chốt: "Nửa buổi sáng → hơn một phút. Việc của mình còn lại là đọc rà và chịu trách nhiệm — cái đó máy không làm thay được."
 
-📎 *Kịch bản phụ (khi dư giờ / khán giả hỏi thêm): tóm chuỗi 9 email đối soát công nợ `demo-v1/demo-email-thread.docx` thành bảng việc–người–hạn — câu lệnh nguyên văn xem `demo-v1/HUONG-DAN-DEMO.md` (Word ③).*
+📎 *Kịch bản phụ (khi dư giờ / khán giả hỏi thêm): tóm chuỗi 9 email đối soát công nợ `DEMO-V1/demo-email-thread.docx` thành bảng việc–người–hạn — câu lệnh nguyên văn xem `DEMO-V1/HUONG-DAN-DEMO.md` (Word ③).*
 
 🛟 **DỰ PHÒNG MẤT MẠNG:** đã chụp sẵn 4 ảnh màn hình (đính kèm file → prompt → kết quả tóm tắt → email) trong thư mục `du-phong/word-01..04.png`, HOẶC video quay màn hình `du-phong/demo-word.mp4` (2′, có thể tua). Nếu mạng chậm: mở ảnh theo đúng trình tự, vẫn đọc to prompt y như đang gõ — nhịp kể không đổi.
 
@@ -161,16 +161,16 @@
 
 🎬 **KỊCH BẢN DEMO SỐNG (từng bước):**
 1. Vẫn ở claude.ai → mở **cuộc chat mới** (nói to: "Việc mới thì mở chat mới cho sạch bối cảnh").
-2. Đính kèm file chuẩn bị sẵn `demo-v1/demo-vattu.xlsx` — sổ vật tư giả lập 3 sheet: `TonKho` ~200 dòng tồn hiện tại (có cài sẵn dữ liệu "bẩn": trùng mã, thiếu đơn giá), `NhapXuat` ~300 giao dịch 12 tháng (có xu hướng cài sẵn), `BangGia` 60 mã giá chuẩn.
+2. Đính kèm file chuẩn bị sẵn `DEMO-V1/demo-vattu.xlsx` — sổ vật tư giả lập 3 sheet: `TonKho` ~200 dòng tồn hiện tại (có cài sẵn dữ liệu "bẩn": trùng mã, thiếu đơn giá), `NhapXuat` ~300 giao dịch 12 tháng (có xu hướng cài sẵn), `BangGia` 60 mã giá chuẩn.
 3. Gõ prompt mẫu **nguyên văn**:
    > "File có 2 sheet: TonKho (tồn hiện tại) và NhapXuat (giao dịch 12 tháng). Hãy: (1) liệt kê các mã đã tồn quá 90 ngày tính đến hôm nay, sắp theo giá trị tồn giảm dần, cho tôi top 10; (2) phân tích xu hướng xuất kho theo tháng của từng nhóm vật tư trong 12 tháng qua, nhóm nào tăng, nhóm nào giảm; (3) vẽ biểu đồ đường thể hiện xu hướng đó; (4) chốt bằng 3 nhận xét ngắn gọn kiểu báo cáo cho sếp, tiếng Việt."
 4. Trong lúc chạy: "Anh chị thấy mình không hề gõ công thức nào — mình chỉ mô tả đầu ra mong muốn, đánh số 1-2-3-4 cho nó khỏi sót."
-5. Kết quả → chỉ lần lượt: top 10 tồn quá 90 ngày → xu hướng từng nhóm → **biểu đồ đường hiện ngay trong chat** (điểm nhấn, dừng lại 3 giây) → 3 nhận xét. Đáp án cài sẵn để đối chiếu: Sắt thép xuất tăng ~5 lần, Vật tư điện tăng ~4 lần, Vật tư nước là nhóm duy nhất giảm (xem `demo-v1/HUONG-DAN-DEMO.md`).
+5. Kết quả → chỉ lần lượt: top 10 tồn quá 90 ngày → xu hướng từng nhóm → **biểu đồ đường hiện ngay trong chat** (điểm nhấn, dừng lại 3 giây) → 3 nhận xét. Đáp án cài sẵn để đối chiếu: Sắt thép xuất tăng ~5 lần, Vật tư điện tăng ~4 lần, Vật tư nước là nhóm duy nhất giảm (xem `DEMO-V1/HUONG-DAN-DEMO.md`).
 6. Demo bồi câu hỏi kiểu "sếp hỏi bất chợt":
    > "Nếu muốn làm việc này hằng tháng trong Excel, hãy viết cho tôi công thức SUMIFS tính tổng SL xuất của nhóm 'Sắt thép' theo từng tháng và giải thích từng tham số."
 7. Chốt: "Nó không chỉ tính hộ — nó dạy lại mình công thức để tự chủ về sau. Nhưng nhớ: con số quan trọng thì đối chiếu lại file gốc — lát nữa mình nói kỹ ở phần quy tắc."
 
-📎 *Kịch bản phụ (khi dư giờ): ① dọn dữ liệu bẩn sheet TonKho — Claude chỉ đích danh 10 dòng trùng mã, 6 ô thiếu đơn giá, 2 ngày sai định dạng; ② đối chiếu đơn giá lệch so với sheet BangGia bằng VLOOKUP (12 mã cài sẵn lệch giá) — câu lệnh nguyên văn xem `demo-v1/HUONG-DAN-DEMO.md` (Excel ①②).*
+📎 *Kịch bản phụ (khi dư giờ): ① dọn dữ liệu bẩn sheet TonKho — Claude chỉ đích danh 10 dòng trùng mã, 6 ô thiếu đơn giá, 2 ngày sai định dạng; ② đối chiếu đơn giá lệch so với sheet BangGia bằng VLOOKUP (12 mã cài sẵn lệch giá) — câu lệnh nguyên văn xem `DEMO-V1/HUONG-DAN-DEMO.md` (Excel ①②).*
 
 🛟 **DỰ PHÒNG MẤT MẠNG:** ảnh chụp sẵn `du-phong/excel-01..04.png` (đính kèm → prompt → bảng+biểu đồ → công thức SUMIFS) hoặc video `du-phong/demo-excel.mp4`. Mẹo: nếu mạng chập chờn ngay từ demo Word, chuyển hẳn sang video cho cả 3 demo — đừng vừa chờ mạng vừa nói, mất nhịp.
 
@@ -183,7 +183,7 @@
 🎙 **Lời dẫn:** "Cảnh này quen không anh chị: sếp giao 'mai trình bày 15 phút nhé', mở PowerPoint ra ngồi nhìn trang trắng 30 phút chưa gõ được chữ nào. Vấn đề không phải mình dốt — mà là bắt đầu từ số không bao giờ cũng khó nhất. Claude giỏi nhất đúng chỗ đó: cho mình bộ khung đầu tiên để mình chỉ việc sửa."
 
 🎬 **KỊCH BẢN DEMO SỐNG (từng bước):**
-1. Mở chat mới trên claude.ai → đính kèm file `demo-v1/demo-dan-y.docx` (dàn ý thô ~10 dòng — nói to: "Đây là kiểu ghi chú nguệch ngoạc ai cũng có trước khi làm slide").
+1. Mở chat mới trên claude.ai → đính kèm file `DEMO-V1/demo-dan-y.docx` (dàn ý thô ~10 dòng — nói to: "Đây là kiểu ghi chú nguệch ngoạc ai cũng có trước khi làm slide").
 2. Gõ prompt mẫu **nguyên văn**:
    > "Từ dàn ý đính kèm, hãy dựng bộ slide 8 trang hướng dẫn an toàn lao động cho công nhân mới vào công trường. Mỗi slide gồm: tiêu đề, 3–4 gạch đầu dòng ngắn, và ghi chú lời dẫn cho người thuyết trình. Giọng gần gũi, dễ hiểu với công nhân."
 3. Kết quả ra → cuộn chậm, chỉ vào: cấu trúc mở–thân–kết, gạch đầu dòng ngắn đúng chuẩn slide, và **phần ghi chú lời dẫn** — "chính cái kịch bản mình đang cầm nói với anh chị đây cũng làm theo kiểu này đấy."
@@ -192,7 +192,7 @@
    → Slide hiện bên khung Artifacts → "Thấy chưa, xem trước được luôn, ưng rồi mới mang về PowerPoint tinh chỉnh."
 5. Chốt: "Từ trang trắng đến bộ khung duyệt được: dưới 2 phút. Phần hồn — câu chuyện, ví dụ thật của công trường mình — vẫn là của anh chị."
 
-📎 *Kịch bản phụ (khi dư giờ): "chữa" bộ slide xấu `demo-v1/demo-slide-tho.pptx` (6 trang đặc chữ, tiêu đề chung chung) thành slide gọn + tiêu đề thông điệp + ghi chú thuyết trình — hiệu ứng trước/sau rất mạnh với khán giả hay làm báo cáo. Câu lệnh nguyên văn xem `demo-v1/HUONG-DAN-DEMO.md` (PowerPoint ②).*
+📎 *Kịch bản phụ (khi dư giờ): "chữa" bộ slide xấu `DEMO-V1/demo-slide-tho.pptx` (6 trang đặc chữ, tiêu đề chung chung) thành slide gọn + tiêu đề thông điệp + ghi chú thuyết trình — hiệu ứng trước/sau rất mạnh với khán giả hay làm báo cáo. Câu lệnh nguyên văn xem `DEMO-V1/HUONG-DAN-DEMO.md` (PowerPoint ②).*
 
 🛟 **DỰ PHÒNG MẤT MẠNG:** ảnh `du-phong/ppt-01..03.png` (prompt → dàn ý 8 slide → Artifacts xem trước) hoặc video `du-phong/demo-ppt.mp4`. Demo này ngắn nên nếu thiếu thời gian, có thể chỉ chiếu ảnh bước 2–3 và bỏ bước Artifacts.
 
@@ -273,7 +273,7 @@
 
 **Trước 1 ngày:**
 - [ ] Tài khoản Claude đăng nhập sẵn trên laptop giảng (kiểm tra còn lượt dùng; nếu bản miễn phí — đừng xài hết quota trong ngày demo)
-- [ ] 5 file demo (thư mục `demo-v1/`) copy sẵn ra Desktop: `demo-hopdong.docx` + `demo-email-thread.docx` + `demo-vattu.xlsx` (3 sheet) + `demo-dan-y.docx` + `demo-slide-tho.pptx` (đều giả lập, đã ẩn danh — cẩm nang 8 kịch bản demo: `demo-v1/HUONG-DAN-DEMO.md`)
+- [ ] 5 file demo (thư mục `DEMO-V1/`) copy sẵn ra Desktop: `demo-hopdong.docx` + `demo-email-thread.docx` + `demo-vattu.xlsx` (3 sheet) + `demo-dan-y.docx` + `demo-slide-tho.pptx` (đều giả lập, đã ẩn danh — cẩm nang 8 kịch bản demo: `DEMO-V1/HUONG-DAN-DEMO.md`)
 - [ ] Bản dự phòng đầy đủ: ảnh chụp `du-phong/word-*.png`, `excel-*.png`, `ppt-*.png` + 3 video `demo-word/excel/ppt.mp4` — LƯU OFFLINE trên máy, không để trên cloud
 - [ ] Chạy thử cả 3 demo một lượt từ đầu đến cuối, bấm giờ
 
