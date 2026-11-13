@@ -7,6 +7,7 @@ Mỗi buổi làm việc với nhà máy Hạ Long EPC là một thư mục, đ�
 | 01 | `01-chia-se-ai-2026-07/` | Chuyên đề chia sẻ "Tìm hiểu về AI" | 07/2026 | `ai-ha-long-epc.html` — slide 15 trang |
 | 02 | `02-dao-tao-ai-2026-08/` | Đào tạo AI ứng dụng vào công việc | 08/2026 | `ai-dao-tao.html` — slide · `KHUNG-BAI-DAO-TAO-AI.md` — khung bài · `slide-claude-ai-vci.zip` — gói gửi nhà máy |
 | 03 | `03-uat-mes-2026-11/` | UAT MES — Phân hệ Quản lý sản xuất, 2 ngày tại nhà máy | 02–03/11/2026 | xem bên dưới |
+| 04 | `04-chuyen-doi-so-2026-11/` | Blueprint chuyển đổi số HLEPC (10 phân hệ tự xây) | 11/2026 | `index.html` — hub · `01_SOLUTION` giải pháp + timeline (tab Kế hoạch / Thực tế 10 người) · `02_INFRA` hạ tầng · `03_COST` chi phí. Bản gốc: repo `phamhoan-vci/vci-hlepc-sa` |
 
 ## 03 — UAT MES (02–03/11/2026)
 

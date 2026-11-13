@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HLEPC · 03 · Chi phí Phần mềm &amp; Phần cứng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --hl-red-deep:#8A241C;--hl-red-main:#E14138;--hl-red-mid:#EF6A5E;--hl-red-light:#F7B6AF;--hl-red-soft:#FEF3F1;
+  --hl-orange-main:#E2622F;--hl-orange-mid:#F0763E;
+  --hl-gold-deep:#A35A12;--hl-gold-main:#E29234;--hl-gold-light:#F6B64E;
+  --hl-navy-deep:#0C1726;--hl-navy-main:#1E3A8A;--hl-navy-soft:#EEF2F9;
+  --hl-steel-deep:#1C1917;--hl-steel-main:#44403C;--hl-steel-mid:#605B54;--hl-steel-light:#D6D3D1;--hl-steel-soft:#F5F3F0;
+  --hl-green-main:#0F766E;--hl-green-deep:#134E4A;--hl-green-soft:#F0FDFA;--hl-cyan:#0E7490;
+  --hl-grad-hero:linear-gradient(135deg,#B5241B 0%,#E14138 38%,#F0633A 72%,#F6A35C 100%);
+  --hl-grad-flame:linear-gradient(135deg,#E14138,#F0763E);
+  --hl-grad-main:linear-gradient(135deg,#E14138,#E2622F);
+  --hl-grad-navy:linear-gradient(135deg,#0C1726,#1E3A8A);
+  --hl-grad-gold:linear-gradient(135deg,#A35A12,#E29234);
+  --hl-grad-green:linear-gradient(135deg,#134E4A,#0F766E);
+  --hl-grad-bg:linear-gradient(180deg,#FEF7F4,#FFFFFF 55%,#FBFAF9);--hl-shadow-red:rgba(225,65,56,.18);
+  /* soft finance palette (calm navy/indigo replaces harsh red) */
+  --sw-deep:#283A77;--sw-main:#3B53A6;--sw-tint:#EEF1FB;--sw-bd:#C7D2FE;
+  --hl-grad-sw:linear-gradient(135deg,#283A77,#3B53A6);
+  --em-grad:linear-gradient(135deg,#1E3A8A,#0E7490);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--hl-grad-bg);color:var(--hl-steel-deep);line-height:1.5;min-height:100vh}
+/* chuyển trang mượt */
+@view-transition{navigation:auto}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+body{animation:pageIn .45s cubic-bezier(.22,.61,.36,1) both}
+body.is-leaving{opacity:0;transform:translateY(-6px);transition:opacity .28s ease,transform .28s ease}
+
+/* ---- Scroll reveal system ---- */
+[data-reveal],[data-stagger]>*{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,.84,.44,1),transform .6s cubic-bezier(.16,.84,.44,1);will-change:opacity,transform}
+[data-reveal].in,[data-stagger]>.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){[data-reveal],[data-stagger]>*{opacity:1!important;transform:none!important}}
+.container{max-width:1400px;margin:0 auto;padding:0 28px}
+h1,h2,h3{font-family:'Be Vietnam Pro',sans-serif;letter-spacing:-0.02em}
+svg{display:block}
+a:focus-visible,button:focus-visible{outline:3px solid var(--hl-gold-light);outline-offset:3px;border-radius:8px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+header.hero{background:var(--hl-grad-hero);padding:18px 36px;display:flex;align-items:center;gap:18px;box-shadow:0 4px 18px rgba(30,41,59,.16)}
+.logo-pill{background:#fff;padding:6px 10px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.logo-pill img{height:42px;display:block}
+.logo-pill .logo-fallback{font-family:'Be Vietnam Pro';font-weight:900;font-size:20px;background:var(--hl-grad-flame);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:transparent;letter-spacing:1px;display:inline-block;padding:2px 4px}
+.hero-tagline{color:rgba(255,255,255,.85);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600}
+.hero-title{color:#fff;font-size:20px;font-weight:800;letter-spacing:1.5px;text-shadow:0 1px 2px rgba(0,0,0,.18)}
+.crumb{margin-left:auto;color:rgba(255,255,255,.92);font-size:13px;display:flex;align-items:center;gap:14px}
+.crumb a{color:#fff;text-decoration:none;padding:6px 14px;background:rgba(255,255,255,.18);border-radius:999px;font-size:12px;font-weight:600}
+.crumb a:hover{background:rgba(255,255,255,.28)}
+.slide-tag{padding:5px 12px;background:rgba(0,0,0,.20);border-radius:8px;font-family:'Be Vietnam Pro';font-weight:700;letter-spacing:1.5px;font-size:12px}
+
+.section{padding:40px 0}
+.title-block{margin-bottom:22px}
+.eyebrow{display:inline-block;padding:5px 14px;background:var(--hl-green-soft);border:1px solid #6EE7B7;color:var(--hl-green-deep);border-radius:999px;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+.section-title{font-family:'Be Vietnam Pro';font-size:31px;font-weight:800;color:var(--hl-steel-deep);line-height:1.15}
+.section-title em{font-style:normal;background:var(--em-grad);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.section-sub{font-size:14px;color:var(--hl-steel-mid);margin-top:8px;max-width:920px}
+
+/* KPI big */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi-big{background:#fff;border:1px solid #EAE3DB;border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease}
+.kpi-big:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(15,23,42,.10)}
+.kpi-big::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%}
+.kpi-big.r::before{background:var(--hl-grad-sw)}
+.kpi-big.n::before{background:var(--hl-grad-navy)}
+.kpi-big.g::before{background:var(--hl-grad-gold)}
+.kpi-big.e::before{background:var(--hl-grad-green)}
+.kpi-big .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:1.3px;color:var(--hl-steel-mid);font-weight:700;margin-bottom:4px}
+.kpi-big .val{font-family:'Be Vietnam Pro';font-size:30px;font-weight:900;line-height:1;margin-bottom:3px}
+.kpi-big.r .val{background:var(--hl-grad-sw);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.kpi-big.n .val{color:var(--hl-navy-main)}
+.kpi-big.g .val{background:var(--hl-grad-gold);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.kpi-big.e .val{color:var(--hl-green-main)}
+.kpi-big .sub{font-size:11px;color:var(--hl-steel-mid)}
+
+/* Cost tables */
+.cost-block{background:#fff;border:1px solid #EAE3DB;border-radius:16px;overflow:hidden;margin-bottom:18px}
+.cost-block .head{padding:16px 20px;display:flex;align-items:center;gap:14px;background:var(--hl-grad-navy);color:#fff}
+.cost-block.sw .head{background:var(--hl-grad-sw)}
+.cost-block.hw .head{background:linear-gradient(135deg,#0E7490,#0891B2)}
+.cost-block .ic{width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
+.cost-block .ic svg{width:21px;height:21px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cost-block .head h3{font-family:'Be Vietnam Pro';font-size:17px;font-weight:800;letter-spacing:.3px}
+.cost-block .head .sub{font-size:11.5px;opacity:.85;margin-top:1px}
+.cost-block .head .total{margin-left:auto;text-align:right}
+.cost-block .head .total .v{font-family:'Be Vietnam Pro';font-weight:900;font-size:22px;line-height:1}
+.cost-block .head .total .l{font-size:10px;opacity:.85;text-transform:uppercase;letter-spacing:1px}
+
+.cost-block table{width:100%;border-collapse:collapse;font-size:12.5px}
+.cost-block th{background:var(--hl-steel-soft);color:var(--hl-steel-mid);padding:8px 14px;text-align:left;font-family:'Be Vietnam Pro';font-weight:700;font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;border-bottom:2px solid #EAE3DB}
+.cost-block th.r{text-align:right}
+.cost-block td{padding:9px 14px;border-top:1px solid #F1F5F9;color:var(--hl-steel-main);vertical-align:top;line-height:1.4}
+.cost-block td.r{text-align:right;font-family:'Be Vietnam Pro';font-weight:700;color:var(--hl-steel-deep)}
+.cost-block td .item{font-family:'Be Vietnam Pro';font-weight:700;color:var(--hl-steel-deep)}
+.cost-block td .note{font-size:11px;color:var(--hl-steel-mid);margin-top:1px}
+.cost-block tbody tr:not(.group):not(.subtotal):hover td{background:rgba(59,83,166,.045)}
+.cost-block.hw tbody tr:not(.group):not(.subtotal):hover td{background:rgba(14,116,144,.05)}
+.cost-block .group{background:var(--sw-tint);border-top:2px solid var(--sw-bd)}
+.cost-block.hw .group{background:#ECFEFF;border-top-color:#A5F3FC}
+.cost-block .group td{font-family:'Be Vietnam Pro';font-weight:800;color:var(--sw-deep);font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;padding:7px 14px}
+.cost-block.hw .group td{color:#0E7490}
+.cost-block .subtotal{background:#FFFBEB;font-family:'Be Vietnam Pro';font-weight:800}
+.cost-block .subtotal td{color:var(--hl-gold-deep);font-size:13px}
+
+.split-row{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+.split-chart{background:#fff;border:1px solid #EAE3DB;border-radius:16px;padding:20px;box-shadow:0 8px 28px rgba(15,23,42,.05)}
+.split-chart h3{font-family:'Be Vietnam Pro';font-size:15px;font-weight:800;color:var(--hl-steel-deep);margin-bottom:4px}
+.split-chart .ds{font-size:12px;color:var(--hl-steel-mid);margin-bottom:14px}
+.split-chart .chart-host{position:relative;height:280px}
+
+/* TCO summary */
+.tco-band{background:var(--hl-grad-navy);color:#fff;border-radius:18px;padding:26px 30px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;box-shadow:0 16px 40px rgba(15,23,42,.25)}
+.tco-band .blk .l{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;font-weight:700;opacity:.85;margin-bottom:5px}
+.tco-band .blk .v{font-family:'Be Vietnam Pro';font-weight:900;font-size:34px;line-height:1;margin-bottom:3px}
+.tco-band .blk .v.gold{background:var(--hl-grad-gold);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.tco-band .blk .v.cyan{color:var(--hl-cyan)}
+.tco-band .blk .s{font-size:11px;opacity:.80}
+
+/* Phase split */
+.phase-cost{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.pc{background:#fff;border:1px solid #EAE3DB;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px;transition:transform .25s ease,box-shadow .25s ease}
+.pc:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(15,23,42,.10)}
+.pc.p1{border-top:4px solid var(--sw-main)}
+.pc.p2{border-top:4px solid var(--hl-cyan)}
+.pc.p3{border-top:4px solid var(--hl-gold-main)}
+.pc h4{font-family:'Be Vietnam Pro';font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--hl-steel-deep)}
+.pc .pp{font-size:11px;color:var(--hl-steel-mid);margin-bottom:6px}
+.pc .row{display:flex;justify-content:space-between;padding:5px 0;font-size:12.5px;color:var(--hl-steel-main);border-top:1px dashed #F1F5F9}
+.pc .row:first-of-type{border-top:none}
+.pc .row b{font-family:'Be Vietnam Pro';font-weight:700;color:var(--hl-steel-deep)}
+.pc .total{margin-top:6px;padding-top:8px;border-top:2px solid #F1F5F9;display:flex;justify-content:space-between;align-items:center}
+.pc .total .l{font-family:'Be Vietnam Pro';font-weight:800;font-size:11.5px;color:var(--hl-steel-deep);text-transform:uppercase;letter-spacing:.8px}
+.pc .total .v{font-family:'Be Vietnam Pro';font-weight:900;font-size:22px;background:var(--hl-grad-sw);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+/* Notes/assumptions */
+.notes{background:#fff;border:1px dashed #CBD5E1;border-radius:14px;padding:16px 20px}
+.notes h4{font-family:'Be Vietnam Pro';font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--hl-steel-mid);margin-bottom:8px}
+.notes ul{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:4px 18px}
+.notes ul li{font-size:11.5px;color:var(--hl-steel-main);padding:3px 0;display:flex;gap:6px;line-height:1.45}
+.notes ul li::before{content:'◇';color:var(--hl-steel-mid);flex-shrink:0;font-weight:700}
+
+.cta-band{background:var(--hl-grad-green);color:#fff;padding:28px 30px;border-radius:18px;margin:32px 0 16px;display:flex;align-items:center;justify-content:space-between;gap:24px;box-shadow:0 16px 40px rgba(5,150,105,.25);position:relative;overflow:hidden}
+.cta-band::after{content:'';position:absolute;right:-100px;top:-100px;width:280px;height:280px;background:radial-gradient(circle,rgba(252,211,77,.30) 0%,transparent 70%);border-radius:50%}
+.cta-band .ttl{font-family:'Be Vietnam Pro';font-size:20px;font-weight:800;position:relative;z-index:1}
+.cta-band .lead{font-size:13px;opacity:.95;margin-top:3px;position:relative;z-index:1}
+.cta-band .btn{padding:11px 20px;background:#fff;color:var(--hl-green-deep);border-radius:11px;text-decoration:none;font-family:'Be Vietnam Pro';font-weight:700;font-size:12.5px;position:relative;z-index:1;flex-shrink:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.cta-band .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.crumb a{transition:background .2s}
+.cost-block{overflow-x:auto}
+
+footer.foot{background:var(--hl-navy-deep);color:rgba(255,255,255,.75);padding:22px 36px;text-align:center;font-size:12.5px}
+footer.foot a{color:var(--hl-gold-light);text-decoration:none}
+
+@media (max-width:1100px){.kpi-row{grid-template-columns:repeat(2,1fr)}.split-row{grid-template-columns:1fr}.tco-band{grid-template-columns:repeat(2,1fr)}.phase-cost{grid-template-columns:1fr}.notes ul{grid-template-columns:1fr}.cta-band{flex-direction:column;text-align:center}}
+@media (max-width:640px){header.hero{flex-wrap:wrap;padding:14px 18px}.crumb{margin-left:0;width:100%;flex-wrap:wrap}.container{padding:0 16px}.section{padding:26px 0}.section-title{font-size:23px}.kpi-row{grid-template-columns:1fr}.tco-band{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="logo-pill"><img src="1484ha-long-epc-01.png" alt="Hạ Long EPC" onerror="this.outerHTML='<span class=&quot;logo-fallback&quot;>HLEPC</span>'"></div>
+  <div>
+    <div class="hero-tagline">Công ty Cổ phần Công nghiệp Xanh</div>
+    <div class="hero-title">HẠ LONG EPC · CHUYỂN ĐỔI SỐ</div>
+  </div>
+  <div class="crumb">
+    <span class="slide-tag">SLIDE 03 · CHI PHÍ</span>
+    <a href="02_INFRA_HLEPC_PRS.html">← Trước</a>
+    <a href="index.html">Hub</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="section">
+    <div class="title-block" data-reveal>
+      <span class="eyebrow">Tổng chi phí 5 năm</span>
+      <h1 class="section-title">Chi phí <em>tự xây</em> · Phần mềm + Phần cứng</h1>
+      <p class="section-sub">CAPEX 24 tháng đầu cho build · OPEX Y3-Y5 vận hành. HLEPC sở hữu mã nguồn + thiết bị · không subscription.</p>
+    </div>
+
+    <div class="kpi-row" data-stagger>
+      <div class="kpi-big r"><div class="lbl">Phần mềm tự xây</div><div class="val" data-count="13.0" data-dec="1" data-prefix="~" data-suffix=" tỷ">~13.0 tỷ</div><div class="sub">Team in-house 24 tháng</div></div>
+      <div class="kpi-big n"><div class="lbl">Phần cứng + Hạ tầng</div><div class="val" data-count="11.8" data-dec="1" data-prefix="~" data-suffix=" tỷ">~11.8 tỷ</div><div class="sub">CAPEX one-time 24 tháng</div></div>
+      <div class="kpi-big g"><div class="lbl">Build 24 tháng</div><div class="val" data-count="24.8" data-dec="1" data-prefix="~" data-suffix=" tỷ">~24.8 tỷ</div><div class="sub">SW + HW · capitalize</div></div>
+      <div class="kpi-big e"><div class="lbl">TCO 5 năm</div><div class="val" data-count="36.5" data-dec="1" data-prefix="~" data-suffix=" tỷ">~36.5 tỷ</div><div class="sub">+11.7 tỷ vận hành Y3-Y5</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="title-block" data-reveal>
+      <h2 class="section-title">Chi phí <em>phần mềm tự xây</em></h2>
+      <p class="section-sub">Team in-house · 14 vị trí · payroll + overhead 25% · 24 tháng dev.</p>
+    </div>
+
+    <div class="cost-block sw" data-reveal>
+      <div class="head">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+        <div>
+          <h3>Phần mềm — Team in-house 24 tháng</h3>
+          <div class="sub">Payroll + overhead (chỗ ngồi, máy tính, đào tạo, social, contingency)</div>
+        </div>
+        <div class="total"><div class="v">~13.0 tỷ</div><div class="l">SW build</div></div>
+      </div>
+      <table>
+        <thead>
+          <tr><th style="width:42%">Vai trò</th><th class="r">SL</th><th class="r">Lương/tháng (tr)</th><th class="r">Thời gian (tháng)</th><th class="r">Thành tiền (tr)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group"><td colspan="5">A · Lãnh đạo kỹ thuật &amp; Quản trị</td></tr>
+          <tr><td><span class="item">Tech Lead</span><div class="note">Chủ toàn bộ kiến trúc</div></td><td class="r">1</td><td class="r">45</td><td class="r">24</td><td class="r">1,080</td></tr>
+          <tr><td><span class="item">Solution Architect</span><div class="note">Thiết kế microservice + data model</div></td><td class="r">1</td><td class="r">40</td><td class="r">24</td><td class="r">960</td></tr>
+          <tr><td><span class="item">PM kỹ thuật</span><div class="note">Sprint + release + risk</div></td><td class="r">1</td><td class="r">35</td><td class="r">24</td><td class="r">840</td></tr>
+          <tr><td><span class="item">Business Analyst</span><div class="note">Cầu nối nghiệp vụ ↔ dev · 3 stream</div></td><td class="r">2</td><td class="r">25</td><td class="r">24</td><td class="r">1,200</td></tr>
+
+          <tr class="group"><td colspan="5">B · Phát triển</td></tr>
+          <tr><td><span class="item">Backend Senior</span><div class="note">Microservice nghiệp vụ + API</div></td><td class="r">2</td><td class="r">30</td><td class="r">24</td><td class="r">1,440</td></tr>
+          <tr><td><span class="item">Frontend Senior</span><div class="note">SPA + dashboard + portal</div></td><td class="r">2</td><td class="r">28</td><td class="r">24</td><td class="r">1,344</td></tr>
+          <tr><td><span class="item">Mobile dev</span><div class="note">App thợ xưởng + tablet QC</div></td><td class="r">1</td><td class="r">28</td><td class="r">18</td><td class="r">504</td></tr>
+          <tr><td><span class="item">UI/UX designer</span><div class="note">Design system + research</div></td><td class="r">1</td><td class="r">25</td><td class="r">15</td><td class="r">375</td></tr>
+
+          <tr class="group"><td colspan="5">C · Hạ tầng &amp; Dữ liệu &amp; AI</td></tr>
+          <tr><td><span class="item">DevOps / SRE</span><div class="note">K8s · CI/CD · observability</div></td><td class="r">1</td><td class="r">35</td><td class="r">24</td><td class="r">840</td></tr>
+          <tr><td><span class="item">IoT / Edge engineer</span><div class="note">Sensor máy + camera + gateway</div></td><td class="r">1</td><td class="r">30</td><td class="r">15</td><td class="r">450</td></tr>
+          <tr><td><span class="item">AI / Digital Twin engineer</span><div class="note">3D twin + ML + edge AI</div></td><td class="r">1</td><td class="r">40</td><td class="r">10</td><td class="r">400</td></tr>
+
+          <tr class="group"><td colspan="5">D · Chất lượng &amp; Triển khai</td></tr>
+          <tr><td><span class="item">QA Lead</span><div class="note">Test strategy + automation</div></td><td class="r">1</td><td class="r">28</td><td class="r">24</td><td class="r">672</td></tr>
+          <tr><td><span class="item">QA tester</span><div class="note">Manual + regression</div></td><td class="r">1</td><td class="r">18</td><td class="r">18</td><td class="r">324</td></tr>
+
+          <tr class="subtotal"><td colspan="4">Tổng payroll (16 người · ~24 tháng)</td><td class="r">10,429</td></tr>
+          <tr><td colspan="4">Overhead 25% (chỗ ngồi · máy tính · công cụ · đào tạo · social · tuyển dụng · contingency)</td><td class="r">2,607</td></tr>
+          <tr class="subtotal" style="background:#EEF1FB"><td colspan="4">★ TỔNG CHI PHÍ XÂY PHẦN MỀM 24 THÁNG</td><td class="r">~13,036 tr ≈ 13.0 tỷ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="title-block" data-reveal>
+      <h2 class="section-title">Chi phí <em>phần cứng + hạ tầng</em></h2>
+      <p class="section-sub">CAPEX one-time · phân bổ theo phase · bao gồm server room, network, endpoint, IoT, SOC.</p>
+    </div>
+
+    <div class="cost-block hw" data-reveal>
+      <div class="head">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></div>
+        <div>
+          <h3>Phần cứng + Hạ tầng — One-time CAPEX</h3>
+          <div class="sub">Server room · compute/storage · network · endpoint · IoT · SOC video wall</div>
+        </div>
+        <div class="total"><div class="v">~11.8 tỷ</div><div class="l">HW CAPEX</div></div>
+      </div>
+      <table>
+        <thead>
+          <tr><th style="width:42%">Hạng mục</th><th class="r">Đơn giá (tr)</th><th class="r">SL</th><th class="r">Phase</th><th class="r">Thành tiền (tr)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group"><td colspan="5">A · Server room &amp; Điện</td></tr>
+          <tr><td><span class="item">Server room 25m²</span><div class="note">Sàn nâng · điều hoà chính xác · fire suppression · access control</div></td><td class="r">350</td><td class="r">1</td><td class="r">P1</td><td class="r">350</td></tr>
+          <tr><td><span class="item">Rack 42U</span></td><td class="r">25</td><td class="r">2</td><td class="r">P1</td><td class="r">50</td></tr>
+          <tr><td><span class="item">UPS 20 kVA · battery 30'</span></td><td class="r">250</td><td class="r">1</td><td class="r">P1</td><td class="r">250</td></tr>
+          <tr><td><span class="item">Máy phát 60 kVA + ATS</span></td><td class="r">350</td><td class="r">1</td><td class="r">P1</td><td class="r">350</td></tr>
+
+          <tr class="group"><td colspan="5">B · Compute &amp; Storage</td></tr>
+          <tr><td><span class="item">Server CPU node</span><div class="note">2 CPU 32-core · 256GB RAM · NVMe local</div></td><td class="r">250</td><td class="r">3</td><td class="r">P1</td><td class="r">750</td></tr>
+          <tr><td><span class="item">GPU node</span><div class="note">Phục vụ Digital Twin + camera AI + ML</div></td><td class="r">600</td><td class="r">1</td><td class="r">P3</td><td class="r">600</td></tr>
+          <tr><td><span class="item">SAN NVMe 50 TB</span></td><td class="r">600</td><td class="r">1</td><td class="r">P1</td><td class="r">600</td></tr>
+          <tr><td><span class="item">NAS SATA 100 TB</span><div class="note">CAD vault · dossier · video</div></td><td class="r">300</td><td class="r">1</td><td class="r">P1</td><td class="r">300</td></tr>
+          <tr><td><span class="item">Backup tape library + media</span></td><td class="r">200</td><td class="r">1</td><td class="r">P1</td><td class="r">200</td></tr>
+          <tr><td><span class="item">DR site (Hà Nội colo)</span><div class="note">Server + storage tối thiểu · replication</div></td><td class="r">400</td><td class="r">1</td><td class="r">P2</td><td class="r">400</td></tr>
+
+          <tr class="group"><td colspan="5">C · Network &amp; Bảo mật</td></tr>
+          <tr><td><span class="item">Core switch 10G HA</span></td><td class="r">200</td><td class="r">2</td><td class="r">P1</td><td class="r">400</td></tr>
+          <tr><td><span class="item">Access switch PoE 48-port</span></td><td class="r">80</td><td class="r">8</td><td class="r">P1</td><td class="r">640</td></tr>
+          <tr><td><span class="item">NGFW HA + license 5Y</span></td><td class="r">600</td><td class="r">1</td><td class="r">P1</td><td class="r">600</td></tr>
+          <tr><td><span class="item">Wi-Fi 6 controller + 20 AP</span></td><td class="r">400</td><td class="r">1</td><td class="r">P1</td><td class="r">400</td></tr>
+          <tr><td><span class="item">Cabling fiber + đi dây</span></td><td class="r">350</td><td class="r">1</td><td class="r">P1</td><td class="r">350</td></tr>
+
+          <tr class="group"><td colspan="5">D · Endpoint &amp; Mobile</td></tr>
+          <tr><td><span class="item">PC vận hành i5 + 2 màn 24"</span></td><td class="r">25</td><td class="r">50</td><td class="r">P1</td><td class="r">1,250</td></tr>
+          <tr><td><span class="item">Tablet xưởng 10" IP65 rugged</span></td><td class="r">15</td><td class="r">50</td><td class="r">P1-P2</td><td class="r">750</td></tr>
+          <tr><td><span class="item">Barcode/QR scanner</span><div class="note">Mix cố định cổng kho + cầm tay</div></td><td class="r">5</td><td class="r">100</td><td class="r">P1-P2</td><td class="r">500</td></tr>
+
+          <tr class="group"><td colspan="5">E · IoT · Camera · Smart Factory</td></tr>
+          <tr><td><span class="item">IoT gateway xưởng</span></td><td class="r">30</td><td class="r">4</td><td class="r">P2</td><td class="r">120</td></tr>
+          <tr><td><span class="item">Sensor set cho 20 máy</span><div class="note">Dòng hàn · run-hour · vibration · nhiệt</div></td><td class="r">25</td><td class="r">20</td><td class="r">P2</td><td class="r">500</td></tr>
+          <tr><td><span class="item">IP camera AI + NVR</span></td><td class="r">20</td><td class="r">30</td><td class="r">P2</td><td class="r">700</td></tr>
+          <tr><td><span class="item">Edge AI box</span></td><td class="r">80</td><td class="r">3</td><td class="r">P2</td><td class="r">240</td></tr>
+          <tr><td><span class="item">Smart meter điện/khí + cabling</span></td><td class="r">30</td><td class="r">6</td><td class="r">P2</td><td class="r">180</td></tr>
+
+          <tr class="group"><td colspan="5">F · SOC · Video wall · Digital Twin</td></tr>
+          <tr><td><span class="item">Video wall 3×3 (9 màn 55")</span><div class="note">+ bracket + media controller</div></td><td class="r">700</td><td class="r">1</td><td class="r">P3</td><td class="r">700</td></tr>
+          <tr><td><span class="item">SOC room 40m² build-out</span><div class="note">Acoustic · ánh sáng · 4 desk · ghế</div></td><td class="r">600</td><td class="r">1</td><td class="r">P3</td><td class="r">600</td></tr>
+          <tr><td><span class="item">VR training rig (pilot)</span></td><td class="r">80</td><td class="r">1</td><td class="r">P3</td><td class="r">80</td></tr>
+          <tr><td><span class="item">MDM license + setup BYOD</span></td><td class="r">50</td><td class="r">1</td><td class="r">P3</td><td class="r">50</td></tr>
+
+          <tr class="subtotal" style="background:#ECFEFF"><td colspan="4">★ TỔNG CHI PHÍ PHẦN CỨNG + HẠ TẦNG (24 THÁNG)</td><td class="r">~11,810 tr ≈ 11.8 tỷ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="title-block" data-reveal>
+      <h2 class="section-title">Phân bổ theo <em>phase 24 tháng</em></h2>
+      <p class="section-sub">SW dev đều tay 3 phase · HW dồn P1 (server room + network) + P3 (SOC + Twin).</p>
+    </div>
+
+    <div class="phase-cost" data-stagger>
+      <div class="pc p1">
+        <h4>Phase 1 · Production Core</h4>
+        <div class="pp">M1-M8 · MES + QMS + PPM</div>
+        <div class="row"><span>SW (team payroll)</span><b>~4.3 tỷ</b></div>
+        <div class="row"><span>HW (server room + net + endpoint)</span><b>~7.0 tỷ</b></div>
+        <div class="total"><span class="l">Tổng P1</span><span class="v">~11.3 tỷ</span></div>
+      </div>
+      <div class="pc p2">
+        <h4>Phase 2 · Supply &amp; People</h4>
+        <div class="pp">M9-M16 · WMS + SRM + HRM</div>
+        <div class="row"><span>SW (team payroll)</span><b>~4.3 tỷ</b></div>
+        <div class="row"><span>HW (IoT + camera + DR site)</span><b>~2.8 tỷ</b></div>
+        <div class="total"><span class="l">Tổng P2</span><span class="v">~7.1 tỷ</span></div>
+      </div>
+      <div class="pc p3">
+        <h4>Phase 3 · Design · EAM · FI · CRM</h4>
+        <div class="pp">M17-M24 · PDM + EAM + FI + CRM + BI</div>
+        <div class="row"><span>SW (team payroll)</span><b>~4.4 tỷ</b></div>
+        <div class="row"><span>HW (SOC + Twin + GPU)</span><b>~2.0 tỷ</b></div>
+        <div class="total"><span class="l">Tổng P3</span><span class="v">~6.4 tỷ</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="title-block" data-reveal>
+      <h2 class="section-title">Vận hành <em>Y3-Y5</em> &amp; TCO 5 năm</h2>
+      <p class="section-sub">Sau go-live · team duy trì 6 người · HW refresh nhẹ · sở hữu IP nên không có subscription.</p>
+    </div>
+
+    <div class="split-row">
+      <div>
+        <div class="cost-block sw" data-reveal style="margin-bottom:14px">
+          <div class="head">
+            <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+            <div>
+              <h3>SW vận hành Y3-Y5</h3>
+              <div class="sub">Team 6 người: Tech Lead · BE · FE · DevOps · Mobile · QA</div>
+            </div>
+            <div class="total"><div class="v">~8.75 tỷ</div><div class="l">36 tháng</div></div>
+          </div>
+        </div>
+        <div class="cost-block hw" data-reveal>
+          <div class="head">
+            <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <div>
+              <h3>HW vận hành Y3-Y5</h3>
+              <div class="sub">License renew · battery UPS · spare · điện · DR colo</div>
+            </div>
+            <div class="total"><div class="v">~3.0 tỷ</div><div class="l">36 tháng</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="split-chart" data-reveal>
+        <h3>Cash flow 5 năm</h3>
+        <div class="ds">CAPEX dồn N1-N2 (build) · OPEX phẳng N3-N5 (vận hành)</div>
+        <div class="chart-host"><canvas id="cashflow"></canvas></div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px">
+      <div class="tco-band" data-reveal>
+        <div class="blk"><div class="l">Build 24 tháng</div><div class="v gold" data-count="24.8" data-dec="1" data-suffix=" tỷ">24.8 tỷ</div><div class="s">SW 13.0 + HW 11.8</div></div>
+        <div class="blk"><div class="l">Vận hành Y3-Y5</div><div class="v cyan" data-count="11.75" data-dec="2" data-suffix=" tỷ">11.75 tỷ</div><div class="s">SW 8.75 + HW 3.0</div></div>
+        <div class="blk"><div class="l">TCO 5 năm</div><div class="v gold" data-count="36.5" data-dec="1" data-prefix="~" data-suffix=" tỷ">~36.5 tỷ</div><div class="s">Tự xây · sở hữu IP</div></div>
+        <div class="blk"><div class="l">Giá trị tài sản số Y5</div><div class="v" data-count="25" data-prefix="~" data-suffix=" tỷ" style="color:#fff">~25 tỷ</div><div class="s">SW + HW còn giá trị</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px">
+      <div class="notes" data-reveal>
+        <h4>Giả định &amp; ghi chú</h4>
+        <ul>
+          <li>Mức lương VN 2026 cho team senior tại HN/HP/HL</li>
+          <li>HW giá đại lý chính hãng Tier-1, chưa gồm VAT</li>
+          <li>Server room tận dụng diện tích sẵn có của HLEPC</li>
+          <li>Tự xây = sở hữu mã nguồn + dữ liệu, không subscription</li>
+          <li>Có thể giảm 15-20% nếu mix outsource Phase 1 với một số module</li>
+          <li>HW khấu hao 5 năm · tài sản số khấu hao 3-5 năm</li>
+          <li>Chưa gồm chi phí đào tạo người dùng cuối (đã có trong overhead)</li>
+          <li>DR site colo Hà Nội thuê 200tr/năm (đã tính trong OPEX HW)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-band" data-reveal>
+    <div>
+      <div class="ttl">Đầu tư 36.5 tỷ · 5 năm · sở hữu trọn vẹn</div>
+      <div class="lead">Quay về tổng quan giải pháp hoặc hạ tầng để rà lại chi tiết.</div>
+    </div>
+    <a class="btn" href="index.html">↻ Hub</a>
+  </div>
+
+</div>
+
+<footer class="foot">
+  Slide 03/03 · Chi phí SW + HW · <strong>HẠ LONG EPC · CHUYỂN ĐỔI SỐ</strong> · v2.0 · <a href="index.html">← Hub</a>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Cash flow chart (lazy, animates when scrolled into view) ---------- */
+  var chartDone = false;
+  function createCashflow(){
+    if(chartDone) return; chartDone = true;
+    var baseFont = "'Be Vietnam Pro', system-ui, sans-serif";
+    Chart.defaults.font.family = baseFont;
+    Chart.defaults.font.size = 11;
+    Chart.defaults.color = '#334155';
+    new Chart(document.getElementById('cashflow'), {
+      type: 'bar',
+      data: {
+        labels: ['Năm 1','Năm 2','Năm 3','Năm 4','Năm 5'],
+        datasets: [
+          { label: 'SW build/vận hành', data: [6.5, 6.5, 2.9, 2.9, 2.9], backgroundColor: '#3B53A6', borderRadius: 5, stack: 'a' },
+          { label: 'HW build/vận hành', data: [9.0, 2.8, 1.0, 1.0, 1.0], backgroundColor: '#0E7490', borderRadius: 5, stack: 'a' }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        animation: reduce ? false : { duration: 1100, easing: 'easeOutQuart' },
+        plugins: { legend: { position: 'top' }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y.toFixed(1)} tỷ` } } },
+        scales: { y: { stacked: true, ticks: { callback: v => v + ' tỷ' }, grid: { color: '#F1F5F9' } }, x: { stacked: true, grid: { display: false } } }
+      }
+    });
+  }
+
+  /* ---------- Count-up numbers ---------- */
+  function fmt(n,dec){ return dec ? n.toFixed(dec) : Math.round(n).toString(); }
+  function countUp(el){
+    if(el.dataset.done) return; el.dataset.done='1';
+    var target=parseFloat(el.dataset.count);
+    var dec=parseInt(el.dataset.dec||'0',10);
+    var pre=el.dataset.prefix||'', suf=el.dataset.suffix||'';
+    if(reduce){ el.textContent=pre+fmt(target,dec)+suf; return; }
+    var dur=1100, t0=null;
+    function step(ts){
+      if(t0===null) t0=ts;
+      var p=Math.min((ts-t0)/dur,1), e=1-Math.pow(1-p,3);
+      el.textContent=pre+fmt(target*e,dec)+suf;
+      if(p<1) requestAnimationFrame(step); else el.textContent=pre+fmt(target,dec)+suf;
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  function activate(el){
+    if(el.hasAttribute('data-stagger')){
+      var kids=el.children;
+      for(var k=0;k<kids.length;k++){
+        (function(c,idx){ setTimeout(function(){ c.classList.add('in'); }, reduce?0:idx*80); })(kids[k],k);
+      }
+    } else { el.classList.add('in'); }
+    var nums=el.querySelectorAll('[data-count]');
+    for(var j=0;j<nums.length;j++) countUp(nums[j]);
+    if(el.hasAttribute('data-count')) countUp(el);
+    if(el.querySelector && el.querySelector('#cashflow')) createCashflow();
+  }
+
+  var targets=document.querySelectorAll('[data-reveal],[data-stagger]');
+  if(!('IntersectionObserver' in window)){
+    targets.forEach(activate); createCashflow(); return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ activate(en.target); io.unobserve(en.target); }
+    });
+  }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+  targets.forEach(function(t){ io.observe(t); });
+})();
+</script>
+<script>
+/* Fallback fade chuyển trang khi trình duyệt chưa hỗ trợ View Transitions */
+(function(){
+  if(document.startViewTransition) return;
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  document.querySelectorAll('a[href$=".html"]').forEach(function(a){
+    a.addEventListener('click',function(ev){
+      if(ev.metaKey||ev.ctrlKey||ev.shiftKey||a.target==='_blank') return;
+      ev.preventDefault();
+      var href=a.getAttribute('href');
+      document.body.classList.add('is-leaving');
+      setTimeout(function(){ window.location.href=href; },240);
+    });
+  });
+})();
+</script>
+</body>
+</html>

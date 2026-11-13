@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VCI MES — Giới thiệu sản phẩm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<style>
+:root{
+  --ink:#0b1a2b;
+  --grid:rgba(140,190,255,.05);
+  --grid-major:rgba(140,190,255,.09);
+  --line:#cfe1f5;
+  --line-dim:rgba(207,225,245,.4);
+  --muted:#9db3c9;
+  --paint:#ff6b1a;
+  --sans:"Be Vietnam Pro",system-ui,sans-serif;
+  --cond:"Barlow Condensed","Be Vietnam Pro",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+html,body,.reveal-viewport{background:var(--ink)}
+.reveal{font-family:var(--sans);color:var(--line);font-size:30px}
+.reveal .slides{text-align:left}
+.reveal .slides section{height:100%;padding:0}
+.reveal .controls{color:var(--line)}
+.reveal .progress{color:var(--paint)}
+.reveal .backgrounds{background:
+  linear-gradient(var(--grid-major) 1px,transparent 1px) 0 0/120px 120px,
+  linear-gradient(90deg,var(--grid-major) 1px,transparent 1px) 0 0/120px 120px,
+  linear-gradient(var(--grid) 1px,transparent 1px) 0 0/24px 24px,
+  linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/24px 24px,
+  radial-gradient(ellipse at 70% 30%,#14304d 0%,var(--ink) 65%)}
+
+.reveal h1,.reveal h2,.reveal h3{font-family:var(--cond);font-weight:700;text-transform:uppercase;color:#fff;margin:0;letter-spacing:.01em}
+.reveal p{margin:0}
+.kicker{font:600 20px var(--mono);color:var(--paint);letter-spacing:.2em;text-transform:uppercase}
+.pageno{position:absolute;right:96px;top:56px;font:600 16px var(--mono);letter-spacing:.14em;color:var(--muted)}
+.brand{position:absolute;left:96px;top:48px}
+.brand img{height:36px;margin:0;display:block}
+
+/* Hiệu ứng */
+.draw{stroke-dasharray:1;stroke-dashoffset:1}
+section.present .draw{animation:draw 1.6s cubic-bezier(.6,.05,.3,1) forwards;animation-delay:var(--d,0s)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.rise{opacity:0;transform:translateY(16px)}
+section.present .rise{animation:rise .7s ease forwards;animation-delay:var(--d,0s)}
+@keyframes rise{to{opacity:1;transform:none}}
+.bay{opacity:0}
+section.present .bay{animation:rise .4s ease forwards;animation-delay:var(--d,0s);transform:none}
+.spark{fill:#ffd9bf;filter:drop-shadow(0 0 8px var(--paint)) drop-shadow(0 0 20px var(--paint))}
+
+.bridge{position:absolute;left:0;width:1600px;height:420px}
+
+/* Bìa */
+.cover{position:absolute;left:96px;top:120px}
+.cover h1{font-size:190px;line-height:.95;margin-top:10px}
+.cover h1 em{font-style:normal;color:var(--paint)}
+.cover .tag{font:300 36px/1.35 var(--sans);margin-top:10px}
+
+/* Tổng quan */
+.ov-head{position:absolute;left:96px;top:104px}
+.ov-head h2{font-size:64px;line-height:1.1;margin-top:14px}
+.ov-steps{position:absolute;left:96px;right:96px;top:300px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.ov-step{border-top:3px solid var(--paint);padding-top:20px}
+.ov-step b{font:700 58px/1 var(--cond);color:transparent;-webkit-text-stroke:1.5px var(--paint)}
+.ov-step h3{font-size:42px;line-height:1.1;margin:10px 0 8px}
+.ov-step p{font-size:23px;line-height:1.4;color:var(--muted)}
+
+/* Trang tính năng */
+.f-left{position:absolute;left:96px;top:104px;width:560px}
+.f-num{display:block;font:700 130px/1 var(--cond);color:transparent;-webkit-text-stroke:2px var(--paint)}
+.f-left h2{font-size:74px;line-height:1.08;margin-top:12px}
+.f-list{position:absolute;left:720px;right:96px;top:104px;list-style:none;margin:0;padding:0}
+.f-list li{display:flex;align-items:center;min-height:128px;border-top:1px solid rgba(207,225,245,.22);font:500 34px/1.3 var(--sans);color:#fff}
+.f-list li:last-child{border-bottom:1px solid rgba(207,225,245,.22)}
+
+/* Tính năng phục vụ */
+.t-head{position:absolute;left:96px;top:96px;right:220px}
+.t-head h2{font-size:60px;line-height:1.1;margin-top:12px}
+.tiles{position:absolute;left:96px;right:96px;top:262px;display:grid;grid-template-columns:repeat(4,1fr);gap:0 28px}
+.tile{border-top:2px solid var(--line-dim);padding:16px 0 26px}
+.tile h3{font-size:34px;line-height:1.1;margin-bottom:6px}
+.tile p{font-size:21px;line-height:1.35;color:var(--muted)}
+
+/* Kết */
+.end{position:absolute;left:96px;top:100px;width:880px}
+.end h2{font-size:104px;line-height:1.08;margin-top:12px}
+.end h2 em{font-style:normal;color:var(--paint)}
+.end p.sub{font:300 32px/1.4 var(--sans);margin-top:10px}
+.contact{position:absolute;right:96px;top:100px;width:430px}
+.contact img{height:38px;margin:0 0 14px;display:block}
+.contact p{font-size:20px;line-height:1.5;color:var(--muted);margin-bottom:6px}
+.contact p strong{color:#fff;font-weight:600}
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section>
+  <div class="brand rise"><img src="../assets/logo-vci-white.png" alt="VCI"></div>
+  <svg class="bridge" style="top:470px" data-progress="0" data-spark="1" viewBox="0 0 1600 420" aria-hidden="true"></svg>
+  <div class="cover">
+    <p class="kicker rise" style="--d:.8s">Phần mềm điều hành xưởng kết cấu thép</p>
+    <h1 class="rise" style="--d:1s">VCI <em>MES</em></h1>
+    <p class="tag rise" style="--d:1.2s">Lập kế hoạch, giao việc, báo cáo — trên một hệ thống.</p>
+  </div>
+</section>
+
+<section>
+  <div class="ov-head">
+    <p class="kicker rise">VCI MES làm được gì</p>
+    <h2 class="rise" style="--d:.15s">Từ kế hoạch đến báo cáo</h2>
+  </div>
+  <div class="ov-steps">
+    <div class="ov-step rise" style="--d:.3s"><b>1</b><h3>Lập kế hoạch</h3><p>Việc gì, khi nào, khối lượng bao nhiêu</p></div>
+    <div class="ov-step rise" style="--d:.45s"><b>2</b><h3>Giao việc</h3><p>Tổ nào làm, báo kết quả ra sao</p></div>
+    <div class="ov-step rise" style="--d:.6s"><b>3</b><h3>Theo dõi</h3><p>Dashboard cho ban điều hành</p></div>
+    <div class="ov-step rise" style="--d:.75s"><b>4</b><h3>Báo cáo</h3><p>Sản lượng và ngày công theo kỳ</p></div>
+  </div>
+  <svg class="bridge" style="top:530px;height:360px" data-progress="0" viewBox="0 0 1600 420" aria-hidden="true"></svg>
+</section>
+
+<section>
+  <div class="f-left"><span class="f-num rise">01</span><h2 class="rise" style="--d:.15s">Kế hoạch sản xuất</h2></div>
+  <ul class="f-list">
+    <li class="rise" style="--d:.3s">Lập tổng thể theo lô, chi tiết theo nhóm cấu kiện</li>
+    <li class="rise" style="--d:.45s">Nhập kế hoạch sẵn có từ Excel</li>
+    <li class="rise" style="--d:.6s">Xem Gantt, so sánh kế hoạch với thực tế</li>
+  </ul>
+  <svg class="bridge" style="top:530px;height:360px" data-progress=".2" viewBox="0 0 1600 420" aria-hidden="true"></svg>
+</section>
+
+<section>
+  <div class="f-left"><span class="f-num rise">02</span><h2 class="rise" style="--d:.15s">Phiếu giao việc</h2></div>
+  <ul class="f-list">
+    <li class="rise" style="--d:.3s">Công việc lấy thẳng từ kế hoạch</li>
+    <li class="rise" style="--d:.45s">Theo dõi trên bảng Kanban</li>
+    <li class="rise" style="--d:.6s">Tổ trưởng báo sản lượng, giờ công, ảnh bằng điện thoại</li>
+  </ul>
+  <svg class="bridge" style="top:530px;height:360px" data-progress=".4" viewBox="0 0 1600 420" aria-hidden="true"></svg>
+</section>
+
+<section>
+  <div class="f-left"><span class="f-num rise">03</span><h2 class="rise" style="--d:.15s">Báo cáo dashboard</h2></div>
+  <ul class="f-list">
+    <li class="rise" style="--d:.3s">Xem toàn nhà máy hoặc từng dự án</li>
+    <li class="rise" style="--d:.45s">Kế hoạch – thực tế, sản lượng, nhân sự</li>
+    <li class="rise" style="--d:.6s">Nhìn cấu kiện chậm ngay trên mô hình BIM</li>
+  </ul>
+  <svg class="bridge" style="top:530px;height:360px" data-progress=".6" viewBox="0 0 1600 420" aria-hidden="true"></svg>
+</section>
+
+<section>
+  <div class="f-left"><span class="f-num rise">04</span><h2 class="rise" style="--d:.15s">Báo cáo sản xuất</h2></div>
+  <ul class="f-list">
+    <li class="rise" style="--d:.3s">Xem theo tháng, quý hoặc năm</li>
+    <li class="rise" style="--d:.45s">Số liệu theo từng công đoạn và dự án</li>
+    <li class="rise" style="--d:.6s">Tách riêng nhà máy và thầu phụ</li>
+  </ul>
+  <svg class="bridge" style="top:530px;height:360px" data-progress=".8" viewBox="0 0 1600 420" aria-hidden="true"></svg>
+</section>
+
+<section>
+  <div class="t-head">
+    <p class="kicker rise">05</p>
+    <h2 class="rise" style="--d:.15s">Tính năng phục vụ công việc</h2>
+  </div>
+  <div class="tiles">
+    <div class="tile rise" style="--d:.2s"><h3>BIM &amp; BOM</h3><p>Mô hình và BOM cấu kiện</p></div>
+    <div class="tile rise" style="--d:.28s"><h3>Quy trình</h3><p>Công đoạn, quy trình sản xuất</p></div>
+    <div class="tile rise" style="--d:.36s"><h3>Tổ sản xuất</h3><p>Tổ đội và nhân sự trong tổ</p></div>
+    <div class="tile rise" style="--d:.44s"><h3>Máy &amp; thiết bị</h3><p>Danh sách và thông tin máy</p></div>
+    <div class="tile rise" style="--d:.52s"><h3>Nguồn lực</h3><p>Kế hoạch nhân sự, máy, sản lượng</p></div>
+    <div class="tile rise" style="--d:.6s"><h3>Giờ công</h3><p>Bảng giờ công từ lượt báo</p></div>
+    <div class="tile rise" style="--d:.68s"><h3>Kho vật tư</h3><p>Yêu cầu cấp, nhập kho, xuất kho</p></div>
+    <div class="tile rise" style="--d:.76s"><h3>Thư viện ảnh</h3><p>Ảnh, video từ báo cáo của xưởng</p></div>
+  </div>
+  <svg class="bridge" style="top:560px;height:330px" data-progress="1" viewBox="0 0 1600 420" aria-hidden="true"></svg>
+</section>
+
+<section>
+  <div class="end">
+    <p class="kicker rise">Bước tiếp theo</p>
+    <h2 class="rise" style="--d:.15s">Bắt đầu từ<br><em>một nhịp cầu.</em></h2>
+    <p class="sub rise" style="--d:.4s">Xem demo trên dự án của anh/chị.</p>
+  </div>
+  <div class="contact rise" style="--d:.6s">
+    <img src="../assets/logo-vci-white.png" alt="VCI">
+    <p><strong>Công ty Cổ phần Công nghệ số VCI</strong></p>
+    <p>Tầng 12A, toà A3 Ecolife Capitol<br>58 Tố Hữu, P. Đại Mỗ, Hà Nội</p>
+    <p>Tel 0204.386.3886</p>
+  </div>
+  <svg class="bridge" style="top:470px" data-progress="1" viewBox="0 0 1600 420" aria-hidden="true"></svg>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  parent.appendChild(n);
+  return n;
+};
+
+// Cầu vòm giàn thép: vòm chính, thanh treo, mặt cầu, nhịp dẫn, trụ, mặt nước.
+// progress: phần vòm đã tô cam, chạy dần qua các trang tính năng.
+function drawBridge(svg, progress, withSpark) {
+  const L = 420, R = 1180, deck = 262, spring = 288, rise = 244, water = 372, bays = 20;
+  const pt = u => {
+    const x = L + (R - L) * u, t = u * (1 - u);
+    const low = spring - 4 * rise * t;
+    return { x, low, up: low - (12 + 30 * Math.sin(Math.PI * u)) };
+  };
+  const stroke = (d, w, delay, color) => el("path", { d, fill: "none", stroke: color || "var(--line)", "stroke-width": w, pathLength: 1, class: "draw", style: `--d:${delay}s` }, svg);
+  const faint = (d, w) => el("path", { d, fill: "none", stroke: "var(--line-dim)", "stroke-width": w }, svg);
+  const curve = key => Array.from({ length: 61 }, (_, i) => { const p = pt(i / 60); return `${i ? "L" : "M"}${p.x.toFixed(1)},${p[key].toFixed(1)}`; }).join(" ");
+
+  // mặt nước
+  [[water + 6, "28 14"], [water + 20, "44 22"], [water + 34, "18 26"]].forEach(([y, dash]) =>
+    el("path", { d: `M0,${y} H1600`, stroke: "var(--line-dim)", "stroke-width": 1, "stroke-dasharray": dash }, svg));
+
+  // trụ: thân thuôn, xà mũ, bệ móng chạm nước
+  const pier = (x, wTop, wBot, cap, delay) => {
+    const top = deck + 22;
+    stroke(`M${x - cap / 2},${top} H${x + cap / 2} L${x + wTop / 2},${top + 16} V${top + 18} L${x + wBot / 2},${water - 12} H${x - wBot / 2} L${x - wTop / 2},${top + 18} V${top + 16} Z`, 2, delay);
+    stroke(`M${x - wBot / 2 - 14},${water - 12} H${x + wBot / 2 + 14} V${water + 2} H${x - wBot / 2 - 14} Z`, 2, delay + .1);
+  };
+  [60, 240, 1360, 1540].forEach((x, i) => pier(x, 24, 34, 64, .5 + i * .05));
+  [L, R].forEach((x, i) => pier(x, 56, 74, 130, .4 + i * .05));
+
+  // dầm mặt cầu + lan can + sườn dầm
+  stroke(`M0,${deck} H1600`, 2.5, 0);
+  stroke(`M0,${deck + 22} H1600`, 2.5, .1);
+  stroke(`M0,${deck - 11} H1600`, 1, .3);
+  for (let x = 10; x < 1600; x += 28) faint(`M${x},${deck} V${deck + 22}`, .8);
+  for (let x = 10; x < 1600; x += 14) faint(`M${x},${deck} V${deck - 11}`, .6);
+
+  // tô phần vòm đã hoàn thành
+  const filled = Math.round(bays * progress);
+  for (let i = 0; i < filled; i++) {
+    const a = pt(i / bays), b = pt((i + 1) / bays);
+    el("path", { d: `M${a.x},${a.low} L${a.x},${a.up} L${b.x},${b.up} L${b.x},${b.low} Z`, fill: "var(--paint)", class: "bay", style: `--d:${.6 + i * .06}s` }, svg);
+  }
+
+  // hai biên vòm + thanh giàn tam giác
+  stroke(curve("low"), 3, .2);
+  stroke(curve("up"), 3, .3);
+  for (let i = 0; i < bays; i++) {
+    const a = pt(i / bays), m = pt((i + .5) / bays), b = pt((i + 1) / bays);
+    const web = `M${a.x},${a.low} L${m.x},${m.up} L${b.x},${b.low}`;
+    stroke(web, 1.4, .6 + i * .03, filled > i ? "#fff" : "var(--line)");
+  }
+
+  // thanh treo từ vòm xuống mặt cầu
+  for (let i = 1; i < bays; i++) {
+    const p = pt(i / bays);
+    if (p.low < deck - 12) stroke(`M${p.x},${p.low} V${deck}`, 1.2, .9 + i * .03);
+  }
+
+  if (!withSpark) return;
+  const spark = el("circle", { r: 5, class: "spark" }, svg);
+  const start = performance.now();
+  (function run(ts) {
+    const p = pt(((ts - start) / 6000) % 1 || 0);
+    spark.setAttribute("cx", p.x); spark.setAttribute("cy", p.up);
+    requestAnimationFrame(run);
+  })(start);
+}
+document.querySelectorAll("svg.bridge").forEach(s => drawBridge(s, +s.dataset.progress, s.dataset.spark === "1"));
+
+const all = document.querySelectorAll(".slides > section");
+all.forEach((s, i) => s.insertAdjacentHTML("afterbegin", `<div class="pageno">${String(i + 1).padStart(2, "0")} / ${String(all.length).padStart(2, "0")}</div>`));
+
+Reveal.initialize({ width: 1600, height: 900, margin: 0, hash: true, controls: true, progress: true, center: false, transition: "fade", backgroundTransition: "none" });
+</script>
+</body>
+</html>

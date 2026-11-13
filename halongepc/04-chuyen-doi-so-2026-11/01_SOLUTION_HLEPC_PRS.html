@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HLEPC · 01 · Giải pháp phần mềm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --hl-red-deep:#8A241C;--hl-red-main:#E14138;--hl-red-mid:#EF6A5E;--hl-red-light:#F7B6AF;--hl-red-soft:#FEF3F1;
+  --hl-orange-deep:#9A3A18;--hl-orange-main:#E2622F;--hl-orange-mid:#F0763E;--hl-orange-soft:#FEF6F0;
+  --hl-gold-deep:#A35A12;--hl-gold-main:#E29234;--hl-gold-light:#F6B64E;--hl-gold-soft:#FEFAF0;
+  --hl-navy-deep:#0C1726;--hl-navy-main:#1E3A8A;--hl-navy-soft:#EEF2F9;
+  --hl-steel-deep:#1C1917;--hl-steel-main:#44403C;--hl-steel-mid:#605B54;--hl-steel-light:#D6D3D1;--hl-steel-soft:#F5F3F0;
+  --hl-green-main:#0F766E;--hl-green-deep:#134E4A;--hl-cyan:#0E7490;
+  --hl-grad-hero:linear-gradient(135deg,#B5241B 0%,#E14138 38%,#F0633A 72%,#F6A35C 100%);
+  --hl-grad-flame:linear-gradient(135deg,#E14138,#F0763E);
+  --hl-grad-main:linear-gradient(135deg,#E14138,#E2622F);
+  --hl-grad-navy:linear-gradient(135deg,#0C1726,#1E3A8A);
+  --hl-grad-gold:linear-gradient(135deg,#A35A12,#E29234);
+  --hl-grad-bg:linear-gradient(180deg,#FEF7F4,#FFFFFF 55%,#FBFAF9);--hl-shadow-red:rgba(225,65,56,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Be Vietnam Pro',system-ui,sans-serif;background:var(--hl-grad-bg);color:var(--hl-steel-deep);line-height:1.5;min-height:100vh}
+/* chuyển trang mượt */
+@view-transition{navigation:auto}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+body{animation:pageIn .45s cubic-bezier(.22,.61,.36,1) both}
+body.is-leaving{opacity:0;transform:translateY(-6px);transition:opacity .28s ease,transform .28s ease}
+.container{max-width:1400px;margin:0 auto;padding:0 28px}
+h1,h2,h3{font-family:'Be Vietnam Pro',sans-serif;letter-spacing:-0.02em}
+svg{display:block}
+a:focus-visible,button:focus-visible{outline:3px solid var(--hl-gold-light);outline-offset:3px;border-radius:8px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+header.hero{background:var(--hl-grad-hero);padding:18px 36px;display:flex;align-items:center;gap:18px;box-shadow:0 4px 18px rgba(30,41,59,.16)}
+.logo-pill{background:#fff;padding:6px 10px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.logo-pill img{height:42px;display:block}
+.logo-pill .logo-fallback{font-family:'Be Vietnam Pro';font-weight:900;font-size:20px;background:var(--hl-grad-flame);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:transparent;letter-spacing:1px;display:inline-block;padding:2px 4px}
+.hero-tagline{color:rgba(255,255,255,.85);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600}
+.hero-title{color:#fff;font-size:20px;font-weight:800;letter-spacing:1.5px;text-shadow:0 1px 2px rgba(0,0,0,.18)}
+.crumb{margin-left:auto;color:rgba(255,255,255,.92);font-size:13px;display:flex;align-items:center;gap:14px}
+.crumb a{color:#fff;text-decoration:none;padding:6px 14px;background:rgba(255,255,255,.18);border-radius:999px;font-size:12px;font-weight:600}
+.crumb a:hover{background:rgba(255,255,255,.28)}
+.slide-tag{padding:5px 12px;background:rgba(0,0,0,.20);border-radius:8px;font-family:'Be Vietnam Pro';font-weight:700;letter-spacing:1.5px;font-size:12px}
+
+.section{padding:40px 0}
+.title-block{margin-bottom:22px}
+.eyebrow{display:inline-block;padding:5px 14px;background:var(--hl-navy-soft);border:1px solid #93C5FD;color:var(--hl-navy-main);border-radius:999px;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+.section-title{font-family:'Be Vietnam Pro';font-size:31px;font-weight:800;color:var(--hl-steel-deep);line-height:1.15}
+.section-title em{font-style:normal;background:var(--hl-grad-hero);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.section-sub{font-size:14px;color:var(--hl-steel-mid);margin-top:8px;max-width:920px}
+
+/* Architecture overview */
+.arch{display:grid;grid-template-columns:1fr 1.4fr;gap:20px}
+.arch-text{background:#fff;border:1px solid #EAE3DB;border-radius:18px;padding:24px}
+.arch-text h3{font-size:17px;font-weight:800;color:var(--hl-steel-deep);margin-bottom:10px}
+.arch-text ul{list-style:none}
+.arch-text ul li{font-size:13px;color:var(--hl-steel-main);padding:5px 0;display:flex;gap:8px;line-height:1.45}
+.arch-text ul li::before{content:'▸';color:var(--hl-red-main);font-weight:800;flex-shrink:0}
+.arch-text ul li b{color:var(--hl-steel-deep);font-weight:700}
+
+.stack-diagram{background:#fff;border:1px solid #EAE3DB;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:6px}
+.stack-row{padding:11px 14px;border-radius:8px;display:grid;grid-template-columns:90px 1fr;gap:14px;align-items:center;border:1px solid transparent;font-size:12.5px}
+.stack-row .lyr{font-family:'Be Vietnam Pro';font-weight:800;font-size:11px;letter-spacing:.8px;text-transform:uppercase}
+.stack-row .det{color:var(--hl-steel-main);line-height:1.45}
+.stack-row.l1{background:#FFFBEB;border-color:#FCD34D}.stack-row.l1 .lyr{color:var(--hl-gold-deep)}
+.stack-row.l2{background:#FEF2F2;border-color:#FCA5A5}.stack-row.l2 .lyr{color:var(--hl-red-deep)}
+.stack-row.l3{background:#ECFEFF;border-color:#A5F3FC}.stack-row.l3 .lyr{color:#0E7490}
+.stack-row.l4{background:#EFF6FF;border-color:#93C5FD}.stack-row.l4 .lyr{color:var(--hl-navy-main)}
+.stack-row.l5{background:#F5F3FF;border-color:#C4B5FD}.stack-row.l5 .lyr{color:#6D28D9}
+.stack-row.l6{background:#F1F5F9;border-color:#CBD5E1}.stack-row.l6 .lyr{color:var(--hl-steel-main)}
+
+/* Modules — premium white card, accent đỏ-cam tinh tế */
+.mod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.mod{background:#fff;border:1px solid #EAE3DB;border-radius:14px;padding:18px;border-left:4px solid var(--hl-orange-main);box-shadow:0 4px 16px rgba(138,36,28,.07);transition:transform .2s,box-shadow .2s,border-color .2s}
+/* nền tint nhẹ theo Phase — gradient góc → trắng, giúp thẻ nổi & nhóm rõ mà vẫn dịu */
+.mod.p1{border-left-color:var(--hl-red-main);background:linear-gradient(135deg,#FCE2DB 0%,#FFF3EF 72%);border-color:#EFC3B7}
+.mod.p2{border-left-color:var(--hl-orange-main);background:linear-gradient(135deg,#FCE6D4 0%,#FFF4EA 72%);border-color:#F0CAAB}
+.mod.p3{border-left-color:var(--hl-gold-main);background:linear-gradient(135deg,#FAEBCB 0%,#FFF8E6 74%);border-color:#E9D29C}
+.mod:hover{transform:translateY(-3px)}
+.mod.p1:hover{box-shadow:0 14px 30px rgba(225,65,56,.16)}
+.mod.p2:hover{box-shadow:0 14px 30px rgba(226,98,47,.16)}
+.mod.p3:hover{box-shadow:0 14px 30px rgba(226,146,52,.18)}
+.mod.p1:hover{border-color:#F3C9BC}.mod.p2:hover{border-color:#F6D2BC}.mod.p3:hover{border-color:#F0DCB4}
+/* numbered badge 1-10 */
+.mod .mod-num{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Be Vietnam Pro';font-weight:900;font-size:15px;color:#fff;background:var(--hl-grad-main);box-shadow:0 2px 6px rgba(225,65,56,.20)}
+.mod.p2 .mod-num{background:var(--hl-grad-flame);box-shadow:0 2px 6px rgba(234,88,12,.18)}
+.mod.p3 .mod-num{background:var(--hl-grad-gold);box-shadow:0 2px 6px rgba(217,119,6,.18)}
+/* phase group divider — nền tint nhẹ, điểm nhấn nhỏ giữ màu */
+.mod-group{grid-column:1/-1;display:flex;align-items:center;gap:11px;margin:16px 0 4px;padding:11px 16px;border-radius:11px;border:1px solid}
+.mod-group:first-child{margin-top:0}
+.mod-group::before{content:'';width:6px;height:22px;border-radius:3px;flex-shrink:0}
+.mod-group.g1{background:linear-gradient(135deg,#FAD9CF,#FEEDE7);border-color:#EFC0B3}
+.mod-group.g2{background:linear-gradient(135deg,#FADFC9,#FEEFE3);border-color:#F0C7A6}
+.mod-group.g3{background:linear-gradient(135deg,#F8E8C2,#FEF7E1);border-color:#E9CF93}
+.mod-group.g1::before{background:var(--hl-red-main)}
+.mod-group.g2::before{background:var(--hl-orange-main)}
+.mod-group.g3::before{background:var(--hl-gold-main)}
+.mod-group .mg-ttl{font-family:'Be Vietnam Pro';font-weight:800;font-size:12.5px;letter-spacing:1.1px;text-transform:uppercase}
+.mod-group.g1 .mg-ttl{color:var(--hl-red-deep)}
+.mod-group.g2 .mg-ttl{color:var(--hl-orange-deep)}
+.mod-group.g3 .mg-ttl{color:var(--hl-gold-deep)}
+.mod-group .mg-when{margin-left:auto;font-size:11.5px;font-weight:600;font-family:'Be Vietnam Pro';color:var(--hl-steel-mid)}
+.mod-group .mg-count{padding:2px 10px;border-radius:999px;font-size:11px;font-weight:800;font-family:'Be Vietnam Pro';color:#fff}
+.mod-group.g1 .mg-count{background:var(--hl-red-main)}
+.mod-group.g2 .mg-count{background:var(--hl-orange-main)}
+.mod-group.g3 .mg-count{background:var(--hl-gold-main)}
+.mod .head{display:flex;align-items:center;gap:11px;margin-bottom:11px;flex-wrap:wrap}
+.mod .ic{width:36px;height:36px;border-radius:9px;background:#fff;color:var(--hl-red-main);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #F2D3CB;box-shadow:0 1px 3px rgba(138,36,28,.08)}
+.mod .ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mod.p2 .ic{color:var(--hl-orange-main);border-color:#F6D7C2}
+.mod.p3 .ic{color:var(--hl-gold-deep);border-color:#F0DEB8}
+.mod .ttl{font-family:'Be Vietnam Pro';font-weight:800;font-size:15px;color:#1A1714;flex:1;min-width:0;letter-spacing:-.1px}
+.mod .full{font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;font-weight:700;display:block;margin-top:2px;color:var(--hl-steel-mid)}
+.mod.p1 .full{color:#A8362B}.mod.p2 .full{color:#B0501F}.mod.p3 .full{color:#9A6516}
+.mod .ph-badge{font-family:'Be Vietnam Pro';font-weight:700;font-size:10px;padding:3px 8px;border-radius:5px;letter-spacing:.8px;color:var(--hl-steel-mid);background:var(--hl-steel-soft);border:1px solid #EAE3DB}
+.mod.p1 .ph-badge{color:var(--hl-red-main);background:var(--hl-red-soft);border-color:#F3DDD5}
+.mod.p2 .ph-badge{color:var(--hl-orange-main);background:var(--hl-orange-soft);border-color:#F6E0D0}
+.mod.p3 .ph-badge{color:var(--hl-gold-deep);background:var(--hl-gold-soft);border-color:#F0E2C4}
+.mod .feats{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:3px 14px}
+.mod .feats li{font-size:12.5px;color:#332E2A;font-weight:500;padding:2px 0;display:flex;gap:7px;line-height:1.4}
+.mod .feats li::before{content:'';width:5px;height:5px;border-radius:50%;margin-top:6px;background:var(--hl-orange-main);flex-shrink:0}
+.mod.p1 .feats li::before{background:var(--hl-red-main)}
+.mod.p2 .feats li::before{background:var(--hl-orange-main)}
+.mod.p3 .feats li::before{background:var(--hl-gold-main)}
+.mod .data{margin-top:12px;padding:8px 11px;border-radius:9px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);font-size:10.5px;color:var(--hl-steel-main);line-height:1.5;font-family:'Be Vietnam Pro'}
+.mod .data b{font-weight:800}
+.mod.p1 .data b{color:#A8362B}.mod.p2 .data b{color:#B0501F}.mod.p3 .data b{color:#9A6516}
+
+/* Gantt */
+.gantt-wrap{background:#fff;border:1px solid #EAE3DB;border-radius:18px;padding:22px;overflow-x:auto;box-shadow:0 8px 28px rgba(15,23,42,.05)}
+.gantt{min-width:1050px}
+.gantt-header{display:grid;grid-template-columns:200px repeat(24,1fr);padding-bottom:6px;border-bottom:2px solid #F1F5F9;margin-bottom:8px}
+.gantt-header .col{font-size:9.5px;color:var(--hl-steel-mid);text-align:center;font-weight:700;border-right:1px dashed #F1F5F9;padding:5px 1px;background:var(--hl-steel-soft);font-family:'Be Vietnam Pro'}
+.gantt-row{display:grid;grid-template-columns:200px repeat(24,1fr);align-items:center;height:28px}
+.gantt-row .lbl{font-size:11.5px;font-weight:600;color:var(--hl-steel-main);padding-right:10px;text-align:right;font-family:'Be Vietnam Pro'}
+.gantt-row .lbl b{color:var(--hl-steel-deep);font-weight:800}
+.gantt-row .lbl .gnum{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:5px;font-size:10px;font-weight:800;color:#fff;margin-right:6px;vertical-align:middle;font-family:'Be Vietnam Pro'}
+.gantt-row .lbl .gsub{color:var(--hl-steel-mid);font-weight:600;font-style:italic}
+.gantt-row .lbl .gnum.p1{background:linear-gradient(135deg,#B23029,#C24A30)}
+.gantt-row .lbl .gnum.p2{background:linear-gradient(135deg,#BC3D26,#D2682F)}
+.gantt-row .lbl .gnum.p3{background:linear-gradient(135deg,#9C580F,#C68A24)}
+.gantt-row .bar{height:19px;border-radius:5px;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;padding:0 8px;font-family:'Be Vietnam Pro';box-shadow:0 2px 5px rgba(0,0,0,.10);white-space:nowrap;overflow:hidden}
+.gantt-divider{grid-column:1/-1;height:26px;display:flex;align-items:center;padding:0 12px;font-family:'Be Vietnam Pro';font-size:11px;font-weight:800;letter-spacing:1.3px;color:#fff;border-radius:5px;margin:5px 0;text-transform:uppercase}
+/* (Đã bỏ .p1/.p2/.p3 global — chúng vô tình tô nền thẻ .mod; mỗi nơi dùng đã có override riêng bên dưới) */
+/* Gantt divider → tint nhẹ, chữ màu đậm (giảm chói) */
+.gantt-divider{height:28px;border:1px solid}
+.gantt-divider.p1{background:linear-gradient(135deg,#FDEEEA,#FFFAF7);color:var(--hl-red-deep);border-color:#F1D3CA}
+.gantt-divider.p2{background:linear-gradient(135deg,#FDF0E7,#FFFBF6);color:var(--hl-orange-deep);border-color:#F3DAC6}
+.gantt-divider.p3{background:linear-gradient(135deg,#FBF2DE,#FFFDF6);color:var(--hl-gold-deep);border-color:#EEE0BC}
+/* Gantt bar → gradient ấm dịu, ít neon hơn */
+.bar.p1{background:linear-gradient(135deg,#B23029,#C24A30)}
+.bar.p2{background:linear-gradient(135deg,#BC3D26,#D2682F)}
+.bar.p3{background:linear-gradient(135deg,#9C580F,#C68A24)}
+
+.cta-band{background:linear-gradient(135deg,#6E1812 0%,#9A2D16 55%,#B85327 100%);color:#fff;padding:28px 30px;border-radius:18px;margin:32px 0 16px;display:flex;align-items:center;justify-content:space-between;gap:24px;box-shadow:0 14px 34px rgba(110,24,18,.20);position:relative;overflow:hidden}
+.cta-band::after{content:'';position:absolute;right:-100px;top:-100px;width:280px;height:280px;background:radial-gradient(circle,rgba(252,211,77,.22) 0%,transparent 70%);border-radius:50%}
+.cta-band .ttl{font-family:'Be Vietnam Pro';font-size:20px;font-weight:800;position:relative;z-index:1}
+.cta-band .lead{font-size:13px;opacity:.92;margin-top:3px;position:relative;z-index:1}
+.cta-band .btn{padding:11px 20px;background:#fff;color:var(--hl-red-deep);border-radius:11px;text-decoration:none;font-family:'Be Vietnam Pro';font-weight:700;font-size:12.5px;position:relative;z-index:1;flex-shrink:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.cta-band .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.crumb a{transition:background .2s}
+.gantt-hint{display:none;font-size:12px;color:var(--hl-steel-mid);margin-top:8px;font-weight:600}
+/* Timeline tabs: Kế hoạch / Thực tế */
+.tl-tabs{display:inline-flex;gap:4px;padding:4px;margin-top:14px;background:var(--hl-steel-soft);border:1px solid #EAE3DB;border-radius:12px}
+.tl-tab{border:0;background:transparent;padding:8px 16px;border-radius:9px;font-family:'Be Vietnam Pro';font-size:12.5px;font-weight:700;color:var(--hl-steel-mid);cursor:pointer;transition:background .2s,color .2s}
+.tl-tab[aria-selected="true"]{background:#fff;color:var(--hl-red-deep);box-shadow:0 2px 8px rgba(15,23,42,.08)}
+.tl-tab:focus-visible{outline:2px solid var(--hl-red-main);outline-offset:2px}
+.tl-panel[hidden]{display:none}
+.tl-sub{margin-bottom:14px}
+.tl-kpis{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.tl-kpi{padding:6px 12px;border-radius:999px;background:#fff;border:1px solid #EAE3DB;font-family:'Be Vietnam Pro';font-size:12px;font-weight:600;color:var(--hl-steel-main)}
+.tl-kpi b{color:var(--hl-red-deep);font-weight:800}
+.gantt.g45{min-width:1650px}
+.gantt.g45 .gantt-header,.gantt.g45 .gantt-row{grid-template-columns:200px repeat(45,1fr)}
+.gantt.g45 .gantt-header .col{grid-column:span 3}
+.tl-note{margin-top:14px;padding:14px 18px;border-radius:14px;background:#FFFAF7;border:1px solid #F1D3CA;font-size:12.5px;color:var(--hl-steel-main);line-height:1.6}
+.tl-note h4{font-family:'Be Vietnam Pro';font-size:12.5px;font-weight:800;color:var(--hl-red-deep);margin:0 0 6px;text-transform:uppercase;letter-spacing:.8px}
+.tl-note ul{margin:0;padding-left:18px}
+
+footer.foot{background:var(--hl-navy-deep);color:rgba(255,255,255,.75);padding:22px 36px;text-align:center;font-size:12.5px}
+footer.foot a{color:var(--hl-gold-light);text-decoration:none}
+
+@media (max-width:1100px){.arch{grid-template-columns:1fr}.mod-grid{grid-template-columns:1fr}.mod .feats{grid-template-columns:1fr}.cta-band{flex-direction:column;text-align:center}.gantt-hint{display:block}}
+@media (max-width:640px){header.hero{flex-wrap:wrap;padding:14px 18px}.crumb{margin-left:0;width:100%;flex-wrap:wrap}.container{padding:0 16px}.section{padding:26px 0}.section-title{font-size:23px}}
+
+/* ── Animation: reveal cuộn mượt (transform/opacity, không giật) ── */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:no-preference){
+  .js-anim .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .6s cubic-bezier(.22,.61,.36,1);will-change:opacity,transform}
+  .js-anim .reveal.in{opacity:1;transform:none;will-change:auto}
+  .js-anim header.hero .hero-title,.js-anim header.hero .hero-tagline{opacity:0;animation:heroFade .7s ease .1s forwards}
+  .js-anim header.hero .hero-title{animation-delay:.18s}
+  @keyframes heroFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="logo-pill"><img src="1484ha-long-epc-01.png" alt="Hạ Long EPC" onerror="this.outerHTML='<span class=&quot;logo-fallback&quot;>HLEPC</span>'"></div>
+  <div>
+    <div class="hero-tagline">Công ty Cổ phần Công nghiệp Xanh</div>
+    <div class="hero-title">HẠ LONG EPC · CHUYỂN ĐỔI SỐ</div>
+  </div>
+  <div class="crumb">
+    <span class="slide-tag">SLIDE 01 · GIẢI PHÁP</span>
+    <a href="index.html">Hub</a>
+    <a href="02_INFRA_HLEPC_PRS.html">Kế →</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="section">
+    <div class="title-block">
+      <span class="eyebrow">Tự xây · Sở hữu mã nguồn</span>
+      <h1 class="section-title">Hệ thống <em>tự phát triển</em> · 10 phân hệ nghiệp vụ</h1>
+      <p class="section-sub">Bộ sản phẩm dùng riêng cho HLEPC — không phụ thuộc nền tảng bên ngoài, mở rộng theo đặc thù chế tạo cơ khí xuất khẩu.</p>
+    </div>
+
+    <div class="arch">
+      <div class="arch-text">
+        <h3>Nguyên tắc thiết kế</h3>
+        <ul>
+          <li><b>Microservices</b> · mỗi phân hệ 1 service độc lập, deploy riêng</li>
+          <li><b>API-first</b> · REST + GraphQL nội bộ, event bus cho luồng async</li>
+          <li><b>SSO duy nhất</b> · 1 tài khoản dùng cho 10 phân hệ + mobile</li>
+          <li><b>Master data tập trung</b> · KH/NCC/VT/NV/Dự án/BOM dùng chung</li>
+          <li><b>Web + Mobile + Tablet xưởng</b> · cùng API, UI theo ngữ cảnh</li>
+          <li><b>Mã nguồn HLEPC sở hữu</b> · không vendor lock-in, không subscription</li>
+          <li><b>Đa ngôn ngữ</b> · Anh/Việt/Nhật cho dossier xuất khẩu</li>
+        </ul>
+      </div>
+      <div class="stack-diagram">
+        <div class="stack-row l1"><div class="lyr">L1 · UI</div><div class="det">Dashboard web (SPA) · Mobile app thợ xưởng · Tablet QC · Customer portal · Big screen SOC</div></div>
+        <div class="stack-row l2"><div class="lyr">L2 · App</div><div class="det">10 microservice nghiệp vụ · self-built · stateless · container hoá</div></div>
+        <div class="stack-row l3"><div class="lyr">L3 · Bus</div><div class="det">API Gateway · Event bus (publish/subscribe) · Workflow engine</div></div>
+        <div class="stack-row l4"><div class="lyr">L4 · Data</div><div class="det">RDBMS chính · Time-series DB (IoT) · Document/object store · Search index</div></div>
+        <div class="stack-row l5"><div class="lyr">L5 · IAM</div><div class="det">SSO · RBAC · Audit log · Chữ ký số · Mã hoá at-rest + in-transit</div></div>
+        <div class="stack-row l6"><div class="lyr">L6 · Infra</div><div class="det">On-prem private cloud · K8s cluster · CI/CD · GitOps · Backup + DR</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="title-block">
+      <h2 class="section-title">10 phân hệ · <em>tính năng cốt lõi</em></h2>
+      <p class="section-sub">Đánh số <b>1 → 10 theo đúng thứ tự triển khai (build order)</b> — production-first, khớp 1:1 với Gantt bên dưới. Nhóm theo 3 Phase: lõi sản xuất trước, cung ứng &amp; con người, rồi thiết kế · thiết bị · tài chính · khách hàng.</p>
+    </div>
+
+    <div class="mod-grid">
+
+      <div class="mod-group g1"><span class="mg-ttl">Phase 1 · Production Core</span><span class="mg-count">3 phân hệ</span><span class="mg-when">M1–M8</span></div>
+
+      <div class="mod p1">
+        <div class="head"><div class="mod-num">1</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></div><div class="ttl">MES — Hệ thống quản lý sản xuất<small class="full">Ban Sản xuất</small></div></div>
+        <ul class="feats">
+          <li>Work order từ WBS</li><li>Báo công QR/NFC</li>
+          <li>OEE máy real-time</li><li>Heat number traceability</li>
+          <li>Andon downtime</li><li>Mobile app thợ xưởng</li>
+          <li>Tổ trưởng dashboard</li><li>Liên kết bản vẽ release</li>
+        </ul>
+        <div class="data"><b>Data:</b> work_order · time_entry · machine_log · material_consumption · oee_metric</div>
+      </div>
+
+      <div class="mod p1">
+        <div class="head"><div class="mod-num">2</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></div><div class="ttl">QMS — Hệ thống quản lý chất lượng<small class="full">Phòng QA/QC · gồm Welding ledger</small></div></div>
+        <ul class="feats">
+          <li>ITP theo bản vẽ</li><li>Inspection mobile (tablet)</li>
+          <li>NDT (UT/RT/MT/PT)</li><li>Welder qualification ledger</li>
+          <li>WPS/WPQ/PQR digital</li><li>NCR/CAR + 8D</li>
+          <li>Dossier song ngữ + chữ ký số</li><li>Customer portal đẩy báo cáo</li>
+        </ul>
+        <div class="data"><b>Data:</b> inspection_report · weld_log · welder_cert · ncr · dossier_package</div>
+      </div>
+
+      <div class="mod p1">
+        <div class="head"><div class="mod-num">3</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="6" x2="6" y1="20" y2="14"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="18" x2="18" y1="20" y2="10"/></svg></div><div class="ttl">PPM — Hệ thống quản lý dự án<small class="full">Phòng QLDA</small></div></div>
+        <ul class="feats">
+          <li>WBS · Gantt · CPM</li><li>RACI matrix</li>
+          <li>Milestone + change order</li><li>S-curve progress</li>
+          <li>Risk + issue log</li><li>Resource leveling</li>
+          <li>Earned value (EV/PV/AC)</li><li>Document hub theo dự án</li>
+        </ul>
+        <div class="data"><b>Data:</b> project · wbs · task · milestone · change_order · risk_log</div>
+      </div>
+
+      <div class="mod-group g2"><span class="mg-ttl">Phase 2 · Supply &amp; People</span><span class="mg-count">3 phân hệ</span><span class="mg-when">M9–M16</span></div>
+
+      <div class="mod p2">
+        <div class="head"><div class="mod-num">4</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></div><div class="ttl">WMS — Hệ thống quản lý kho<small class="full">Thủ kho</small></div></div>
+        <ul class="feats">
+          <li>Bin location 3D</li><li>Barcode/QR scanner</li>
+          <li>Receiving + putaway</li><li>Picking theo work order</li>
+          <li>Cycle count định kỳ</li><li>Mill cert gắn cuộn thép</li>
+          <li>Tồn min/max + reorder</li><li>Mobile cho thủ kho</li>
+        </ul>
+        <div class="data"><b>Data:</b> sku · lot · bin · stock_move · cycle_count · mill_cert_attachment</div>
+      </div>
+
+      <div class="mod p2">
+        <div class="head"><div class="mod-num">5</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg></div><div class="ttl">SRM — Hệ thống quản lý cung ứng<small class="full">Phòng Cung ứng</small></div></div>
+        <ul class="feats">
+          <li>NCC database + qualify</li><li>RFQ → so sánh báo giá</li>
+          <li>PO + approval workflow</li><li>3-way match (PO/GR/Invoice)</li>
+          <li>NCC scorecard (OTD/QC/Giá)</li><li>Contract repository</li>
+          <li>Hợp đồng khung + call-off</li><li>Cảnh báo lead time</li>
+        </ul>
+        <div class="data"><b>Data:</b> vendor · rfq · po · grn · vendor_score · contract</div>
+      </div>
+
+      <div class="mod p2">
+        <div class="head"><div class="mod-num">6</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="ttl">HRM — Hệ thống quản lý nhân sự<small class="full">Ban HCNS</small></div></div>
+        <ul class="feats">
+          <li>Hồ sơ NV · tổ chức</li><li>Chấm công + ca/kíp</li>
+          <li>Lương + BHXH HTKK</li><li>KPI cá nhân/tổ</li>
+          <li>Đào tạo + chứng chỉ</li><li>Welder qualification</li>
+          <li>HSE training + vaccine</li><li>Tuyển dụng + onboarding</li>
+        </ul>
+        <div class="data"><b>Data:</b> employee · timesheet · payroll · kpi · training_cert · welder_qual</div>
+      </div>
+
+      <div class="mod-group g3"><span class="mg-ttl">Phase 3 · Design · Equip · Finance · Customer</span><span class="mg-count">4 phân hệ</span><span class="mg-when">M17–M24</span></div>
+
+      <div class="mod p3">
+        <div class="head"><div class="mod-num">7</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg></div><div class="ttl">PDM/PLM — Hệ thống quản lý tài liệu kỹ thuật<small class="full">Phòng Thiết kế</small></div></div>
+        <ul class="feats">
+          <li>CAD vault check-in/out</li><li>BOM theo bản vẽ</li>
+          <li>ECN/ECR workflow</li><li>Drawing release + revision</li>
+          <li>Shop drawing register</li><li>Markup + comment</li>
+          <li>IP/access control</li><li>Liên kết PPM + MES</li>
+        </ul>
+        <div class="data"><b>Data:</b> drawing · bom · ecn · revision · release_log · markup</div>
+      </div>
+
+      <div class="mod p3">
+        <div class="head"><div class="mod-num">8</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div class="ttl">EAM/CMMS — Hệ thống quản lý máy thiết bị<small class="full">NV Thiết bị</small></div></div>
+        <ul class="feats">
+          <li>Asset register + cây tài sản</li><li>PM theo lịch + theo run-hours</li>
+          <li>Work request + work order</li><li>Spare part inventory</li>
+          <li>Downtime + MTBF/MTTR</li><li>IoT sensor đo rung/nhiệt</li>
+          <li>Hồ sơ kiểm định</li><li>Mobile cho kỹ thuật viên</li>
+        </ul>
+        <div class="data"><b>Data:</b> asset · pm_schedule · work_order · spare · downtime_log · sensor_reading</div>
+      </div>
+
+      <div class="mod p3">
+        <div class="head"><div class="mod-num">9</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></div><div class="ttl">ERP-FI — Hệ thống quản lý tài chính<small class="full">Phòng TC-KT</small></div></div>
+        <ul class="feats">
+          <li>GL · AP · AR · Banking</li><li>Multi-currency (USD/JPY/EUR)</li>
+          <li>Job costing theo dự án</li><li>Inter-company</li>
+          <li>VAT/CIT + HTKK</li><li>Hoá đơn điện tử</li>
+          <li>Budget + variance</li><li>Cash flow forecast</li>
+        </ul>
+        <div class="data"><b>Data:</b> journal_entry · invoice · payment · cost_center · job_cost · fx_rate</div>
+      </div>
+
+      <div class="mod p3">
+        <div class="head"><div class="mod-num">10</div><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg></div><div class="ttl">CRM — Hệ thống quản lý khách hàng<small class="full">Phòng Kinh doanh · gồm Customer Portal</small></div></div>
+        <ul class="feats">
+          <li>Lead · opportunity pipeline</li><li>Quote + tender response</li>
+          <li>RFQ tracking</li><li>CSAT + feedback</li>
+          <li>Customer portal (tiến độ)</li><li>Dossier QC self-service</li>
+          <li>Hợp đồng + amendment</li><li>Sales forecast</li>
+        </ul>
+        <div class="data"><b>Data:</b> lead · opportunity · quote · contract · customer · portal_access</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="title-block">
+      <h2 class="section-title">Timeline tự xây · <em id="tl-em">24 tháng</em></h2>
+      <div class="tl-tabs" role="tablist" aria-label="Phương án timeline">
+        <button class="tl-tab" role="tab" id="tab-plan" aria-controls="tl-plan" aria-selected="true" data-em="24 tháng">Kế hoạch · team 16 người</button>
+        <button class="tl-tab" role="tab" id="tab-real" aria-controls="tl-real" aria-selected="false" tabindex="-1" data-em="~45 tháng">Thực tế · team 10 người</button>
+      </div>
+    </div>
+
+    <div class="tl-panel" id="tl-plan" role="tabpanel" aria-labelledby="tab-plan">
+    <p class="section-sub tl-sub">3 phase × 8 tháng · production-first · go-live cuốn chiếu, không big-bang. Số <b>①–⑩</b> khớp đúng thứ tự 10 phân hệ ở trên; <span style="font-style:italic;color:var(--hl-steel-mid)">① MES</span> mở rộng cuốn chiếu qua cả 3 phase.</p>
+    <p class="gantt-hint">↔ Vuốt ngang để xem đủ 24 tháng</p>
+    <div class="gantt-wrap">
+      <div class="gantt">
+        <div class="gantt-header">
+          <div class="col" style="text-align:right">Phân hệ / Sprint</div>
+          <div class="col">Q3-26</div><div class="col">Q3-26</div><div class="col">Q3-26</div>
+          <div class="col">Q4-26</div><div class="col">Q4-26</div><div class="col">Q4-26</div>
+          <div class="col">Q1-27</div><div class="col">Q1-27</div><div class="col">Q1-27</div>
+          <div class="col">Q2-27</div><div class="col">Q2-27</div><div class="col">Q2-27</div>
+          <div class="col">Q3-27</div><div class="col">Q3-27</div><div class="col">Q3-27</div>
+          <div class="col">Q4-27</div><div class="col">Q4-27</div><div class="col">Q4-27</div>
+          <div class="col">Q1-28</div><div class="col">Q1-28</div><div class="col">Q1-28</div>
+          <div class="col">Q2-28</div><div class="col">Q2-28</div><div class="col">Q2-28</div>
+        </div>
+
+        <div class="gantt-divider p1">PHASE 1 · PRODUCTION CORE · M1-M8</div>
+        <div class="gantt-row"><div class="lbl">Nền tảng · SSO · MDM</div><div class="bar p1" style="grid-column:2/4">M1-M2</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p1">1</span><b>MES</b> pilot 2 tổ</div><div class="bar p1" style="grid-column:3/8">M2-M7 → live pilot</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p1">2</span><b>QMS</b> + Welding</div><div class="bar p1" style="grid-column:4/9">M3-M8 → dossier KH</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p1">3</span><b>PPM</b> Quản lý dự án</div><div class="bar p1" style="grid-column:3/6">M2-M5 → live</div></div>
+
+        <div class="gantt-divider p2">PHASE 2 · SUPPLY &amp; PEOPLE · M9-M16</div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p2">4</span><b>WMS</b> kho · barcode</div><div class="bar p2" style="grid-column:10/13">M9-M11 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p2">5</span><b>SRM</b> RFQ → 3-way</div><div class="bar p2" style="grid-column:11/15">M10-M13 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p2">6</span><b>HRM</b> + welder ledger</div><div class="bar p2" style="grid-column:12/17">M11-M16 → payroll auto</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gsub">① MES rollout +2 tổ</span></div><div class="bar p2" style="grid-column:14/17">M13-M16</div></div>
+
+        <div class="gantt-divider p3">PHASE 3 · DESIGN · EQUIP · FI · CRM · M17-M24</div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p3">7</span><b>PDM</b> CAD vault + ECN</div><div class="bar p3" style="grid-column:18/22">M17-M20 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p3">8</span><b>EAM</b> + IoT máy</div><div class="bar p3" style="grid-column:18/22">M17-M20 → PM schedule</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p3">9</span><b>ERP-FI</b> + job cost</div><div class="bar p3" style="grid-column:19/24">M18-M23 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p3">10</span><b>CRM</b> + Customer portal</div><div class="bar p3" style="grid-column:20/25">M19-M24</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gsub">① MES toàn xưởng (6+ tổ)</span></div><div class="bar p3" style="grid-column:20/26">M19-M24</div></div>
+      </div>
+    </div>
+    </div>
+
+    <div class="tl-panel" id="tl-real" role="tabpanel" aria-labelledby="tab-real" hidden>
+    <p class="section-sub tl-sub">Định biên <b>10 người: 3 Dev · 3 BA · 4 Test</b>. Dev là nút cổ chai nên làm <b>tuần tự 1 phân hệ/lần</b>, chỉ gối đầu 1–2 tháng. BA viết spec đi trước một phân hệ, Test làm UAT và regression phía sau.</p>
+    <div class="tl-kpis">
+      <span class="tl-kpi">Tổng <b>~45 tháng</b> (vs 24)</span>
+      <span class="tl-kpi">TB <b>~5,6 tháng</b>/phân hệ (vs 4,9)</span>
+      <span class="tl-kpi">Song song tối đa <b>2</b> phân hệ</span>
+      <span class="tl-kpi">Năng lực dev <b>~3/7</b> so với kế hoạch</span>
+    </div>
+    <p class="gantt-hint">↔ Vuốt ngang để xem đủ 45 tháng</p>
+    <div class="gantt-wrap">
+      <div class="gantt g45">
+        <div class="gantt-header">
+          <div class="col" style="grid-column:auto;text-align:right">Phân hệ / Tháng</div>
+          <div class="col">M1-3</div><div class="col">M4-6</div><div class="col">M7-9</div>
+          <div class="col">M10-12</div><div class="col">M13-15</div><div class="col">M16-18</div>
+          <div class="col">M19-21</div><div class="col">M22-24</div><div class="col">M25-27</div>
+          <div class="col">M28-30</div><div class="col">M31-33</div><div class="col">M34-36</div>
+          <div class="col">M37-39</div><div class="col">M40-42</div><div class="col">M43-45</div>
+        </div>
+
+        <div class="gantt-divider p1">PHASE 1 · PRODUCTION CORE · M1-M16</div>
+        <div class="gantt-row"><div class="lbl">Nền tảng · SSO · MDM</div><div class="bar p1" style="grid-column:2/5">M1-M3</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p1">3</span><b>PPM</b> Quản lý dự án</div><div class="bar p1" style="grid-column:4/8">M3-M6 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p1">1</span><b>MES</b> pilot 2 tổ</div><div class="bar p1" style="grid-column:7/14">M6-M12 → live pilot</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p1">2</span><b>QMS</b> + Welding</div><div class="bar p1" style="grid-column:12/18">M11-M16 → dossier KH</div></div>
+
+        <div class="gantt-divider p2">PHASE 2 · SUPPLY &amp; PEOPLE · M17-M28</div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p2">4</span><b>WMS</b> kho · barcode</div><div class="bar p2" style="grid-column:18/22">M17-M20 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p2">5</span><b>SRM</b> RFQ → 3-way</div><div class="bar p2" style="grid-column:21/26">M20-M24 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p2">6</span><b>HRM</b> + welder ledger</div><div class="bar p2" style="grid-column:24/30">M23-M28 → payroll</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gsub">① MES rollout +2 tổ</span></div><div class="bar p2" style="grid-column:26/29">M25-M27</div></div>
+
+        <div class="gantt-divider p3">PHASE 3 · DESIGN · EQUIP · FI · CRM · M29-M45</div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p3">7</span><b>PDM</b> CAD vault + ECN</div><div class="bar p3" style="grid-column:30/35">M29-M33 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p3">8</span><b>EAM</b> (IoT hoãn)</div><div class="bar p3" style="grid-column:33/38">M32-M36 → PM schedule</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p3">9</span><b>ERP-FI</b> + job cost</div><div class="bar p3" style="grid-column:36/44">M35-M42 → live</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gsub">① MES toàn xưởng (6+ tổ)</span></div><div class="bar p3" style="grid-column:40/46">M39-M44</div></div>
+        <div class="gantt-row"><div class="lbl"><span class="gnum p3">10</span><b>CRM</b> + Customer portal</div><div class="bar p3" style="grid-column:41/47">M40-M45</div></div>
+      </div>
+    </div>
+    <div class="tl-note">
+      <h4>Giả định &amp; rủi ro</h4>
+      <ul>
+        <li>Không có Tech Lead, SA, DevOps, UI/UX, Mobile, IoT hay AI riêng, nên 3 dev phải tự gánh kiến trúc, CI/CD và app xưởng. Riêng nền tảng mất 3 tháng (kế hoạch: 2 tháng).</li>
+        <li><b>PPM làm trước MES</b> vì MES cần dự án/WBS làm dữ liệu gốc, mà team nhỏ không làm song song được.</li>
+        <li>IoT máy (EAM) và Digital Twin <b>hoãn hoặc thuê ngoài</b>, không nằm trong 45 tháng này.</li>
+        <li>Tỷ lệ 4 Test / 3 Dev là dư test. Nếu chuyển 1 Test sang Dev (4 Dev · 3 BA · 3 Test), tổng ước rút còn khoảng 36–38 tháng.</li>
+        <li>Ước lượng thô ±15%, cần re-plan sau khi chốt spec chi tiết từng phân hệ.</li>
+      </ul>
+    </div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <div>
+      <div class="ttl">Phần mềm rõ — chạy trên hạ tầng gì?</div>
+      <div class="lead">Slide kế: hạ tầng on-prem · SOC · nhà máy thông minh · Digital Twin.</div>
+    </div>
+    <a class="btn" href="02_INFRA_HLEPC_PRS.html">02 · Hạ tầng →</a>
+  </div>
+
+</div>
+
+<footer class="foot">
+  Slide 01/03 · Giải pháp phần mềm · <strong>HẠ LONG EPC · CHUYỂN ĐỔI SỐ</strong> · v2.0 · <a href="index.html">← Hub</a>
+</footer>
+
+<script>
+(function(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  document.body.classList.add('js-anim');
+  var sel='.title-block,.arch-text,.stack-diagram,.mod-group,.mod,.gantt-wrap,.cta-band';
+  var els=[].slice.call(document.querySelectorAll(sel));
+  els.forEach(function(el){el.classList.add('reveal');});
+  if(!('IntersectionObserver' in window)){els.forEach(function(el){el.classList.add('in');});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el=e.target, d=el.dataset.delay?+el.dataset.delay:0;
+      setTimeout(function(){el.classList.add('in');}, d);
+      io.unobserve(el);
+    });
+  },{threshold:0.06, rootMargin:'0px 0px -32px 0px'});
+  // stagger nhẹ giữa các thẻ phân hệ trong cùng nhóm
+  var modStep=0;
+  els.forEach(function(el){
+    if(el.classList.contains('mod-group')) modStep=0;
+    if(el.classList.contains('mod')){ el.dataset.delay=(modStep%2)*80; modStep++; }
+    io.observe(el);
+  });
+})();
+</script>
+<script>
+/* Tabs Timeline: Kế hoạch / Thực tế */
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tl-tab'));
+  var em=document.getElementById('tl-em');
+  function select(t){
+    tabs.forEach(function(x){
+      var on=x===t;
+      x.setAttribute('aria-selected',on);
+      x.tabIndex=on?0:-1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden=!on;
+    });
+    em.textContent=t.dataset.em;
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){select(t);});
+    t.addEventListener('keydown',function(e){
+      if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft') return;
+      var n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];
+      select(n); n.focus();
+    });
+  });
+})();
+</script>
+<script>
+/* Fallback fade chuyển trang khi trình duyệt chưa hỗ trợ View Transitions */
+(function(){
+  if(document.startViewTransition) return;
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  document.querySelectorAll('a[href$=".html"]').forEach(function(a){
+    a.addEventListener('click',function(ev){
+      if(ev.metaKey||ev.ctrlKey||ev.shiftKey||a.target==='_blank') return;
+      ev.preventDefault();
+      var href=a.getAttribute('href');
+      document.body.classList.add('is-leaving');
+      setTimeout(function(){ window.location.href=href; },240);
+    });
+  });
+})();
+</script>
+</body>
+</html>
