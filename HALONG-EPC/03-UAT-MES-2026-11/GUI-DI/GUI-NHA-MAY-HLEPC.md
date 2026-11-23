@@ -2,7 +2,7 @@
 
 **Kính gửi:** Anh Thái — Tổng Giám đốc, Nhà máy Hạ Long EPC  
 **Từ:** Bùi Xuân Cương — Quản lý dự án, VCI  
-**Thời gian UAT:** <mark>Thứ Năm 26/11 – Thứ Sáu 27/11/2026</mark> · Thứ Năm 26/11 từ <mark>09:00</mark>, Thứ Sáu 27/11 từ <mark>08:00</mark>, kết thúc 17:00 · tại nhà máy  
+**Thời gian UAT:** <mark>Thứ Năm 26/11 – Thứ Sáu 27/11/2026</mark> · Thứ Năm 26/11 từ <mark>09:30</mark>, Thứ Sáu 27/11 từ <mark>08:00</mark>, kết thúc 17:00 · tại nhà máy  
 
 Kính gửi anh Thái,
 
@@ -29,10 +29,10 @@ Hai ngày này hai bên **làm trên dữ liệu thật**, không dùng dữ li�
 
 | Thời gian | Nội dung | Thành phần nhà máy |
 |---|---|---|
-| **Thứ Năm 26/11 · 09:00–09:30** | Khai mạc; VCI trình bày nội dung, cách làm 2 ngày | Anh Thái, phòng sản xuất |
-| **Thứ Năm 26/11 · 09:30–10:50** | Demo và hướng dẫn sử dụng: lập kế hoạch → giao việc → tổ nhập sản lượng → xem tiến độ | Phòng sản xuất, tổ trưởng các công đoạn |
-| **Thứ Năm 26/11 · 10:50–11:10** | VCI trình bày kịch bản theo từng công đoạn: ai nhập, nhập khi nào | Phòng sản xuất, tổ trưởng |
-| **Thứ Năm 26/11 · 11:10–11:30** | <mark>**Chốt dự án, cấu kiện chạy thử và tổ trưởng từng công đoạn**</mark> | Anh Thái, phòng sản xuất |
+| **Thứ Năm 26/11 · 09:30–09:45** | Khai mạc; VCI trình bày nội dung, cách làm 2 ngày | Anh Thái, phòng sản xuất |
+| **Thứ Năm 26/11 · 09:45–11:00** | Demo và hướng dẫn sử dụng: lập kế hoạch → giao việc → tổ nhập sản lượng → xem tiến độ | Phòng sản xuất, tổ trưởng các công đoạn |
+| **Thứ Năm 26/11 · 11:00–11:15** | VCI trình bày kịch bản theo từng công đoạn: ai nhập, nhập khi nào | Phòng sản xuất, tổ trưởng |
+| **Thứ Năm 26/11 · 11:15–11:30** | <mark>**Chốt dự án, cấu kiện chạy thử và tổ trưởng từng công đoạn**</mark> | Anh Thái, phòng sản xuất |
 | **Thứ Năm 26/11 · 13:30–14:30** | Phòng sản xuất tự lập kế hoạch 2 cụm trên MES và giao việc xuống tổ | Phòng sản xuất |
 | **Thứ Năm 26/11 · 14:30–16:30** | Làm việc tại tổ: <mark>làm xong phần nào, nhập ngay phần đó</mark> | Tổ trưởng cắt, gá, tổ hợp, làm sạch |
 | **Thứ Năm 26/11 · 14:30–15:30** *(song song)* | Khảo sát nghiệp vụ **kho vật tư phụ**: nhập, cấp phát cho tổ, theo dõi tồn, sổ sách đang dùng | Thủ kho / người phụ trách vật tư phụ |
@@ -54,7 +54,7 @@ VCI cần các dữ liệu dưới đây để nhập sẵn lên hệ thống. T
 | # | Nội dung | Ghi chú |
 |---|---|---|
 | 1 | <mark>**1 dự án**</mark> sẽ chạy thử | Dự án đang sản xuất tại xưởng |
-| 2 | <mark>**1–2 cấu kiện**</mark> hoặc cụm cấu kiện đang làm | Cụm chính thức sẽ chốt lúc 11:10 Thứ Năm 26/11, sau khi xem demo |
+| 2 | <mark>**1–2 cấu kiện**</mark> hoặc cụm cấu kiện đang làm | Cụm chính thức sẽ chốt lúc 11:15 Thứ Năm 26/11, sau khi xem demo |
 | 3 | <mark>**Danh mục cấu kiện**</mark> của 2 cụm: mã, tên, số lượng, khối lượng | File Excel hoặc bảng nhà máy đang dùng |
 | 4 | <mark>**Danh sách công đoạn**</mark> và thứ tự trên dây chuyền | Xem câu hỏi ở Mục 4 |
 | 5 | <mark>**Danh sách tổ, thợ**</mark> theo từng công đoạn | Tên tổ, tổ trưởng, số thợ |

@@ -130,6 +130,7 @@
   .sign b { display: block; margin-top: 1mm; color: var(--navy); font-family: "Be Vietnam Pro"; }
 
   .pb { break-before: page; }
+  @media print { .prep { display: none; } }
   @media screen {
     body { background: #E9EEF4; padding: 10mm 0; }
     .page { background: #fff; padding: 13mm 14mm 15mm; width: 210mm; box-shadow: 0 2mm 8mm rgba(14,58,95,.12); }
@@ -150,7 +151,7 @@
   <div class="sub">Phân hệ Quản lý sản xuất · Nhà máy Hạ Long EPC</div>
 
   <div class="meta">
-    <div><div class="k">Thời gian</div><div class="v">26 – 27/11/2026<small>Thứ Năm từ 09:00 · Thứ Sáu từ 08:00<br />Kết thúc 17:00</small></div></div>
+    <div><div class="k">Thời gian</div><div class="v">26 – 27/11/2026<small>Thứ Năm từ 09:30 · Thứ Sáu từ 08:00<br />Kết thúc 17:00</small></div></div>
     <div><div class="k">Địa điểm</div><div class="v">Nhà máy Hạ Long EPC<small>Phòng họp &amp; xưởng</small></div></div>
     <div><div class="k">Kính gửi</div><div class="v">Anh Thái<small>Tổng Giám đốc</small></div></div>
     <div><div class="k">Người gửi</div><div class="v">Bùi Xuân Cương<small>Quản lý dự án · VCI</small></div></div>
@@ -176,12 +177,12 @@
     <h2><span class="no">1</span>Lịch làm việc</h2>
 
     <div class="day">
-      <div class="day-h"><span class="d">Thứ Năm, 26/11/2026</span><span class="t">09:00 – 17:00</span><span class="f">Demo · chốt phạm vi · làm tại tổ · khảo sát kho, nhân sự</span></div>
+      <div class="day-h"><span class="d">Thứ Năm, 26/11/2026</span><span class="t">09:30 – 17:00</span><span class="f">Demo · chốt phạm vi · làm tại tổ · khảo sát kho, nhân sự</span></div>
       <table class="sch">
-        <tr><td class="tm">09:00 – 09:30</td><td>Khai mạc; VCI trình bày nội dung, cách làm 2 ngày</td><td class="who">Anh Thái, phòng sản xuất</td></tr>
-        <tr><td class="tm">09:30 – 10:50</td><td>Demo, hướng dẫn: kế hoạch → giao việc → nhập sản lượng → tiến độ</td><td class="who">Phòng sản xuất, tổ trưởng</td></tr>
-        <tr><td class="tm">10:50 – 11:10</td><td>Kịch bản chạy thử từng công đoạn: ai nhập, nhập khi nào</td><td class="who">Phòng sản xuất, tổ trưởng</td></tr>
-        <tr class="key"><td class="tm">11:10 – 11:30</td><td><b>Chốt dự án, cấu kiện chạy thử, tổ trưởng từng công đoạn</b></td><td class="who">Anh Thái, phòng sản xuất</td></tr>
+        <tr><td class="tm">09:30 – 09:45</td><td>Khai mạc; VCI trình bày nội dung, cách làm 2 ngày</td><td class="who">Anh Thái, phòng sản xuất</td></tr>
+        <tr><td class="tm">09:45 – 11:00</td><td>Demo, hướng dẫn: kế hoạch → giao việc → nhập sản lượng → tiến độ</td><td class="who">Phòng sản xuất, tổ trưởng</td></tr>
+        <tr><td class="tm">11:00 – 11:15</td><td>Kịch bản chạy thử từng công đoạn: ai nhập, nhập khi nào</td><td class="who">Phòng sản xuất, tổ trưởng</td></tr>
+        <tr class="key"><td class="tm">11:15 – 11:30</td><td><b>Chốt dự án, cấu kiện chạy thử, tổ trưởng từng công đoạn</b></td><td class="who">Anh Thái, phòng sản xuất</td></tr>
         <tr class="pm"><td class="tm">13:30 – 14:30</td><td>Phòng sản xuất tự lập kế hoạch, giao việc xuống tổ</td><td class="who">Phòng sản xuất</td></tr>
         <tr class="key"><td class="tm">14:30 – 16:30</td><td><b>Làm việc tại tổ:</b> làm xong phần nào, nhập ngay phần đó</td><td class="who">Tổ trưởng cắt, gá, tổ hợp, làm sạch</td></tr>
         <tr class="par"><td class="tm">14:30 – 15:30</td><td><span class="par-tag">SONG SONG</span>Khảo sát <b>kho vật tư phụ</b>: nhập, cấp phát, theo dõi tồn</td><td class="who">Thủ kho vật tư phụ</td></tr>
@@ -209,7 +210,7 @@
     <span>Thành phần: anh Thái, phòng sản xuất, đại diện tổ trưởng. VCI gửi link họp trước giờ họp.</span></div>
   </div>
 
-  <section>
+  <section class="prep">
     <h2><span class="no">2</span>Nhà máy chuẩn bị trước<span class="aside">Đánh dấu ✓ khi hoàn thành</span></h2>
 
     <div class="group">
@@ -217,7 +218,7 @@
       <p class="group-note">VCI cần các dữ liệu này để nhập sẵn lên hệ thống. Thiếu dữ liệu thì sáng Thứ Năm không lập được kế hoạch.</p>
       <ul class="chk two">
         <li><span><b>1 dự án</b> đang sản xuất sẽ chạy thử</span></li>
-        <li><span><b>1–2 cấu kiện</b> hoặc cụm cấu kiện đang làm<small>Chốt chính thức lúc 11:10 Thứ Năm, sau demo</small></span></li>
+        <li><span><b>1–2 cấu kiện</b> hoặc cụm cấu kiện đang làm<small>Chốt chính thức lúc 11:15 Thứ Năm, sau demo</small></span></li>
         <li><span><b>Danh mục cấu kiện</b>: mã, tên, số lượng, khối lượng</span></li>
         <li><span><b>Danh sách công đoạn</b> và thứ tự trên dây chuyền</span></li>
         <li><span><b>Danh sách tổ, tổ trưởng, thợ</b> theo từng công đoạn</span></li>
