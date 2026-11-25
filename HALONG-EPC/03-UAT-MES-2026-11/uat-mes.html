@@ -318,6 +318,17 @@
     .goal-card .goal-icon svg { width: 30px; height: 30px; }
     .goal-card h3 { font-size: 1.25em; margin-bottom: 14px; line-height: 1.2; }
     .goal-card p { font-size: .82em; line-height: 1.6; flex: 0 0 auto; }
+    /* Trang Mục đích: thẻ gọn, canh đều */
+    .reveal .slides section.slide-bg-light > p.lead.lead-one { font-size: .92em; white-space: nowrap; max-width: none; }
+    .reveal .slides section.slide-bg-light > .cards.cards-goal.goal-v2 { flex: 0 0 auto !important; height: auto !important; margin-top: auto !important; margin-bottom: auto !important; }
+    .goal-v2 .goal-card { justify-content: flex-start; padding: 48px 44px 40px; min-height: 520px; }
+    .goal-v2 .goal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 34px; }
+    .goal-v2 .goal-card .goal-icon { width: 96px; height: 96px; margin: 0; border-radius: 24px; }
+    .goal-v2 .goal-card .goal-icon svg { width: 46px; height: 46px; }
+    .goal-v2 .goal-card .goal-num { font-size: 2.4em; margin: 0; opacity: .35; }
+    .goal-v2 .goal-card h3 { font-size: 1.08em; line-height: 1.25; margin-bottom: 18px; }
+    .goal-v2 .goal-card p { font-size: .86em; line-height: 1.6; }
+    .goal-v2 .goal-who { margin-top: auto; padding-top: 22px; border-top: 1px dashed rgba(30,111,176,.3); font-size: .6em; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #B5430F; }
     .reveal .slides section.slide-bg-light > .org-chart { margin-top: 30px !important; }
     .team-wide .org-panel { padding: 46px 32px 28px; }
     .team-wide .org-node { min-height: 104px; font-size: .9em; padding: 20px 24px; }
@@ -382,6 +393,7 @@
     .scope-foot .sf-k2 { margin-left: auto; color: #B5430F; padding-left: 16px; border-left: 1px solid var(--border); }
     .scope-foot .sf-i { padding: 5px 12px; border-radius: 999px; background: rgba(120,132,145,.12); color: #4A5A6A; font-weight: 700; }
     .scope-foot .sf-i.sf-s { background: rgba(232,137,30,.14); color: #B5430F; }
+    .scope-foot { width: fit-content; margin-left: auto; margin-right: auto; }
 
     /* Dải xuyên suốt trên lịch */
     .reveal .slides section.slide-bg-light > .ag-thread { flex: 0 0 auto; margin-top: 0 !important; }
@@ -447,6 +459,14 @@
     .agenda.dense .ag-time span { font-size: .44em; }
     .agenda.dense .ag-main h4 { font-size: .74em; margin-bottom: 1px; }
     .agenda.dense .ag-main p { font-size: .54em; line-height: 1.35; }
+    /* Lịch ngày dạng thoáng, khớp bản PDF */
+    .agenda.day-plan { gap: 10px; }
+    .agenda.day-plan .ag-row { grid-template-columns: 240px 1fr 460px; padding: 0 30px 0 26px; align-items: center; }
+    .agenda.day-plan .ag-main h4 { margin: 0; }
+    .agenda.day-plan .ag-row.par { margin-left: 64px; background: linear-gradient(90deg, rgba(41,132,94,.09), #fff 45%); }
+    .agenda.day-plan .ag-row.par::before { background: linear-gradient(180deg, #3FAE7E, #29845E); }
+    .agenda.day-plan .ag-row.par .ag-time b { color: #1F6B4A; }
+    .agenda.day-plan .ag-row.par .ag-time span { color: #1F6B4A; }
     .agenda.dense .chip { font-size: .48em; padding: 4px 10px; }
     .agenda.dense .ag-who { gap: 4px; }
     .agenda.dense + .ag-result { margin-top: 10px; padding: 10px 20px; }
@@ -557,11 +577,10 @@
         </div>
         <ol class="toc" style="display: grid; grid-template-columns: 1fr 1fr;">
           <li class="anim-fade-up d-1"><span>Mục đích UAT</span></li>
-          <li class="anim-fade-up d-2"><span>Phạm vi kiểm thử &amp; khảo sát</span></li>
+          <li class="anim-fade-up d-2"><span>Phạm vi kiểm thử</span></li>
           <li class="anim-fade-up d-3"><span>Thành phần tham gia</span></li>
           <li class="anim-fade-up d-4"><span>Lịch 2 ngày tại nhà máy</span></li>
-          <li class="anim-fade-up d-5"><span>Chuẩn bị trước Ngày 1</span></li>
-          <li class="anim-fade-up d-6"><span>Ghi nhận vấn đề &amp; tiêu chí đạt</span></li>
+          <li class="anim-fade-up d-5"><span>Ghi nhận vấn đề &amp; tiêu chí đạt</span></li>
           <li class="anim-fade-up d-6"><span>Đầu mối liên hệ</span></li>
         </ol>
       </section>
@@ -578,28 +597,27 @@
             <h2 class="anim-fade-up d-1">Phối hợp triển khai cùng nhà máy Hạ Long</h2>
           </div>
         </div>
-        <p class="lead lead-hero anim-fade-up d-2">
-          Chạy thử trên <strong>1 dự án, 1 cấu kiện hoặc cụm công việc đang làm</strong> —
-          <span class="hl-yellow">làm thật, số thật, ngay tại xưởng</span>.
+        <p class="lead lead-hero lead-one anim-fade-up d-2">
+          Chạy thử trên <strong>1 dự án, 1–2 cấu kiện đang làm</strong> — <span class="hl-yellow">số thật, ngay tại xưởng</span>.
         </p>
-        <div class="cards cards-goal">
+        <div class="cards cards-goal goal-v2">
           <div class="goal-card anim-zoom d-2">
-            <div class="goal-num">01</div>
-            <div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-            <h3>Tổ trưởng báo được sản lượng</h3>
-            <p>Cuối ca, tổ trưởng bấm báo trên điện thoại. <b>Làm xong bao nhiêu, báo bấy nhiêu.</b></p>
+            <div class="goal-top"><div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div class="goal-num">01</div></div>
+            <h3>Tổ trưởng tự báo sản lượng</h3>
+            <p>Làm xong công đoạn nào, <b>bấm báo ngay trên điện thoại</b>. Làm bao nhiêu báo bấy nhiêu.</p>
+            <div class="goal-who">Tổ trưởng · điện thoại</div>
           </div>
           <div class="goal-card anim-zoom d-3">
-            <div class="goal-num">02</div>
-            <div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
-            <h3>Lãnh đạo nhìn được tiến độ thật</h3>
-            <p>Tổ báo xong là thấy ngay, <b>không chờ cuối ngày tổng hợp</b>. Số trên màn hình là số ở xưởng.</p>
+            <div class="goal-top"><div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></div><div class="goal-num">02</div></div>
+            <h3>Lãnh đạo thấy tiến độ thật</h3>
+            <p>Tổ báo xong là thấy, <b>không chờ cuối ngày tổng hợp</b>. Số trên màn hình là số ở xưởng.</p>
+            <div class="goal-who">Lãnh đạo · dashboard</div>
           </div>
           <div class="goal-card anim-zoom d-4">
-            <div class="goal-num">03</div>
-            <div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-            <h3>Biết từng công đoạn đang ở đâu</h3>
-            <p>Công đoạn nào đang làm, <b>trạng thái gì, khối lượng tới đâu</b> — nhìn một chỗ là rõ.</p>
+            <div class="goal-top"><div class="goal-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="goal-num">03</div></div>
+            <h3>Rõ từng công đoạn ở đâu</h3>
+            <p>Công đoạn nào đang làm, <b>trạng thái gì, khối lượng tới đâu</b>, nhìn một chỗ là rõ.</p>
+            <div class="goal-who">Phòng sản xuất · máy tính</div>
           </div>
         </div>
       </section>
@@ -652,8 +670,7 @@
               <div style="--k:1" class="ims-leaf d1">Tổ báo sản lượng theo công đoạn</div>
               <div style="--k:2" class="ims-leaf d1">Cập nhật trạng thái công việc</div>
               <div style="--k:3" class="ims-leaf d1">Ảnh, trao đổi &amp; tệp đính kèm</div>
-              <div style="--k:4" class="ims-leaf d1">Lịch sử báo cáo · thư viện ảnh</div>
-              <div style="--k:5" class="ims-leaf d1">Huỷ, sửa, bổ sung báo cáo</div>
+              <div style="--k:4" class="ims-leaf d1">Lịch sử · huỷ, sửa, bổ sung báo cáo</div>
             </div>
             <div class="ims-col anim-fade-up d-5">
               <div class="ims-head d2">Theo dõi &amp; báo cáo<span class="ims-tag">Lãnh đạo · kế hoạch</span></div>
@@ -670,11 +687,6 @@
           <span class="sf-i">BIM BOM · 3D · IFC</span>
           <span class="sf-i">Kế hoạch nguồn lực</span>
           <span class="sf-i">Tích hợp ngoài</span>
-          <span class="sf-k sf-k2">Khảo sát</span>
-          <span class="sf-i sf-s">Thiết kế · camera</span>
-          <span class="sf-i sf-s">Kho vật tư phụ</span>
-          <span class="sf-i sf-s">Nhân sự sản xuất</span>
-          <span class="sf-i sf-s">QMS</span>
         </div>
       </section>
 
@@ -738,64 +750,56 @@
         <div class="slide-header">
           <div>
             <div class="step-pill anim-fade-up">04 — Lịch làm việc</div>
-            <h3 class="anim-fade-up d-1">Ngày 1 · Thứ Năm 26/11 — Demo, chạy thử tại tổ, khảo sát kho, nhân sự</h3>
+            <h3 class="anim-fade-up d-1">Ngày 1 · Thứ Năm 26/11 · 09:30 – 17:00</h3>
           </div>
         </div>
-        <div class="ag-thread anim-fade-up d-1">
-          <span class="th-k">Xuyên suốt 2 ngày</span>
-          <span class="th-i"><b>Hỗ trợ tổ báo cáo</b> ngay tại chỗ</span>
-          <span class="th-i"><b>Hướng dẫn lập kế hoạch</b> cho phòng sản xuất</span>
-          <span class="th-i"><b>Thu thập yêu cầu, vướng mắc</b> của nhà máy</span>
-          <span class="th-i"><b>Tham gia nhóm Zalo</b> báo cáo &amp; trao đổi của các tổ</span>
-        </div>
-        <div class="agenda dense">
+        <div class="agenda day-plan">
           <div class="ag-row " style="--i:0">
             <div class="ag-time"><b>09:30–09:45</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Khai mạc &amp; trình bày kế hoạch</h4><p>Giới thiệu mục tiêu, cách làm 2 ngày — chưa chốt gì</p></div>
-            <div class="ag-who"><span class="chip vci">PM · BA</span><span class="chip nm">A. Thái · phòng sản xuất</span></div>
+            <div class="ag-main"><h4>Khai mạc</h4></div>
+            <div class="ag-who"><span class="chip nm">Anh Thái · phòng sản xuất</span></div>
           </div>
           <div class="ag-row " style="--i:1">
             <div class="ag-time"><b>09:45–11:00</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Demo &amp; hướng dẫn sử dụng</h4><p>Đi hết luồng kế hoạch → giao việc → tổ báo sản lượng → xem tiến độ</p></div>
-            <div class="ag-who"><span class="chip vci">BA chủ trì</span><span class="chip sub">Duy · Nhung · Phương hỗ trợ</span></div>
+            <div class="ag-main"><h4>Demo, hướng dẫn sử dụng</h4></div>
+            <div class="ag-who"><span class="chip nm">Phòng sản xuất · tổ trưởng</span></div>
           </div>
           <div class="ag-row " style="--i:2">
             <div class="ag-time"><b>11:00–11:15</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Nêu kịch bản theo công đoạn</h4><p>Cụm A cắt → gá → hàn · cụm B tổ hợp → sơn → đóng gói; ai nhập, nhập lúc nào</p></div>
-            <div class="ag-who"><span class="chip vci">BA</span><span class="chip nm">Phòng sản xuất · tổ trưởng</span></div>
+            <div class="ag-main"><h4>Trao đổi cách chạy thử từng công đoạn</h4></div>
+            <div class="ag-who"><span class="chip nm">Phòng sản xuất · tổ trưởng</span></div>
           </div>
           <div class="ag-row hl" style="--i:3">
             <div class="ag-time"><b>11:15–11:30</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Chốt cụm cấu kiện &amp; tên tổ</h4><p>Chốt dự án, cụm A / B, tổ trưởng từng công đoạn, khung giờ xuống tổ chiều nay</p></div>
-            <div class="ag-who"><span class="chip vci">PM</span><span class="chip nm">A. Thái · phòng sản xuất</span></div>
+            <div class="ag-main"><h4>Chốt dự án, cấu kiện chạy thử</h4></div>
+            <div class="ag-who"><span class="chip nm">Anh Thái · phòng sản xuất</span></div>
           </div>
           <div class="ag-row " style="--i:4">
             <div class="ag-time"><b>13:30–14:30</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Triển khai kế hoạch</h4><p>Phòng sản xuất tự lập kế hoạch cụm A, B và giao việc chiều nay</p></div>
-            <div class="ag-who"><span class="chip vci">BA · PM</span><span class="chip nm">Phòng sản xuất</span><span class="chip sub">Phương · Duy hỗ trợ</span></div>
+            <div class="ag-main"><h4>Lập kế hoạch, giao việc trên hệ thống</h4></div>
+            <div class="ag-who"><span class="chip nm">Phòng sản xuất</span></div>
           </div>
           <div class="ag-row hl" style="--i:5">
             <div class="ag-time"><b>14:30–16:30</b><span>Tại tổ</span></div>
-            <div class="ag-main"><h4>Xuống các tổ</h4><p>Nắm cách báo cáo của tổ trưởng / đốc công; hướng dẫn và chạy thử báo cáo</p></div>
-            <div class="ag-who"><span class="chip vci">BA · Nhung</span><span class="chip nm">Tổ trưởng</span><span class="chip sub">Phương · Duy</span></div>
+            <div class="ag-main"><h4>Chạy thử tại tổ</h4></div>
+            <div class="ag-who"><span class="chip nm">Tổ trưởng</span></div>
           </div>
-          <div class="ag-row " style="--i:6">
+          <div class="ag-row par" style="--i:6">
             <div class="ag-time"><b>14:30–15:30</b><span>Song song</span></div>
-            <div class="ag-main"><h4>Khảo sát kho vật tư phụ</h4><p>Nhập, cấp phát cho tổ, theo dõi tồn; sổ sách, biểu mẫu đang dùng</p></div>
-            <div class="ag-who"><span class="chip vci">PM</span><span class="chip nm">Thủ kho vật tư phụ</span></div>
+            <div class="ag-main"><h4>Khảo sát kho vật tư phụ</h4></div>
+            <div class="ag-who"><span class="chip nm">Thủ kho vật tư phụ</span></div>
           </div>
-          <div class="ag-row " style="--i:7">
+          <div class="ag-row par" style="--i:7">
             <div class="ag-time"><b>15:30–16:30</b><span>Song song</span></div>
-            <div class="ag-main"><h4>Khảo sát nhân sự bộ phận sản xuất</h4><p>Theo dõi nghỉ, quản lý nhân sự thuê ngoài</p></div>
-            <div class="ag-who"><span class="chip vci">PM</span><span class="chip nm">Người theo dõi công, nghỉ</span></div>
+            <div class="ag-main"><h4>Khảo sát nhân sự sản xuất</h4></div>
+            <div class="ag-who"><span class="chip nm">Người theo dõi công, nghỉ</span></div>
           </div>
           <div class="ag-row " style="--i:8">
             <div class="ag-time"><b>16:30–17:00</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Tổng hợp & chốt việc Ngày 2</h4><p>Kết quả, vướng mắc trong ngày</p></div>
-            <div class="ag-who"><span class="chip all">Toàn đội</span><span class="chip nm">Đầu mối nhà máy</span></div>
+            <div class="ag-main"><h4>Tổng hợp vướng mắc trong ngày</h4></div>
+            <div class="ag-who"><span class="chip nm">Anh Thái · phòng sản xuất</span></div>
           </div>
         </div>
-<div class="ag-result" style="--n:5"><div class="ag-lbl">Kết quả<br />cuối ngày</div><ul><li style="--j:0">Cụm A / B và tổ trưởng từng công đoạn đã chốt sau demo</li><li style="--j:1">Kế hoạch 2 cụm đã lên MES, đã giao việc</li><li style="--j:2">Mỗi tổ có ≥ 1 báo cáo thật</li><li style="--j:3">Danh sách vướng mắc Ngày 1</li></ul></div>
       </section>
 
       <!-- ========== 7. LỊCH NGÀY 2 ========== -->
@@ -807,52 +811,44 @@
         <div class="slide-header">
           <div>
             <div class="step-pill anim-fade-up">04 — Lịch làm việc</div>
-            <h3 class="anim-fade-up d-1">Ngày 2 · Thứ Sáu 27/11 — Tự báo cáo, khảo sát, tổng kết</h3>
+            <h3 class="anim-fade-up d-1">Ngày 2 · Thứ Sáu 27/11 · 08:00 – 17:00</h3>
           </div>
         </div>
-        <div class="ag-thread anim-fade-up d-1">
-          <span class="th-k">Xuyên suốt 2 ngày</span>
-          <span class="th-i"><b>Hỗ trợ tổ báo cáo</b> ngay tại chỗ</span>
-          <span class="th-i"><b>Hướng dẫn lập kế hoạch</b> cho phòng sản xuất</span>
-          <span class="th-i"><b>Thu thập yêu cầu, vướng mắc</b> của nhà máy</span>
-          <span class="th-i"><b>Tham gia nhóm Zalo</b> báo cáo &amp; trao đổi của các tổ</span>
-        </div>
-        <div class="agenda dense">
-          <div class="ag-row hl" style="--i:0">
+        <div class="agenda day-plan">
+          <div class="ag-row " style="--i:0">
             <div class="ag-time"><b>08:00–08:30</b><span>Tại tổ</span></div>
-            <div class="ag-main"><h4>Dự họp đầu giờ các tổ</h4><p>Nghe tổ trưởng giao việc trong ngày; xem việc đó đã có trên MES chưa</p></div>
-            <div class="ag-who"><span class="chip vci">BA · Nhung · Phương</span><span class="chip nm">Tổ trưởng</span><span class="chip sub">PM</span></div>
+            <div class="ag-main"><h4>Họp đầu giờ cùng các tổ</h4></div>
+            <div class="ag-who"><span class="chip nm">Tổ trưởng</span></div>
           </div>
           <div class="ag-row hl" style="--i:1">
             <div class="ag-time"><b>08:30–11:30</b><span>Tại tổ</span></div>
-            <div class="ag-main"><h4>Tổ tự báo cáo ca sáng</h4><p>Nhung đi kèm nhưng để tổ trưởng tự làm; Phương đối chiếu sản lượng, tiến độ với sổ</p></div>
-            <div class="ag-who"><span class="chip vci">Nhung · Phương</span><span class="chip nm">Tổ trưởng</span><span class="chip sub">Duy</span></div>
+            <div class="ag-main"><h4>Tổ tự nhập báo cáo trên hệ thống</h4></div>
+            <div class="ag-who"><span class="chip nm">Tổ trưởng · phòng sản xuất</span></div>
           </div>
-          <div class="ag-row " style="--i:2">
+          <div class="ag-row par" style="--i:2">
             <div class="ag-time"><b>09:00–10:30</b><span>Song song</span></div>
-            <div class="ag-main"><h4>Khảo sát hệ thống QMS — quản lý chất lượng</h4><p>Kiểm tra chất lượng theo công đoạn, hồ sơ chất lượng, biểu mẫu đang dùng</p></div>
-            <div class="ag-who"><span class="chip vci">BA · PM</span><span class="chip nm">Phòng QA/QC</span></div>
+            <div class="ag-main"><h4>Khảo sát hệ thống QMS</h4></div>
+            <div class="ag-who"><span class="chip nm">Phòng QA/QC</span></div>
           </div>
           <div class="ag-row " style="--i:3">
             <div class="ag-time"><b>13:30–14:30</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Khảo sát phòng thiết kế — công đoạn cắt</h4><p>File thiết kế → file cắt, file export báo cáo nhanh cắt; quy trình từ thiết kế cắt xuống phòng sản xuất</p></div>
-            <div class="ag-who"><span class="chip vci">Duy · PM · BA</span><span class="chip nm">Phòng thiết kế</span><span class="chip sub">QC tại tổ</span></div>
+            <div class="ag-main"><h4>Khảo sát thiết kế</h4></div>
+            <div class="ag-who"><span class="chip nm">Phòng thiết kế</span></div>
           </div>
           <div class="ag-row " style="--i:4">
             <div class="ag-time"><b>14:30–15:30</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Khảo sát camera &amp; hạ tầng</h4><p>Dev khảo sát vị trí, góc nhìn theo công đoạn, đầu ghi, mạng; đề xuất cách nối với MES</p></div>
-            <div class="ag-who"><span class="chip vci">Duy chủ trì · PM</span><span class="chip nm">IT nhà máy</span><span class="chip sub">BA · Nhung · Phương tại tổ</span></div>
+            <div class="ag-main"><h4>Khảo sát camera</h4></div>
+            <div class="ag-who"><span class="chip nm">IT nhà máy</span></div>
           </div>
-          <div class="ag-row " style="--i:5">
+          <div class="ag-row hl" style="--i:5">
             <div class="ag-time"><b>15:30–17:00</b><span>Phòng họp</span></div>
-            <div class="ag-main"><h4>Tổng kết hai ngày</h4><p>Thống nhất nội dung cần hoàn thiện và kế hoạch triển khai tiếp theo</p></div>
-            <div class="ag-who"><span class="chip all">Toàn đội</span><span class="chip nm">Đại diện nhà máy</span></div>
+            <div class="ag-main"><h4>Tổng kết, thống nhất kế hoạch tiếp theo</h4></div>
+            <div class="ag-who"><span class="chip nm">Anh Thái · phòng sản xuất</span></div>
           </div>
         </div>
-<div class="ag-result" style="--n:5"><div class="ag-lbl">Kết quả<br />cuối ngày</div><ul><li style="--j:0">Tổ trưởng tự báo cáo ca sáng, không cần hướng dẫn</li><li style="--j:1">Bảng đối chiếu sản lượng hệ thống ↔ thực tế</li><li style="--j:2">Tổng kết: kết quả · lỗi · việc cần hoàn thiện · kế hoạch triển khai tiếp</li></ul></div>
       </section>
 
-      <!-- ========== 8. CHUẨN BỊ ========== -->
+      <!-- ========== 8. VẤN ĐỀ & TIÊU CHÍ ========== -->
       <section class="slide-bg-light">
         <div class="brand-bar">
           <div class="logo-tc"><img src="../../_CHUNG/ASSETS/HALONGEPC/logo-header.png" alt="Ha Long EPC" /></div>
@@ -860,43 +856,7 @@
         </div>
         <div class="slide-header">
           <div>
-            <div class="step-pill anim-fade-up">05 — Chuẩn bị</div>
-            <h2 class="anim-fade-up d-1">Chuẩn bị trước Ngày 1 — dữ liệu · tài khoản · thiết bị</h2>
-          </div>
-        </div>
-        <div class="two-col two-col-compact" style="margin-top: 26px !important;">
-          <div class="resp-col vci anim-slide-l d-2">
-            <h4>VCI</h4>
-            <h3 class="accent">Hệ thống sẵn sàng chạy thật</h3>
-            <ul>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Dữ liệu kế hoạch</b> của dự án chạy thử đã nhập: danh mục cấu kiện, công đoạn, tổ, kế hoạch hiện tại</span></li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Tài khoản theo vai trò</b>: phòng sản xuất, từng tổ trưởng / đốc công, lãnh đạo nhà máy — không dùng chung</span></li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Thiết bị</b>: điện thoại, máy tính đã cài sẵn — dùng máy của VCI hoặc của HL.EPC đều được</span></li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt">Kịch bản demo theo đúng dự án · mẫu ghi nhận vướng mắc · bảng đối chiếu sản lượng</span></li>
-            </ul>
-          </div>
-          <div class="resp-col tc anim-slide-r d-3">
-            <h4>Nhà máy Hạ Long EPC</h4>
-            <h3>Người, dự án &amp; kênh trao đổi</h3>
-            <ul>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Chọn dự án, chọn tổ</b> tham gia; gửi VCI danh mục cấu kiện và kế hoạch hiện tại để nhập trước</span></li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Phòng sản xuất</b> (khối văn phòng) cử người làm trực tiếp trên hệ thống; mang sổ theo dõi sản lượng để đối chiếu</span></li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Tổ trưởng / đốc công</b> có mặt đúng khung giờ, mang điện thoại — chưa có thì dùng máy VCI</span></li>
-              <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="5 12 10 17 19 7" /></svg></span><span class="li-txt"><b>Thêm VCI vào nhóm Zalo</b> báo cáo của các tổ; báo lịch <b>giao ban, họp đầu giờ</b> để VCI cùng dự</span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- ========== 9. VẤN ĐỀ & TIÊU CHÍ ========== -->
-      <section class="slide-bg-light">
-        <div class="brand-bar">
-          <div class="logo-tc"><img src="../../_CHUNG/ASSETS/HALONGEPC/logo-header.png" alt="Ha Long EPC" /></div>
-          <div class="logo-vci"><img src="../../_CHUNG/ASSETS/logo-vci.png" alt="VCI" /></div>
-        </div>
-        <div class="slide-header">
-          <div>
-            <div class="step-pill anim-fade-up">06 — Ghi nhận vấn đề</div>
+            <div class="step-pill anim-fade-up">05 — Ghi nhận vấn đề</div>
             <h3 class="anim-fade-up d-1">Ghi nhận, phân loại vấn đề &amp; tiêu chí UAT đạt</h3>
           </div>
         </div>
@@ -931,7 +891,7 @@
         </div>
       </section>
 
-      <!-- ========== 10. ĐẦU MỐI ========== -->
+      <!-- ========== 9. ĐẦU MỐI ========== -->
       <section class="slide-bg-light">
         <div class="brand-bar">
           <div class="logo-tc"><img src="../../_CHUNG/ASSETS/HALONGEPC/logo-header.png" alt="Ha Long EPC" /></div>
@@ -939,7 +899,7 @@
         </div>
         <div class="slide-header">
           <div>
-            <div class="step-pill anim-fade-up">07 — Đầu mối</div>
+            <div class="step-pill anim-fade-up">06 — Đầu mối</div>
             <h2 class="anim-fade-up d-1">Đầu mối liên hệ trong 2 ngày UAT</h2>
           </div>
         </div>
@@ -981,7 +941,7 @@
         </div>
       </section>
 
-      <!-- ========== 11. Q&A ========== -->
+      <!-- ========== 10. Q&A ========== -->
       <section data-background-color="#0A2F52" class="slide-bg-mesh slide-qa" data-transition="convex">
         <div class="qa-wrap">
           <div class="qa-bubbles" aria-hidden="true">
